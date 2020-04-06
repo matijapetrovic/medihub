@@ -8,7 +8,51 @@ How to run
 ----------
 The technologies used to develop the application are a back-end API supported by Java and the Spring framework and a front-end UI made with Vue.js.
 
-*TODO*
+### Running the API
+The requirements for the API are:
+* Java JDK 14
+* Maven
+#### IntellIJ
+In order to start the API project using Intellij IDEA, you should choose
+> New -> Project from Existing Sources
+
+and select medihub-api as the directory
+```
+medihub
+│   README.md
+│   .gitignore
+└───medihub-ui
+└───medihub-api     <- select
+    │   pom.xml
+```
+Afterwards, use the built-in maven functionalities to compile and run the project.
+It is now running on http://localhost:8081.
+```
+medihub
+│   README.md
+│   .gitignore
+└───medihub-ui
+└───medihub-api
+    │   pom.xml
+    └───spring-configuration
+         └───src
+             └───main
+                  └───resources
+                       └───application.properties   <- change    
+```
+
+### Running the Client
+In order to start the client from the command line, you need to run the following commands
+```
+cd medihub-ui
+npm install
+```
+
+and after the installation is finished
+```
+npm run serve
+```
+The client is now running on http://localhost:8080
 
 Authors
 -------
