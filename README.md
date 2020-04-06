@@ -42,6 +42,9 @@ medihub
 ```
 
 ### Running the Client
+The requirements for the client are:
+* Node.js
+
 In order to start the client from the command line, you need to run the following commands
 ```
 cd medihub-ui
