@@ -11,9 +11,12 @@
       <router-link to="/about">
         <v-btn text>About</v-btn>
       </router-link>
+      <router-link to="/login">
+        <v-btn text>Log in</v-btn>
+      </router-link>
     </v-app-bar>
 
-    <v-content class="mx-auto">
+    <v-content>
       <router-view></router-view>
     </v-content>
   </v-app>
