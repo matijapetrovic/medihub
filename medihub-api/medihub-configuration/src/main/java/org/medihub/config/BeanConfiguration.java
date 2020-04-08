@@ -1,7 +1,7 @@
 package org.medihub.config;
 
-import org.medihub.application.ports.in.TestUseCase;
-import org.medihub.application.ports.out.TestPort;
+import org.medihub.application.ports.incoming.TestUseCase;
+import org.medihub.application.ports.outgoing.TestPort;
 import org.medihub.application.services.TestService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

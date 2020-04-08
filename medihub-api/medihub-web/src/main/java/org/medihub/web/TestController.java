@@ -1,7 +1,7 @@
 package org.medihub.web;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.in.TestUseCase;
+import org.medihub.application.ports.incoming.TestUseCase;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

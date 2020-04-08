@@ -1,6 +1,6 @@
 package org.medihub.persistence;
 
-import org.medihub.application.ports.out.TestPort;
+import org.medihub.application.ports.outgoing.TestPort;
 import org.medihub.domain.Test;
 import org.springframework.stereotype.Component;
 
