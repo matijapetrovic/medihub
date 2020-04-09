@@ -7,7 +7,5 @@ import org.springframework.stereotype.Component;
 @Component
 public class TestAdapter implements TestPort {
     @Override
-    public Test loadTest() {
-        return new Test("Hello World from API");
-    }
+    public Test loadTest() { return new Test("Hello World from API"); }
 }
