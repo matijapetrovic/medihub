@@ -11,8 +11,10 @@
       <router-link to="/about">
         <v-btn text>About</v-btn>
       </router-link>
+      <router-link to="/clinic_admin_registration">
+        <v-btn text>Clinic admin registration</v-btn>
+      </router-link>
     </v-app-bar>
-
     <v-content class="mx-auto">
       <router-view></router-view>
     </v-content>
