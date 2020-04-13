@@ -1,4 +1,4 @@
-package org.medihub.web.dto;
+package org.medihub.web.authentication;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class LoginDTO {
+public class AuthRequest {
     private String username;
     private String password;
 }

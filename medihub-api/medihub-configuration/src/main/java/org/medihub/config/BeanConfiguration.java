@@ -2,6 +2,7 @@ package org.medihub.config;
 
 import org.medihub.application.ports.incoming.LoginUseCase;
 import org.medihub.application.ports.incoming.TestUseCase;
+import org.medihub.application.ports.outgoing.LoadAccountPort;
 import org.medihub.application.ports.outgoing.TestPort;
 import org.medihub.application.services.LoginService;
 import org.medihub.application.services.TestService;
@@ -17,5 +18,5 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public LoginUseCase getLoginUseCase() { return new LoginService(); }
+    public LoginUseCase getLoginUseCase(LoadAccountPort loadAccountPort) { return new LoginService(loadAccountPort); }
 }
