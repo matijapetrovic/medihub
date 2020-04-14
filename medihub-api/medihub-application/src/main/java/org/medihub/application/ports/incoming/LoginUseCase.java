@@ -14,15 +14,15 @@ public interface LoginUseCase {
     class LoginCommand extends SelfValidating<LoginCommand> {
 
         @NotNull
-        private final String username;
+        private final String email;
 
         @NotNull
         private final String password;
 
         public LoginCommand(
-                String username,
+                String email,
                 String password) {
-            this.username = username;
+            this.email = email;
             this.password = password;
             this.validateSelf();
         }

@@ -1,4 +1,4 @@
-package org.medihub.web.authentication;
+package org.medihub.web.security;
 
 
 
@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 
@@ -22,6 +23,10 @@ public class TokenUtil implements Serializable {
 
     @Value("medihubsupersecretkey")
     private String secret;
+
+    public long getExpiresIn() {
+        return JWT_TOKEN_VALIDITY * 1000;
+    }
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
@@ -60,8 +65,8 @@ public class TokenUtil implements Serializable {
                 .signWith(SignatureAlgorithm.HS512, secret).compact();
     }
 
-    public Boolean validateToken(String token, String username) {
+    public Boolean validateToken(String token, UserDetails userDetails) {
         final String tokenUsername = getUsernameFromToken(token);
-        return tokenUsername.equals(username) && !isTokenExpired(token);
+        return tokenUsername.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 }

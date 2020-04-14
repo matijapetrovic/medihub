@@ -1,4 +1,4 @@
-package org.medihub.web.authentication;
+package org.medihub.web.security.authentication.dto;
 
 import lombok.*;
 
@@ -8,6 +8,6 @@ import lombok.*;
 @Getter
 @Setter
 public class AuthRequest {
-    private String username;
+    private String email;
     private String password;
 }

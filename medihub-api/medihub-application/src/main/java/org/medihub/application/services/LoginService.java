@@ -4,7 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.LoginUseCase;
 import org.medihub.application.ports.outgoing.LoadAccountPort;
 import org.medihub.domain.identity.Account;
-import org.medihub.domain.identity.AccountType;
+
+import java.util.Collections;
 
 @RequiredArgsConstructor
 public class LoginService implements LoginUseCase {
@@ -12,7 +13,7 @@ public class LoginService implements LoginUseCase {
     @Override
     public boolean login(LoginCommand command) {
         //Account account = loadAccountPort.loadAccount(command.getUsername());
-        Account account = new Account(AccountType.PATIENT, command.getUsername(), command.getPassword());
-        return account.authenticate(command.getUsername(), command.getPassword());
+        Account account = new Account(command.getEmail(), command.getPassword(), Collections.emptyList());
+        return account.authenticate(command.getEmail(), command.getPassword());
     }
 }
