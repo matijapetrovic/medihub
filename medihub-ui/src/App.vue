@@ -11,9 +11,10 @@
       <router-link to="/about">
         <v-btn text>About</v-btn>
       </router-link>
-      <router-link to="/login">
-        <v-btn text>Log in</v-btn>
+      <router-link to="/login" v-if="!loggedIn">
+        <v-btn color="primary">Log in</v-btn>
       </router-link>
+      <v-btn v-else color="primary" @click="logout">Log out</v-btn>
     </v-app-bar>
 
     <v-content>
@@ -23,6 +24,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'App',
@@ -30,5 +32,11 @@ export default {
   data: () => ({
     //
   }),
+  computed: {
+    ...mapGetters('auth', ['loggedIn']),
+  },
+  methods: {
+    ...mapActions('auth', ['logout']),
+  },
 };
 </script>

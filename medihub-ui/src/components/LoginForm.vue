@@ -4,6 +4,7 @@
     sm="8"
     md="4"
   >
+    <p>{{ error }}</p>
     <v-card class="elevation-12">
       <v-toolbar
         color="primary"
@@ -17,10 +18,10 @@
           ref="form"
         >
           <v-text-field
-            v-model="username"
-            label="Username"
-            name="username"
-            prepend-icon="person"
+            v-model="email"
+            label="Email"
+            name="email"
+            prepend-icon="mail"
             type="text"
             required
           ></v-text-field>
@@ -40,6 +41,7 @@
         <v-btn
           @click="submit"
           color="primary"
+          name="button"
         >
           Login
         </v-btn>
@@ -54,17 +56,24 @@ import { mapActions } from 'vuex';
 export default {
   name: 'LoginForm',
   data: () => ({
-    username: '',
+    email: '',
     password: '',
+    error: null,
   }),
   methods: {
-    ...mapActions(['login']),
-    async submit() {
+    ...mapActions('auth', ['login']),
+    submit() {
       if (this.validate()) {
-        const success = await this.login({ username: this.username, password: this.password });
-        if (success) {
-          alert('Login successful!');
-        }
+        this.login({
+          email: this.email,
+          password: this.password,
+        })
+          .then(() => {
+            this.$router.push('/');
+          })
+          .catch((err) => {
+            this.error = err.response.data.error;
+          });
       }
     },
     validate() {
@@ -73,3 +82,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+p {
+  color: red;
+}
+</style>

@@ -1,20 +1,9 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
+import auth from '@/store/modules/auth';
 
 Vue.use(Vuex);
-
-function logError(error) {
-  if (error.response) {
-    console.log(error.response.data);
-    console.log(error.response.status);
-    console.log(error.response.headers);
-  } else if (error.request) {
-    console.log(error.request);
-  } else {
-    console.log('Error', error.message);
-  }
-}
 
 export default new Vuex.Store({
   state: {
@@ -30,22 +19,11 @@ export default new Vuex.Store({
   },
   actions: {
     async test({ commit }) {
-      const response = await axios.get('http://localhost:8081/');
+      const response = await axios.get('http://localhost:8081/api/hello');
       commit('setMessage', response.data);
-    },
-    async login({ commit }, user) {
-      const response = await axios.post('http://localhost:8081/api/login',
-        {
-          username: user.username,
-          password: user.password,
-        }).catch((error) => {
-        logError(error);
-        return false;
-      });
-      commit('setLoggedIn', user);
-      return response.data;
     },
   },
   modules: {
+    auth,
   },
 });
