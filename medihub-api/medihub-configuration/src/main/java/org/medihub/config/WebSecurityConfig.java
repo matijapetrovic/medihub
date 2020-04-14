@@ -59,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(new JWTAuthenticationFilter(tokenUtil,userDetailsService),
                         BasicAuthenticationFilter.class);
         http.csrf().disable();
-    }
+}
 
     @Override
     public void configure(WebSecurity web) throws Exception {

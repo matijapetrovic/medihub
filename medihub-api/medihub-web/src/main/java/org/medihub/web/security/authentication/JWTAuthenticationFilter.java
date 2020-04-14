@@ -23,7 +23,6 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest httpServletRequest,
                                     HttpServletResponse httpServletResponse,
                                     FilterChain filterChain) throws ServletException, IOException {
-        System.out.println(httpServletRequest.getRequestURI());
         final String authorizationHeader = httpServletRequest.getHeader("Authorization");
         validateAuthorizationHeader(authorizationHeader);
 
@@ -32,6 +31,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         validateToken(token, userDetails);
 
         setUpAuthentication(token, userDetails);
+        filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 
     private void validateAuthorizationHeader(String authorizationHeader) {

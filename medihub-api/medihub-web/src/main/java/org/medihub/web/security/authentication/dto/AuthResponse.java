@@ -1,7 +1,5 @@
 package org.medihub.web.security.authentication.dto;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
 @Value
