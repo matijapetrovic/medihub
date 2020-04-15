@@ -9,12 +9,17 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 public class Account {
+    private Long id;
     private String email;
     private String password;
+    private boolean passwordChanged;
     private List<Authority> authorities;
 
-    public boolean authenticate(String email, String password) {
-        return this.email.equalsIgnoreCase(email) &&
-                this.password.equalsIgnoreCase(password);
+    public boolean changePassword(String newPassword) {
+        if (password.equalsIgnoreCase(newPassword))
+            return false;
+
+        password = newPassword;
+        return true;
     }
 }

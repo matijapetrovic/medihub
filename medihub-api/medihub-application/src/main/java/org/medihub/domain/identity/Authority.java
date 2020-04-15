@@ -6,9 +6,6 @@ import lombok.Value;
 @Value
 @EqualsAndHashCode(callSuper = false)
 public class Authority {
+    Long id;
     String name;
-
-    public static Authority of(String name) {
-        return new Authority(name);
-    }
 }
