@@ -1,16 +1,11 @@
 package org.medihub.config;
 
-import org.medihub.application.ports.incoming.GetAccountQuery;
-import org.medihub.application.ports.incoming.LoginUseCase;
-import org.medihub.application.ports.incoming.SaveAccountUseCase;
-import org.medihub.application.ports.incoming.TestUseCase;
+import org.medihub.application.ports.incoming.*;
+import org.medihub.application.ports.outgoing.AddClinicAdminPort;
 import org.medihub.application.ports.outgoing.LoadAccountPort;
 import org.medihub.application.ports.outgoing.SaveAccountPort;
 import org.medihub.application.ports.outgoing.TestPort;
-import org.medihub.application.services.GetAccountService;
-import org.medihub.application.services.LoginService;
-import org.medihub.application.services.SaveAccountService;
-import org.medihub.application.services.TestService;
+import org.medihub.application.services.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,7 +18,9 @@ public class BeanConfig {
     }
 
     @Bean
-    public LoginUseCase getLoginUseCase(LoadAccountPort loadAccountPort) { return new LoginService(loadAccountPort); }
+    public LoginUseCase getLoginUseCase(LoadAccountPort loadAccountPort) {
+        return new LoginService(loadAccountPort);
+    }
 
     @Bean
     public GetAccountQuery getAccountQuery(LoadAccountPort loadAccountPort) {
@@ -33,5 +30,10 @@ public class BeanConfig {
     @Bean
     public SaveAccountUseCase saveAccountUseCase(SaveAccountPort saveAccountPort) {
         return new SaveAccountService(saveAccountPort);
+    }
+
+    @Bean
+    public AddClinicAdminUseCase getAddClinicAdminUseCase(AddClinicAdminPort addClinicAdminPort) {
+        return new AddClinicAdminService(addClinicAdminPort);
     }
 }

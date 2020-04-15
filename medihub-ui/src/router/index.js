@@ -33,6 +33,11 @@ const routes = [
       requiresAuth: false,
     },
   },
+  {
+    path: '/clinic_admin_registration',
+    name: 'ClinicAdminRegistration',
+    component: () => import('../views/ClinicAdminRegistration.vue'),
+  },
 ];
 
 const router = new VueRouter({

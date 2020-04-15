@@ -1,0 +1,1 @@
+insert into tests (id, message) values (1, 'Hello world from database');
