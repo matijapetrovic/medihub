@@ -18,11 +18,6 @@ public class BeanConfig {
     }
 
     @Bean
-    public LoginUseCase getLoginUseCase(LoadAccountPort loadAccountPort) {
-        return new LoginService(loadAccountPort);
-    }
-
-    @Bean
     public GetAccountQuery getAccountQuery(LoadAccountPort loadAccountPort) {
         return new GetAccountService(loadAccountPort);
     }
