@@ -7,7 +7,7 @@ import ClinicAdminReg from '@/components/ClinicAdminRegForm.vue';
 
 export default {
   components: {
-    'RegistrationForm': ClinicAdminReg,
+    RegistrationForm: ClinicAdminReg,
   },
 };
 </script>
