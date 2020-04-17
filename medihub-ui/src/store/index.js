@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
 import auth from '@/store/modules/auth';
+import ApiClient from '@/services/ApiClient';
 
 Vue.use(Vuex);
 
@@ -20,7 +21,7 @@ export default new Vuex.Store({
   },
   actions: {
     async test({ commit }) {
-      const response = await axios.get('http://localhost:8081/api/hello');
+      const response = await ApiClient.get('/api/hello');
       commit('setMessage', response.data);
     },
     async registerClinicAdmin({ commit }, admin) {

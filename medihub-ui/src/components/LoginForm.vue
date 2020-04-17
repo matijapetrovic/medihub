@@ -69,7 +69,8 @@ export default {
           password: this.password,
         })
           .then(() => {
-            this.$router.push('/');
+            this.$router.push('/')
+              .catch(() => {}); // https://github.com/vuejs/vue-router/issues/2881#issuecomment-520554378
           })
           .catch((err) => {
             this.error = err.response.data.error;
