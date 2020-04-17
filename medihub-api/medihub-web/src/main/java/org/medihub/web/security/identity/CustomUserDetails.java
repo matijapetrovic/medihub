@@ -26,6 +26,14 @@ public class CustomUserDetails implements UserDetails {
                 .collect(Collectors.toList());
     }
 
+    public boolean isPasswordChanged() {
+        return account.isPasswordChanged();
+    }
+
+    public List<CustomGrantedAuthority> getCustomGrantedAuthorities() {
+        return authorities;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;

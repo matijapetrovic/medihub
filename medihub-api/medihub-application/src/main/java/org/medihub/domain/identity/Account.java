@@ -15,11 +15,12 @@ public class Account {
     private boolean passwordChanged;
     private List<Authority> authorities;
 
-    public boolean changePassword(String newPassword) {
+    public boolean changePassword(String oldPassword, String newPassword) {
         if (password.equalsIgnoreCase(newPassword))
             return false;
 
         password = newPassword;
+        passwordChanged = true;
         return true;
     }
 }

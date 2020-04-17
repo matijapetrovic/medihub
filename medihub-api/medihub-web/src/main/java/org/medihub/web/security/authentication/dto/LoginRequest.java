@@ -3,8 +3,11 @@ package org.medihub.web.security.authentication.dto;
 import lombok.*;
 
 
-@Value
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class LoginRequest {
-    String email;
-    String password;
+    private String email;
+    private String password;
 }

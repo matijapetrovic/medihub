@@ -41,7 +41,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
 
         Account account = getAccountQuery.getAccount(email);
-        if (!account.changePassword(passwordEncoder.encode(newPassword))) {
+        if (!account.changePassword(passwordEncoder.encode(oldPassword), passwordEncoder.encode(newPassword))) {
             return false;
         }
         saveAccountUseCase.saveAccount(account);
