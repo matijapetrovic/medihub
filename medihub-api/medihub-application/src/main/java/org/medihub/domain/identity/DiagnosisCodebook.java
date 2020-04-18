@@ -4,6 +4,6 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class DiagnosisCodebook {
-    DiagnosisCenter dc;
+    Set<Diagnosis> diagnosis;
 
 }

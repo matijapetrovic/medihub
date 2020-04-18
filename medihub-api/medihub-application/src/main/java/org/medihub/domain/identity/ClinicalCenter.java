@@ -7,8 +7,9 @@ import lombok.Getter;
 @Getter
 public class ClinicalCenter {
     public string name;
-    Set<DiagnosisCodebook> diagnosisCodebook;
-    Set<Patient> patient;
-    Set<ClinicCenterAdminisration> cca;
-    DrugCodebook dc;
+    DiagnosisCodebook diagnosisCodebook;
+    Set<Patient> patients;
+    Set<ClinicCenterAdmin> ccAdmins;
+    Set<Clinic> clinics;
+    DrugCodebook drugCodebook;
 }

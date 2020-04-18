@@ -4,5 +4,5 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class MedicalStaff extends  User {
-    WorkingCalendar wc;
+    WorkingCalendar workingCalendar;
 }

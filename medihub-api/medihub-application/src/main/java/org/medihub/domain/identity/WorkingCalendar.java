@@ -4,5 +4,5 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class WorkingCalendar {
-    MedicalStaff ms;
+    MedicalStaff medicalStaff;
 }

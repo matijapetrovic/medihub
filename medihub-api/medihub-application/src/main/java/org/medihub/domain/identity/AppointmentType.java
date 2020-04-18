@@ -4,6 +4,6 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class AppointmentType {
-    Set<Clinic> c;
+    Set<Clinic> clinics;
     double price;
 }

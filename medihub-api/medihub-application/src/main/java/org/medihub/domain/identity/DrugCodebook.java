@@ -4,6 +4,6 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class DrugCodebook {
-    ClinicalCenter cc;
-    Set<Drug> d;
+    ClinicalCenter clinicalCenter;
+    Set<Drug> drugs;
 }

@@ -6,10 +6,11 @@ import java.util.Date;
 
 @AllArgsConstructor
 public class Appointment {
-    Set<Patient> p;
+    Patient patient;
     Date date;
-    Clinic c;
-    ClinicRoom cr;
-    Set<MedicalDoctor> md;
-    Set<Perscription> p;
+    Clinic clinic;
+    ClinicRoom clinicRoom;
+    AppointmentType appointmentType;
+    MedicalDoctor medicalDoctor;
+    Set<Perscription> perscriptions;
 }

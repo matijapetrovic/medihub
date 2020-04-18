@@ -4,6 +4,6 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class Drug {
-    DrugCodebook dc;
+    DrugCodebook drugCodebook;
     Set<Perscription> p;
 }

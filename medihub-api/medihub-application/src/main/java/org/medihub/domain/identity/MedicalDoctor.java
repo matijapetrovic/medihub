@@ -4,5 +4,5 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class MedicalDoctor extends  MedicalStaff {
-    Set<Appointment> a;
+    Set<Appointment> appointments;
 }

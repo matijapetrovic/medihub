@@ -4,6 +4,5 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class ClinicRoom {
-    Set<ClinicRoom> cr;
-    Set<Appointment> a;
+    Set<Appointment> appointments;
 }

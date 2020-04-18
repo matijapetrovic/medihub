@@ -4,5 +4,4 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class MedicalNurse extends MedicalStaff {
-    Perscription p;
 }

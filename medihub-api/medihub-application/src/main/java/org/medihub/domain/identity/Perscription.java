@@ -4,6 +4,6 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class Perscription {
-    Drug d;
-    MedicalNurse mn;
+    Drug drug;
+    MedicalNurse medicalNurse;
 }
