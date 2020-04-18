@@ -1,9 +1,10 @@
 package org.medihub.domain.identity;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @AllArgsConstructor
+@Getter
 public class AppointmentType {
-    Set<Clinic> clinics;
-    double price;
+    private double price;
 }

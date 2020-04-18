@@ -1,9 +1,11 @@
 package org.medihub.domain.identity;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @AllArgsConstructor
+@Getter
 public class User {
-    public String name;
-    public String surname;
+    private String name;
+    private String surname;
 }
