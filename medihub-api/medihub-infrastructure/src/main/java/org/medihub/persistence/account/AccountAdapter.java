@@ -4,12 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.outgoing.LoadAccountPort;
 import org.medihub.application.ports.outgoing.SaveAccountPort;
 import org.medihub.domain.identity.Account;
-import org.medihub.domain.identity.Authority;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.List;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
