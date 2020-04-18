@@ -4,6 +4,7 @@ export default {
   namespaced: true,
   state: {
     user: null,
+    success: false,
   },
   mutations: {
     SET_USER_DATA(state, userData) {
@@ -19,8 +20,21 @@ export default {
       state.user.passwordChanged = true;
       localStorage.setItem('user', JSON.stringify(state.user));
     },
+    SET_REGISTER_SUCCESS(state, success) {
+      state.success = success;
+    },
   },
   actions: {
+    register({ commit }, payload) {
+      return AuthService.register(payload)
+        .then(() => {
+          commit('SET_REGISTER_SUCCESS', true);
+        })
+        .catch((err) => {
+          console.log(err);
+          commit('SET_REGISTER_SUCCESS', false);
+        });
+    },
     login({ commit }, credentials) {
       return AuthService.login(credentials)
         .then(({ data }) => {

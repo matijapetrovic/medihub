@@ -5,10 +5,13 @@ export default {
     console.log(token);
     ApiClient.defaults.headers.common.Authorization = `Bearer ${token}`;
   },
-  login(credentials) {
-    return ApiClient.post('auth/login', credentials);
+  register(payload) {
+    return ApiClient.post('api/patient/registration', payload);
   },
-  changePassword(credentials) {
-    return ApiClient.post('auth/password', credentials);
+  login(payload) {
+    return ApiClient.post('auth/login', payload);
+  },
+  changePassword(payload) {
+    return ApiClient.post('auth/password', payload);
   },
 };

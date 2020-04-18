@@ -15,6 +15,9 @@
       <v-btn text>Clinic admin registration</v-btn>
     </router-link>
     </div>
+    <router-link to="/register" v-if="!loggedIn">
+      <v-btn>Register</v-btn>
+    </router-link>
     <router-link to="/login" v-if="!loggedIn">
       <v-btn color="primary">Log in</v-btn>
     </router-link>
