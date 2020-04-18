@@ -1,11 +1,11 @@
-package org.medihub.domain.identity;
+package org.medihub.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class Perscription {
+public class Prescription {
     private Drug drug;
     private MedicalNurse medicalNurse;
 }

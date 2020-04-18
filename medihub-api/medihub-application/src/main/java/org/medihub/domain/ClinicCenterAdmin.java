@@ -1,4 +1,4 @@
-package org.medihub.domain.identity;
+package org.medihub.domain;
 
 public class ClinicCenterAdmin extends  User{
 }

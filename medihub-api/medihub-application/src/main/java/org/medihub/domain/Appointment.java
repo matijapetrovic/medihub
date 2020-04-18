@@ -1,4 +1,4 @@
-package org.medihub.domain.identity;
+package org.medihub.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,5 +14,5 @@ public class Appointment {
     private double duration;
     private ClinicRoom clinicRoom;
     private AppointmentType appointmentType;
-    private Set<Perscription> perscriptions;
+    private Set<Prescription> prescriptions;
 }

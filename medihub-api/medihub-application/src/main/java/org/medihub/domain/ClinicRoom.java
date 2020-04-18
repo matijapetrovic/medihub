@@ -1,12 +1,11 @@
-package org.medihub.domain.identity;
+package org.medihub.domain;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 import java.util.Set;
 
 @AllArgsConstructor
-@Getter
-public class MedicalDoctor extends  MedicalStaff {
+public class ClinicRoom {
+    private Clinic clinic;
     private Set<Appointment> appointments;
 }

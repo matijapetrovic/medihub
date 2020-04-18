@@ -1,10 +1,11 @@
-package org.medihub.domain.identity;
+package org.medihub.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class ClinicAdmin extends  User {
+public class MedicalStaff extends  User {
+    private WorkingCalendar workingCalendar;
     private Clinic clinic;
 }
