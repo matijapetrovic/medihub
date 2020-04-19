@@ -11,4 +11,11 @@ new Vue({
   store,
   vuetify,
   render: (h) => h(App),
+  created() {
+    const userString = localStorage.getItem('user');
+    if (userString) {
+      const userData = JSON.parse(userString);
+      this.$store.commit('auth/SET_USER_DATA', userData);
+    }
+  },
 }).$mount('#app');

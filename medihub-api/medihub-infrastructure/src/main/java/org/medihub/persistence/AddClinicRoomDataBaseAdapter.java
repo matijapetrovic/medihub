@@ -6,6 +6,5 @@ public class AddClinicRoomDataBaseAdapter implements AddClinicRoomDataBasePort {
 
     @Override
     public void addClinicRoom(String clinicRoom) {
-
     }
 }
