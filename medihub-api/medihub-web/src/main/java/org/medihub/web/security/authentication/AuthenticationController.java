@@ -1,6 +1,7 @@
 package org.medihub.web.security.authentication;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.ports.incoming.ChangePasswordUseCase;
 import org.medihub.web.patient.dto.RegisterRequest;
 import org.medihub.web.patient.dto.RegisterResponse;
 import org.medihub.web.security.TokenUtil;
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuthenticationController {
-    private final CustomUserDetailsService userDetailsService;
+    private final ChangePasswordUseCase changePasswordUseCase;
     private final AuthenticationManager authenticationManager;
     private final TokenUtil tokenUtil;
 
@@ -68,7 +69,7 @@ public class AuthenticationController {
 
     @PostMapping("/password")
     ResponseEntity<?> changePassword(@RequestBody PasswordRequest request) {
-        boolean changed = userDetailsService.changePassword(request.getOldPassword(), request.getNewPassword());
+        boolean changed = changePassword(request.getOldPassword(), request.getNewPassword());
         if (changed) {
             return ResponseEntity
                     .accepted()
@@ -79,6 +80,27 @@ public class AuthenticationController {
                     .badRequest()
                     .body(Map.of("message", "New password cannot be same as old password"));
         }
+    }
+
+    public boolean changePassword(String oldPassword, String newPassword) {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        String email = currentUser.getName();
+
+        if (!reAuthenticateUser(email, oldPassword)) {
+            return false;
+        }
+
+        ChangePasswordUseCase.ChangePasswordCommand command = new ChangePasswordUseCase.ChangePasswordCommand(email, newPassword);
+        return changePasswordUseCase.changePassword(command);
+    }
+
+    public boolean reAuthenticateUser(String email, String oldPassword) {
+        if (authenticationManager == null) {
+            // throw exception
+            return false;
+        }
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, oldPassword));
+        return true;
     }
 
 

@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class MedicalStaff extends  User {
+public class MedicalStaff {
     private WorkingCalendar workingCalendar;
     private Clinic clinic;
 }

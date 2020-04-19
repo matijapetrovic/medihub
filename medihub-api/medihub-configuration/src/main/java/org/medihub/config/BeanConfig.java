@@ -15,18 +15,25 @@ public class BeanConfig {
     }
 
     @Bean
-    public RegisterPatientUseCase registerPatientUseCase(SaveRegistrationRequestPort saveRegistrationRequestPort) {
-        return new RegisterPatientService(saveRegistrationRequestPort);
+    public ChangePasswordUseCase changePasswordUseCase(
+            LoadAccountPort loadAccountPort,
+            EncoderPort encoderPort,
+            SaveAccountPort saveAccountPort
+    ) {
+        return new ChangePasswordService(loadAccountPort, encoderPort, saveAccountPort);
+    }
+
+    @Bean
+    public RegisterPatientUseCase registerPatientUseCase(
+            SaveRegistrationRequestPort saveRegistrationRequestPort,
+            EncoderPort encoderPort
+    ) {
+        return new RegisterPatientService(saveRegistrationRequestPort, encoderPort);
     }
 
     @Bean
     public GetAccountQuery getAccountQuery(LoadAccountPort loadAccountPort) {
         return new GetAccountService(loadAccountPort);
-    }
-
-    @Bean
-    public SaveAccountUseCase saveAccountUseCase(SaveAccountPort saveAccountPort) {
-        return new SaveAccountService(saveAccountPort);
     }
 
     @Bean
