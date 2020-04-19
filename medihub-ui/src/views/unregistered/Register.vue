@@ -8,19 +8,19 @@
         align="center"
         justify="center"
       >
-        <LoginForm/>
+        <PatientRegisterForm/>
       </v-row>
     </v-container>
   </div>
 </template>
 
 <script>
-import LoginForm from '@/components/LoginForm.vue';
+import PatientRegisterForm from '@/app/patients/_components/PatientRegisterForm.vue';
 
 export default {
-  name: 'Login',
+  name: 'Register',
   components: {
-    LoginForm,
+    PatientRegisterForm,
   },
 };
 </script>

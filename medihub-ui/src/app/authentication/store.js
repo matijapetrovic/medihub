@@ -1,4 +1,4 @@
-import AuthService from '@/services/AuthService';
+import api from './api';
 
 export default {
   namespaced: true,
@@ -10,7 +10,7 @@ export default {
     SET_USER_DATA(state, userData) {
       state.user = userData;
       localStorage.setItem('user', JSON.stringify(userData));
-      AuthService.setToken(userData.token);
+      api.setToken(userData.token);
     },
     CLEAR_USER_DATA() {
       localStorage.removeItem('user');
@@ -26,7 +26,7 @@ export default {
   },
   actions: {
     register({ commit }, payload) {
-      return AuthService.register(payload)
+      return api.register(payload)
         .then(() => {
           commit('SET_REGISTER_SUCCESS', true);
         })
@@ -36,7 +36,7 @@ export default {
         });
     },
     login({ commit }, credentials) {
-      return AuthService.login(credentials)
+      return api.login(credentials)
         .then(({ data }) => {
           commit('SET_USER_DATA', data);
         });
@@ -45,7 +45,7 @@ export default {
       commit('CLEAR_USER_DATA');
     },
     changePassword({ commit }, credentials) {
-      return AuthService
+      return api
         .changePassword(credentials)
         .then(() => {
           commit('SET_PASSWORD_CHANGED');

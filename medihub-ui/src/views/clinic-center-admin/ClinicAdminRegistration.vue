@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import ClinicAdminReg from '@/components/ClinicAdminRegForm.vue';
+import ClinicAdminReg from '@/app/clinic-admins/_components/ClinicAdminRegForm.vue';
 
 export default {
   components: {

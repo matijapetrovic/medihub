@@ -104,8 +104,8 @@
 
 <script>
 import { mapActions } from 'vuex';
-import EmailInput from '@/components/forms/EmailInput.vue';
-import PasswordInput from '@/components/forms/PasswordInput.vue';
+import EmailInput from '@/app/shared/_components/_forms/EmailInput.vue';
+import PasswordInput from '@/app/shared/_components/_forms/PasswordInput.vue';
 
 export default {
   name: 'PatientRegisterForm',
