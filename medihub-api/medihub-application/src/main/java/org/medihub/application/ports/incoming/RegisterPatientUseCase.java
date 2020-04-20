@@ -2,6 +2,7 @@ package org.medihub.application.ports.incoming;
 
 import lombok.EqualsAndHashCode;
 import lombok.Value;
+import org.medihub.application.exceptions.AccountNotFoundException;
 import org.medihub.common.SelfValidating;
 import org.medihub.common.validation.annotations.InsuranceNumber;
 import org.medihub.common.validation.annotations.Password;
@@ -12,7 +13,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 public interface RegisterPatientUseCase {
-    RegistrationRequest registerPatient(RegisterPatientCommand command);
+    RegistrationRequest registerPatient(RegisterPatientCommand command) throws AccountNotFoundException;
 
     @Value
     @EqualsAndHashCode(callSuper = false)

@@ -12,7 +12,7 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Password {
-    String message() default "Invalid password";
+    String message() default "must be at least 8 characters and contain at least 1 numeric character";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

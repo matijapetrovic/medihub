@@ -10,6 +10,6 @@ public class PasswordValidator implements
     @Override
     public boolean isValid(String passwordField, ConstraintValidatorContext constraintValidatorContext) {
         return passwordField != null && passwordField.length() >= 8 &&
-                passwordField.matches("(?=.*[0-9])");
+                passwordField.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$");
     }
 }

@@ -1,14 +1,12 @@
 package org.medihub.web.security.authentication;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.AccountNotFoundException;
 import org.medihub.application.ports.incoming.ChangePasswordUseCase;
-import org.medihub.web.patient.dto.RegisterRequest;
-import org.medihub.web.patient.dto.RegisterResponse;
 import org.medihub.web.security.TokenUtil;
 import org.medihub.web.security.authentication.dto.*;
 import org.medihub.web.security.identity.CustomGrantedAuthority;
 import org.medihub.web.security.identity.CustomUserDetails;
-import org.medihub.web.security.identity.CustomUserDetailsService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -68,7 +66,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/password")
-    ResponseEntity<?> changePassword(@RequestBody PasswordRequest request) {
+    ResponseEntity<?> changePassword(@RequestBody PasswordRequest request) throws AccountNotFoundException {
         boolean changed = changePassword(request.getOldPassword(), request.getNewPassword());
         if (changed) {
             return ResponseEntity
@@ -82,7 +80,7 @@ public class AuthenticationController {
         }
     }
 
-    public boolean changePassword(String oldPassword, String newPassword) {
+    public boolean changePassword(String oldPassword, String newPassword) throws AccountNotFoundException {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         String email = currentUser.getName();
 

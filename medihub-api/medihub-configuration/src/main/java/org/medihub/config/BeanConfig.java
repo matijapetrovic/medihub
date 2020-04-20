@@ -25,10 +25,11 @@ public class BeanConfig {
 
     @Bean
     public RegisterPatientUseCase registerPatientUseCase(
+            LoadAccountPort loadAccountPort,
             SaveRegistrationRequestPort saveRegistrationRequestPort,
             EncoderPort encoderPort
     ) {
-        return new RegisterPatientService(saveRegistrationRequestPort, encoderPort);
+        return new RegisterPatientService(loadAccountPort,saveRegistrationRequestPort, encoderPort);
     }
 
     @Bean

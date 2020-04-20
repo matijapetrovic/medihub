@@ -1,6 +1,7 @@
 package org.medihub.web.patient;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.AccountNotFoundException;
 import org.medihub.application.ports.incoming.RegisterPatientUseCase;
 import org.medihub.application.ports.incoming.RegisterPatientUseCase.RegisterPatientCommand;
 import org.medihub.domain.patient.RegistrationRequest;
@@ -24,7 +25,7 @@ public class PatientController {
     private final RegisterPatientUseCase registerUseCase;
 
     @PostMapping("/registration")
-    ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+    ResponseEntity<?> register(@RequestBody RegisterRequest request) throws AccountNotFoundException {
         RegisterPatientCommand command =
                 new RegisterPatientCommand(
                         request.getEmail(),

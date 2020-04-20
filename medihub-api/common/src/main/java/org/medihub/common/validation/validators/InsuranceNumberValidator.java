@@ -6,7 +6,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 public class InsuranceNumberValidator implements
-        ConstraintValidator<InsuranceNumber, String> {
+    ConstraintValidator<InsuranceNumber, String> {
 
     @Override
     public boolean isValid(String insuranceNumberField, ConstraintValidatorContext constraintValidatorContext) {
