@@ -16,6 +16,7 @@ public class AccountAdapter implements LoadAccountPort, SaveAccountPort {
 
     @Override
     public Account loadAccount(String email) {
+        System.out.println(email);
         AccountJpaEntity account =
                 accountRepository.findByEmail(email)
                 .orElseThrow(EntityNotFoundException::new);

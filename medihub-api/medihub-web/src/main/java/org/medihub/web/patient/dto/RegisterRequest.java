@@ -18,5 +18,5 @@ public class RegisterRequest {
     private String city;
     private String country;
     private String telephoneNum;
-    private String securityNum;
+    private String insuranceNum;
 }

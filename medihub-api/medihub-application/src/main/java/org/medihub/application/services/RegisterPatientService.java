@@ -25,8 +25,8 @@ public class RegisterPatientService implements RegisterPatientUseCase {
                                 command.getAddress(),
                                 command.getCity(),
                                 command.getCountry()),
-                        command.getTelephoneNum(),
-                        command.getSecurityNum());
+                        command.getTelephoneNumber(),
+                        command.getInsuranceNumber());
 
         return saveRegistrationRequestPort.saveRegistrationRequest(request);
     }

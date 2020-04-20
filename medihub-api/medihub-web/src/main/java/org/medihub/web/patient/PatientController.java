@@ -35,7 +35,7 @@ public class PatientController {
                         request.getCity(),
                         request.getCountry(),
                         request.getTelephoneNum(),
-                        request.getSecurityNum());
+                        request.getInsuranceNum());
 
         RegistrationRequest entity = registerUseCase.registerPatient(command);
 

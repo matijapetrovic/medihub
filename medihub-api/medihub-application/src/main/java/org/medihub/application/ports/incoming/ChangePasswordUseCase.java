@@ -3,6 +3,7 @@ package org.medihub.application.ports.incoming;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 import org.medihub.common.SelfValidating;
+import org.medihub.common.validation.annotations.Password;
 
 import javax.validation.constraints.NotNull;
 
@@ -12,9 +13,10 @@ public interface ChangePasswordUseCase {
     @Value
     @EqualsAndHashCode(callSuper = false)
     class ChangePasswordCommand extends SelfValidating<ChangePasswordCommand> {
+
         @NotNull
         String email;
-        @NotNull
+        @Password
         String newPassword;
 
         public ChangePasswordCommand(

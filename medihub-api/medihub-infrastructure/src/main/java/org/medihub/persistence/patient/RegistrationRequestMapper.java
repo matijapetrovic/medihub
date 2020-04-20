@@ -17,7 +17,7 @@ public class RegistrationRequestMapper {
                 request.getAddress().getCity(),
                 request.getAddress().getCountry(),
                 request.getTelephoneNumber(),
-                request.getSocialSecurityNumber()
+                request.getInsuranceNumber()
         );
     }
 
@@ -33,6 +33,6 @@ public class RegistrationRequestMapper {
                         request.getCity(),
                         request.getCountry()),
                 request.getTelephoneNumber(),
-                request.getSocialSecurityNumber());
+                request.getInsuranceNumber());
     }
 }

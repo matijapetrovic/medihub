@@ -13,7 +13,7 @@ public class RegistrationRequest {
     private String lastName;
     private Address address;
     private String telephoneNumber;
-    private String socialSecurityNumber;
+    private String insuranceNumber;
 
     public void accept() {
 
