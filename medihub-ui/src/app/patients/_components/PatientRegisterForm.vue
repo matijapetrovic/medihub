@@ -4,7 +4,7 @@
     sm="8"
     md="4"
   >
-  <p>{{ error }}</p>
+  <p :class="{ success: !error, failure: error }">{{ message }}</p>
   <v-card class="elevation-12">
     <v-toolbar
       color="primary"
@@ -17,75 +17,108 @@
       <v-form
         ref="form"
       >
-        <EmailInput
-          v-model="email"
-        />
-        <PasswordInput
-          v-model="password"
-        />
-
-        <v-text-field
-          v-model="securityNum"
-          label="Insurance Number"
-          name="insuranceNum"
-          prepend-icon="mdi-shield-account"
-          type="text"
-          required
-        ></v-text-field>
-
-        <v-text-field
-          v-model="firstName"
-          label="First Name"
-          name="firstName"
-          prepend-icon="person"
-          type="text"
-          required
-        ></v-text-field>
-
-        <v-text-field
-          v-model="lastName"
-          label="Last Name"
-          name="lastName"
-          prepend-icon="person"
-          type="text"
-          required
-        ></v-text-field>
-
-        <v-text-field
-          v-model="address"
-          label="Address"
-          name="address"
-          prepend-icon="house"
-          type="text"
-          required
-        ></v-text-field>
-
-        <v-text-field
-          v-model="city"
-          label="City"
-          name="city"
-          prepend-icon="mdi-city"
-          type="text"
-          required
-        ></v-text-field>
-
-        <v-text-field
-          v-model="country"
-          label="Country"
-          name="country"
-          prepend-icon="mdi-earth"
-          type="text"
-          required
-        ></v-text-field>
-
-        <v-text-field
-          v-model="telephoneNum"
-          label="Tel. Number"
-          name="telephoneNum"
-          prepend-icon="phone"
-          type="text"
-          required
-        ></v-text-field>
+      <v-row>
+        <v-col>
+          <EmailInput
+            v-model="email"
+          />
+        </v-col>
+        <v-col>
+          <InsuranceNumberInput
+            v-model="insuranceNum"
+          />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <PasswordInput
+            v-model="password"
+          />
+        </v-col>
+        <v-col>
+          <v-text-field
+            v-model="confirmPassword"
+            label="Confirm Password"
+            type="password"
+            prepend-icon="lock"
+            :rules="[passwordConfirmRule,]"
+            required
+          >
+          </v-text-field>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-text-field
+            v-model="firstName"
+            label="First Name"
+            name="firstName"
+            prepend-icon="person"
+            :rules="[requiredRule]"
+            type="text"
+            required
+          ></v-text-field>
+        </v-col>
+        <v-col>
+          <v-text-field
+            v-model="lastName"
+            label="Last Name"
+            name="lastName"
+            prepend-icon="person"
+            :rules="[requiredRule]"
+            type="text"
+            required
+          ></v-text-field>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-text-field
+            v-model="address"
+            label="Address"
+            name="address"
+            prepend-icon="house"
+            :rules="[requiredRule]"
+            type="text"
+            required
+          ></v-text-field>
+        </v-col>
+        <v-col>
+          <v-text-field
+            v-model="city"
+            label="City"
+            name="city"
+            prepend-icon="mdi-city"
+            :rules="[requiredRule]"
+            type="text"
+            required
+          ></v-text-field>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-text-field
+            v-model="country"
+            label="Country"
+            name="country"
+            prepend-icon="mdi-earth"
+            :rules="[requiredRule]"
+            type="text"
+            required
+          ></v-text-field>
+        </v-col>
+        <v-col>
+          <v-text-field
+            v-model="telephoneNum"
+            label="Tel. Number"
+            name="telephoneNum"
+            prepend-icon="phone"
+            :rules="[requiredRule, telephoneNumRule]"
+            type="text"
+            required
+          ></v-text-field>
+        </v-col>
+      </v-row>
       </v-form>
     </v-card-text>
     <v-card-actions>
@@ -97,6 +130,7 @@
       >
         Register
       </v-btn>
+      <v-spacer></v-spacer>
     </v-card-actions>
     </v-card>
   </v-col>
@@ -106,24 +140,28 @@
 import { mapActions } from 'vuex';
 import EmailInput from '@/app/shared/_components/_forms/EmailInput.vue';
 import PasswordInput from '@/app/shared/_components/_forms/PasswordInput.vue';
+import InsuranceNumberInput from '@/app/shared/_components/_forms/InsuranceNumberInput.vue';
 
 export default {
   name: 'PatientRegisterForm',
   components: {
     EmailInput,
     PasswordInput,
+    InsuranceNumberInput,
   },
   data: () => ({
     email: '',
-    password: '',
     insuranceNum: '',
+    password: '',
+    confirmPassword: '',
     firstName: '',
     lastName: '',
     address: '',
     city: '',
     country: '',
     telephoneNum: '',
-    error: null,
+    message: null,
+    error: false,
   }),
   methods: {
     ...mapActions('auth', ['register']),
@@ -141,11 +179,12 @@ export default {
           telephoneNum: this.telephoneNum,
         })
           .then(() => {
-            this.$router.push('/')
-              .catch(() => {}); // https://github.com/vuejs/vue-router/issues/2881#issuecomment-520554378
+            this.error = false;
+            this.message = 'Registration request sent successfully.';
           })
           .catch((err) => {
-            this.error = err.response.data.error;
+            this.error = true;
+            this.message = err.response.data.message;
           });
       }
     },
@@ -153,11 +192,27 @@ export default {
       return this.$refs.form.validate();
     },
   },
+  computed: {
+    passwordConfirmRule() {
+      return () => this.password === this.confirmPassword || 'Passwords must match';
+    },
+    telephoneNumRule() {
+      return (value) => /((\+381)|0)6[0-9]{7,8}/.test(value) || 'Telephone number must be valid';
+    },
+    requiredRule() {
+      return (value) => !!value || 'Required';
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 p {
-  color: red;
+  .success{
+    color: green;
+  }
+  .failure {
+    color: red;
+  }
 }
 </style>

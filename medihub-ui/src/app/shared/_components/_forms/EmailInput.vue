@@ -20,7 +20,7 @@ export default {
   data: () => ({
     rules: [
       (value) => !!value || 'Email is required',
-      (value) => /.+@.+/.test(value) || 'E-mail must be valid',
+      (value) => /[^@]+@[^.]+..+/.test(value) || 'E-mail must be valid',
     ],
   }),
 };
