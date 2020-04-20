@@ -25,6 +25,15 @@
         />
 
         <v-text-field
+          v-model="securityNum"
+          label="Insurance Number"
+          name="insuranceNum"
+          prepend-icon="mdi-shield-account"
+          type="text"
+          required
+        ></v-text-field>
+
+        <v-text-field
           v-model="firstName"
           label="First Name"
           name="firstName"
@@ -77,15 +86,6 @@
           type="text"
           required
         ></v-text-field>
-
-        <v-text-field
-          v-model="securityNum"
-          label="Soc. Security Number"
-          name="securityNum"
-          prepend-icon="mdi-shield-account"
-          type="text"
-          required
-        ></v-text-field>
       </v-form>
     </v-card-text>
     <v-card-actions>
@@ -116,13 +116,13 @@ export default {
   data: () => ({
     email: '',
     password: '',
+    insuranceNum: '',
     firstName: '',
     lastName: '',
     address: '',
     city: '',
     country: '',
     telephoneNum: '',
-    securityNum: '',
     error: null,
   }),
   methods: {
@@ -132,13 +132,13 @@ export default {
         this.register({
           email: this.email,
           password: this.password,
+          insuranceNum: this.insuranceNum,
           firstName: this.firstName,
           lastName: this.lastName,
           address: this.address,
           city: this.city,
           country: this.country,
           telephoneNum: this.telephoneNum,
-          securityNum: this.securityNum,
         })
           .then(() => {
             this.$router.push('/')
