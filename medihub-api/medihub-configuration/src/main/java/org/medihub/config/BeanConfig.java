@@ -1,10 +1,7 @@
 package org.medihub.config;
 
 import org.medihub.application.ports.incoming.*;
-import org.medihub.application.ports.outgoing.AddClinicAdminPort;
-import org.medihub.application.ports.outgoing.LoadAccountPort;
-import org.medihub.application.ports.outgoing.SaveAccountPort;
-import org.medihub.application.ports.outgoing.TestPort;
+import org.medihub.application.ports.outgoing.*;
 import org.medihub.application.services.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,13 +15,26 @@ public class BeanConfig {
     }
 
     @Bean
-    public GetAccountQuery getAccountQuery(LoadAccountPort loadAccountPort) {
-        return new GetAccountService(loadAccountPort);
+    public ChangePasswordUseCase changePasswordUseCase(
+            LoadAccountPort loadAccountPort,
+            EncoderPort encoderPort,
+            SaveAccountPort saveAccountPort
+    ) {
+        return new ChangePasswordService(loadAccountPort, encoderPort, saveAccountPort);
     }
 
     @Bean
-    public SaveAccountUseCase saveAccountUseCase(SaveAccountPort saveAccountPort) {
-        return new SaveAccountService(saveAccountPort);
+    public RegisterPatientUseCase registerPatientUseCase(
+            LoadAccountPort loadAccountPort,
+            SaveRegistrationRequestPort saveRegistrationRequestPort,
+            EncoderPort encoderPort
+    ) {
+        return new RegisterPatientService(loadAccountPort,saveRegistrationRequestPort, encoderPort);
+    }
+
+    @Bean
+    public GetAccountQuery getAccountQuery(LoadAccountPort loadAccountPort) {
+        return new GetAccountService(loadAccountPort);
     }
 
     @Bean

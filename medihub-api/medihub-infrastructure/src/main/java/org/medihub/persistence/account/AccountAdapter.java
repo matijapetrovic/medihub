@@ -7,6 +7,7 @@ import org.medihub.domain.identity.Account;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -15,12 +16,13 @@ public class AccountAdapter implements LoadAccountPort, SaveAccountPort {
     private final AccountRepository accountRepository;
 
     @Override
-    public Account loadAccount(String email) {
-        AccountJpaEntity account =
-                accountRepository.findByEmail(email)
-                .orElseThrow(EntityNotFoundException::new);
+    public Optional<Account> loadAccount(String email) {
+        Optional<AccountJpaEntity> account =
+                accountRepository.findByEmail(email);
+        if (account.isEmpty())
+            return Optional.empty();
 
-        return accountMapper.mapToDomainEntity(account);
+        return Optional.of(accountMapper.mapToDomainEntity(account.get()));
     }
 
     @Override

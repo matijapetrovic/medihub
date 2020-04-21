@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '@/views/Home.vue';
+import Register from '@/views/unregistered/Register.vue';
 import Login from '@/views/unregistered/Login.vue';
 import ChangePassword from '@/views/shared/ChangePassword.vue';
 import AddClinicRoomForm from '../views/AddClinicRoomForm.vue';
@@ -36,6 +37,14 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login,
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register,
     meta: {
       requiresAuth: false,
     },

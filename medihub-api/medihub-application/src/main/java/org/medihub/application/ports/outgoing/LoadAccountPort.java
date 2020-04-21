@@ -2,6 +2,8 @@ package org.medihub.application.ports.outgoing;
 
 import org.medihub.domain.identity.Account;
 
+import java.util.Optional;
+
 public interface LoadAccountPort {
-    Account loadAccount(String email);
+    Optional<Account> loadAccount(String email);
 }

@@ -7,7 +7,7 @@ import java.util.Set;
 
 @AllArgsConstructor
 @Getter
-public class Patient  extends  User{
+public class Patient {
     private MedicalRecord medicalRecord;
-    private Set<Appointment> apointments;
+    private Set<Appointment> appointments;
 }

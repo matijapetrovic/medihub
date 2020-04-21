@@ -1,17 +1,21 @@
 package org.medihub.persistence;
 
-import org.medihub.application.ports.outgoing.LoadClinicRoom;
-import org.medihub.application.ports.outgoing.SaveClinicPort;
+import lombok.RequiredArgsConstructor;
+import org.medihub.application.ports.outgoing.LoadClinicRoomPort;
+import org.medihub.application.ports.outgoing.SaveClinicRoomPort;
 import org.medihub.domain.ClinicRoom;
 import org.medihub.persistence.clinicroom.ClinicRoomJpaEntity;
 import org.medihub.persistence.clinicroom.ClinicRoomMapper;
-import org.medihub.persistence.clinicroom.ClinicRoomRespository;
+import org.medihub.persistence.clinicroom.ClinicRoomRepository;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
 
-public class ClinicRoomAdapter implements SaveClinicPort, LoadClinicRoom {
+@Component
+@RequiredArgsConstructor
+public class ClinicRoomRoomPortAdapter implements SaveClinicRoomPort, LoadClinicRoomPort {
     private final ClinicRoomMapper clinicRoomMapper;
-    private final ClinicRoomRespository clinicRoomRepository;
+    private final ClinicRoomRepository clinicRoomRepository;
 
     @Override
     public ClinicRoom loadClinicRoom(String name) {

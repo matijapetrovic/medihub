@@ -2,6 +2,6 @@ package org.medihub.application.ports.outgoing;
 
 import org.medihub.domain.ClinicRoom;
 
-public interface LoadClinicRoom {
+public interface LoadClinicRoomPort {
     ClinicRoom loadClinicRoom(String name);
 }
