@@ -3,7 +3,6 @@
         <v-container fluid class="fill-height">
             <v-row align="center" justify="center">
                 <v-col cols="12" sm="8" md="4">
-                    <p>{{ error }}</p>
                     <v-card class="elevation-12">
                         <v-toolbar color="primary" dark flat>
                             <v-toolbar-title>Add clinic room</v-toolbar-title>
@@ -13,18 +12,21 @@
                                 <v-text-field v-model="name" label="Name"
                                 name="name" type="text" required>
                                 </v-text-field>
-                                <v-menu v-model="togglePopover" v-bind="menuProps" :offset-y="true">
-                                    <slot slot="activator"></slot>
-                                    <slot name="bodyContent"></slot>
-                                </v-menu>
+                                <v-select
+                                v-model="clinic"
+                                :items="clinics"
+                                label="Clinic"
+                                required
+                                item-text="name">
+                                </v-select>
                             </v-form>
                         </v-card-text>
                         <v-card-actions>
                             <v-spacer></v-spacer>
-                            <v-btn @click="submit" color="primary" name="button">
+                            <v-btn @click="submit" color="primary" name="submit">
                                 Submit
                             </v-btn>
-                            <v-btn @click="submit" color="secondary" name="button">
+                            <v-btn @click="clear" color="secondary" name="clear">
                                 Clear
                             </v-btn>
                         </v-card-actions>
@@ -38,6 +40,31 @@
 <script>
 export default {
   name: 'AddClinicRoomForm',
-
+  data: () => ({
+    name: null,
+    clinic: null,
+    clinics: [
+      { name: 'clinic1' },
+      { name: 'clinic2' },
+    ],
+  }),
+  methods: {
+    submit() {
+      if (this.validate()) {
+        return true;
+      }
+      return true;
+    },
+    clear() {
+      this.name = null;
+      this.clinic = null;
+    },
+    validate() {
+      if (!this.$refs.form.validate()) {
+        return false;
+      }
+      return true;
+    },
+  },
 };
 </script>
