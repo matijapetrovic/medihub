@@ -5,6 +5,9 @@ export default {
     console.log(token);
     apiClient.defaults.headers.common.Authorization = `Bearer ${token}`;
   },
+  register(payload) {
+    return apiClient.post('api/patient/registration', payload);
+  },
   login(credentials) {
     return apiClient.post('auth/login', credentials);
   },

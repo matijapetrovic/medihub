@@ -1,16 +1,14 @@
 package org.medihub.web.security.authentication;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.AccountNotFoundException;
+import org.medihub.application.ports.incoming.ChangePasswordUseCase;
 import org.medihub.web.security.TokenUtil;
-import org.medihub.web.security.authentication.dto.LoginRequest;
-import org.medihub.web.security.authentication.dto.LoginResponse;
-import org.medihub.web.security.authentication.dto.PasswordRequest;
+import org.medihub.web.security.authentication.dto.*;
 import org.medihub.web.security.identity.CustomGrantedAuthority;
 import org.medihub.web.security.identity.CustomUserDetails;
-import org.medihub.web.security.identity.CustomUserDetailsService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,7 +16,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -29,7 +26,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuthenticationController {
-    private final CustomUserDetailsService userDetailsService;
+    private final ChangePasswordUseCase changePasswordUseCase;
     private final AuthenticationManager authenticationManager;
     private final TokenUtil tokenUtil;
 
@@ -38,21 +35,6 @@ public class AuthenticationController {
         final CustomUserDetails userDetails = authenticate(request);
         final LoginResponse response = createLoginResponse(userDetails);
         return ResponseEntity.ok(response);
-    }
-
-    @PostMapping("/password")
-    ResponseEntity<?> changePassword(@RequestBody PasswordRequest request) {
-        boolean changed = userDetailsService.changePassword(request.getOldPassword(), request.getNewPassword());
-        if (changed) {
-            return ResponseEntity
-                    .accepted()
-                    .body(Map.of("message", "Password successfully changed"));
-        }
-        else {
-            return ResponseEntity
-                    .badRequest()
-                    .body(Map.of("message", "New password cannot be same as old password"));
-        }
     }
 
     private CustomUserDetails authenticate(LoginRequest request) {
@@ -82,4 +64,44 @@ public class AuthenticationController {
                 .map(CustomGrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
     }
+
+    @PostMapping("/password")
+    ResponseEntity<?> changePassword(@RequestBody PasswordRequest request) throws AccountNotFoundException {
+        boolean changed = changePassword(request.getOldPassword(), request.getNewPassword());
+        if (changed) {
+            return ResponseEntity
+                    .accepted()
+                    .body(Map.of("message", "Password successfully changed"));
+        }
+        else {
+            return ResponseEntity
+                    .badRequest()
+                    .body(Map.of("message", "New password cannot be same as old password"));
+        }
+    }
+
+    public boolean changePassword(String oldPassword, String newPassword) throws AccountNotFoundException {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        String email = currentUser.getName();
+
+        if (!reAuthenticateUser(email, oldPassword)) {
+            return false;
+        }
+
+        ChangePasswordUseCase.ChangePasswordCommand command = new ChangePasswordUseCase.ChangePasswordCommand(email, newPassword);
+        return changePasswordUseCase.changePassword(command);
+    }
+
+    public boolean reAuthenticateUser(String email, String oldPassword) {
+        if (authenticationManager == null) {
+            // throw exception
+            return false;
+        }
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, oldPassword));
+        return true;
+    }
+
+
+
+
 }

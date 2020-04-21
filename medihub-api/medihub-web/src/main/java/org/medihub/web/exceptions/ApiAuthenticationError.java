@@ -8,6 +8,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper =  false)
 @AllArgsConstructor
-public class ApiAuthenticationError  extends ApiSubError{
+public class ApiAuthenticationError  extends ApiSubError {
 
 }

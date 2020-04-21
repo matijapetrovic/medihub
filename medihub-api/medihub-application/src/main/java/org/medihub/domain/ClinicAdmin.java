@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class ClinicAdmin extends  User {
+public class ClinicAdmin {
     private Clinic clinic;
 }
