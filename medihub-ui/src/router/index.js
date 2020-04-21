@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Login from '@/views/Login.vue';
-import Home from '../views/Home.vue';
-import ChangePassword from '../views/ChangePassword.vue';
+import Home from '@/views/Home.vue';
+import Login from '@/views/unregistered/Login.vue';
+import ChangePassword from '@/views/shared/ChangePassword.vue';
 import AddClinicRoomForm from '../views/AddClinicRoomForm.vue';
 
 Vue.use(VueRouter);
@@ -51,7 +51,7 @@ const routes = [
   {
     path: '/clinic_admin_registration',
     name: 'ClinicAdminRegistration',
-    component: () => import('../views/ClinicAdminRegistration.vue'),
+    component: () => import('../views/clinic-center-admin/ClinicAdminRegistration.vue'),
     meta: {
       requiresAuth: true,
     },
