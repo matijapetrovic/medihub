@@ -2,7 +2,7 @@ package org.medihub.application.services;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.AccountNotFoundException;
-import org.medihub.application.ports.incoming.UpdateProfileUseCase;
+import org.medihub.application.ports.incoming.profile.UpdateProfileUseCase;
 import org.medihub.application.ports.outgoing.LoadAccountPort;
 import org.medihub.application.ports.outgoing.SaveAccountPort;
 import org.medihub.domain.Address;

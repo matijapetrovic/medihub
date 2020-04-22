@@ -1,4 +1,4 @@
-package org.medihub.application.ports.incoming;
+package org.medihub.application.ports.incoming.profile;
 
 import lombok.EqualsAndHashCode;
 import lombok.Value;

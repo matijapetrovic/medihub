@@ -1,4 +1,4 @@
-package org.medihub.web.security.authentication.dto;
+package org.medihub.web.profile;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UpdateProfileRequest {
-    private String email;
     private String firstName;
     private String lastName;
     private String address;
