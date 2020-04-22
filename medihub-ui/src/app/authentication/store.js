@@ -5,6 +5,7 @@ export default {
   state: {
     user: null,
     success: false,
+    account: null,
   },
   mutations: {
     SET_USER_DATA(state, userData) {

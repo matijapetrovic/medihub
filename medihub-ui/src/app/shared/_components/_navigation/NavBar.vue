@@ -8,8 +8,8 @@
     <router-link to="/">
       <v-btn text>Home</v-btn>
     </router-link>
-    <router-link to="/about">
-      <v-btn text>About</v-btn>
+    <router-link to="/profile">
+      <v-btn text>Profile</v-btn>
     </router-link>
     <router-link to="/clinic_admin_registration">
       <v-btn text>Clinic admin registration</v-btn>

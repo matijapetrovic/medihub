@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '@/views/Home.vue';
+import Profile from '@/views/Profile.vue';
 import Register from '@/views/unregistered/Register.vue';
 import Login from '@/views/unregistered/Login.vue';
 import ChangePassword from '@/views/shared/ChangePassword.vue';
@@ -22,6 +23,14 @@ const routes = [
     component: Login,
     meta: {
       requiresAuth: false,
+    },
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile,
+    meta: {
+      requiresAuth: true,
     },
   },
   {
