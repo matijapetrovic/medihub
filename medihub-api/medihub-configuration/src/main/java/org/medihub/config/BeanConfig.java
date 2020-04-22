@@ -18,9 +18,15 @@ public class BeanConfig {
     public ChangePasswordUseCase changePasswordUseCase(
             LoadAccountPort loadAccountPort,
             EncoderPort encoderPort,
-            SaveAccountPort saveAccountPort
-    ) {
+            SaveAccountPort saveAccountPort) {
         return new ChangePasswordService(loadAccountPort, encoderPort, saveAccountPort);
+    }
+
+    @Bean
+    public UpdateProfileUseCase updateProfileUseCase(
+            LoadAccountPort loadAccountPort,
+            SaveAccountPort saveAccountPort) {
+        return new UpdateProfileService(loadAccountPort, saveAccountPort);
     }
 
     @Bean

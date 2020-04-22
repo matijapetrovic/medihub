@@ -27,6 +27,24 @@ public class AccountJpaEntity {
     @NotNull
     private String password;
 
+    @Column(name="firstName")
+    private String firstName;
+
+    @Column(name="lastName")
+    private String lastName;
+
+    @Column(name="address")
+    private String address;
+
+    @Column(name="city")
+    private String city;
+
+    @Column(name="country")
+    private String country;
+
+    @Column(name="telephone_number")
+    private String telephoneNumber;
+
     @Column(name="password_changed")
     private boolean passwordChanged;
 

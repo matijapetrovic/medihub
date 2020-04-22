@@ -1,4 +1,4 @@
-package org.medihub.domain.patient;
+package org.medihub.domain;
 
 import lombok.Value;
 

@@ -3,6 +3,9 @@ package org.medihub.web.security.authentication;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.AccountNotFoundException;
 import org.medihub.application.ports.incoming.ChangePasswordUseCase;
+import org.medihub.application.ports.incoming.ChangePasswordUseCase.ChangePasswordCommand;
+import org.medihub.application.ports.incoming.UpdateProfileUseCase;
+import org.medihub.application.ports.incoming.UpdateProfileUseCase.UpdateProfileCommand;
 import org.medihub.web.security.TokenUtil;
 import org.medihub.web.security.authentication.dto.*;
 import org.medihub.web.security.identity.CustomGrantedAuthority;
@@ -27,6 +30,7 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuthenticationController {
     private final ChangePasswordUseCase changePasswordUseCase;
+    private final UpdateProfileUseCase updateProfileUseCase;
     private final AuthenticationManager authenticationManager;
     private final TokenUtil tokenUtil;
 
@@ -81,14 +85,12 @@ public class AuthenticationController {
     }
 
     public boolean changePassword(String oldPassword, String newPassword) throws AccountNotFoundException {
-        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-        String email = currentUser.getName();
+        String email = getCurrentUserEmail();
 
-        if (!reAuthenticateUser(email, oldPassword)) {
+        if (!reAuthenticateUser(email, oldPassword))
             return false;
-        }
 
-        ChangePasswordUseCase.ChangePasswordCommand command = new ChangePasswordUseCase.ChangePasswordCommand(email, newPassword);
+        ChangePasswordCommand command = new ChangePasswordCommand(email, newPassword);
         return changePasswordUseCase.changePassword(command);
     }
 
@@ -101,7 +103,32 @@ public class AuthenticationController {
         return true;
     }
 
+    @PutMapping("/profile")
+    ResponseEntity<?> updateProfile(@RequestBody UpdateProfileRequest request)
+            throws UnauthorizedException, AccountNotFoundException {
+        authorizeUpdateProfile(request.getEmail());
+        UpdateProfileCommand command =
+                new UpdateProfileCommand(
+                        request.getEmail(),
+                        request.getFirstName(),
+                        request.getLastName(),
+                        request.getAddress(),
+                        request.getCity(),
+                        request.getCountry(),
+                        request.getTelephoneNum());
 
+        updateProfileUseCase.updateProfile(command);
+        return ResponseEntity.noContent().build();
+    }
 
+    private void authorizeUpdateProfile(String email) throws UnauthorizedException {
+        if (!email.equalsIgnoreCase(getCurrentUserEmail()))
+            throw new UnauthorizedException();
+    }
+
+    public String getCurrentUserEmail() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        return currentUser.getName();
+    }
 
 }
