@@ -7,10 +7,9 @@ import org.medihub.application.ports.outgoing.SaveClinicRoomPort;
 import org.medihub.domain.ClinicRoom;
 
 @RequiredArgsConstructor
-public class CliniRoomUseCaseService implements ClinicRoomUseCase {
+public class ClinicRoomService implements ClinicRoomUseCase {
     private final SaveClinicRoomPort saveClinicRoomPort;
     private final LoadClinicRoomPort loadClinicRoomPort;
-
 
     @Override
     public void addClinicRoom(ClinicRoom clinicRoom) {

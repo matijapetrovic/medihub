@@ -1,4 +1,4 @@
-package org.medihub.persistence.clinicroom;
+package org.medihub.persistence.clinic_room;
 
 import org.medihub.domain.ClinicRoom;
 import org.springframework.stereotype.Component;

@@ -41,4 +41,12 @@ public class BeanConfig {
     public AddClinicAdminUseCase getAddClinicAdminUseCase(AddClinicAdminPort addClinicAdminPort) {
         return new AddClinicAdminService(addClinicAdminPort);
     }
+
+    @Bean
+    public ClinicRoomUseCase getClinicRoomUseCase(SaveClinicRoomPort saveClinicRoomPort, LoadClinicRoomPort loadClinicRoomPort){
+        return new ClinicRoomService(
+                saveClinicRoomPort,
+                loadClinicRoomPort
+        );
+    }
 }

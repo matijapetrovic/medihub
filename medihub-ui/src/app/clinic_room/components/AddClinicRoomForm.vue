@@ -12,13 +12,13 @@
                                 <v-text-field v-model="name" label="Name"
                                 name="name" type="text" required>
                                 </v-text-field>
-                                <v-select
+                                <!-- <v-select
                                 v-model="clinic"
                                 :items="clinics"
                                 label="Clinic"
                                 required
                                 item-text="name">
-                                </v-select>
+                                </v-select> -->
                             </v-form>
                         </v-card-text>
                         <v-card-actions>
@@ -38,32 +38,32 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: 'AddClinicRoomForm',
   data: () => ({
     name: null,
-    clinic: null,
-    clinics: [
-      { name: 'clinic1' },
-      { name: 'clinic2' },
-    ],
+    // clinic: null,
+    // clinics: [
+    //   { name: 'clinic1' },
+    //   { name: 'clinic2' },
+    // ],
   }),
   methods: {
+    ...mapActions('clinicRooms', ['addClinicRoom']),
     submit() {
       if (this.validate()) {
-        return true;
+        this.addClinicRoom({
+          name: this.name,
+        });
       }
-      return true;
     },
     clear() {
       this.name = null;
-      this.clinic = null;
     },
     validate() {
-      if (!this.$refs.form.validate()) {
-        return false;
-      }
-      return true;
+      return (this.name);
     },
   },
 };

@@ -4,7 +4,7 @@ import Home from '@/views/Home.vue';
 import Register from '@/views/unregistered/Register.vue';
 import Login from '@/views/unregistered/Login.vue';
 import ChangePassword from '@/views/shared/ChangePassword.vue';
-import AddClinicRoomForm from '../views/AddClinicRoomForm.vue';
+import AddClinicRoomForm from '../app/clinic_room/components/AddClinicRoomForm.vue';
 
 Vue.use(VueRouter);
 
@@ -21,17 +21,6 @@ const routes = [
     path: '/addClinicRoom',
     name: 'AddClinicRoomForm',
     component: AddClinicRoomForm,
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
-    meta: {
-      requiresAuth: true,
-    },
   },
   {
     path: '/login',

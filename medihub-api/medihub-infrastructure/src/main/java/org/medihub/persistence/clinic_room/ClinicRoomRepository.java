@@ -1,6 +1,5 @@
-package org.medihub.persistence.clinicroom;
+package org.medihub.persistence.clinic_room;
 
-import org.medihub.persistence.account.AccountJpaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
