@@ -15,57 +15,7 @@
         >
           <p>You must change your password after logging in for the first time</p>
           <p class="error">{{ error }}</p>
-          <v-card class="elevation-12">
-            <v-toolbar
-              color="primary"
-              dark
-              flat
-            >
-              <v-toolbar-title>Log In</v-toolbar-title>
-            </v-toolbar>
-            <v-card-text>
-              <v-form
-                ref="form"
-              >
-                <v-text-field
-                  v-model="oldPassword"
-                  label="Old password"
-                  name="oldPassword"
-                  prepend-icon="lock"
-                  type="password"
-                  required
-                ></v-text-field>
-
-                <v-text-field
-                  v-model="newPassword"
-                  label="New password"
-                  name="newPassword"
-                  prepend-icon="lock"
-                  type="password"
-                  required
-                ></v-text-field>
-
-                <v-text-field
-                  v-model="confirmNewPassword"
-                  label="Confirm new password"
-                  name="confirmNewPassword"
-                  prepend-icon="lock"
-                  type="password"
-                  required
-                ></v-text-field>
-              </v-form>
-            </v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn
-                @click="submit"
-                color="primary"
-                name="button"
-              >
-                Change
-              </v-btn>
-            </v-card-actions>
-          </v-card>
+          <ChangePasswordForm/>
         </v-col>
       </v-row>
     </v-container>
@@ -73,37 +23,12 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import ChangePasswordForm from '@/app/authentication/_components/ChangePasswordForm.vue';
 
 export default {
   name: 'ChangePassword',
-  data: () => ({
-    oldPassword: '',
-    newPassword: '',
-    confirmNewPassword: '',
-    error: null,
-  }),
-  methods: {
-    ...mapActions('auth', ['changePassword']),
-    submit() {
-      if (this.validate()) {
-        this.changePassword({
-          oldPassword: this.oldPassword,
-          newPassword: this.newPassword,
-        }).then(() => {
-          this.$router.push('/');
-        })
-          .catch((err) => {
-            this.error = err.response.data.error;
-          });
-      }
-    },
-    validate() {
-      if (!this.$refs.form.validate()) {
-        return false;
-      }
-      return this.newPassword === this.confirmNewPassword;
-    },
+  components: {
+    ChangePasswordForm,
   },
 };
 </script>

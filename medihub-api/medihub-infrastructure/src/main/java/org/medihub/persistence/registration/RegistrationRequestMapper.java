@@ -1,6 +1,6 @@
-package org.medihub.persistence.patient;
+package org.medihub.persistence.registration;
 
-import org.medihub.domain.patient.Address;
+import org.medihub.domain.Address;
 import org.medihub.domain.patient.RegistrationRequest;
 import org.springframework.stereotype.Component;
 

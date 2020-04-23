@@ -1,4 +1,4 @@
-package org.medihub.persistence.patient;
+package org.medihub.persistence.registration;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

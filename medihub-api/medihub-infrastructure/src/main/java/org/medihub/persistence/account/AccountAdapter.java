@@ -26,6 +26,16 @@ public class AccountAdapter implements LoadAccountPort, SaveAccountPort {
     }
 
     @Override
+    public Optional<Account> loadAccount(Long accountId) {
+        Optional<AccountJpaEntity> account =
+                accountRepository.findById(accountId);
+        if (account.isEmpty())
+            return Optional.empty();
+
+        return Optional.of(accountMapper.mapToDomainEntity(account.get()));
+    }
+
+    @Override
     public void saveAccount(Account account) {
         accountRepository.save(accountMapper.mapToJpaEntity(account));
     }

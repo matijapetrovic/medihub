@@ -3,6 +3,7 @@ package org.medihub.web.security.authentication;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.AccountNotFoundException;
 import org.medihub.application.ports.incoming.ChangePasswordUseCase;
+import org.medihub.application.ports.incoming.ChangePasswordUseCase.ChangePasswordCommand;
 import org.medihub.web.security.TokenUtil;
 import org.medihub.web.security.authentication.dto.*;
 import org.medihub.web.security.identity.CustomGrantedAuthority;
@@ -20,11 +21,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-
-@RequiredArgsConstructor
 @Component
 @RestController
 @RequestMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequiredArgsConstructor
 public class AuthenticationController {
     private final ChangePasswordUseCase changePasswordUseCase;
     private final AuthenticationManager authenticationManager;
@@ -81,14 +81,11 @@ public class AuthenticationController {
     }
 
     public boolean changePassword(String oldPassword, String newPassword) throws AccountNotFoundException {
-        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-        String email = currentUser.getName();
-
-        if (!reAuthenticateUser(email, oldPassword)) {
+        String email = getCurrentUserEmail();
+        if (!reAuthenticateUser(email, oldPassword))
             return false;
-        }
 
-        ChangePasswordUseCase.ChangePasswordCommand command = new ChangePasswordUseCase.ChangePasswordCommand(email, newPassword);
+        ChangePasswordCommand command = new ChangePasswordCommand(email, newPassword);
         return changePasswordUseCase.changePassword(command);
     }
 
@@ -101,7 +98,8 @@ public class AuthenticationController {
         return true;
     }
 
-
-
-
+    public String getCurrentUserEmail() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        return currentUser.getName();
+    }
 }
