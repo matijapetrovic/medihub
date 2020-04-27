@@ -62,4 +62,8 @@ public class BeanConfig {
                 loadClinicRoomPort
         );
     }
+
+    @Bean AddDoctorUseCase getAddDoctorUseCase(LoadDoctorPort loadDoctorPort, SaveDoctorPort saveDoctorPorts){
+        return new MedicalDoctorService(loadDoctorPort, saveDoctorPorts);
+    }
 }
