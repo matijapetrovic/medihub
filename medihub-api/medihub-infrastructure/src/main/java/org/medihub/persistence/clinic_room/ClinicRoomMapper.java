@@ -13,6 +13,7 @@ public class ClinicRoomMapper {
 
     public ClinicRoomJpaEntity mapToJpaEntity(ClinicRoom clinicRoom){
         return new ClinicRoomJpaEntity(
+                null,
                 clinicRoom.getName());
     }
 }

@@ -1,5 +1,7 @@
 package org.medihub.persistence.account;
 
+import org.medihub.domain.Address;
+import org.medihub.domain.PersonalInfo;
 import org.medihub.domain.identity.Account;
 import org.medihub.domain.Authority;
 import org.springframework.stereotype.Component;
@@ -14,6 +16,14 @@ public class AccountMapper {
                 account.getId(),
                 account.getEmail(),
                 account.getPassword(),
+                new PersonalInfo(
+                        account.getFirstName(),
+                        account.getLastName(),
+                        new Address(
+                                account.getAddress(),
+                                account.getCity(),
+                                account.getCountry()),
+                        account.getTelephoneNumber()),
                 account.isPasswordChanged(),
                 mapToAuthorities(account.getAuthorities()));
     }
@@ -36,6 +46,12 @@ public class AccountMapper {
                 account.getId(),
                 account.getEmail(),
                 account.getPassword(),
+                account.getFirstName(),
+                account.getLastName(),
+                account.getAddress(),
+                account.getCity(),
+                account.getCountry(),
+                account.getTelephoneNumber(),
                 account.isPasswordChanged(),
                 mapToJpaAuthorities(account.getAuthorities()));
     }

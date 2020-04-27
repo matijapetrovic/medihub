@@ -1,5 +1,6 @@
 package org.medihub.web.exceptions;
 
+import org.medihub.web.security.authentication.UnauthorizedException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleUsernameNotFound(
             UsernameNotFoundException ex) {
         ApiError apiError = new ApiError(HttpStatus.UNAUTHORIZED, "Invalid e-mail", ex);
-        return ResponseEntity.status(apiError.getStatus()).body(apiError);
+        return buildResponse(apiError);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
@@ -27,10 +28,21 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             ConstraintViolationException ex) {
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "Constraints violated", ex);
 
-        for (ConstraintViolation<?> constraintViolation : ex.getConstraintViolations()) {
+        for (ConstraintViolation<?> constraintViolation : ex.getConstraintViolations())
             apiError.addSubError(new ApiValidationError(constraintViolation));
-        }
 
-        return ResponseEntity.badRequest().body(apiError);
+        return buildResponse(apiError);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    protected ResponseEntity<Object> handleUnaothrized(
+            UnauthorizedException ex) {
+        ApiError apiError = new ApiError(HttpStatus.UNAUTHORIZED, "Unauthorized", ex);
+        return buildResponse(apiError);
+
+    }
+
+    private ResponseEntity<Object> buildResponse(ApiError apiError) {
+        return ResponseEntity.status(apiError.getStatus()).body(apiError);
     }
 }

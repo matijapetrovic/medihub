@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
 import auth from '@/app/authentication/store';
+import profile from '@/app/profile/store';
 import apiClient from '@/utils';
 import clinicRooms from '@/app/clinic_room/store';
 
@@ -40,5 +41,6 @@ export default new Vuex.Store({
   modules: {
     auth,
     clinicRooms,
+    profile,
   },
 });

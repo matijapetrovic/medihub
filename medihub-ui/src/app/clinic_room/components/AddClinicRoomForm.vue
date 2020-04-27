@@ -10,7 +10,8 @@
                         <v-card-text>
                             <v-form ref="form">
                                 <v-text-field v-model="name" label="Name"
-                                name="name" type="text" required>
+                                name="name" type="text"
+                                :rules="[requiredRule,]">
                                 </v-text-field>
                                 <!-- <v-select
                                 v-model="clinic"
@@ -63,7 +64,12 @@ export default {
       this.name = null;
     },
     validate() {
-      return (this.name);
+      return this.$refs.form.validate();
+    },
+  },
+  computed: {
+    requiredRule() {
+      return (value) => !!value || 'Required';
     },
   },
 };

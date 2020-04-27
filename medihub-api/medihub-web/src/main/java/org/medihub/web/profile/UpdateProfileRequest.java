@@ -1,4 +1,4 @@
-package org.medihub.web.patient.dto;
+package org.medihub.web.profile;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,14 +9,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class RegisterRequest {
-    private String email;
-    private String password;
+public class UpdateProfileRequest {
     private String firstName;
     private String lastName;
     private String address;
     private String city;
     private String country;
     private String telephoneNum;
-    private String insuranceNum;
 }

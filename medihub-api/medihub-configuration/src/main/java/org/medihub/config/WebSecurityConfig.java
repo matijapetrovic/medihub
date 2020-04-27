@@ -58,7 +58,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // Process all unauthorized requests
                 .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
                 // Allow all requests to the authentication endpoint
-                .authorizeRequests().antMatchers("/auth/**").permitAll()
+                .authorizeRequests()
+                    .antMatchers("/auth/**").permitAll()
+                    .antMatchers("/registration").permitAll()
                 // For other endpoints, require authentication
                 .anyRequest().authenticated().and()
                 // Allow CORS for development
@@ -72,6 +74,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(HttpMethod.POST, "/auth/login");
-        web.ignoring().antMatchers(HttpMethod.POST, "/patient/registration");
+        web.ignoring().antMatchers(HttpMethod.POST, "/registration");
     }
 }

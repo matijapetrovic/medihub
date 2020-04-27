@@ -1,6 +1,8 @@
 package org.medihub.config;
 
 import org.medihub.application.ports.incoming.*;
+import org.medihub.application.ports.incoming.profile.GetProfileQuery;
+import org.medihub.application.ports.incoming.profile.UpdateProfileUseCase;
 import org.medihub.application.ports.outgoing.*;
 import org.medihub.application.services.*;
 import org.springframework.context.annotation.Bean;
@@ -18,9 +20,20 @@ public class BeanConfig {
     public ChangePasswordUseCase changePasswordUseCase(
             LoadAccountPort loadAccountPort,
             EncoderPort encoderPort,
-            SaveAccountPort saveAccountPort
-    ) {
+            SaveAccountPort saveAccountPort) {
         return new ChangePasswordService(loadAccountPort, encoderPort, saveAccountPort);
+    }
+
+    @Bean
+    public UpdateProfileUseCase updateProfileUseCase(
+            LoadAccountPort loadAccountPort,
+            SaveAccountPort saveAccountPort) {
+        return new UpdateProfileService(loadAccountPort, saveAccountPort);
+    }
+
+    @Bean
+    public GetProfileQuery getProfileQuery(LoadAccountPort loadAccountPort) {
+        return new GetProfileService(loadAccountPort);
     }
 
     @Bean

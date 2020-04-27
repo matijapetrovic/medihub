@@ -16,8 +16,8 @@ public class ClinicRoomController {
     private final ClinicRoomUseCase clinicRoomUseCase;
 
     @PostMapping("/add")
-    void add(@RequestBody ClinicRoom request) {
-        clinicRoomUseCase.addClinicRoom(request);
+    void add(@RequestBody ClinicRoomRequest request) {
+        ClinicRoom cr = new ClinicRoom(request.getName());
+        clinicRoomUseCase.addClinicRoom(cr);
     }
-
 }
