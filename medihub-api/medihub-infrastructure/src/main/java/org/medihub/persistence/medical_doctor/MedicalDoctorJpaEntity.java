@@ -1,9 +1,8 @@
-package org.medihub.persistence.doctor;
+package org.medihub.persistence.medical_doctor;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
 import org.medihub.domain.Appointment;
 import org.medihub.domain.Clinic;
 import org.medihub.domain.WorkingCalendar;
@@ -22,15 +21,18 @@ public class MedicalDoctorJpaEntity {
     @GeneratedValue
     Long id;
 
-    @Column(name = "working_calendar")
+    @OneToOne
+    @JoinColumn(name = "working_calendar", referencedColumnName="id", nullable=true)
     private WorkingCalendar workingCalendar;
 
-    @Column(name="clinic")
-    @OneToMany
+    @ManyToOne
+    @JoinColumn(name="clinic", referencedColumnName="id", nullable=true)
     private Clinic clinic;
 
-    @OneToMany
-    @Column(name = "appointments")
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name="appointments",
+            joinColumns = @JoinColumn(name="user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name="authority_id", referencedColumnName = "id"))
     private Set<Appointment> appointments;
 
 }

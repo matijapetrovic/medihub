@@ -23,7 +23,8 @@ public class MedicalDoctorController {
                 new MedicalDoctor(
                         request.getWorkingCalendar(),
                         request.getClinic(),
-                        request.getAppointments());
+                        request.getAppointments()
+                );
 
         AddDoctorUseCase.addDoctor(doctor);
     }

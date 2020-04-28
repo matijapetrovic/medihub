@@ -13,13 +13,6 @@
                                 name="name" type="text"
                                 :rules="[requiredRule,]">
                                 </v-text-field>
-                                <!-- <v-select
-                                v-model="clinic"
-                                :items="clinics"
-                                label="Clinic"
-                                required
-                                item-text="name">
-                                </v-select> -->
                             </v-form>
                         </v-card-text>
                         <v-card-actions>

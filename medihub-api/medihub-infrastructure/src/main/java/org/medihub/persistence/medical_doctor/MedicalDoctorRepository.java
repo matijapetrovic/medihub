@@ -1,4 +1,4 @@
-package org.medihub.persistence.doctor;
+package org.medihub.persistence.medical_doctor;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

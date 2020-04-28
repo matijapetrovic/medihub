@@ -1,4 +1,4 @@
-package org.medihub.persistence.doctor;
+package org.medihub.persistence.medical_doctor;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.outgoing.LoadDoctorPort;
