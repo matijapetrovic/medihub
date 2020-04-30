@@ -12,8 +12,9 @@ public class ClinicAdapter implements SaveClinicPort {
     private final ClinicMapper mapper;
 
     @Override
-    public void saveClinic(Clinic clinic) {
+    public Clinic saveClinic(Clinic clinic) {
         ClinicJpaEntity saved =
                 clinicRepository.save(mapper.mapToJpaEntity(clinic));
+        return mapper.mapToDomainEntity(saved);
     }
 }

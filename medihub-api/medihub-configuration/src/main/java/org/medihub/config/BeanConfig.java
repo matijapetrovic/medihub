@@ -1,7 +1,7 @@
 package org.medihub.config;
 
 import org.medihub.application.ports.incoming.*;
-import org.medihub.application.ports.incoming.clinic.RegisterClinicUseCase;
+import org.medihub.application.ports.incoming.clinic.AddClinicUseCase;
 import org.medihub.application.ports.incoming.profile.GetProfileQuery;
 import org.medihub.application.ports.incoming.profile.UpdateProfileUseCase;
 import org.medihub.application.ports.outgoing.*;
@@ -26,9 +26,9 @@ public class BeanConfig {
     }
 
     @Bean
-    public RegisterClinicUseCase registerClinicUseCase(
+    public AddClinicUseCase registerClinicUseCase(
             SaveClinicPort saveClinicPort) {
-        return new RegisterClinicService(saveClinicPort);
+        return new AddClinicService(saveClinicPort);
     }
 
     @Bean
