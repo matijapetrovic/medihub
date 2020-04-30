@@ -164,10 +164,10 @@ export default {
     error: false,
   }),
   methods: {
-    ...mapActions('auth', ['register']),
+    ...mapActions('medicalDoctor', ['addMedicalDoctor']),
     submit() {
       if (this.validate()) {
-        this.register({
+        this.addMedicalDoctor({
           email: this.email,
           password: this.password,
           insuranceNum: this.insuranceNum,

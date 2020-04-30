@@ -5,6 +5,7 @@ import auth from '@/app/authentication/store';
 import profile from '@/app/profile/store';
 import apiClient from '@/utils';
 import clinicRooms from '@/app/clinic_room/store';
+import medicalDoctor from '@/app/medical_doctor/store';
 
 Vue.use(Vuex);
 
@@ -41,6 +42,7 @@ export default new Vuex.Store({
   modules: {
     auth,
     clinicRooms,
+    medicalDoctor,
     profile,
   },
 });
