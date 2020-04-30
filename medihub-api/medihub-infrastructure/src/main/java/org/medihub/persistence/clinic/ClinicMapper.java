@@ -17,7 +17,7 @@ public class ClinicMapper {
                 clinic.getDescription());
     }
 
-    ClinicJpaEntity mapToJpaEntity(Clinic clinic) {
+    public ClinicJpaEntity mapToJpaEntity(Clinic clinic) {
         return new ClinicJpaEntity(
                 clinic.getId(),
                 clinic.getName(),

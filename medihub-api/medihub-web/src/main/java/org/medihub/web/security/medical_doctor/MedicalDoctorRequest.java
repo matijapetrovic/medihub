@@ -7,6 +7,8 @@ import lombok.Setter;
 import org.medihub.domain.Appointment;
 import org.medihub.domain.Clinic;
 import org.medihub.domain.WorkingCalendar;
+
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Getter
@@ -14,9 +16,22 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MedicalDoctorRequest {
-    private WorkingCalendar workingCalendar;
 
-    private Clinic clinic;
+    private String email;
 
-    private Set<Appointment> appointments;
+    private String password;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String address;
+
+    private String city;
+
+    private String country;
+
+    private String telephoneNumber;
+
+    private boolean passwordChanged;
 }

@@ -6,6 +6,10 @@ import lombok.NoArgsConstructor;
 import org.medihub.domain.Appointment;
 import org.medihub.domain.Clinic;
 import org.medihub.domain.WorkingCalendar;
+import org.medihub.persistence.account.AccountJpaEntity;
+import org.medihub.persistence.appointment.AppointmentJpaEntity;
+import org.medihub.persistence.clinic.ClinicJpaEntity;
+import org.medihub.persistence.working_calendar.WorkingCalendarJpaEntity;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -21,18 +25,20 @@ public class MedicalDoctorJpaEntity {
     @GeneratedValue
     Long id;
 
-    @OneToOne
-    @JoinColumn(name = "working_calendar", referencedColumnName="id", nullable=true)
-    private WorkingCalendar workingCalendar;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="account_id")
+    private AccountJpaEntity account;
 
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "working_calendar", referencedColumnName="id", nullable=true)
+    private WorkingCalendarJpaEntity workingCalendarJpaEntity;
+
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="clinic", referencedColumnName="id", nullable=true)
-    private Clinic clinic;
+    private ClinicJpaEntity clinic;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name="appointments",
-            joinColumns = @JoinColumn(name="user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name="authority_id", referencedColumnName = "id"))
-    private Set<Appointment> appointments;
+    @JoinColumn(name="user_id", referencedColumnName = "id")
+    private Set<AppointmentJpaEntity> appointments;
 
 }
