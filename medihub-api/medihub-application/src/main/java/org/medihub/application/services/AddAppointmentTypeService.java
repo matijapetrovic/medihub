@@ -7,8 +7,7 @@ import org.medihub.application.ports.outgoing.SaveAppointmentTypePort;
 import org.medihub.domain.AppointmentType;
 
 @RequiredArgsConstructor
-public class AppointmentTypeService implements AddAppointmentTypeUseCase {
-    private final LoadAppointmentTypePort loadAppointmentTypePort;
+public class AddAppointmentTypeService implements AddAppointmentTypeUseCase {
     private final SaveAppointmentTypePort saveAppointmentTypePort;
 
     @Override

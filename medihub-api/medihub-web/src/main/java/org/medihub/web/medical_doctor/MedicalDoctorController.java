@@ -1,4 +1,4 @@
-package org.medihub.web.security.medical_doctor;
+package org.medihub.web.medical_doctor;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.AddDoctorUseCase;

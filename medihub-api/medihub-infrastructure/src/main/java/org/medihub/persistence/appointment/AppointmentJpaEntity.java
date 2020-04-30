@@ -3,11 +3,7 @@ package org.medihub.persistence.appointment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.medihub.domain.AppointmentType;
-import org.medihub.domain.ClinicRoom;
-import org.medihub.domain.Prescription;
 import org.medihub.persistence.appointment_type.AppointmentTypeJpaEntity;
-import org.medihub.persistence.clinic.ClinicJpaEntity;
 import org.medihub.persistence.clinic_room.ClinicRoomJpaEntity;
 import org.medihub.persistence.patient.PatientJpaEntity;
 import org.medihub.persistence.prescription.PrescriptionJpaEntity;
@@ -17,7 +13,7 @@ import java.util.Date;
 import java.util.Set;
 
 @Entity
-@Table(name="appointments")
+@Table(name="appointment")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

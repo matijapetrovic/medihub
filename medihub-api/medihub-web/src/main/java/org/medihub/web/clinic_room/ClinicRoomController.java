@@ -1,10 +1,9 @@
-package org.medihub.web.security.clinic_room;
+package org.medihub.web.clinic_room;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.ClinicRoomUseCase;
 import org.medihub.domain.ClinicRoom;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 

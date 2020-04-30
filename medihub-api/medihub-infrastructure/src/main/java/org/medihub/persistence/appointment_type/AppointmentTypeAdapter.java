@@ -10,20 +10,9 @@ import javax.persistence.EntityNotFoundException;
 
 @Component
 @RequiredArgsConstructor
-public class AppointmentTypeAdapter implements LoadAppointmentTypePort, SaveAppointmentTypePort {
+public class AppointmentTypeAdapter implements SaveAppointmentTypePort {
     private final AppointmentTypeMapper appointmentTypeMapper;
     private final AppointmentTypeRepository appointmentTypeRepository;
-
-
-    @Override
-    public AppointmentType loadAppointmentType(String name) {
-        AppointmentTypeJpaEntity appointmentTypeJpaEntity =
-                appointmentTypeRepository
-                        .findByName(name)
-                        .orElseThrow(EntityNotFoundException::new);
-
-        return appointmentTypeMapper.mapToDomainEntity(appointmentTypeJpaEntity);
-    }
 
     @Override
     public void saveAppointmentType(AppointmentType appointmentType) {

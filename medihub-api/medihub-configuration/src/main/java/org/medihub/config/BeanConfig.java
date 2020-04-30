@@ -79,9 +79,7 @@ public class BeanConfig {
     }
 
     @Bean
-    public AddAppointmentTypeUseCase getAddAppointmentTypeUseCase(LoadAppointmentTypePort loadAppointmentTypePort, SaveAppointmentTypePort saveAppointmentTypePort){
-        return new AppointmentTypeService(
-                loadAppointmentTypePort,
-                saveAppointmentTypePort);
+    public AddAppointmentTypeUseCase getAddAppointmentTypeUseCase(SaveAppointmentTypePort saveAppointmentTypePort){
+        return new AddAppointmentTypeService(saveAppointmentTypePort);
     }
 }

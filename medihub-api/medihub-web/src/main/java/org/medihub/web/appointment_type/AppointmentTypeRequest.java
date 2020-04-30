@@ -1,4 +1,4 @@
-package org.medihub.web.security.appointment_type;
+package org.medihub.web.appointment_type;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
