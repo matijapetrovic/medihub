@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class AccountMapper {
-    Account mapToDomainEntity(AccountJpaEntity account) {
+    public Account mapToDomainEntity(AccountJpaEntity account) {
         return new Account(
                 account.getId(),
                 account.getEmail(),
@@ -41,7 +41,7 @@ public class AccountMapper {
                 authority.getName());
     }
 
-    AccountJpaEntity mapToJpaEntity(Account account) {
+   public AccountJpaEntity mapToJpaEntity(Account account) {
         return new AccountJpaEntity(
                 account.getId(),
                 account.getEmail(),
