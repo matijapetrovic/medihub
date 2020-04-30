@@ -1,6 +1,7 @@
 package org.medihub.config;
 
 import org.medihub.application.ports.incoming.*;
+import org.medihub.application.ports.incoming.clinic.RegisterClinicUseCase;
 import org.medihub.application.ports.incoming.profile.GetProfileQuery;
 import org.medihub.application.ports.incoming.profile.UpdateProfileUseCase;
 import org.medihub.application.ports.outgoing.*;
@@ -22,6 +23,12 @@ public class BeanConfig {
             EncoderPort encoderPort,
             SaveAccountPort saveAccountPort) {
         return new ChangePasswordService(loadAccountPort, encoderPort, saveAccountPort);
+    }
+
+    @Bean
+    public RegisterClinicUseCase registerClinicUseCase(
+            SaveClinicPort saveClinicPort) {
+        return new RegisterClinicService(saveClinicPort);
     }
 
     @Bean
@@ -53,5 +60,21 @@ public class BeanConfig {
     @Bean
     public AddClinicAdminUseCase getAddClinicAdminUseCase(AddClinicAdminPort addClinicAdminPort) {
         return new AddClinicAdminService(addClinicAdminPort);
+    }
+
+    @Bean
+    public AddClinicRoomUseCase getClinicRoomUseCase(SaveClinicRoomPort saveClinicRoomPort, LoadClinicRoomPort loadClinicRoomPort){
+        return new AddClinicRoomService(
+                saveClinicRoomPort,
+                loadClinicRoomPort
+        );
+    }
+
+    @Bean
+    public AddDoctorUseCase getAddDoctorUseCase(LoadDoctorPort loadDoctorPort, SaveDoctorPort saveDoctorPorts){
+        return new AddMedicalDoctorService(
+                loadDoctorPort,
+                saveDoctorPorts
+        );
     }
 }

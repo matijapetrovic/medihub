@@ -9,7 +9,7 @@ public class TestService implements TestUseCase {
     private final TestPort testPort;
 
     @Override
-    public String doTest() {
+        public String doTest() {
         return testPort.loadTest().test();
     }
 }

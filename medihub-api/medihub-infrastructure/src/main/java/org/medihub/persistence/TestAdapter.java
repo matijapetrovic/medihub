@@ -12,6 +12,7 @@ import javax.persistence.EntityNotFoundException;
 public class TestAdapter implements TestPort {
     private final TestRepository repository;
     @Override
+
     public Test loadTest() {
         TestEntity testEntity = repository.findById(1L)
                 .orElseThrow(EntityNotFoundException::new);
