@@ -11,8 +11,8 @@ export default {
     },
   },
   actions: {
-    addClinicRoom({ commit }, payload) {
-      return api.addClinicRoom(payload)
+    addAppointmentType({ commit }, payload) {
+      return api.addAppointmentType(payload)
         .then(() => {
           commit('SET_PRICE', payload);
         })
@@ -22,8 +22,5 @@ export default {
     },
   },
   getters: {
-    clearPrice(price) {
-      return price = null;
-    },
   },
 };
