@@ -63,8 +63,8 @@ public class BeanConfig {
     }
 
     @Bean
-    public ClinicRoomUseCase getClinicRoomUseCase(SaveClinicRoomPort saveClinicRoomPort, LoadClinicRoomPort loadClinicRoomPort){
-        return new ClinicRoomService(
+    public AddClinicRoomUseCase getClinicRoomUseCase(SaveClinicRoomPort saveClinicRoomPort, LoadClinicRoomPort loadClinicRoomPort){
+        return new AddClinicRoomService(
                 saveClinicRoomPort,
                 loadClinicRoomPort
         );
@@ -72,7 +72,7 @@ public class BeanConfig {
 
     @Bean
     public AddDoctorUseCase getAddDoctorUseCase(LoadDoctorPort loadDoctorPort, SaveDoctorPort saveDoctorPorts){
-        return new MedicalDoctorService(
+        return new AddMedicalDoctorService(
                 loadDoctorPort,
                 saveDoctorPorts
         );
