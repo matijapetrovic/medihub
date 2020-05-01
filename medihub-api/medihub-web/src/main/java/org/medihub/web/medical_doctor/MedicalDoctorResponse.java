@@ -1,4 +1,4 @@
-package org.medihub.web.security.clinic_room;
+package org.medihub.web.medical_doctor;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClinicRoomRequest {
-    private String name;
+public class MedicalDoctorResponse {
+    private Long id;
 }

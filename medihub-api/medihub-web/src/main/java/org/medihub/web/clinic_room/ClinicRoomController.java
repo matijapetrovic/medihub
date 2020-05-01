@@ -1,4 +1,4 @@
-package org.medihub.web.security.clinic_room;
+package org.medihub.web.clinic_room;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.AddClinicRoomUseCase;

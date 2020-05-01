@@ -3,6 +3,7 @@ package org.medihub.domain.identity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.medihub.domain.Authority;
 import org.medihub.domain.PersonalInfo;
 
