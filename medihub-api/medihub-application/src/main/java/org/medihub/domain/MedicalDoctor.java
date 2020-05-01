@@ -11,7 +11,6 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 public class MedicalDoctor extends  MedicalStaff {
-    private Account account;
     private Set<Appointment> appointments;
 
     public MedicalDoctor(
@@ -20,8 +19,7 @@ public class MedicalDoctor extends  MedicalStaff {
             Clinic clinic,
             Set<Appointment> appointments
     ) {
-        super(workingCalendar, clinic);
-        this.account = account;
+        super(account, workingCalendar, clinic);
         this.appointments = appointments;
     }
 }
