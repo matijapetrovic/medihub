@@ -1,8 +1,8 @@
-package org.medihub.application.services;
+package org.medihub.application.services.clinic;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.clinic.AddClinicUseCase;
-import org.medihub.application.ports.outgoing.SaveClinicPort;
+import org.medihub.application.ports.outgoing.clinic.SaveClinicPort;
 import org.medihub.domain.Address;
 import org.medihub.domain.Clinic;
 

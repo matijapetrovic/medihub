@@ -1,12 +1,11 @@
 package org.medihub.persistence.account;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.outgoing.LoadAccountPort;
-import org.medihub.application.ports.outgoing.SaveAccountPort;
+import org.medihub.application.ports.outgoing.account.LoadAccountPort;
+import org.medihub.application.ports.outgoing.account.SaveAccountPort;
 import org.medihub.domain.identity.Account;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 @Component

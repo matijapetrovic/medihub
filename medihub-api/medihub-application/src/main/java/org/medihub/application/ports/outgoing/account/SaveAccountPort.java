@@ -1,4 +1,4 @@
-package org.medihub.application.ports.outgoing;
+package org.medihub.application.ports.outgoing.account;
 
 import org.medihub.domain.identity.Account;
 

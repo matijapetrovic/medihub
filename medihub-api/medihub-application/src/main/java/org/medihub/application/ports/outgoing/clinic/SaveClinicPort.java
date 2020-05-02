@@ -1,4 +1,4 @@
-package org.medihub.application.ports.outgoing;
+package org.medihub.application.ports.outgoing.clinic;
 
 import org.medihub.domain.Clinic;
 

@@ -1,7 +1,7 @@
 package org.medihub.persistence.clinic;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.outgoing.SaveClinicPort;
+import org.medihub.application.ports.outgoing.clinic.SaveClinicPort;
 import org.medihub.domain.Clinic;
 import org.springframework.stereotype.Component;
 

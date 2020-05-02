@@ -2,8 +2,8 @@ package org.medihub.web.security.authentication;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.AccountNotFoundException;
-import org.medihub.application.ports.incoming.ChangePasswordUseCase;
-import org.medihub.application.ports.incoming.ChangePasswordUseCase.ChangePasswordCommand;
+import org.medihub.application.ports.incoming.account.ChangePasswordUseCase;
+import org.medihub.application.ports.incoming.account.ChangePasswordUseCase.ChangePasswordCommand;
 import org.medihub.web.security.TokenUtil;
 import org.medihub.web.security.authentication.dto.*;
 import org.medihub.web.security.identity.CustomGrantedAuthority;

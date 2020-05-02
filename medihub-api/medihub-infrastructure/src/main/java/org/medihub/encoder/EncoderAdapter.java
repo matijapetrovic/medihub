@@ -1,7 +1,7 @@
 package org.medihub.encoder;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.outgoing.EncoderPort;
+import org.medihub.application.ports.outgoing.encoding.EncoderPort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 

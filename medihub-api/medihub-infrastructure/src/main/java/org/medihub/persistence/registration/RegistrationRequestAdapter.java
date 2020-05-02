@@ -1,7 +1,7 @@
 package org.medihub.persistence.registration;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.outgoing.SaveRegistrationRequestPort;
+import org.medihub.application.ports.outgoing.patient.SaveRegistrationRequestPort;
 import org.medihub.domain.patient.RegistrationRequest;
 import org.springframework.stereotype.Component;
 
