@@ -1,7 +1,7 @@
-import apiClient from '@/utils';
+import utils from '@/utils';
 
 export default {
   addAppointmentType(credentials) {
-    return apiClient.post('api/appointment-type/add', credentials);
+    return utils.apiClient.post('api/appointment-type/add', credentials);
   },
 };

@@ -1,7 +1,7 @@
-import apiClient from '@/utils';
+import utils from '@/utils';
 
 export default {
   addClinicRoom(credentials) {
-    return apiClient.post('api/clinic-room/add', credentials);
+    return utils.apiClient.post('api/clinic-room/add', credentials);
   },
 };

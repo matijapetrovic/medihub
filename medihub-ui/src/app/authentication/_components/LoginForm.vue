@@ -4,7 +4,6 @@
     sm="8"
     md="4"
   >
-    <p>{{ error }}</p>
     <v-card class="elevation-12">
       <v-toolbar
         color="primary"
@@ -58,7 +57,6 @@ export default {
   data: () => ({
     email: '',
     password: '',
-    error: null,
   }),
   methods: {
     ...mapActions('auth', ['login']),
@@ -71,9 +69,6 @@ export default {
           .then(() => {
             this.$router.push('/')
               .catch(() => {}); // https://github.com/vuejs/vue-router/issues/2881#issuecomment-520554378
-          })
-          .catch((err) => {
-            this.error = err.response.data.error;
           });
       }
     },

@@ -1,20 +1,11 @@
 <template>
-  <div class="home">
-    <h2>{{ getMessage }}</h2>
+  <div class="home text-center">
+    <h1>Welcome to MediHub</h1>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-
 export default {
   name: 'Home',
-  methods: {
-    ...mapActions(['test']),
-  },
-  computed: mapGetters(['getMessage']),
-  created() {
-    this.test();
-  },
 };
 </script>
