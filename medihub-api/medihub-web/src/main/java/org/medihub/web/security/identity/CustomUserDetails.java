@@ -3,11 +3,11 @@ package org.medihub.web.security.identity;
 import org.medihub.domain.identity.Account;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-
 
 public class CustomUserDetails implements UserDetails {
     private final Account account;

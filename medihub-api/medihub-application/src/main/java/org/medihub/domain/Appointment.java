@@ -9,7 +9,6 @@ import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
 public class Appointment {
     private Patient patient;
