@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ClinicMapper {
-
     public Clinic mapToDomainEntity(ClinicJpaEntity clinic) {
         return new Clinic(
                 clinic.getId(),

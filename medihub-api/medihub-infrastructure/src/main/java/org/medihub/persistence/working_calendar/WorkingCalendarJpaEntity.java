@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="working_calendars")
+@Table(name="working_calendar")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
