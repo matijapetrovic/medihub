@@ -6,5 +6,6 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class AppointmentType {
+    private Long id;
     private double price;
 }

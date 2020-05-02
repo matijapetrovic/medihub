@@ -9,6 +9,7 @@ import org.medihub.domain.identity.Account;
 @AllArgsConstructor
 @Getter
 public class MedicalStaff {
+    private Long id;
     private Account account;
     private WorkingCalendar workingCalendar;
     private Clinic clinic;

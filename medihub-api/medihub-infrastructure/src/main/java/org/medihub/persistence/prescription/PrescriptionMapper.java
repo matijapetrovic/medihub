@@ -1,5 +1,6 @@
 package org.medihub.persistence.prescription;
 
+import lombok.RequiredArgsConstructor;
 import org.medihub.domain.Prescription;
 import org.medihub.persistence.drug.DrugMapper;
 import org.medihub.persistence.medical_nurse.MedicalNurseMapper;
@@ -9,13 +10,15 @@ import java.util.Set;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Component
 public class PrescriptionMapper {
-    private final DrugMapper drugMapper = new DrugMapper();
-    private final MedicalNurseMapper medicalNurseMapper = new MedicalNurseMapper();
+    private final DrugMapper drugMapper;
+    private final MedicalNurseMapper medicalNurseMapper;
 
     public Prescription mapToDomainEntity (PrescriptionJpaEntity prescriptionJpaEntity){
         return new Prescription(
+                prescriptionJpaEntity.getId(),
                 drugMapper.mapToDomainEntity(prescriptionJpaEntity.getDrugJpaEntity()),
                 medicalNurseMapper.mapToDomainEntity(prescriptionJpaEntity.getMedicalNurseJpaEntity())
         );

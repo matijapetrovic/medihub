@@ -23,11 +23,8 @@ public class AppointmentJpaEntity {
     @GeneratedValue
     private Long id;
 
-
-    @ManyToOne
-    @JoinColumn(name="patient", referencedColumnName="id", nullable = false, unique = true)
-//    private PatientJpaEntity patientJpaEntity;
-    private String insuranceNumber;
+    @Column(name = "patient_id")
+    private Long patientId;
 
     @Column(name = "date")
     private Date date;

@@ -14,12 +14,13 @@ public class MedicalDoctor extends  MedicalStaff {
     private Set<Appointment> appointments;
 
     public MedicalDoctor(
+            Long id,
             Account account,
             WorkingCalendar workingCalendar,
             Clinic clinic,
             Set<Appointment> appointments
     ) {
-        super(account, workingCalendar, clinic);
+        super(id, account, workingCalendar, clinic);
         this.appointments = appointments;
     }
 }

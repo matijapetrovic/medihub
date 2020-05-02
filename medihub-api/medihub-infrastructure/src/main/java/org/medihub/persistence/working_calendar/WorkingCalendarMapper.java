@@ -7,10 +7,11 @@ import org.medihub.domain.WorkingCalendar;
 public class WorkingCalendarMapper {
 
     public WorkingCalendar mapToDomainEntity(WorkingCalendarJpaEntity workingCalendarJpaEntity){
-        return new WorkingCalendar();
+        return new WorkingCalendar(
+                workingCalendarJpaEntity.getId());
     }
 
     public WorkingCalendarJpaEntity mapToJpaEntity(WorkingCalendar workingCalendar){
-        return new WorkingCalendarJpaEntity();
+        return new WorkingCalendarJpaEntity(null);
     }
 }

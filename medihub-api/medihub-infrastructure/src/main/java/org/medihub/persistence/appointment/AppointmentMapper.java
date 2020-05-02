@@ -1,5 +1,7 @@
 package org.medihub.persistence.appointment;
 
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.medihub.domain.Appointment;
 import org.medihub.persistence.appointment_type.AppointmentTypeMapper;
 import org.medihub.persistence.clinic_room.ClinicRoomMapper;
@@ -11,16 +13,17 @@ import java.util.Set;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Component
 public class AppointmentMapper {
-    private final PatientMapper patientMapper = new PatientMapper();
-    private final ClinicRoomMapper clinicRoomMapper = new ClinicRoomMapper();
-    private final AppointmentTypeMapper appointmentTypeMapper = new AppointmentTypeMapper();
-    private final PrescriptionMapper prescriptionMapper = new PrescriptionMapper();
+    private final ClinicRoomMapper clinicRoomMapper;
+    private final AppointmentTypeMapper appointmentTypeMapper;
+    private final PrescriptionMapper prescriptionMapper;
 
     public Appointment mapToDomainEntity(AppointmentJpaEntity appointmentJpaEntity){
         return new Appointment(
-                patientMapper.mapToDomainEntity(appointmentJpaEntity.getPatientJpaEntity()),
+                appointmentJpaEntity.getId(),
+                appointmentJpaEntity.getPatientId(),
                 appointmentJpaEntity.getDate(),
                 appointmentJpaEntity.getDuration(),
                 clinicRoomMapper.mapToDomainEntity(appointmentJpaEntity.getClinicRoomJpaEntity()),
@@ -32,7 +35,7 @@ public class AppointmentMapper {
     public AppointmentJpaEntity mapToJpaEntity(Appointment appointment){
         return new AppointmentJpaEntity(
                 null,
-                patientMapper.mapToJpaEntity(appointment.getPatient()),
+                appointment.getPatientId(),
                 appointment.getDate(),
                 appointment.getDuration(),
                 clinicRoomMapper.mapToJpaEntity(appointment.getClinicRoom()),
