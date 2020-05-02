@@ -8,6 +8,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 public class ClinicalCenter {
+    private Long id;
     private String name;
     private DiagnosisCodebook diagnosisCodebook;
     private Set<Patient> patients;

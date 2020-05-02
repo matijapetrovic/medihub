@@ -1,4 +1,4 @@
-package org.medihub.application.ports.incoming;
+package org.medihub.application.ports.incoming.appointment_type;
 
 import org.medihub.domain.AppointmentType;
 

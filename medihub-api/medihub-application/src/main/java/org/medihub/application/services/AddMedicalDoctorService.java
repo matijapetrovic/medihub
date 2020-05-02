@@ -1,7 +1,7 @@
 package org.medihub.application.services;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.incoming.AddDoctorUseCase;
+import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase;
 import org.medihub.application.ports.outgoing.LoadDoctorPort;
 import org.medihub.application.ports.outgoing.SaveDoctorPort;
 import org.medihub.domain.MedicalDoctor;
