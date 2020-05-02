@@ -73,7 +73,6 @@ public class BeanConfig {
     @Bean
     public AddDoctorUseCase getAddDoctorUseCase(LoadDoctorPort loadDoctorPort, SaveDoctorPort saveDoctorPorts){
         return new AddMedicalDoctorService(
-                loadDoctorPort,
                 saveDoctorPorts
         );
     }
