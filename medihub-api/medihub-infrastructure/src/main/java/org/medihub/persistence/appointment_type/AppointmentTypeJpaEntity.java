@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name="appointment_types")
+@Table(name="appointment_type")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 public class AppointmentTypeMapper {
     public AppointmentType mapToDomainEntity(AppointmentTypeJpaEntity appointmentTypeJpaEntity){
         return new AppointmentType(
+                appointmentTypeJpaEntity.getId(),
                 appointmentTypeJpaEntity.getPrice());
     }
 

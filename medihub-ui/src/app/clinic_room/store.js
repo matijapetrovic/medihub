@@ -20,6 +20,15 @@ export default {
           console.log(err);
         });
     },
+    deleteClinicRoom({ commit }, payload) {
+      return api.deleteClinicRoom(payload)
+        .then(() => {
+          commit('SET_NAME', payload);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
   getters: {
   },

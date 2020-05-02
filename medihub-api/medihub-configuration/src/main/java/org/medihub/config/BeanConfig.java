@@ -1,7 +1,11 @@
 package org.medihub.config;
 
 import org.medihub.application.ports.incoming.*;
+import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase;
 import org.medihub.application.ports.incoming.clinic.RegisterClinicUseCase;
+import org.medihub.application.ports.incoming.clinic_room.AddClinicRoomUseCase;
+import org.medihub.application.ports.incoming.clinic_room.DeleteClinicRoomUseCase;
+import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase;
 import org.medihub.application.ports.incoming.profile.GetProfileQuery;
 import org.medihub.application.ports.incoming.profile.UpdateProfileUseCase;
 import org.medihub.application.ports.outgoing.*;
@@ -63,16 +67,15 @@ public class BeanConfig {
     }
 
     @Bean
-    public AddClinicRoomUseCase getClinicRoomUseCase(SaveClinicRoomPort saveClinicRoomPort, LoadClinicRoomPort loadClinicRoomPort){
+    public AddClinicRoomUseCase getClinicRoomUseCase(SaveClinicRoomPort saveClinicRoomPort){
         return new AddClinicRoomService(
-                saveClinicRoomPort,
-                loadClinicRoomPort
+                saveClinicRoomPort
         );
     }
 
     @Bean
-    public AddDoctorUseCase getAddDoctorUseCase(LoadDoctorPort loadDoctorPort, SaveDoctorPort saveDoctorPorts){
-        return new AddMedicalDoctorService(
+    public AddMedicalDoctorUseCase getAddDoctorUseCase(LoadDoctorPort loadDoctorPort, SaveDoctorPort saveDoctorPorts){
+        return new MedicalMedicalDoctorService(
                 loadDoctorPort,
                 saveDoctorPorts
         );
@@ -81,5 +84,10 @@ public class BeanConfig {
     @Bean
     public AddAppointmentTypeUseCase getAddAppointmentTypeUseCase(SaveAppointmentTypePort saveAppointmentTypePort){
         return new AddAppointmentTypeService(saveAppointmentTypePort);
+    }
+
+    @Bean
+    public DeleteClinicRoomUseCase getDeleteClinicRoomUseCase(DeleteClinicRoomPort deleteClinicRoomPort){
+        return new DeleteClinicRoomService(deleteClinicRoomPort);
     }
 }
