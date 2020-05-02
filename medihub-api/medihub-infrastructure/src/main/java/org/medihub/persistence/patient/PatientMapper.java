@@ -7,6 +7,9 @@ import org.medihub.persistence.appointment.AppointmentMapper;
 import org.medihub.persistence.medical_record.MedicalRecordMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Component
 public class PatientMapper {
@@ -32,5 +35,19 @@ public class PatientMapper {
                 medicalRecordMapper.mapToJpaEntity(patient.getMedicalRecord()),
                 appointmentMapper.mapToJpaSet(patient.getAppointments())
         );
+    }
+
+    public List<Patient> mapToDomainList(List<PatientJpaEntity> patientJpaEntities){
+        return patientJpaEntities
+                .stream()
+                .map(this::mapToDomainEntity)
+                .collect(Collectors.toList());
+    }
+
+    public List<PatientJpaEntity> mapToJpaList(List<Patient> patients){
+        return patients
+                .stream()
+                .map(this::mapToJpaEntity)
+                .collect(Collectors.toList());
     }
 }

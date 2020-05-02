@@ -6,6 +6,7 @@ import org.medihub.application.ports.incoming.clinic.RegisterClinicUseCase;
 import org.medihub.application.ports.incoming.clinic_room.AddClinicRoomUseCase;
 import org.medihub.application.ports.incoming.clinic_room.DeleteClinicRoomUseCase;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase;
+import org.medihub.application.ports.incoming.patient.LoadPatientUseCase;
 import org.medihub.application.ports.incoming.profile.GetProfileQuery;
 import org.medihub.application.ports.incoming.profile.UpdateProfileUseCase;
 import org.medihub.application.ports.outgoing.*;
@@ -89,5 +90,10 @@ public class BeanConfig {
     @Bean
     public DeleteClinicRoomUseCase getDeleteClinicRoomUseCase(DeleteClinicRoomPort deleteClinicRoomPort){
         return new DeleteClinicRoomService(deleteClinicRoomPort);
+    }
+
+    @Bean
+    public LoadPatientUseCase getLoadPatientPort(LoadPatientPort loadPatientPort){
+        return new LaodPatientService(loadPatientPort);
     }
 }
