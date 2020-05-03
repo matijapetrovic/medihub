@@ -23,6 +23,7 @@ public class MedicalDoctorController {
     @PostMapping("/add")
     void add(@RequestBody MedicalDoctorRequest request) {
         MedicalDoctor doctor = new MedicalDoctor(
+                        null,
                         new Account(
                         null,
                         request.getEmail(),
@@ -40,7 +41,7 @@ public class MedicalDoctorController {
                         request.isPasswordChanged(),
                                 null
                     ),
-                        new WorkingCalendar(),
+                        new WorkingCalendar(null),
                         new Clinic("clinic1", new Address("a", "london", "gb"),"desc"),
                         new HashSet<>()
                 );

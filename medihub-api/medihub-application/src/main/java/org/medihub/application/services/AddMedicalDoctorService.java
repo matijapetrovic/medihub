@@ -7,8 +7,7 @@ import org.medihub.application.ports.outgoing.SaveDoctorPort;
 import org.medihub.domain.MedicalDoctor;
 
 @RequiredArgsConstructor
-public class MedicalMedicalDoctorService implements AddMedicalDoctorUseCase {
-    private final LoadDoctorPort loadDoctorPort;
+public class AddMedicalDoctorService implements AddMedicalDoctorUseCase {
     private final SaveDoctorPort saveDoctorPort;
 
     @Override

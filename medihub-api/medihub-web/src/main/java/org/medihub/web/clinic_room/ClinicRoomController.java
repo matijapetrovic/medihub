@@ -1,13 +1,8 @@
 package org.medihub.web.clinic_room;
 
 import lombok.RequiredArgsConstructor;
-<<<<<<< HEAD
 import org.medihub.application.ports.incoming.clinic_room.AddClinicRoomUseCase;
 import org.medihub.application.ports.incoming.clinic_room.DeleteClinicRoomUseCase;
-import org.medihub.application.ports.outgoing.DeleteClinicRoomPort;
-=======
-import org.medihub.application.ports.incoming.AddClinicRoomUseCase;
->>>>>>> master
 import org.medihub.domain.ClinicRoom;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -23,7 +18,7 @@ public class ClinicRoomController {
 
     @PostMapping("/add")
     void add(@RequestBody ClinicRoomRequest request) {
-        ClinicRoom cr = new ClinicRoom(request.getName());
+        ClinicRoom cr = new ClinicRoom(null,request.getName());
         addClinicRoomUseCase.addClinicRoom(cr);
     }
 

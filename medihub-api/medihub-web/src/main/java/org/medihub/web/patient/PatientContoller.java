@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
@@ -20,6 +21,15 @@ public class PatientContoller {
 
     @GetMapping("/get/all")
     public List<?> getAall(){
-        return loadPatientPort.loadAllPatients();
+
+        return loadPatientPort.
+                loadAllPatients().
+                stream().
+                map(patient -> new PatientResponse(
+                        patient.getAccount().getPersonalInfo().getFirstName(),
+                        patient.getAccount().getPersonalInfo().getLastName(),
+                        patient.getAccount().getEmail(),
+                        patient.getAccount().getAddress()
+                        )).collect(Collectors.toList());
     }
 }
