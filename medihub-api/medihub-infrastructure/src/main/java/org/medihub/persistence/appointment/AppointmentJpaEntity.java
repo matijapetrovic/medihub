@@ -9,6 +9,7 @@ import org.medihub.persistence.patient.PatientJpaEntity;
 import org.medihub.persistence.prescription.PrescriptionJpaEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Set;
 
@@ -22,9 +23,8 @@ public class AppointmentJpaEntity {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name="patient", referencedColumnName="id", nullable=true)
-    private PatientJpaEntity patientJpaEntity;
+    @Column(name = "patient_id")
+    private Long patientId;
 
     @Column(name = "date")
     private Date date;
@@ -32,15 +32,15 @@ public class AppointmentJpaEntity {
     @Column(name = "duration")
     private double duration;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="clinic_room", referencedColumnName="id", nullable=true)
     private ClinicRoomJpaEntity clinicRoomJpaEntity;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="appointment_type", referencedColumnName="id", nullable=true)
     private AppointmentTypeJpaEntity appointmentTypeJpaEntity;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="prescriptions", referencedColumnName="id", nullable=true)
     private Set<PrescriptionJpaEntity> prescriptions;
 }

@@ -5,9 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.medihub.persistence.account.AccountJpaEntity;
+import org.medihub.persistence.appointment.AppointmentJpaEntity;
+import org.medihub.persistence.medical_record.MedicalRecordJpaEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Entity
 @Table(name="patient")
@@ -23,7 +26,15 @@ public class PatientJpaEntity {
     @NotNull
     private String insuranceNumber;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="account_id")
     private AccountJpaEntity account;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="medical_record_id")
+    private MedicalRecordJpaEntity medicalRecordJpaEntity;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="appointment_id")
+    private Set<AppointmentJpaEntity> appointmentJpaEntitySet;
 }

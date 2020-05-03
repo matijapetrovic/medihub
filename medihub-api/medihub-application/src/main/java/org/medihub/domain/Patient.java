@@ -10,6 +10,7 @@ import java.util.Set;
 @Getter
 public class Patient {
     private Long id;
+    private String insuranceNumber;
     private Account account;
     private MedicalRecord medicalRecord;
     private Set<Appointment> appointments;

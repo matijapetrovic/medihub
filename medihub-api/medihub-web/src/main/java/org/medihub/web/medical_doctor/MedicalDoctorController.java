@@ -1,7 +1,7 @@
 package org.medihub.web.medical_doctor;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.incoming.AddDoctorUseCase;
+import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase;
 import org.medihub.domain.*;
 import org.medihub.domain.identity.Account;
 import org.springframework.http.MediaType;
@@ -18,7 +18,7 @@ import java.util.HashSet;
 @RestController
 @RequestMapping(value = "/medical-doctor", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MedicalDoctorController {
-    private final AddDoctorUseCase AddDoctorUseCase;
+    private final AddMedicalDoctorUseCase AddMedicalDoctorUseCase;
 
     @PostMapping("/add")
     void add(@RequestBody MedicalDoctorRequest request) {
@@ -45,6 +45,6 @@ public class MedicalDoctorController {
                         new HashSet<>()
                 );
 
-        AddDoctorUseCase.addDoctor(doctor);
+        AddMedicalDoctorUseCase.addDoctor(doctor);
     }
 }

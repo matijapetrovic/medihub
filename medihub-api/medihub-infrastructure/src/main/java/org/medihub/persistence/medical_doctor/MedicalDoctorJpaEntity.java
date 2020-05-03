@@ -15,7 +15,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name="doctor")
+@Table(name="medical_doctor")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

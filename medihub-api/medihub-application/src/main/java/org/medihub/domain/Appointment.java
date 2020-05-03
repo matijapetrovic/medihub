@@ -11,7 +11,8 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 public class Appointment {
-    private Patient patient;
+    private Long id;
+    private Long patientId;
     private Date date;
     private double duration;
     private ClinicRoom clinicRoom;
