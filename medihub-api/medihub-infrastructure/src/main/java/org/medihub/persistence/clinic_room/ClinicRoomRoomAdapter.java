@@ -1,9 +1,9 @@
 package org.medihub.persistence.clinic_room;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.outgoing.DeleteClinicRoomPort;
-import org.medihub.application.ports.outgoing.LoadClinicRoomPort;
-import org.medihub.application.ports.outgoing.SaveClinicRoomPort;
+import org.medihub.application.ports.outgoing.clinic_room.DeleteClinicRoomPort;
+import org.medihub.application.ports.outgoing.clinic_room.LoadClinicRoomPort;
+import org.medihub.application.ports.outgoing.clinic_room.SaveClinicRoomPort;
 import org.medihub.domain.ClinicRoom;
 import org.springframework.stereotype.Component;
 

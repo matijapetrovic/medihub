@@ -23,7 +23,7 @@ public class MedicalDoctorController {
     @PostMapping("/add")
     void add(@RequestBody MedicalDoctorRequest request) {
         MedicalDoctor doctor = new MedicalDoctor(
-                        null,
+                null,
                         new Account(
                         null,
                         request.getEmail(),

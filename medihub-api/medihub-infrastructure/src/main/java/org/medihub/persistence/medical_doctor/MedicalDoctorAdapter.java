@@ -1,8 +1,8 @@
 package org.medihub.persistence.medical_doctor;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.outgoing.LoadDoctorPort;
-import org.medihub.application.ports.outgoing.SaveDoctorPort;
+import org.medihub.application.ports.outgoing.doctor.LoadDoctorPort;
+import org.medihub.application.ports.outgoing.doctor.SaveDoctorPort;
 import org.medihub.domain.MedicalDoctor;
 import org.springframework.stereotype.Component;
 
