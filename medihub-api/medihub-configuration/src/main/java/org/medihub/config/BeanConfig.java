@@ -2,6 +2,7 @@ package org.medihub.config;
 
 import org.medihub.application.ports.incoming.*;
 import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase;
+import org.medihub.application.ports.incoming.authentication.LoginUseCase;
 import org.medihub.application.ports.incoming.clinic_room.AddClinicRoomUseCase;
 import org.medihub.application.ports.incoming.clinic_room.DeleteClinicRoomUseCase;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase;
@@ -15,10 +16,17 @@ import org.medihub.application.ports.incoming.patient.RegisterPatientUseCase;
 import org.medihub.application.ports.outgoing.*;
 import org.medihub.application.ports.outgoing.account.LoadAccountPort;
 import org.medihub.application.ports.outgoing.account.SaveAccountPort;
-import org.medihub.application.ports.outgoing.appointment.LoadAppointmentTypePort;
+import org.medihub.application.ports.outgoing.appointment_type.LoadAppointmentTypePort;
+import org.medihub.application.ports.outgoing.appointment_type.SaveAppointmentTypePort;
 import org.medihub.application.ports.outgoing.clinic.SaveClinicPort;
+import org.medihub.application.ports.outgoing.clinic_room.DeleteClinicRoomPort;
+import org.medihub.application.ports.outgoing.clinic_room.SaveClinicRoomPort;
+import org.medihub.application.ports.outgoing.doctor.LoadDoctorPort;
+import org.medihub.application.ports.outgoing.doctor.SaveDoctorPort;
 import org.medihub.application.ports.outgoing.encoding.EncoderPort;
 import org.medihub.application.ports.outgoing.patient.SaveRegistrationRequestPort;
+import org.medihub.application.ports.outgoing.áuthentication.AuthenticationPort;
+import org.medihub.application.ports.outgoing.áuthentication.GetAuthenticatedPort;
 import org.medihub.application.services.*;
 import org.medihub.application.services.account.ChangePasswordService;
 import org.medihub.application.services.account.GetAccountService;
@@ -34,6 +42,11 @@ import org.springframework.context.annotation.Configuration;
 public class BeanConfig {
 
     @Bean
+    public LoginUseCase getLoginUseCase(AuthenticationPort authenticationPort) {
+        return new LoginService(authenticationPort);
+    }
+
+    @Bean
     public TestUseCase getTestUseCase(TestPort testPort) {
         return new TestService(testPort);
     }
@@ -45,10 +58,17 @@ public class BeanConfig {
 
     @Bean
     public ChangePasswordUseCase changePasswordUseCase(
+            AuthenticationPort authenticationPort,
+            GetAuthenticatedPort getAuthenticatedPort,
             LoadAccountPort loadAccountPort,
             EncoderPort encoderPort,
             SaveAccountPort saveAccountPort) {
-        return new ChangePasswordService(loadAccountPort, encoderPort, saveAccountPort);
+        return new ChangePasswordService(
+                authenticationPort,
+                getAuthenticatedPort,
+                loadAccountPort,
+                encoderPort,
+                saveAccountPort);
     }
 
     @Bean

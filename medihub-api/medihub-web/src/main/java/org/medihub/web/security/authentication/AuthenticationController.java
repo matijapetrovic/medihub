@@ -2,18 +2,16 @@ package org.medihub.web.security.authentication;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.AccountNotFoundException;
+import org.medihub.application.ports.incoming.authentication.LoginUseCase;
+import org.medihub.application.ports.incoming.authentication.LoginUseCase.LoginCommand;
 import org.medihub.application.ports.incoming.account.ChangePasswordUseCase;
 import org.medihub.application.ports.incoming.account.ChangePasswordUseCase.ChangePasswordCommand;
+import org.medihub.domain.identity.Account;
+import org.medihub.domain.identity.Authority;
 import org.medihub.web.security.TokenUtil;
 import org.medihub.web.security.authentication.dto.*;
-import org.medihub.web.security.identity.CustomGrantedAuthority;
-import org.medihub.web.security.identity.CustomUserDetails;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,48 +24,41 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class AuthenticationController {
+    private final LoginUseCase loginUseCase;
     private final ChangePasswordUseCase changePasswordUseCase;
-    private final AuthenticationManager authenticationManager;
     private final TokenUtil tokenUtil;
 
     @PostMapping("/login")
     ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
-        final CustomUserDetails userDetails = authenticate(request);
-        final LoginResponse response = createLoginResponse(userDetails);
+        LoginCommand command = new LoginCommand(request.getEmail(), request.getPassword());
+        LoginResponse response = mapToLoginResponse(loginUseCase.login(command));
         return ResponseEntity.ok(response);
     }
 
-    private CustomUserDetails authenticate(LoginRequest request) {
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(
-                        request.getEmail(), request.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        return (CustomUserDetails) authentication.getPrincipal();
-    }
-
-    private LoginResponse createLoginResponse(CustomUserDetails userDetails) {
-        final String token = getToken(userDetails);
+    private LoginResponse mapToLoginResponse(Account account) {
+        final String token = getToken(account.getEmail());
         return new LoginResponse(
                 token,
-                mapRoles(userDetails.getCustomGrantedAuthorities()),
-                userDetails.isPasswordChanged(),
+                mapRoles(account.getAuthorities()),
+                account.isPasswordChanged(),
                 tokenUtil.getExpiresIn());
     }
 
-    private String getToken(CustomUserDetails userDetails) {
-        return tokenUtil.generateToken(userDetails.getUsername());
+    private String getToken(String email) {
+        return tokenUtil.generateToken(email);
     }
 
-    private List<String> mapRoles(List<CustomGrantedAuthority> authorities) {
+    private List<String> mapRoles(List<Authority> authorities) {
         return authorities
                 .stream()
-                .map(CustomGrantedAuthority::getAuthority)
+                .map(Authority::getName)
                 .collect(Collectors.toList());
     }
 
     @PostMapping("/password")
     ResponseEntity<?> changePassword(@RequestBody PasswordRequest request) throws AccountNotFoundException {
-        boolean changed = changePassword(request.getOldPassword(), request.getNewPassword());
+        ChangePasswordCommand command = new ChangePasswordCommand(request.getOldPassword(), request.getNewPassword());
+        boolean changed = changePasswordUseCase.changePassword(command);
         if (changed) {
             return ResponseEntity
                     .accepted()
@@ -80,26 +71,4 @@ public class AuthenticationController {
         }
     }
 
-    public boolean changePassword(String oldPassword, String newPassword) throws AccountNotFoundException {
-        String email = getCurrentUserEmail();
-        if (!reAuthenticateUser(email, oldPassword))
-            return false;
-
-        ChangePasswordCommand command = new ChangePasswordCommand(email, newPassword);
-        return changePasswordUseCase.changePassword(command);
-    }
-
-    public boolean reAuthenticateUser(String email, String oldPassword) {
-        if (authenticationManager == null) {
-            // throw exception
-            return false;
-        }
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, oldPassword));
-        return true;
-    }
-
-    public String getCurrentUserEmail() {
-        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-        return currentUser.getName();
-    }
 }

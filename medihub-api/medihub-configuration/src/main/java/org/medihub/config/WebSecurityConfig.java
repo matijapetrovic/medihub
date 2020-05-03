@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.medihub.web.security.TokenUtil;
 import org.medihub.web.security.authentication.JWTAuthenticationEntryPoint;
 import org.medihub.web.security.authentication.JWTAuthenticationFilter;
-import org.medihub.web.security.identity.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -3,8 +3,7 @@ package org.medihub.application.services.clinic;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.clinic.SearchClinicsOutput;
 import org.medihub.application.ports.incoming.clinic.SearchClinicsQuery;
-import org.medihub.application.ports.outgoing.appointment.LoadAppointmentTypePort;
-import org.medihub.application.ports.outgoing.clinic.SearchClinicsPort;
+import org.medihub.application.ports.outgoing.appointment_type.LoadAppointmentTypePort;
 import org.medihub.domain.AppointmentType;
 import org.medihub.domain.Clinic;
 

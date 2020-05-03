@@ -1,8 +1,8 @@
 package org.medihub.persistence.appointment_type;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.outgoing.SaveAppointmentTypePort;
-import org.medihub.application.ports.outgoing.appointment.LoadAppointmentTypePort;
+import org.medihub.application.ports.outgoing.appointment_type.SaveAppointmentTypePort;
+import org.medihub.application.ports.outgoing.appointment_type.LoadAppointmentTypePort;
 import org.medihub.domain.AppointmentType;
 import org.springframework.stereotype.Component;
 

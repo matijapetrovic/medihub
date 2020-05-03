@@ -16,14 +16,14 @@ public interface ChangePasswordUseCase {
     class ChangePasswordCommand extends SelfValidating<ChangePasswordCommand> {
 
         @NotNull
-        String email;
+        String oldPassword;
         @Password
         String newPassword;
 
         public ChangePasswordCommand(
-                String email,
+                String oldPassword,
                 String newPassword) {
-            this.email = email;
+            this.oldPassword = oldPassword;
             this.newPassword = newPassword;
             this.validateSelf();
         }
