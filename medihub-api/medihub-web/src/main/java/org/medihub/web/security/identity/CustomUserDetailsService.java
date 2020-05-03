@@ -2,7 +2,7 @@ package org.medihub.web.security.identity;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.AccountNotFoundException;
-import org.medihub.application.ports.incoming.GetAccountQuery;
+import org.medihub.application.ports.incoming.account.GetAccountQuery;
 import org.medihub.domain.identity.Account;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

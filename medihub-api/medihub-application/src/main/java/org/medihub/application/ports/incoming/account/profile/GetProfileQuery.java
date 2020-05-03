@@ -1,4 +1,4 @@
-package org.medihub.application.ports.incoming.profile;
+package org.medihub.application.ports.incoming.account.profile;
 
 import org.medihub.application.exceptions.AccountNotFoundException;
 

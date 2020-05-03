@@ -2,10 +2,10 @@ package org.medihub.web.profile;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.AccountNotFoundException;
-import org.medihub.application.ports.incoming.profile.GetProfileOutput;
-import org.medihub.application.ports.incoming.profile.GetProfileQuery;
-import org.medihub.application.ports.incoming.profile.UpdateProfileUseCase;
-import org.medihub.application.ports.incoming.profile.UpdateProfileUseCase.UpdateProfileCommand;
+import org.medihub.application.ports.incoming.account.profile.GetProfileOutput;
+import org.medihub.application.ports.incoming.account.profile.GetProfileQuery;
+import org.medihub.application.ports.incoming.account.profile.UpdateProfileUseCase;
+import org.medihub.application.ports.incoming.account.profile.UpdateProfileUseCase.UpdateProfileCommand;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;

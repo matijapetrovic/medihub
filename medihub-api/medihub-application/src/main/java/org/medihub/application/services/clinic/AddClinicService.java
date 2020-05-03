@@ -1,17 +1,17 @@
-package org.medihub.application.services;
+package org.medihub.application.services.clinic;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.incoming.clinic.RegisterClinicUseCase;
-import org.medihub.application.ports.outgoing.SaveClinicPort;
+import org.medihub.application.ports.incoming.clinic.AddClinicUseCase;
+import org.medihub.application.ports.outgoing.clinic.SaveClinicPort;
 import org.medihub.domain.Address;
 import org.medihub.domain.Clinic;
 
 @RequiredArgsConstructor
-public class RegisterClinicService implements RegisterClinicUseCase {
+public class AddClinicService implements AddClinicUseCase {
     private final SaveClinicPort saveClinicPort;
 
     @Override
-    public void registerClinic(RegisterClinicCommand command) {
+    public Clinic addClinic(AddClinicCommand command) {
         Clinic clinic = new Clinic(
                 command.getName(),
                 new Address(
@@ -19,6 +19,6 @@ public class RegisterClinicService implements RegisterClinicUseCase {
                         command.getCity(),
                         command.getCountry()),
                 command.getDescription());
-        saveClinicPort.saveClinic(clinic);
+        return saveClinicPort.saveClinic(clinic);
     }
 }

@@ -2,8 +2,8 @@ package org.medihub.web.registration;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.AccountNotFoundException;
-import org.medihub.application.ports.incoming.RegisterPatientUseCase;
-import org.medihub.application.ports.incoming.RegisterPatientUseCase.RegisterPatientCommand;
+import org.medihub.application.ports.incoming.patient.RegisterPatientUseCase;
+import org.medihub.application.ports.incoming.patient.RegisterPatientUseCase.RegisterPatientCommand;
 import org.medihub.domain.patient.RegistrationRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

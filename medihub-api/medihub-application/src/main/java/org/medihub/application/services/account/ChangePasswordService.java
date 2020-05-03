@@ -1,14 +1,12 @@
-package org.medihub.application.services;
+package org.medihub.application.services.account;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.AccountNotFoundException;
-import org.medihub.application.ports.incoming.ChangePasswordUseCase;
-import org.medihub.application.ports.outgoing.EncoderPort;
-import org.medihub.application.ports.outgoing.LoadAccountPort;
-import org.medihub.application.ports.outgoing.SaveAccountPort;
+import org.medihub.application.ports.incoming.account.ChangePasswordUseCase;
+import org.medihub.application.ports.outgoing.encoding.EncoderPort;
+import org.medihub.application.ports.outgoing.account.LoadAccountPort;
+import org.medihub.application.ports.outgoing.account.SaveAccountPort;
 import org.medihub.domain.identity.Account;
-
-import java.util.Optional;
 
 @RequiredArgsConstructor
 public class ChangePasswordService implements ChangePasswordUseCase {

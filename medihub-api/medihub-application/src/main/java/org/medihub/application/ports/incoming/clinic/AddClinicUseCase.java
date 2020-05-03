@@ -3,15 +3,16 @@ package org.medihub.application.ports.incoming.clinic;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 import org.medihub.common.SelfValidating;
+import org.medihub.domain.Clinic;
 
 import javax.validation.constraints.NotNull;
 
-public interface RegisterClinicUseCase {
-    void registerClinic(RegisterClinicCommand command);
+public interface AddClinicUseCase {
+    Clinic addClinic(AddClinicCommand command);
 
     @Value
     @EqualsAndHashCode(callSuper = false)
-    class RegisterClinicCommand extends SelfValidating<RegisterClinicCommand> {
+    class AddClinicCommand extends SelfValidating<AddClinicCommand> {
         @NotNull
         String name;
         @NotNull
@@ -23,7 +24,7 @@ public interface RegisterClinicUseCase {
         @NotNull
         String description;
 
-        public RegisterClinicCommand(
+        public AddClinicCommand(
                 String name,
                 String address,
                 String city,
