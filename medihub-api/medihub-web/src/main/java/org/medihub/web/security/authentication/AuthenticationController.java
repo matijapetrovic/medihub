@@ -57,7 +57,6 @@ public class AuthenticationController {
     }
 
     @PostMapping("/password")
-    @PreAuthorize("hasRole('ROLE_CLINIC_CENTER_ADMIN')")
     ResponseEntity<?> changePassword(@RequestBody PasswordRequest request) throws AccountNotFoundException {
         ChangePasswordCommand command = new ChangePasswordCommand(request.getOldPassword(), request.getNewPassword());
         boolean changed = changePasswordUseCase.changePassword(command);
