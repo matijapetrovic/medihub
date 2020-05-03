@@ -1,7 +1,7 @@
 package org.medihub.persistence.clinic;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.outgoing.SaveClinicPort;
+import org.medihub.application.ports.outgoing.clinic.SaveClinicPort;
 import org.medihub.domain.Clinic;
 import org.springframework.stereotype.Component;
 
@@ -12,8 +12,9 @@ public class ClinicAdapter implements SaveClinicPort {
     private final ClinicMapper mapper;
 
     @Override
-    public void saveClinic(Clinic clinic) {
+    public Clinic saveClinic(Clinic clinic) {
         ClinicJpaEntity saved =
                 clinicRepository.save(mapper.mapToJpaEntity(clinic));
+        return mapper.mapToDomainEntity(saved);
     }
 }

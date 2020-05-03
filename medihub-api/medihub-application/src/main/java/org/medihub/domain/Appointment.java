@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.Set;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
 public class Appointment {
     private Long id;

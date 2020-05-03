@@ -3,7 +3,7 @@ package org.medihub.persistence.account;
 import org.medihub.domain.Address;
 import org.medihub.domain.PersonalInfo;
 import org.medihub.domain.identity.Account;
-import org.medihub.domain.Authority;
+import org.medihub.domain.identity.Authority;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

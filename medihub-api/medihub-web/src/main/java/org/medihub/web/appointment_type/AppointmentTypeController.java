@@ -21,6 +21,6 @@ public class AppointmentTypeController {
     private void  add(@RequestBody AppointmentTypeRequest appointmentTypeRequest){
 
         addAppointmentTypeUseCase.addAppointmentType(
-                new AppointmentType(appointmentTypeRequest.getPrice()));
+                new AppointmentType(null, appointmentTypeRequest.getPrice()));
     }
 }
