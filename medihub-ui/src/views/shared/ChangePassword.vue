@@ -14,7 +14,6 @@
           md="4"
         >
           <p>You must change your password after logging in for the first time</p>
-          <p class="error">{{ error }}</p>
           <ChangePasswordForm/>
         </v-col>
       </v-row>
@@ -32,9 +31,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-p.error {
-  color: red;
-}
-</style>

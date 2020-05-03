@@ -1,3 +1,4 @@
+import utils from '@/utils';
 import api from './api';
 
 export default {
@@ -18,23 +19,25 @@ export default {
     },
   },
   actions: {
-    updateProfile({ state }) {
+    updateProfile({ state, dispatch }) {
       return api
         .updateProfile(state.profile)
         .then(() => {
+          const message = 'Profile update successful';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
         })
         .catch((err) => {
-          console.log(err);
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
-    fetchProfile({ commit }) {
+    fetchProfile({ commit, dispatch }) {
       return api
         .fetchProfile()
         .then((data) => {
           commit('SET_PROFILE', data.data);
         })
         .catch((err) => {
-          console.log(err);
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
   },

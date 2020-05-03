@@ -1,10 +1,10 @@
-import apiClient from '@/utils';
+import utils from '@/utils';
 
 export default {
   updateProfile(payload) {
-    return apiClient.post('api/profile', payload);
+    return utils.apiClient.post('api/profile', payload);
   },
   fetchProfile() {
-    return apiClient.get('api/profile');
+    return utils.apiClient.get('api/profile');
   },
 };
