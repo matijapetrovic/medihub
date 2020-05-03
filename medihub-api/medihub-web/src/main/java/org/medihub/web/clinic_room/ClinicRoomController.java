@@ -24,7 +24,7 @@ public class ClinicRoomController {
 
     @PostMapping("/delete")
     void delete(@RequestBody ClinicRoomRequest request){
-        ClinicRoom cr = new ClinicRoom(request.getName());
+        ClinicRoom cr = new ClinicRoom(null, request.getName());
         deleteClinicRoomUseCase.deleteClinicRoom(cr.getName());
     }
 }

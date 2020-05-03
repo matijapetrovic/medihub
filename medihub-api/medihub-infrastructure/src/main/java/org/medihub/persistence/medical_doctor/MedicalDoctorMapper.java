@@ -13,9 +13,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Component
 public class MedicalDoctorMapper {
-    private AccountMapper accountMapper;
-    private WorkingCalendarMapper workingCalendarMapper;
-    private ClinicMapper clinicMapper;
+    private final AccountMapper accountMapper;
+    private final WorkingCalendarMapper workingCalendarMapper;
+    private final ClinicMapper clinicMapper;
 
     public MedicalDoctor mapToDomainEntity(MedicalDoctorJpaEntity medicalDoctorJpaEntity){
         return new MedicalDoctor(

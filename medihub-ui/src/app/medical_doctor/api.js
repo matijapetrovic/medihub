@@ -1,7 +1,7 @@
-import apiClient from '@/utils';
+import utils from '@/utils';
 
 export default {
   addMedicalDoctor(credentials) {
-    return apiClient.post('api/medical-doctor/add', credentials);
+    return utils.apiClient.post('api/medical-doctor/add', credentials);
   },
 };

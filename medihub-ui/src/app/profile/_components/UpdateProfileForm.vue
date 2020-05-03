@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p :class="{ success: !error, failure: error }">{{ message }}</p>
     <v-card class="elevation-12">
       <v-toolbar
         color="primary"
@@ -106,10 +105,6 @@ import { mapActions } from 'vuex';
 
 export default {
   name: 'UpdateProfileForm',
-  data: () => ({
-    error: false,
-    message: '',
-  }),
   computed: {
     profile: {
       get() {
@@ -130,14 +125,7 @@ export default {
     ...mapActions('profile', ['fetchProfile', 'updateProfile']),
     submit() {
       if (this.validate()) {
-        this.updateProfile().then(() => {
-          this.error = false;
-          this.message = 'Updated profile successfully.';
-        })
-          .catch((err) => {
-            this.error = true;
-            this.message = err.response.data.message;
-          });
+        this.updateProfile();
       }
     },
     validate() {
