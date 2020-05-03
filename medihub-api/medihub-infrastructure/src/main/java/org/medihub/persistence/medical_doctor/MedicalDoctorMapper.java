@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.medihub.domain.*;
 import org.medihub.persistence.account.AccountMapper;
 import org.medihub.persistence.appointment.AppointmentJpaEntity;
+import org.medihub.persistence.appointment.AppointmentMapper;
 import org.medihub.persistence.clinic.ClinicMapper;
 import org.medihub.persistence.working_calendar.WorkingCalendarMapper;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ public class MedicalDoctorMapper {
     private final AccountMapper accountMapper;
     private final WorkingCalendarMapper workingCalendarMapper;
     private final ClinicMapper clinicMapper;
+    private final AppointmentMapper appointmentMapper;
 
     public MedicalDoctor mapToDomainEntity(MedicalDoctorJpaEntity medicalDoctorJpaEntity){
         return new MedicalDoctor(
@@ -26,7 +28,7 @@ public class MedicalDoctorMapper {
                 medicalDoctorJpaEntity
                         .getAppointments()
                         .stream()
-                        .map(appointmentJpa -> new Appointment())
+                        .map(appointmentMapper::mapToDomainEntity)
                         .collect(Collectors.toSet())
         );
     }
