@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.medihub.web.security.TokenUtil;
 import org.medihub.web.security.authentication.JWTAuthenticationEntryPoint;
 import org.medihub.web.security.authentication.JWTAuthenticationFilter;
-import org.medihub.web.security.identity.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +25,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final JWTAuthenticationEntryPoint restAuthenticationEntryPoint;
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
     private final TokenUtil tokenUtil;
 
     @Bean
@@ -38,11 +37,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
-    }
-
-    @Autowired
-    public void setUserDetailsService(CustomUserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
     }
 
     @Autowired

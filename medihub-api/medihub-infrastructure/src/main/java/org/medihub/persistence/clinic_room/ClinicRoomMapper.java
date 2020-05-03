@@ -8,6 +8,7 @@ public class ClinicRoomMapper {
 
     public ClinicRoom mapToDomainEntity(ClinicRoomJpaEntity clinicRoomJpaEntity){
         return new ClinicRoom(
+                clinicRoomJpaEntity.getId(),
                 clinicRoomJpaEntity.getName());
     }
 

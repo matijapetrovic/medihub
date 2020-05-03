@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 import java.util.Set;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 public class Appointment {
-    private Patient patient;
+    private Long id;
+    private Long patientId;
     private Date date;
     private double duration;
     private ClinicRoom clinicRoom;

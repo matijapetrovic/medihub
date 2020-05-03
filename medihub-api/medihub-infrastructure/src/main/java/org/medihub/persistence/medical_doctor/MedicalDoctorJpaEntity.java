@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.medihub.domain.Appointment;
 import org.medihub.domain.Clinic;
 import org.medihub.domain.WorkingCalendar;
+import org.medihub.persistence.account.AccountJpaEntity;
 import org.medihub.persistence.appointment.AppointmentJpaEntity;
 import org.medihub.persistence.clinic.ClinicJpaEntity;
 import org.medihub.persistence.working_calendar.WorkingCalendarJpaEntity;
@@ -25,17 +26,19 @@ public class MedicalDoctorJpaEntity {
     Long id;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="account_id")
+    private AccountJpaEntity account;
+
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "working_calendar", referencedColumnName="id", nullable=true)
     private WorkingCalendarJpaEntity workingCalendarJpaEntity;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="clinic", referencedColumnName="id", nullable=true)
-    private ClinicJpaEntity clinicJpaEntity;
+    private ClinicJpaEntity clinic;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name="appointments",
-            joinColumns = @JoinColumn(name="user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name="authority_id", referencedColumnName = "id"))
+    @JoinColumn(name="user_id", referencedColumnName = "id")
     private Set<AppointmentJpaEntity> appointments;
 
 }

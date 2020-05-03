@@ -1,3 +1,4 @@
+import utils from '@/utils';
 import api from './api';
 
 export default {
@@ -26,33 +27,43 @@ export default {
     },
   },
   actions: {
-    register({ commit }, payload) {
+    register({ commit, dispatch }, payload) {
       return api.register(payload)
         .then(() => {
           commit('SET_REGISTER_SUCCESS', true);
         })
         .catch((err) => {
-          console.log(err);
           commit('SET_REGISTER_SUCCESS', false);
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
-    login({ commit }, credentials) {
+    login({ commit, dispatch }, credentials) {
       return api.login(credentials)
         .then(({ data }) => {
           commit('SET_USER_DATA', data);
+          const message = 'Log in successful';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
+        })
+        .catch((err) => {
+          console.log(err.response);
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
-    logout({ commit }) {
+    logout({ commit, dispatch }) {
       commit('CLEAR_USER_DATA');
+      const message = 'Log out successful';
+      dispatch('notifications/add', utils.successNotification(message), { root: true });
     },
-    changePassword({ commit }, credentials) {
+    changePassword({ commit, dispatch }, credentials) {
       return api
         .changePassword(credentials)
         .then(() => {
           commit('SET_PASSWORD_CHANGED');
+          const message = 'Password change successful';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
         })
         .catch((err) => {
-          console.log(err);
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
   },

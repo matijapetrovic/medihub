@@ -38,11 +38,6 @@ export default {
   name: 'AddClinicRoomForm',
   data: () => ({
     name: null,
-    // clinic: null,
-    // clinics: [
-    //   { name: 'clinic1' },
-    //   { name: 'clinic2' },
-    // ],
   }),
   methods: {
     ...mapActions('clinicRooms', ['addClinicRoom']),

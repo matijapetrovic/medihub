@@ -1,40 +1,47 @@
 package org.medihub.persistence.medical_doctor;
 
-import org.medihub.domain.Appointment;
-import org.medihub.domain.MedicalDoctor;
-import org.medihub.domain.WorkingCalendar;
+import lombok.RequiredArgsConstructor;
+import org.medihub.domain.*;
+import org.medihub.persistence.account.AccountMapper;
 import org.medihub.persistence.appointment.AppointmentJpaEntity;
+import org.medihub.persistence.appointment.AppointmentMapper;
 import org.medihub.persistence.clinic.ClinicMapper;
-import org.medihub.persistence.working_calendar.WorkingCalendarJpaEntity;
+import org.medihub.persistence.working_calendar.WorkingCalendarMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Component
 public class MedicalDoctorMapper {
-    private final ClinicMapper clinicMapper = new ClinicMapper();
+    private final AccountMapper accountMapper;
+    private final WorkingCalendarMapper workingCalendarMapper;
+    private final ClinicMapper clinicMapper;
+    private final AppointmentMapper appointmentMapper;
 
     public MedicalDoctor mapToDomainEntity(MedicalDoctorJpaEntity medicalDoctorJpaEntity){
         return new MedicalDoctor(
-                new WorkingCalendar(),
-                clinicMapper.mapToDomainEntity(medicalDoctorJpaEntity.getClinicJpaEntity()),
-                medicalDoctorJpaEntity.
-                        getAppointments()
+                medicalDoctorJpaEntity.getId(),
+                accountMapper.mapToDomainEntity(medicalDoctorJpaEntity.getAccount()),
+                workingCalendarMapper.mapToDomainEntity(medicalDoctorJpaEntity.getWorkingCalendarJpaEntity()),
+                clinicMapper.mapToDomainEntity(medicalDoctorJpaEntity.getClinic()),
+                medicalDoctorJpaEntity
+                        .getAppointments()
                         .stream()
-                        .map(appointment -> new Appointment())
+                        .map(appointmentMapper::mapToDomainEntity)
                         .collect(Collectors.toSet())
-                );
+        );
     }
 
     public MedicalDoctorJpaEntity mapToJpaEntity(MedicalDoctor medicalDoctor){
         return new MedicalDoctorJpaEntity(
                 null,
-                new WorkingCalendarJpaEntity(),
+                accountMapper.mapToJpaEntity(medicalDoctor.getAccount()),
+                workingCalendarMapper.mapToJpaEntity(medicalDoctor.getWorkingCalendar()),
                 clinicMapper.mapToJpaEntity(medicalDoctor.getClinic()),
-                medicalDoctor.
-                        getAppointments()
+                medicalDoctor.getAppointments()
                         .stream()
-                        .map(appointment -> new AppointmentJpaEntity())
+                        .map(appointmentJpa -> new AppointmentJpaEntity())
                         .collect(Collectors.toSet())
         );
     }

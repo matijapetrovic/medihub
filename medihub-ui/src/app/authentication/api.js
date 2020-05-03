@@ -1,17 +1,17 @@
-import apiClient from '@/utils';
+import utils from '@/utils';
 
 export default {
   setToken(token) {
     console.log(token);
-    apiClient.defaults.headers.common.Authorization = `Bearer ${token}`;
+    utils.apiClient.defaults.headers.common.Authorization = `Bearer ${token}`;
   },
   register(payload) {
-    return apiClient.post('api/registration', payload);
+    return utils.apiClient.post('api/registration', payload);
   },
   login(credentials) {
-    return apiClient.post('api/auth/login', credentials);
+    return utils.apiClient.post('api/auth/login', credentials);
   },
   changePassword(credentials) {
-    return apiClient.post('api/auth/password', credentials);
+    return utils.apiClient.post('api/auth/password', credentials);
   },
 };

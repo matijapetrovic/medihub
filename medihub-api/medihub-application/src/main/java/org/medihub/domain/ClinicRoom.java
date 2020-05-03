@@ -8,5 +8,6 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 public class ClinicRoom {
+    private Long id;
     private String name;
 }

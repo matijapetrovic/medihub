@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p :class="{ success: !error, failure: error }">{{ message }}</p>
     <v-card class="elevation-12">
       <v-toolbar
         color="primary"
@@ -64,8 +63,6 @@ export default {
     oldPassword: '',
     newPassword: '',
     confirmNewPassword: '',
-    error: false,
-    message: '',
   }),
   methods: {
     ...mapActions('auth', ['changePassword']),
@@ -75,17 +72,17 @@ export default {
           oldPassword: this.oldPassword,
           newPassword: this.newPassword,
         }).then(() => {
-          this.error = false;
-          this.message = 'Registration request sent successfully.';
-        })
-          .catch((err) => {
-            this.error = true;
-            this.message = err.response.data.message;
-          });
+          this.reset();
+        });
       }
     },
     validate() {
       return this.$refs.form.validate();
+    },
+    reset() {
+      this.oldPassword = '';
+      this.newPassword = '';
+      this.confirmNewPassword = '';
     },
   },
   computed: {
