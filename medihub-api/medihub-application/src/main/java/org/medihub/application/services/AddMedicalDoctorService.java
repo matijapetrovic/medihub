@@ -6,6 +6,7 @@ import org.medihub.application.ports.outgoing.doctor.SaveDoctorPort;
 import org.medihub.domain.MedicalDoctor;
 
 @RequiredArgsConstructor
+
 public class AddMedicalDoctorService implements AddMedicalDoctorUseCase {
     private final SaveDoctorPort saveDoctorPort;
 

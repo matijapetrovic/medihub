@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 import java.util.Set;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 public class Appointment {
