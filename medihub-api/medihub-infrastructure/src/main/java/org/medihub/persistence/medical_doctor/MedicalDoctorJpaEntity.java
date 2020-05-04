@@ -22,8 +22,9 @@ import java.util.Set;
 public class MedicalDoctorJpaEntity {
 
     @Id
-    @GeneratedValue
-    Long id;
+    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="account_id")

@@ -8,6 +8,7 @@ import ChangePassword from '@/views/shared/ChangePassword.vue';
 import AddClinicRoomForm from '../app/clinic_room/components/AddClinicRoomForm.vue';
 import AddMedicalDoctorForm from '../app/medical_doctor/components/AddMedicalDoctorForm.vue';
 import AddAppointmentTypeForm from '../app/appointment_type/components/AddAppointmentTypeForm.vue';
+import AllPatientsView from '../views/patient/AllPatientsView.vue';
 
 Vue.use(VueRouter);
 
@@ -16,6 +17,14 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/patients',
+    name: 'AllPatientsView',
+    component: AllPatientsView,
     meta: {
       requiresAuth: true,
     },
