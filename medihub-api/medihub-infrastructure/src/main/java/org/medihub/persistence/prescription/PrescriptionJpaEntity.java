@@ -16,8 +16,9 @@ import javax.persistence.*;
 public class PrescriptionJpaEntity {
 
     @Id
-    @GeneratedValue
-    Long id;
+    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="drug_id")
