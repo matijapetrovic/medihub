@@ -2,9 +2,7 @@
   <v-app>
     <NavBar/>
     <NotificationBar/>
-    <v-content>
-      <router-view></router-view>
-    </v-content>
+    <router-view></router-view>
   </v-app>
 </template>
 

@@ -1,13 +1,7 @@
 <template>
   <div>
-    <v-navigation-drawer
-      app
-      clipped
-      color="grey lighten-4"
-    >
-      <slot name="sidebar">
-      </slot>
-    </v-navigation-drawer>
+    <slot name="sidebar">
+    </slot>
     <v-container
       fluid
       class="fill-height"
