@@ -21,7 +21,7 @@ public class ClinicAdminJpaEntity {
     @GeneratedValue
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name="account", referencedColumnName= "id")
     private AccountJpaEntity account;
 

@@ -7,9 +7,11 @@ import org.medihub.common.SelfValidating;
 import org.medihub.common.validation.annotations.Password;
 import org.medihub.common.validation.annotations.TelephoneNumber;
 import org.medihub.domain.ClinicAdmin;
+import org.medihub.domain.identity.Authority;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 public interface AddClinicAdminUseCase {
     ClinicAdmin addClinicAdmin(AddClinicAdminCommand command) throws AccountNotFoundException;
@@ -43,7 +45,8 @@ public interface AddClinicAdminUseCase {
                 String address,
                 String city,
                 String country,
-                String telephoneNumber) {
+                String telephoneNumber
+        ) {
             this.email = email;
             this.password = password;
             this.firstName = firstName;

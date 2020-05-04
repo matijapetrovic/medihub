@@ -11,7 +11,9 @@ import org.medihub.domain.Clinic;
 import org.medihub.domain.ClinicAdmin;
 import org.medihub.domain.PersonalInfo;
 import org.medihub.domain.identity.Account;
+import org.medihub.domain.identity.Authority;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -38,18 +40,29 @@ public class AddClinicAdminService implements AddClinicAdminUseCase {
         );
 
         Account account = new Account(
-            null,
+            2L,
             command.getEmail(),
             command.getPassword(),
             personalInfo,
             false,
-            null
+            List.of(new Authority(2L, "ROLE_CLINIC_ADMIN"))
+        );
+
+        Clinic clinic = new Clinic(
+                null,
+                "DummyClinic",
+                new Address(
+                        "blabla",
+                        "blablabla",
+                        "bla"
+                ),
+                "description"
         );
 
         ClinicAdmin clinicAdmin = new ClinicAdmin(
                 null,
                 account,
-                new Clinic()
+                clinic
         );
 
         return dbPort.addClinicAdmin(clinicAdmin);
