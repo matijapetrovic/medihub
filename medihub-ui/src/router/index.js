@@ -7,6 +7,7 @@ import clinicAdmin from './routes/clinic-admin';
 import clinicCenterAdmin from './routes/clinic-center-admin';
 import unregisteredUser from './routes/unregistered';
 import registeredUser from './routes/user';
+import patient from './routes/patient';
 
 import AllPatientsView from '../views/patient/AllPatientsView.vue';
 
@@ -25,6 +26,7 @@ const routes = [
   clinicCenterAdmin,
   unregisteredUser,
   registeredUser,
+  patient,
   {
     path: '/patients',
     name: 'AllPatientsView',
