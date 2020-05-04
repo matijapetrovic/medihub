@@ -12,7 +12,6 @@ import org.medihub.web.security.TokenUtil;
 import org.medihub.web.security.authentication.dto.*;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 

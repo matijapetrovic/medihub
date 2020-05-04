@@ -71,5 +71,8 @@ export default {
     loggedIn(state) {
       return !!state.user;
     },
+    passwordChanged(state) {
+      return state.user && state.user.passwordChanged;
+    },
   },
 };
