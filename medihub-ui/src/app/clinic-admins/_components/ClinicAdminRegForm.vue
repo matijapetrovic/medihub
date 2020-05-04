@@ -147,7 +147,6 @@ export default {
   },
   data: () => ({
     email: '',
-    insuranceNum: '',
     password: '',
     confirmPassword: '',
     firstName: '',
@@ -160,18 +159,31 @@ export default {
     error: false,
   }),
   methods: {
-    ...mapActions('clinicAdmin',['registerClinicAdmin']),
+    ...mapActions('clinicAdmin', ['registerClinicAdmin']),
     submit() {
+      if (this.validate()) {
         this.registerClinicAdmin({
-        email: this.email,
-        password: this.password,
-        firstName: this.firstName,
-        lastName: this.lastName,
-        address: this.address,
-        city: this.city,
-        country: this.country,
-        telephoneNum: this.telephoneNum,
-      });
+          email: this.email,
+          password: this.password,
+          firstName: this.firstName,
+          lastName: this.lastName,
+          address: this.address,
+          city: this.city,
+          country: this.country,
+          telephoneNum: this.telephoneNum,
+        })
+          .then(() => {
+            this.error = false;
+            this.message = 'Registration request sent successfully.';
+          })
+          .catch((err) => {
+            this.error = true;
+            this.message = err.response.data.message;
+          });
+      }
+    },
+    validate() {
+      return this.$refs.form.validate();
     },
   },
   computed: {
@@ -187,3 +199,14 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+p {
+  .success{
+    color: green;
+  }
+  .failure {
+    color: red;
+  }
+}
+</style>

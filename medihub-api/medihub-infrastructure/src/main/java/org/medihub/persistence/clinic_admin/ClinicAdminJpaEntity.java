@@ -16,17 +16,18 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClinicAdminJpaEntity {
+
     @Id
     @Column(name="id")
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name="account", referencedColumnName= "id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="account")
     private AccountJpaEntity account;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="clinic", referencedColumnName = "id")
+    @JoinColumn(name="clinic", referencedColumnName = "id", nullable=true)
     private ClinicJpaEntity clinic;
 
 }
