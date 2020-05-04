@@ -18,5 +18,5 @@ public class AppointmentTypeJpaEntity {
     Long id;
 
     @Column(name = "price")
-    private double price;
+    private String name;
 }

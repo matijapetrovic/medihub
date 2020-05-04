@@ -10,5 +10,5 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AppointmentTypeRequest {
-    private double price;
+    private String name;
 }

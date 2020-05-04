@@ -37,19 +37,19 @@ import { mapActions } from 'vuex';
 export default {
   name: 'AddAppointmentTypeForm',
   data: () => ({
-    price: null,
+    name: null,
   }),
   methods: {
     ...mapActions('appointmentType', ['addAppointmentType']),
     submit() {
       if (this.validate()) {
         this.addAppointmentType({
-          price: this.price,
+          name: this.name,
         });
       }
     },
     clear() {
-      this.price = null;
+      this.name = null;
     },
     validate() {
       return this.$refs.form.validate();
