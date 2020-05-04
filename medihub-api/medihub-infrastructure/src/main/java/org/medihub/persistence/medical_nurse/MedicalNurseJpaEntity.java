@@ -17,8 +17,9 @@ import javax.persistence.*;
 public class MedicalNurseJpaEntity {
 
     @Id
-    @GeneratedValue
-    Long id;
+    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="account_id")

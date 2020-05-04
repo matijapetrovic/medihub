@@ -15,6 +15,6 @@ public class PatientAdapter implements LoadPatientPort {
 
     @Override
     public List<Patient> loadAllPatients() {
-        return null;
+        return patientMapper.mapToDomainList(patientRepository.findAll());
     }
 }
