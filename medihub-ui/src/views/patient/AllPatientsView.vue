@@ -99,7 +99,6 @@ export default {
       {
         text: 'First name',
         align: 'start',
-        sortable: false,
         value: 'firstName',
       },
       { text: 'Last name', value: 'lastName' },
