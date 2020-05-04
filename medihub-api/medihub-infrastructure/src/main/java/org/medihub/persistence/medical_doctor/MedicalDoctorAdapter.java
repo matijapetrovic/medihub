@@ -10,7 +10,7 @@ import javax.persistence.EntityNotFoundException;
 
 @Component
 @RequiredArgsConstructor
-public class MedicalDoctorAdapter implements  LoadDoctorPort ,SaveDoctorPort{
+public class MedicalDoctorAdapter implements  LoadDoctorPort, SaveDoctorPort{
     private final MedicalDoctorMapper medicalDoctorMapper;
     private final MedicalDoctorRepository medicalDoctorRepository;
 

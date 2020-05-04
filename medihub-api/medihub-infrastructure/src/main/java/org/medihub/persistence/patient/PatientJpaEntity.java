@@ -19,10 +19,11 @@ import java.util.Set;
 @NoArgsConstructor
 public class PatientJpaEntity {
     @Id
-    @GeneratedValue
+    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(unique = true)
+    @Column(name = "insurance_number" ,unique = true)
     @NotNull
     private String insuranceNumber;
 
@@ -35,6 +36,6 @@ public class PatientJpaEntity {
     private MedicalRecordJpaEntity medicalRecordJpaEntity;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="appointment_id")
+    @JoinColumn(name="appointments")
     private Set<AppointmentJpaEntity> appointmentJpaEntitySet;
 }

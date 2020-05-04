@@ -13,8 +13,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class ClinicRoomJpaEntity {
     @Id
-    @GeneratedValue
-    Long id;
+    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
 
     @Column(name = "name")
     private String name;

@@ -1,13 +1,14 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import utils from '@/utils';
 import Home from '@/views/Home.vue';
-import Profile from '@/views/Profile.vue';
-import Register from '@/views/unregistered/Register.vue';
-import Login from '@/views/unregistered/Login.vue';
-import ChangePassword from '@/views/shared/ChangePassword.vue';
-import AddClinicRoomForm from '../app/clinic_room/components/AddClinicRoomForm.vue';
-import AddMedicalDoctorForm from '../app/medical_doctor/components/AddMedicalDoctorForm.vue';
-import AddAppointmentTypeForm from '../app/appointment_type/components/AddAppointmentTypeForm.vue';
+
+import clinicAdmin from './routes/clinic-admin';
+import clinicCenterAdmin from './routes/clinic-center-admin';
+import unregisteredUser from './routes/unregistered';
+import registeredUser from './routes/user';
+
+import AllPatientsView from '../views/patient/AllPatientsView.vue';
 
 Vue.use(VueRouter);
 
@@ -20,66 +21,14 @@ const routes = [
       requiresAuth: true,
     },
   },
+  clinicAdmin,
+  clinicCenterAdmin,
+  unregisteredUser,
+  registeredUser,
   {
-    path: '/addAppointmentType',
-    name: 'AddAppointmentType',
-    component: AddAppointmentTypeForm,
-    meta: {
-      requiresAuth: true,
-    },
-  },
-  {
-    path: '/addMedicalDoctor',
-    name: 'AddMedicalDoctorForm',
-    component: AddMedicalDoctorForm,
-    meta: {
-      requiresAuth: true,
-    },
-  },
-  {
-    path: '/addClinicRoom',
-    name: 'AddClinicRoomForm',
-    component: AddClinicRoomForm,
-    meta: {
-      requiresAuth: true,
-    },
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: Login,
-    meta: {
-      requiresAuth: false,
-    },
-  },
-  {
-    path: '/profile',
-    name: 'Profile',
-    component: Profile,
-    meta: {
-      requiresAuth: true,
-    },
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    component: Register,
-    meta: {
-      requiresAuth: false,
-    },
-  },
-  {
-    path: '/change-password',
-    name: 'ChangePassword',
-    component: ChangePassword,
-    meta: {
-      requiresAuth: true,
-    },
-  },
-  {
-    path: '/clinic_admin_registration',
-    name: 'ClinicAdminRegistration',
-    component: () => import('../views/clinic-center-admin/ClinicAdminRegistration.vue'),
+    path: '/patients',
+    name: 'AllPatientsView',
+    component: AllPatientsView,
     meta: {
       requiresAuth: true,
     },
@@ -107,10 +56,16 @@ router.beforeEach((to, from, next) => {
       next('/login');
     } else {
       const user = JSON.parse(loggedIn);
+      console.log(user);
       if (shouldUserChangePassword(user) && !to.matched.some((record) => record.path === '/change-password')) {
         next('/change-password');
+      } else if (to.matched.some((record) => record.path === '')) {
+        next(utils.roleRootPath(user.role));
+      } else if (to.matched.some((record) => record.meta.role
+                                              && !user.role.includes(record.meta.role))) {
+        next(utils.roleRootPath(user.role));
       } else {
-        next(); // ovo ce se menjati kad u pricu udje autorizacija
+        next();
       }
     }
   } else if (loggedIn) {

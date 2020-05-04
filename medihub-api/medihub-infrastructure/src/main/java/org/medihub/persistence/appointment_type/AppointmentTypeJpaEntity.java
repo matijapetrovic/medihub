@@ -14,8 +14,9 @@ import javax.persistence.*;
 public class AppointmentTypeJpaEntity {
 
     @Id
-    @GeneratedValue
-    Long id;
+    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
 
     @Column(name = "price")
     private String name;

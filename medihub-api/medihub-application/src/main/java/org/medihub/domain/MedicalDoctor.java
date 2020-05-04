@@ -3,6 +3,7 @@ package org.medihub.domain;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.medihub.domain.identity.Account;
 
 import java.util.Set;
@@ -10,6 +11,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 public class MedicalDoctor extends  MedicalStaff {
     private Set<Appointment> appointments;
 

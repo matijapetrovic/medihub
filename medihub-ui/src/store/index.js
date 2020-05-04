@@ -7,6 +7,7 @@ import profile from '@/app/profile/store';
 import clinicRooms from '@/app/clinic_room/store';
 import medicalDoctor from '@/app/medical_doctor/store';
 import appointmentType from '@/app/appointment_type/store';
+import patient from '@/app/patient/store';
 
 Vue.use(Vuex);
 
@@ -38,6 +39,7 @@ export default new Vuex.Store({
     clinicRooms,
     medicalDoctor,
     appointmentType,
+    patient,
     profile,
   },
 });
