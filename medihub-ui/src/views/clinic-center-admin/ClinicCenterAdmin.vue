@@ -31,6 +31,14 @@ export default {
           { text: 'Delete', path: '', icon: 'delete' },
         ],
       },
+      {
+        text: 'Clinics',
+        icon: 'mdi-hospital-box-outline',
+        children: [
+          { text: 'Add', path: '/add_clinic', icon: 'add' },
+          { text: 'Delete', path: '', icon: 'delete' },
+        ],
+      },
     ],
   }),
 };
