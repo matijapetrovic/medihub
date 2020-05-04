@@ -1,6 +1,7 @@
 <template>
   <v-app-bar
     app
+    clipped-left
   >
     <v-toolbar-title>MediHub</v-toolbar-title>
     <v-spacer></v-spacer>
@@ -10,9 +11,6 @@
     </router-link>
     <router-link to="/profile">
       <v-btn text>Profile</v-btn>
-    </router-link>
-    <router-link to="/clinic_admin_registration">
-      <v-btn text>Clinic admin registration</v-btn>
     </router-link>
     </div>
     <router-link to="/register" v-if="!loggedIn">

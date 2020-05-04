@@ -22,4 +22,19 @@ export default {
       color: 'error',
     };
   },
+  roleRootPath(role) {
+    const roleName = role.length ? role[0] : 'UNKNOWN';
+    switch (roleName) {
+      case 'ROLE_PATIENT':
+        return '/patient';
+      case 'ROLE_DOCTOR':
+        return '/doctor';
+      case 'ROLE_CLINIC_ADMIN':
+        return '/clinic-admin';
+      case 'ROLE_CLINIC_CENTER_ADMIN':
+        return '/clinic-center-admin';
+      default:
+        return '';
+    }
+  },
 };
