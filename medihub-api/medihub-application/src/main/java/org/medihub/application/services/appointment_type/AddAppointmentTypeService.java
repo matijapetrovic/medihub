@@ -1,4 +1,4 @@
-package org.medihub.application.services;
+package org.medihub.application.services.appointment_type;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase;
