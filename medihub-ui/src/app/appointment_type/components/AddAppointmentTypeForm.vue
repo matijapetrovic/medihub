@@ -9,9 +9,9 @@
                         </v-toolbar>
                         <v-card-text>
                             <v-form ref="form">
-                                <v-text-field v-model="price" label="Price"
-                                price="price" type="number"
-                                :rules="[requiredRule, loadMin]">
+                                <v-text-field v-model="name" label="Name"
+                                name="name" type="text"
+                                :rules="[requiredRule]">
                                 </v-text-field>
                             </v-form>
                         </v-card-text>
@@ -56,9 +56,6 @@ export default {
     },
   },
   computed: {
-    loadMin() {
-      return (value) => value >= 0 || 'Value must be positive number!';
-    },
     requiredRule() {
       return (value) => !!value || 'Required';
     },

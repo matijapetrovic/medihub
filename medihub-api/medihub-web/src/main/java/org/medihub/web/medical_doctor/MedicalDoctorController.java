@@ -29,7 +29,6 @@ public class MedicalDoctorController {
     @PostMapping("/add")
     void add(@RequestBody MedicalDoctorRequest request) {
         AddMedicalDoctorCommand command = createCommand(request);
-
         AddMedicalDoctorUseCase.addDoctor(command);
     }
 

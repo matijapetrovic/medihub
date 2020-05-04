@@ -3,6 +3,7 @@ package org.medihub.web.appointment_type;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase;
 import org.medihub.domain.AppointmentType;
+import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase.AddAppointmentTypeCommand;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,9 +19,13 @@ public class AppointmentTypeController {
     private final AddAppointmentTypeUseCase addAppointmentTypeUseCase;
 
     @PostMapping("/add")
-    private void  add(@RequestBody AppointmentTypeRequest appointmentTypeRequest){
+    private void add(@RequestBody AppointmentTypeRequest appointmentTypeRequest){
+        AddAppointmentTypeCommand command = createCommand(appointmentTypeRequest);
 
-        addAppointmentTypeUseCase.addAppointmentType(
-                new AppointmentType(null, appointmentTypeRequest.getName()));
+        addAppointmentTypeUseCase.addAppointmentType(command);
+    }
+
+    private AddAppointmentTypeCommand createCommand(AppointmentTypeRequest request){
+        return  new AddAppointmentTypeCommand(null, request.getName());
     }
 }

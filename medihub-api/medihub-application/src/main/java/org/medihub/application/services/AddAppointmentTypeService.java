@@ -10,7 +10,12 @@ public class AddAppointmentTypeService implements AddAppointmentTypeUseCase {
     private final SaveAppointmentTypePort saveAppointmentTypePort;
 
     @Override
-    public void addAppointmentType(AppointmentType appointmentType) {
-        saveAppointmentTypePort.saveAppointmentType(appointmentType);
+    public void addAppointmentType(AddAppointmentTypeCommand addAppointmentTypeCommand) {
+        saveAppointmentTypePort.saveAppointmentType(
+                new AppointmentType(
+                        addAppointmentTypeCommand.getId(),
+                        addAppointmentTypeCommand.getName()
+                        )
+        );
     }
 }
