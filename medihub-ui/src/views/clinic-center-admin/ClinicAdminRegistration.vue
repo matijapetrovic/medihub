@@ -1,5 +1,14 @@
 <template>
-    <RegistrationForm></RegistrationForm>
+  <v-container
+    fluid
+  >
+    <v-row
+      align="center"
+      justify="center"
+    >
+      <RegistrationForm></RegistrationForm>
+    </v-row>
+  </v-container>
 </template>
 
 <script>

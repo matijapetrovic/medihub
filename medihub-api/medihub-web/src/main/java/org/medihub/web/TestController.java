@@ -1,7 +1,6 @@
 package org.medihub.web;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.incoming.AddClinicAdminUseCase;
 import org.medihub.application.ports.incoming.TestUseCase;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

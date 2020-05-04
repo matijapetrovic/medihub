@@ -3,6 +3,7 @@ package org.medihub.config;
 import org.medihub.application.ports.incoming.*;
 import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase;
 import org.medihub.application.ports.incoming.authentication.LoginUseCase;
+import org.medihub.application.ports.incoming.clinic_admin.AddClinicAdminUseCase;
 import org.medihub.application.ports.incoming.clinic_room.AddClinicRoomUseCase;
 import org.medihub.application.ports.incoming.clinic_room.DeleteClinicRoomUseCase;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase;
@@ -104,8 +105,12 @@ public class BeanConfig {
     }
 
     @Bean
-    public AddClinicAdminUseCase getAddClinicAdminUseCase(AddClinicAdminPort addClinicAdminPort) {
-        return new AddClinicAdminService(addClinicAdminPort);
+    public AddClinicAdminUseCase getAddClinicAdminUseCase(
+            LoadAccountPort loadAccountPort,
+            AddClinicAdminPort addClinicAdminPort,
+            EncoderPort encoderPort
+    ) {
+        return new AddClinicAdminService(addClinicAdminPort, loadAccountPort, encoderPort);
     }
 
     @Bean

@@ -1,9 +1,9 @@
-package org.medihub.application.ports.incoming;
+package org.medihub.application.ports.incoming.clinic_admin;
 
 import lombok.EqualsAndHashCode;
 import lombok.Value;
+import org.medihub.application.exceptions.AccountNotFoundException;
 import org.medihub.common.SelfValidating;
-import org.medihub.common.validation.annotations.InsuranceNumber;
 import org.medihub.common.validation.annotations.Password;
 import org.medihub.common.validation.annotations.TelephoneNumber;
 import org.medihub.domain.ClinicAdmin;
@@ -12,7 +12,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 public interface AddClinicAdminUseCase {
-    ClinicAdmin addClinicAdmin(ClinicAdmin clinicAdmin);
+    ClinicAdmin addClinicAdmin(AddClinicAdminCommand command) throws AccountNotFoundException;
 
     @Value
     @EqualsAndHashCode(callSuper = false)

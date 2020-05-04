@@ -7,7 +7,7 @@ import org.medihub.domain.identity.Account;
 @AllArgsConstructor
 @Getter
 public class ClinicAdmin {
-    private long id;
+    private Long id;
     private Account account;
 
     private Clinic clinic;
