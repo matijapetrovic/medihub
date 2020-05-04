@@ -20,6 +20,6 @@ public class MedicalRecordJpaEntity {
     Long id;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name="diagnosis_id", referencedColumnName = "id")
+    @JoinColumn(name="diagnosis_id", referencedColumnName = "id", nullable=true)
     private Set<DiagnosisJpaEntity> diagnosis;
 }

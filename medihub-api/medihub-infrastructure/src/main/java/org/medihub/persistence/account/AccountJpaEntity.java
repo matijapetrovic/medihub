@@ -16,7 +16,7 @@ import java.util.List;
 public class AccountJpaEntity {
     @Id
     @Column(name="id")
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @Column(name="email")
@@ -48,7 +48,7 @@ public class AccountJpaEntity {
     @Column(name="password_changed")
     private boolean passwordChanged;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="account_authority",
                 joinColumns = @JoinColumn(name="user_id", referencedColumnName = "id"),
                 inverseJoinColumns = @JoinColumn(name="authority_id", referencedColumnName = "id"))

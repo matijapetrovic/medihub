@@ -1,7 +1,7 @@
-import apiClient from '@/utils';
+import utils from '@/utils';
 
 export default {
   getAllPatients() {
-    return apiClient.get('api/patient/get/all');
+    return utils.apiClient.get('api/patient');
   },
 };

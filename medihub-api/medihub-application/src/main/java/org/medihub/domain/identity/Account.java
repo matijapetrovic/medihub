@@ -3,6 +3,7 @@ package org.medihub.domain.identity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import org.medihub.domain.PersonalInfo;
 
 import java.util.List;

@@ -12,7 +12,7 @@
     <v-data-table
       :headers="headers"
       :items="patients"
-      sort-by="calories"
+      sort-by="firstName"
       class="elevation-1"
     >
       <template v-slot:top>
@@ -49,7 +49,7 @@
                       </v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="editedItem.carbs" label="address">
+                      <v-text-field v-model="editedItem.address" label="address">
                       </v-text-field>
                     </v-col>
                   </v-row>
@@ -90,7 +90,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   data: () => ({
@@ -106,7 +106,6 @@ export default {
       { text: 'Email', value: 'email' },
       { text: 'Address', value: 'address' },
     ],
-    patients: [],
     editedIndex: -1,
     editedItem: {
       firstName: '',
@@ -123,6 +122,7 @@ export default {
   }),
 
   computed: {
+    ...mapState('patient', ['patients']),
     formTitle() {
       return this.editedIndex === -1 ? 'New Item' : 'Edit Item';
     },
@@ -141,7 +141,7 @@ export default {
   methods: {
     ...mapActions('patient', ['getAllPatients']),
     initialize() {
-      this.patients = this.getAllPatients();
+      this.getAllPatients();
     },
 
     editItem(item) {

@@ -22,7 +22,7 @@ public class PatientJpaEntity {
     @GeneratedValue
     private Long id;
 
-    @Column(unique = true)
+    @Column(name = "insurance_number" ,unique = true)
     @NotNull
     private String insuranceNumber;
 
@@ -35,6 +35,6 @@ public class PatientJpaEntity {
     private MedicalRecordJpaEntity medicalRecordJpaEntity;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="appointment_id")
+    @JoinColumn(name="appointments")
     private Set<AppointmentJpaEntity> appointmentJpaEntitySet;
 }

@@ -1,20 +1,12 @@
 package org.medihub.web.patient;
 
-public class PatientResponse {
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String addressLine;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
-    public PatientResponse
-            (
-             String email,
-             String firstName,
-             String lastName,
-             String addressLine){
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.addressLine = addressLine;
-    }
+@AllArgsConstructor
+public class PatientResponse {
+    public final String firstName;
+    public final String lastName;
+    public final String email;
+    public final String addressLine;
 }

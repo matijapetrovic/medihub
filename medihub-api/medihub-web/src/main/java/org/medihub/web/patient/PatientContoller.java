@@ -3,11 +3,9 @@ package org.medihub.web.patient;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.outgoing.LoadPatientPort;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,9 +17,13 @@ import java.util.stream.Collectors;
 public class PatientContoller {
     private final LoadPatientPort loadPatientPort;
 
-    @GetMapping("/get/all")
-    public List<?> getAall(){
+    @GetMapping("")
+    @ResponseBody
+    public List<?> getAll(){
+        return loadAll();
+    }
 
+    private List<?> loadAll(){
         return loadPatientPort.
                 loadAllPatients().
                 stream().
@@ -30,6 +32,6 @@ public class PatientContoller {
                         patient.getAccount().getPersonalInfo().getLastName(),
                         patient.getAccount().getEmail(),
                         patient.getAccount().getAddress()
-                        )).collect(Collectors.toList());
+                )).collect(Collectors.toList());
     }
 }

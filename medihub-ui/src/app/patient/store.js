@@ -3,7 +3,7 @@ import api from './api';
 export default {
   namespaced: true,
   state: {
-    patients: null,
+    patients: [],
   },
   mutations: {
     SET_PATIENTS(state, patients) {
@@ -12,8 +12,10 @@ export default {
   },
   actions: {
     getAllPatients({ commit }) {
-      commit('SET_PATIENTS', api.getAllPatients());
-      return api.getAllPatients();
+      return api.getAllPatients()
+        .then((data) => {
+          commit('SET_PATIENTS', data.data);
+        });
     },
   },
   getters: {
