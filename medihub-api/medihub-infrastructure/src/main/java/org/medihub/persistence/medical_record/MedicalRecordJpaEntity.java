@@ -16,8 +16,9 @@ import java.util.Set;
 public class MedicalRecordJpaEntity {
 
     @Id
-    @GeneratedValue
-    Long id;
+    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="diagnosis_id", referencedColumnName = "id", nullable=true)

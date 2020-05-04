@@ -16,8 +16,8 @@ import java.util.List;
 public class AccountJpaEntity {
     @Id
     @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
 
     @Column(name="email")
     @NotNull

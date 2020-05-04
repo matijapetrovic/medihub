@@ -19,8 +19,10 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AppointmentJpaEntity {
+
     @Id
-    @GeneratedValue
+    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "patient_id")

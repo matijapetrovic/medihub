@@ -19,7 +19,8 @@ import java.util.Set;
 @NoArgsConstructor
 public class PatientJpaEntity {
     @Id
-    @GeneratedValue
+    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "insurance_number" ,unique = true)

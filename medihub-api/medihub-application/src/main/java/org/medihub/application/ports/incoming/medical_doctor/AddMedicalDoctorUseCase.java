@@ -22,7 +22,7 @@ public interface AddMedicalDoctorUseCase {
 
     @Value
     @EqualsAndHashCode(callSuper = false)
-    class AddMedicalDoctorCommand extends SelfValidating<RegisterPatientUseCase.RegisterPatientCommand> {
+    class AddMedicalDoctorCommand extends SelfValidating<AddMedicalDoctorUseCase.AddMedicalDoctorCommand> {
 
         Long id;
         Account account;
