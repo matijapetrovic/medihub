@@ -5,6 +5,7 @@ import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTyp
 import org.medihub.application.ports.incoming.appointment_type.GetAppointmentTypesOutput;
 import org.medihub.application.ports.incoming.appointment_type.GetAppointmentTypesQuery;
 import org.medihub.domain.AppointmentType;
+import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase.AddAppointmentTypeCommand;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -21,10 +22,14 @@ public class AppointmentTypeController {
     private final GetAppointmentTypesQuery getAppointmentTypesQuery;
 
     @PostMapping("/add")
-    private void  add(@RequestBody AppointmentTypeRequest appointmentTypeRequest){
+    private void add(@RequestBody AppointmentTypeRequest appointmentTypeRequest){
+        AddAppointmentTypeCommand command = createCommand(appointmentTypeRequest);
 
-        addAppointmentTypeUseCase.addAppointmentType(
-                new AppointmentType(null, appointmentTypeRequest.getPrice()));
+        addAppointmentTypeUseCase.addAppointmentType(command);
+    }
+
+    private AddAppointmentTypeCommand createCommand(AppointmentTypeRequest request){
+        return  new AddAppointmentTypeCommand(null, request.getName());
     }
 
     @GetMapping("")
