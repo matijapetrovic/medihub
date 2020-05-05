@@ -24,9 +24,15 @@
         </v-col>
         <v-col>
           <v-select
-          :items="items"
-          label="Clinic"
-        ></v-select>
+            label="Clinic"
+            prepend-icon="mdi-hospital-box-outline"
+            v-model="clinic"
+            :items="clinicNames"
+            item-text="name"
+            :rules="[requiredRule]"
+            return-object
+            ref="clinic">
+          </v-select>
         </v-col>
       </v-row>
       <v-row>
@@ -158,11 +164,11 @@ export default {
     city: '',
     country: '',
     telephoneNum: '',
+    clinic: null,
   }),
   methods: {
     ...mapActions('clinicAdmin', ['registerClinicAdmin']),
     ...mapActions('clinic', ['getClinicNames']),
-    ...mapState('clinic', ['clinicNames']),
     submit() {
       if (this.validate()) {
         this.registerClinicAdmin({
@@ -174,6 +180,7 @@ export default {
           city: this.city,
           country: this.country,
           telephoneNum: this.telephoneNum,
+          clinic: this.clinic.id,
         });
       }
     },
@@ -182,9 +189,10 @@ export default {
     },
   },
   mounted() {
-    this.getClinics();
+    this.getClinicNames();
   },
   computed: {
+    ...mapState('clinic', ['clinicNames']),
     passwordConfirmRule() {
       return () => this.password === this.confirmPassword || 'Passwords must match';
     },

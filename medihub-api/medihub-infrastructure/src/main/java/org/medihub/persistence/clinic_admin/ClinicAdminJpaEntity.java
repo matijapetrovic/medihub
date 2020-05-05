@@ -26,8 +26,8 @@ public class ClinicAdminJpaEntity {
     @JoinColumn(name="account")
     private AccountJpaEntity account;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="clinic", referencedColumnName = "id", nullable=true)
+    @ManyToOne
+    @JoinColumn(name="clinic", referencedColumnName = "id")
     private ClinicJpaEntity clinic;
 
 }

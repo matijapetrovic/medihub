@@ -8,8 +8,8 @@ export default {
     clinics: [],
   },
   mutations: {
-    SET_CLINIC_NAMES(clinicNames) {
-      this.clinicNames = clinicNames;
+    SET_CLINIC_NAMES(state, clinicNames) {
+      state.clinicNames = clinicNames;
     },
     SET_CLINICS(state, clinics) {
       state.clinics = clinics;

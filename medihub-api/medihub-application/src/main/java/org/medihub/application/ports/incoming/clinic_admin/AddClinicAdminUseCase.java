@@ -11,6 +11,7 @@ import org.medihub.domain.identity.Authority;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public interface AddClinicAdminUseCase {
@@ -36,6 +37,8 @@ public interface AddClinicAdminUseCase {
         String country;
         @TelephoneNumber
         String telephoneNumber;
+        @NotNull
+        Long clinic;
 
         public AddClinicAdminCommand(
                 String email,
@@ -45,7 +48,8 @@ public interface AddClinicAdminUseCase {
                 String address,
                 String city,
                 String country,
-                String telephoneNumber
+                String telephoneNumber,
+                Long clinic
         ) {
             this.email = email;
             this.password = password;
@@ -55,6 +59,7 @@ public interface AddClinicAdminUseCase {
             this.city = city;
             this.country = country;
             this.telephoneNumber = telephoneNumber;
+            this.clinic = clinic;
             this.validateSelf();
         }
     }
