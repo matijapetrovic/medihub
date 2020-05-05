@@ -2,19 +2,12 @@ package org.medihub.application.ports.incoming.medical_doctor;
 
 import lombok.EqualsAndHashCode;
 import lombok.Value;
-import org.medihub.application.ports.incoming.patient.RegisterPatientUseCase;
 import org.medihub.common.SelfValidating;
-import org.medihub.common.validation.annotations.InsuranceNumber;
-import org.medihub.common.validation.annotations.Password;
-import org.medihub.common.validation.annotations.TelephoneNumber;
 import org.medihub.domain.Appointment;
 import org.medihub.domain.Clinic;
-import org.medihub.domain.MedicalDoctor;
 import org.medihub.domain.WorkingCalendar;
 import org.medihub.domain.identity.Account;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 public interface AddMedicalDoctorUseCase {

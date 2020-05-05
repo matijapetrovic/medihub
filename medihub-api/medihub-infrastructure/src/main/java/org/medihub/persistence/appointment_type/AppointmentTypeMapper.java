@@ -8,13 +8,13 @@ public class AppointmentTypeMapper {
     public AppointmentType mapToDomainEntity(AppointmentTypeJpaEntity appointmentTypeJpaEntity){
         return new AppointmentType(
                 appointmentTypeJpaEntity.getId(),
-                appointmentTypeJpaEntity.getPrice());
+                appointmentTypeJpaEntity.getName());
     }
 
     public AppointmentTypeJpaEntity mapToJpaEntity(AppointmentType appointmentType){
         return new AppointmentTypeJpaEntity(
                 null,
-                appointmentType.getPrice()
+                appointmentType.getName()
         );
     }
 }

@@ -7,5 +7,5 @@ import lombok.Getter;
 @Getter
 public class AppointmentType {
     private Long id;
-    private double price;
+    private String name;
 }
