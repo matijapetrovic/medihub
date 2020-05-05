@@ -1,5 +1,7 @@
 package org.medihub.application.ports.outgoing;
 
+import org.medihub.domain.ClinicAdmin;
+
 public interface AddClinicAdminPort {
-    String addClinicAdmin();
+    ClinicAdmin addClinicAdmin(ClinicAdmin clinicAdmin);
 }

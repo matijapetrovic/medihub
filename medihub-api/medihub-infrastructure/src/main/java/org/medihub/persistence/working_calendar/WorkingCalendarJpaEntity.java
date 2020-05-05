@@ -14,6 +14,6 @@ import javax.persistence.*;
 public class WorkingCalendarJpaEntity {
     @Id
     @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 }

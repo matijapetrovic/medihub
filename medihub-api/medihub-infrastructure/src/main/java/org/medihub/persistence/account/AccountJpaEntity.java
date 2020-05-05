@@ -16,7 +16,7 @@ import java.util.List;
 public class AccountJpaEntity {
     @Id
     @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name="email")
