@@ -4,11 +4,11 @@
       class="mb-6"
       no-gutters
     >
-      <v-col
-        cols="12"
-        lg="10"
-        offset-md="1"
-      >
+    <v-col
+      cols="12"
+      lg="10"
+      offset-md="1"
+    >
     <v-data-table
       :headers="headers"
       :items="patients"

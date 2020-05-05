@@ -35,6 +35,10 @@ export default {
         text: 'Doctors',
         path: '/',
         icon: 'mdi-doctor',
+        children: [
+          { text: 'Add', path: '/addMedicalDoctor', icon: 'add' },
+          { text: 'Delete', path: '', icon: 'delete' },
+        ],
       },
       {
         text: 'Clinic Rooms',

@@ -7,7 +7,7 @@ insert into authority (id, name) values (5, 'ROLE_CLINIC_CENTER_ADMIN');
 insert into account (email, password, password_changed) values ('admin@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', false);
 insert into account (email, password, first_name, last_name, address, password_changed) values ('a@gmail.com','$2a$10$sDokUwr/iMtuvtHNlxQk7ey1cbs877yXckksUtbpw/0c1.At6pNHu', 'Marko', 'markov', 'aa', false); -- adminadmin1
 insert into account (email, password, first_name, last_name, address, password_changed) values ('b@gmail.com','$2a$10$XPPm7IJJo1x8X6jKxSxYNefG9nirIjI8lJQDxvtNIgKyevPiE1Qx2', 'Dragan', 'Arsic', 'aa', false);
-insert into account (email, password, first_name, last_name, address, password_changed) values ('c@gmail.com','$2a$10$sDokUwr/iMtuvtHNlxQk7ey1cbs877yXckksUtbpw/0c1.At6pNHu', 'Dusan', 'Susic', 'aa', false); -- adminadmin1
+insert into account (email, password, first_name, last_name, address, password_changed) values ('clinicadmin@gmail.com','$2a$10$sDokUwr/iMtuvtHNlxQk7ey1cbs877yXckksUtbpw/0c1.At6pNHu', 'Dusan', 'Susic', 'aa', false); -- adminadmin1
 insert into account (email, password, password_changed) values ('patient@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', true);
 
 
