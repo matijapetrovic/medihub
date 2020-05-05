@@ -1,5 +1,3 @@
-insert into tests (id, message) values (1, 'Hello world from database');
-
 insert into authority (id, name) values (1, 'ROLE_PATIENT');
 insert into authority (id, name) values (2, 'ROLE_DOCTOR');
 insert into authority (id, name) values (3, 'ROLE_NURSE');
@@ -22,5 +20,5 @@ insert into account_authority (user_id, authority_id) values (5, 1);
 insert into medical_record (id) values (1);
 insert into medical_record (id) values (2);
 
-insert into patient (id, insurance_number, account_id, medical_record_id) values (1, '14115151555', 2, 1);
-insert into patient (id, insurance_number, account_id, medical_record_id) values (2, '14115151252', 3, 2);
+insert into patient (insurance_number, account_id, medical_record_id) values ('14115151555', 2, 1);
+insert into patient (insurance_number, account_id, medical_record_id) values ('14115151252', 3, 2);
