@@ -4,7 +4,6 @@
     sm="8"
     md="4"
   >
-  <p :class="{ success: !error, failure: error }">{{ message }}</p>
   <v-card class="elevation-12">
     <v-toolbar
       color="primary"
@@ -24,6 +23,10 @@
           />
         </v-col>
         <v-col>
+          <v-select
+          :items="items"
+          label="Clinic"
+        ></v-select>
         </v-col>
       </v-row>
       <v-row>
@@ -135,7 +138,7 @@
 
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import EmailInput from '@/app/shared/_components/_forms/EmailInput.vue';
 import PasswordInput from '@/app/shared/_components/_forms/PasswordInput.vue';
 
@@ -155,11 +158,11 @@ export default {
     city: '',
     country: '',
     telephoneNum: '',
-    message: null,
-    error: false,
   }),
   methods: {
     ...mapActions('clinicAdmin', ['registerClinicAdmin']),
+    ...mapActions('clinic', ['getClinics']),
+    ...mapState('clinic', ['clinicNames']),
     submit() {
       if (this.validate()) {
         this.registerClinicAdmin({
@@ -171,20 +174,15 @@ export default {
           city: this.city,
           country: this.country,
           telephoneNum: this.telephoneNum,
-        })
-          .then(() => {
-            this.error = false;
-            this.message = 'Registration request sent successfully.';
-          })
-          .catch((err) => {
-            this.error = true;
-            this.message = err.response.data.message;
-          });
+        });
       }
     },
     validate() {
       return this.$refs.form.validate();
     },
+  },
+  mounted() {
+    this.getClinics();
   },
   computed: {
     passwordConfirmRule() {
