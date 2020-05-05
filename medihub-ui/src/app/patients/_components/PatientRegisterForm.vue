@@ -4,7 +4,6 @@
     sm="8"
     md="4"
   >
-  <p :class="{ success: !error, failure: error }">{{ message }}</p>
   <v-card class="elevation-12">
     <v-toolbar
       color="primary"
@@ -160,8 +159,6 @@ export default {
     city: '',
     country: '',
     telephoneNum: '',
-    message: null,
-    error: false,
   }),
   methods: {
     ...mapActions('auth', ['register']),
@@ -177,15 +174,7 @@ export default {
           city: this.city,
           country: this.country,
           telephoneNum: this.telephoneNum,
-        })
-          .then(() => {
-            this.error = false;
-            this.message = 'Registration request sent successfully.';
-          })
-          .catch((err) => {
-            this.error = true;
-            this.message = err.response.data.message;
-          });
+        });
       }
     },
     validate() {

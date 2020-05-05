@@ -1,14 +1,21 @@
 package org.medihub.persistence.appointment_type;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.ports.outgoing.appointment_type.GetAppointmentTypesPort;
 import org.medihub.application.ports.outgoing.appointment_type.SaveAppointmentTypePort;
 import org.medihub.application.ports.outgoing.appointment_type.LoadAppointmentTypePort;
 import org.medihub.domain.AppointmentType;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 @RequiredArgsConstructor
-public class AppointmentTypeAdapter implements SaveAppointmentTypePort, LoadAppointmentTypePort {
+public class AppointmentTypeAdapter implements
+        SaveAppointmentTypePort,
+        LoadAppointmentTypePort,
+        GetAppointmentTypesPort {
     private final AppointmentTypeMapper appointmentTypeMapper;
     private final AppointmentTypeRepository appointmentTypeRepository;
 
@@ -25,5 +32,14 @@ public class AppointmentTypeAdapter implements SaveAppointmentTypePort, LoadAppo
     @Override
     public AppointmentType loadAppointmentType(String name) {
         return null;
+    }
+
+    @Override
+    public List<AppointmentType> getAppointmentTypes() {
+        return appointmentTypeRepository
+                .findAll()
+                .stream()
+                .map(appointmentTypeMapper::mapToDomainEntity)
+                .collect(Collectors.toList());
     }
 }

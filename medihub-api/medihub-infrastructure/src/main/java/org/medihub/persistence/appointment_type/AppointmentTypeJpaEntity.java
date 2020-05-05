@@ -15,9 +15,9 @@ public class AppointmentTypeJpaEntity {
 
     @Id
     @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "price")
+    @Column(name = "name")
     private String name;
 }

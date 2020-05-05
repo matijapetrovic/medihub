@@ -5,10 +5,14 @@ export default {
   namespaced: true,
   state: {
     clinicNames: [],
+    clinics: [],
   },
   mutations: {
-    SET_CLINICS(clinicNames) {
+    SET_CLINIC_NAMES(clinicNames) {
       this.clinicNames = clinicNames;
+    },
+    SET_CLINICS(state, clinics) {
+      state.clinics = clinics;
     },
   },
   actions: {
@@ -22,10 +26,19 @@ export default {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
-    getClinics({ commit, dispatch }) {
-      return api.getClinics()
+    getClinicNames({ commit, dispatch }) {
+      return api.getClinicNames()
         .then((response) => {
-          commit('SET_CLINICS', response);
+          commit('SET_CLINIC_NAMES', response.data);
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
+    fetchClinics({ commit, dispatch }) {
+      return api.fetchClinics()
+        .then((response) => {
+          commit('SET_CLINICS', response.data);
         })
         .catch((err) => {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });

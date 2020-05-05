@@ -17,7 +17,7 @@ public class MedicalRecordJpaEntity {
 
     @Id
     @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

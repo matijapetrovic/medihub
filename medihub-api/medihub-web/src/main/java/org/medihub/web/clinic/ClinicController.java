@@ -24,8 +24,9 @@ public class ClinicController {
     private final AddClinicUseCase addClinicUseCase;
     private final SearchClinicsQuery searchClinicsQuery;
 
-    ResponseEntity<List<SearchClinicsOutput>> searchClinics(@RequestParam Date date,
-                                                            @RequestParam Long appointmentTypeId)  {
+    @GetMapping("")
+    ResponseEntity<List<SearchClinicsOutput>> searchClinics(@RequestParam(required = false) Date date,
+                                                            @RequestParam(required = false) Long appointmentTypeId)  {
         return ResponseEntity.ok(searchClinicsQuery.searchClinics(date, appointmentTypeId));
     }
 

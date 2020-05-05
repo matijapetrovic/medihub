@@ -161,7 +161,7 @@ export default {
   }),
   methods: {
     ...mapActions('clinicAdmin', ['registerClinicAdmin']),
-    ...mapActions('clinic', ['getClinics']),
+    ...mapActions('clinic', ['getClinicNames']),
     ...mapState('clinic', ['clinicNames']),
     submit() {
       if (this.validate()) {

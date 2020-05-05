@@ -4,7 +4,10 @@ export default {
   addClinic(credentials) {
     return utils.apiClient.post('api/clinic', credentials);
   },
-  getClinics() {
+  getClinicNames() {
     return utils.apiClient.get('');
+  },
+  fetchClinics() {
+    return utils.apiClient.get('/api/clinic');
   },
 };
