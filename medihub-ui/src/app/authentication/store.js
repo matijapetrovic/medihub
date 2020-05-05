@@ -31,6 +31,8 @@ export default {
       return api.register(payload)
         .then(() => {
           commit('SET_REGISTER_SUCCESS', true);
+          const message = 'Registration request successful';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
         })
         .catch((err) => {
           commit('SET_REGISTER_SUCCESS', false);

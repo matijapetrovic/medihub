@@ -2,10 +2,12 @@
   <v-navigation-drawer
     v-model="drawer"
     app
+    permanent
     clipped
     color="grey lighten-4"
   >
     <v-list
+      nav
       dense
       class="grey lighten-4"
     >
