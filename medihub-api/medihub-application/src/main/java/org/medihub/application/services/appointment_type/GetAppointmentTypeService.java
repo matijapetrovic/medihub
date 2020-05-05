@@ -17,7 +17,10 @@ public class GetAppointmentTypeService implements GetAppointmentTypesQuery {
         return getAppointmentTypesPort
                 .getAppointmentTypes()
                 .stream()
-                .map(appointmentType -> new GetAppointmentTypesOutput(appointmentType.getId(), "Ime"))
+                .map(appointmentType ->
+                        new GetAppointmentTypesOutput(
+                            appointmentType.getId(),
+                            appointmentType.getName()))
                 .collect(Collectors.toList());
     }
 }

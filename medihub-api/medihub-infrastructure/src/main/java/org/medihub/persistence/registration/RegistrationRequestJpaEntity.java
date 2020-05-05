@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 public class RegistrationRequestJpaEntity {
     @Id
     @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name="email", unique=true)

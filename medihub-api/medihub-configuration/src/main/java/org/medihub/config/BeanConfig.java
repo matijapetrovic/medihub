@@ -59,11 +59,6 @@ public class BeanConfig {
     }
 
     @Bean
-    public TestUseCase getTestUseCase(TestPort testPort) {
-        return new TestService(testPort);
-    }
-
-    @Bean
     public SearchClinicsQuery searchClinicsQuery(
             LoadAppointmentTypePort loadAppointmentTypePort,
             SearchClinicsPort searchClinicsPort) {
