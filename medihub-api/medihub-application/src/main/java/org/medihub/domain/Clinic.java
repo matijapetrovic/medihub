@@ -2,6 +2,7 @@ package org.medihub.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,7 +21,7 @@ public class Clinic {
     private Set<ClinicRoom> clinicRooms;
     private Set<MedicalStaff> medicalStaff;
 
-    private Clinic() {
+    public Clinic() {
         this.appointmentTypes = new HashSet<>();
         this.appointments = new HashSet<>();
         this.clinicRooms = new HashSet<>();
