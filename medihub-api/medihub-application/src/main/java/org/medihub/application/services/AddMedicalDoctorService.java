@@ -4,8 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase;
 import org.medihub.application.ports.outgoing.doctor.SaveDoctorPort;
 import org.medihub.application.ports.outgoing.encoding.EncoderPort;
-import org.medihub.domain.MedicalDoctor;
+import org.medihub.domain.*;
 import org.medihub.domain.identity.Account;
+import org.medihub.domain.identity.Authority;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 public class AddMedicalDoctorService implements AddMedicalDoctorUseCase {
@@ -17,16 +22,25 @@ public class AddMedicalDoctorService implements AddMedicalDoctorUseCase {
         MedicalDoctor entity = new MedicalDoctor(
                 command.getId(),
                 new Account(
-                        command.getAccount().getId(),
-                        command.getAccount().getEmail(),
-                        encoderPort.encode(command.getAccount().getPassword()),
-                        command.getAccount().getPersonalInfo(),
-                        command.getAccount().isPasswordChanged(),
-                        command.getAccount().getAuthorities()
+                        null,
+                        command.getEmail(),
+                        encoderPort.encode(command.getPassword()),
+                        new PersonalInfo(
+                                command.getFirstName(),
+                                command.getLastName(),
+                                new Address(
+                                        command.getAddressLine(),
+                                        command.getCity(),
+                                        command.getCountry()
+                                ),
+                                command.getTelephoneNumber()
+                        ),
+                        command.isPasswordChanged(),
+                        new ArrayList<Authority>()
                 ),
-                command.getWorkingCalendar(),
-                command.getClinic(),
-                command.getAppointments()
+                new WorkingCalendar(),
+                new Clinic(),
+                Set.of()
         );
         saveDoctorPort.saveDoctor(entity);
     }
