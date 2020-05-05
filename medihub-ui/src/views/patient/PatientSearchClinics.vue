@@ -4,6 +4,7 @@
     <ClinicSearchForm/>
     <ClinicSearchTable
       :items="clinics"
+      v-if="clinics.length"
     />
   </div>
 </template>
@@ -24,9 +25,6 @@ export default {
   },
   computed: {
     ...mapState('clinic', ['clinics']),
-  },
-  mounted() {
-    this.fetchClinics();
   },
 };
 </script>

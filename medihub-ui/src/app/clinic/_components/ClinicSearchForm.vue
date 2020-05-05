@@ -5,8 +5,10 @@
         <v-select
           v-model="appointmentType"
           :items="appointmentTypes"
+          item-text="name"
           label="Appointment Type"
           :rules="[requiredRule]"
+          return-object
           ref="form"
         ></v-select>
       </v-col>
@@ -47,7 +49,14 @@
       justify="center"
       class="text-center"
     >
-      <v-col><v-btn color="primary" @click="search">Search</v-btn></v-col>
+      <v-col>
+        <v-btn
+          :disabled="!appointmentType || !date"
+          color="primary"
+          @click="search"
+          >Search
+        </v-btn>
+      </v-col>
     </v-row>
   </v-form>
 </template>
