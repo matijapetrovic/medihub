@@ -44,8 +44,8 @@ public class AddClinicAdminService implements AddClinicAdminUseCase {
             command.getEmail(),
             encoderPort.encode(command.getPassword()),
             personalInfo,
-            true,
-            List.of(new Authority(null, "ROLE_CLINIC_ADMIN"))
+            false,
+            List.of(new Authority(4L, "ROLE_CLINIC_ADMIN"))
         );
 
         Clinic clinic = new Clinic(
