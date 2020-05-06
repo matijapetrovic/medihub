@@ -1,8 +1,5 @@
 <template>
 <v-col
-    cols="12"
-    sm="8"
-    md="4"
   >
   <v-card class="elevation-12">
     <v-toolbar
@@ -16,60 +13,60 @@
       <v-form
         ref="form"
       >
-      <v-row>
-          <v-text-field
-            v-model="name"
-            label="Name"
-            name="name"
-            prepend-icon="mdi-hospital-box-outline"
-            :rules="[requiredRule]"
-            type="text"
-            required
-          ></v-text-field>
-      </v-row>
-      <v-row>
-       <v-text-field
-        v-model="address"
-        label="Address"
-        name="address"
-        prepend-icon="house"
-        :rules="[requiredRule]"
-        type="text"
-        required
-        ></v-text-field>
-      </v-row>
-      <v-row>
-        <v-text-field
-            v-model="city"
-            label="City"
-            name="city"
-            prepend-icon="mdi-city"
-            :rules="[requiredRule]"
-            type="text"
-            required
-          ></v-text-field>
-      </v-row>
-      <v-row>
-        <v-text-field
-          v-model="country"
-          label="Country"
-          name="country"
-          prepend-icon="mdi-earth"
-          :rules="[requiredRule]"
-          type="text"
-          required
-        ></v-text-field>
-      </v-row>
-      <v-row>
-        <v-text-field
-          v-model="description"
-          label="Description"
-          name="description"
-          prepend-icon="mdi-book-open"
-          type="text"
-          required
-        ></v-text-field>
-      </v-row>
+        <v-row>
+          <v-col>
+            <v-text-field
+              v-model="name"
+              label="Name"
+              name="name"
+              prepend-icon="mdi-hospital-box-outline"
+              :rules="[requiredRule]"
+              type="text"
+              required
+            ></v-text-field>
+          </v-col>
+          <v-col>
+            <v-text-field
+              v-model="address"
+              label="Address"
+              name="address"
+              prepend-icon="house"
+              :rules="[requiredRule]"
+              type="text"
+              required
+            ></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-text-field
+              v-model="city"
+              label="City"
+              name="city"
+              prepend-icon="mdi-city"
+              :rules="[requiredRule]"
+              type="text"
+              required
+            ></v-text-field>
+          </v-col>
+          <v-col>
+            <CountrySelect
+              v-model="country"
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-text-field
+              v-model="description"
+              label="Description"
+              name="description"
+              prepend-icon="mdi-book-open"
+              type="text"
+              required
+            ></v-text-field>
+          </v-col>
+        </v-row>
       </v-form>
     </v-card-text>
     <v-card-actions>
@@ -89,9 +86,13 @@
 
 <script>
 import { mapActions } from 'vuex';
+import CountrySelect from '@/app/country/_components/CountrySelect.vue';
 
 export default {
   name: 'AddClinicForm',
+  components: {
+    CountrySelect,
+  },
   data: () => ({
     name: '',
     address: '',

@@ -9,6 +9,7 @@ import appointmentType from '@/app/appointment_type/store';
 import clinicAdmin from '@/app/clinic-admins/store';
 import patient from '@/app/patient/store';
 import clinic from '@/app/clinic/store';
+import country from '@/app/country/store';
 
 Vue.use(Vuex);
 
@@ -29,5 +30,6 @@ export default new Vuex.Store({
     profile,
     clinic,
     clinicAdmin,
+    country,
   },
 });

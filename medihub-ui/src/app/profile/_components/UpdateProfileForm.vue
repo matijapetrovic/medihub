@@ -62,15 +62,9 @@
           </v-row>
           <v-row>
             <v-col>
-              <v-text-field
-                v-model="profile.country"
-                label="Country"
-                name="country"
-                prepend-icon="mdi-earth"
-                :rules="[requiredRule]"
-                type="text"
-                required
-              ></v-text-field>
+              <CountrySelect
+                v-model="country"
+              />
             </v-col>
             <v-col>
               <v-text-field
@@ -102,9 +96,13 @@
 
 <script>
 import { mapActions } from 'vuex';
+import CountrySelect from '@/app/country/_components/CountrySelect.vue';
 
 export default {
   name: 'UpdateProfileForm',
+  components: {
+    CountrySelect,
+  },
   computed: {
     profile: {
       get() {
