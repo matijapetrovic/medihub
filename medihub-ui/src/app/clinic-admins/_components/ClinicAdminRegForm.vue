@@ -7,7 +7,7 @@
       dark
       flat
     >
-      <v-toolbar-title>Register</v-toolbar-title>
+      <v-toolbar-title>Add Clinic Admin</v-toolbar-title>
     </v-toolbar>
     <v-card-text>
       <v-form
@@ -125,7 +125,7 @@
         color="primary"
         name="button"
       >
-        Register
+        Add
       </v-btn>
       <v-spacer></v-spacer>
     </v-card-actions>
@@ -174,11 +174,17 @@ export default {
           country: this.country,
           telephoneNum: this.telephoneNum,
           clinic: this.clinic.id,
-        });
+        })
+          .then(() => {
+            this.clear();
+          });
       }
     },
     validate() {
       return this.$refs.form.validate();
+    },
+    clear() {
+      this.$refs.form.reset();
     },
   },
   mounted() {
