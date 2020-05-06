@@ -6,8 +6,8 @@ import org.medihub.application.ports.incoming.account.ChangePasswordUseCase;
 import org.medihub.application.ports.outgoing.encoding.EncoderPort;
 import org.medihub.application.ports.outgoing.account.LoadAccountPort;
 import org.medihub.application.ports.outgoing.account.SaveAccountPort;
-import org.medihub.application.ports.outgoing.áuthentication.AuthenticationPort;
-import org.medihub.application.ports.outgoing.áuthentication.GetAuthenticatedPort;
+import org.medihub.application.ports.outgoing.authentication.AuthenticationPort;
+import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
 import org.medihub.domain.identity.Account;
 
 @RequiredArgsConstructor
@@ -20,7 +20,7 @@ public class ChangePasswordService implements ChangePasswordUseCase {
 
     @Override
     public boolean changePassword(ChangePasswordCommand command) throws AccountNotFoundException {
-        String email = getAuthenticatedPort.getAuthenticatedEmail();
+        String email = getAuthenticatedPort.getAuthenticated();
         if (!authenticationPort.reauthenticate(email, command.getOldPassword()))
             return false;
 

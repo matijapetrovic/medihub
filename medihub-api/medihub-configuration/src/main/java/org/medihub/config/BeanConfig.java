@@ -1,6 +1,5 @@
 package org.medihub.config;
 
-import org.medihub.application.ports.incoming.*;
 import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase;
 import org.medihub.application.ports.incoming.appointment_type.GetAppointmentTypesQuery;
 import org.medihub.application.ports.incoming.authentication.LoginUseCase;
@@ -32,8 +31,8 @@ import org.medihub.application.ports.outgoing.clinic_room.SaveClinicRoomPort;
 import org.medihub.application.ports.outgoing.doctor.SaveDoctorPort;
 import org.medihub.application.ports.outgoing.encoding.EncoderPort;
 import org.medihub.application.ports.outgoing.patient.SaveRegistrationRequestPort;
-import org.medihub.application.ports.outgoing.áuthentication.AuthenticationPort;
-import org.medihub.application.ports.outgoing.áuthentication.GetAuthenticatedPort;
+import org.medihub.application.ports.outgoing.authentication.AuthenticationPort;
+import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
 import org.medihub.application.services.*;
 import org.medihub.application.services.account.ChangePasswordService;
 import org.medihub.application.services.account.GetAccountService;
