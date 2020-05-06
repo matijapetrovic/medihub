@@ -1,9 +1,14 @@
 <template>
-  <h1>Clinic Center Admin Home</h1>
+  <Welcome/>
 </template>
 
 <script>
+import Welcome from '@/app/shared/_components/Welcome.vue';
+
 export default {
   name: 'ClinicCenterAdminHome',
+  components: {
+    Welcome,
+  },
 };
 </script>
