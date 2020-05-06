@@ -20,8 +20,8 @@ public class MedicalDoctorController {
     private final AddMedicalDoctorUseCase AddMedicalDoctorUseCase;
     private final GetDoctorsQuery getDoctorsQuery;
 
-    @GetMapping("")
-    ResponseEntity<List<GetDoctorsOutput>> getDoctors(@RequestParam Long clinicId) {
+    @GetMapping("/{clinicId}")
+    ResponseEntity<List<GetDoctorsOutput>> getDoctors(@PathVariable Long clinicId) {
         return ResponseEntity.ok(getDoctorsQuery.getDoctorsForClinic(clinicId));
     }
 

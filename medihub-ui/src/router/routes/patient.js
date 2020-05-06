@@ -17,7 +17,7 @@ export default {
       component: PatientSearchClinics,
     },
     {
-      path: '/search-doctors',
+      path: '/search-doctors/:clinic_id',
       component: PatientSearchDoctors,
     },
     {

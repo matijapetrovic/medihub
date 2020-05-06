@@ -12,8 +12,8 @@ export default {
     },
   },
   actions: {
-    fetchDoctors({ commit, dispatch }) {
-      return api.fetchDoctors()
+    fetchDoctors({ commit, dispatch }, clinicId) {
+      return api.fetchDoctors(clinicId)
         .then((response) => {
           commit('SET_DOCTORS', response.data);
         })

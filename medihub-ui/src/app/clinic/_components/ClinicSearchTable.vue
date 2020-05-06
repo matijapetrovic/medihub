@@ -5,6 +5,19 @@
     :items-per-page="5"
     class="elevation-1"
   >
+    <template v-slot:body="{ items }">
+        <tbody>
+          <tr v-for="item in items" :key="item.name">
+            <td>{{ item.name }}</td>
+            <td>{{ item.address }}</td>
+            <td>{{ item.city }}</td>
+            <td>{{ item.country }}</td>
+            <td>{{ item.rating }}</td>
+            <td>{{ item.appointmentPrice }}</td>
+            <td><v-btn>See doctors -></v-btn></td>
+          </tr>
+        </tbody>
+      </template>
   </v-data-table>
 </template>
 

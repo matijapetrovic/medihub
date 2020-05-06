@@ -23,5 +23,8 @@ export default {
   computed: {
     ...mapState('doctor', ['doctors']),
   },
+  mounted() {
+    this.fetchDoctors(this.$route.params.clinic_id);
+  },
 };
 </script>

@@ -20,7 +20,7 @@ public class GetDoctorsService implements GetDoctorsQuery {
                 .map(medicalDoctor -> new GetDoctorsOutput(
                         medicalDoctor.getFirstName(),
                         medicalDoctor.getLastName(),
-                        5.0))
+                        0.0))
                 .collect(Collectors.toList());
     }
 }
