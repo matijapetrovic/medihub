@@ -13,4 +13,5 @@ public class MedicalStaff {
     private Account account;
     private WorkingCalendar workingCalendar;
     private Clinic clinic;
+    private WorkingTime workingTime;
 }

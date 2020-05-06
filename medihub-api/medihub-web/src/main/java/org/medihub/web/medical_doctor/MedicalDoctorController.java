@@ -3,9 +3,6 @@ package org.medihub.web.medical_doctor;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase.AddMedicalDoctorCommand;
-import org.medihub.domain.*;
-import org.medihub.domain.identity.Account;
-import org.medihub.domain.identity.Authority;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,7 +34,10 @@ public class MedicalDoctorController {
                 medicalDoctorRequest.getCity(),
                 medicalDoctorRequest.getCountry(),
                 medicalDoctorRequest.getTelephoneNumber(),
-                medicalDoctorRequest.isPasswordChanged()
+                medicalDoctorRequest.isPasswordChanged(),
+                medicalDoctorRequest.getFrom(),
+                medicalDoctorRequest.getTo(),
+                medicalDoctorRequest.getAppointmentType()
         );
     }
 }

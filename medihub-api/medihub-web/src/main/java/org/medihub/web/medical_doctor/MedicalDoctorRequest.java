@@ -23,4 +23,7 @@ public class MedicalDoctorRequest {
     private String country;
     private String telephoneNumber;
     private boolean passwordChanged;
+    private String from;
+    private String to;
+    private String appointmentType;
 }

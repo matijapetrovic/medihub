@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <p :class="{ success: !error, failure: error }">{{ message }}</p>
-    <v-card max-width="1200" class="mx-auto">
+    <v-card max-width="1200" max-height="1200" class="mx-auto">
       <v-toolbar
         color="primary"
         dark
@@ -13,133 +13,156 @@
         <v-form
           ref="form"
         >
-        <v-row>
-          <v-col>
-            <EmailInput
-              v-model="email"
-            />
-          </v-col>
-          <v-col>
-            <v-spacer></v-spacer>
-            <v-select
-              :items="items"
-              label="Specialization"
-              dense
-              prepend-icon="mdi-account-cog"
-            ></v-select>
-          </v-col>
-          <v-spacer></v-spacer>
-          <v-col>
-            <PasswordInput
-              v-model="password"
-            />
-          </v-col>
-          <v-col>
-            <v-text-field
-              v-model="confirmPassword"
-              label="Confirm Password"
-              type="password"
-              prepend-icon="lock"
-              :rules="[passwordConfirmRule,]"
-              required
-            >
-            </v-text-field>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <v-text-field
-              v-model="firstName"
-              label="First Name"
-              name="firstName"
-              prepend-icon="person"
-              :rules="[requiredRule]"
-              type="text"
-              required
-            ></v-text-field>
-          </v-col>
-          <v-col>
-            <v-text-field
-              v-model="lastName"
-              label="Last Name"
-              name="lastName"
-              prepend-icon="person"
-              :rules="[requiredRule]"
-              type="text"
-              required
-            ></v-text-field>
-          </v-col>
-          <v-spacer></v-spacer>
-          <v-col>
-            <v-text-field
-              v-model="address"
-              label="Address"
-              name="address"
-              prepend-icon="house"
-              :rules="[requiredRule]"
-              type="text"
-              required
-            ></v-text-field>
-          </v-col>
-          <v-col>
-            <v-text-field
-              v-model="city"
-              label="City"
-              name="city"
-              prepend-icon="mdi-city"
-              :rules="[requiredRule]"
-              type="text"
-              required
-            ></v-text-field>
-          </v-col>
-        </v-row>
+      <v-row>
+        <v-col>
+          <v-row>
+            <v-col>
+              <EmailInput
+                v-model="email"
+              />
+            </v-col>
+            <v-col>
+              <v-select
+                :items="appointmentTypes"
+                v-model="appointmentType"
+                label="Specialization"
+                item-text="name"
+                dense
+                prepend-icon="mdi-account-cog"
+              ></v-select>
+            </v-col>
+          </v-row>
+        </v-col>
         <v-spacer></v-spacer>
-        <v-row>
-          <v-col>
-            <v-select
-              :items="dayHours"
-              v-model="from"
-              label="Start of working hours"
-              dense
-              :rules="[requiredRule]"
-              prepend-icon="mdi-arrow-down-bold-circle-outline"
-            ></v-select>
-          </v-col>
-          <v-col>
-            <v-select
-              :items="dayHours"
-              v-model="to"
-              label="End of working hours"
-              dense
-              :rules="[requiredRule]"
-              prepend-icon="mdi-arrow-up-bold-circle-outline"
-            ></v-select>
-          </v-col>
-          <v-spacer></v-spacer>
-          <v-col>
-            <v-text-field
-              v-model="country"
-              label="Country"
-              name="country"
-              prepend-icon="mdi-earth"
-              :rules="[requiredRule]"
-              type="text"
-              required
-            ></v-text-field>
-          </v-col>
-          <v-col>
-            <v-text-field
-              v-model="telephoneNum"
-              label="Tel. Number"
-              name="telephoneNum"
-              prepend-icon="phone"
-              :rules="[requiredRule, telephoneNumRule]"
-              type="text"
-              required
-            ></v-text-field>
-          </v-col>
-        </v-row>
-        </v-form>
+        <v-col>
+          <v-row>
+            <v-col>
+              <v-text-field
+                v-model="firstName"
+                label="First Name"
+                name="firstName"
+                prepend-icon="person"
+                :rules="[requiredRule]"
+                type="text"
+                required
+              ></v-text-field>
+            </v-col>
+            <v-col>
+              <v-text-field
+                v-model="lastName"
+                label="Last Name"
+                name="lastName"
+                prepend-icon="person"
+                :rules="[requiredRule]"
+                type="text"
+                required
+              ></v-text-field>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-row>
+            <v-col>
+              <PasswordInput
+                v-model="password"
+              />
+            </v-col>
+            <v-col>
+              <v-text-field
+                v-model="confirmPassword"
+                label="Confirm Password"
+                type="password"
+                prepend-icon="lock"
+                :rules="[passwordConfirmRule,]"
+                required
+              ></v-text-field>
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col>
+          <v-row>
+            <v-col>
+              <v-text-field
+                v-model="address"
+                label="Address"
+                name="address"
+                prepend-icon="house"
+                :rules="[requiredRule]"
+                type="text"
+                required
+              ></v-text-field>
+            </v-col>
+            <v-col>
+              <v-text-field
+                v-model="city"
+                label="City"
+                name="city"
+                prepend-icon="mdi-city"
+                :rules="[requiredRule]"
+                type="text"
+                required
+              ></v-text-field>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-row>
+            <v-col>
+              <v-select
+                :items="dayHours"
+                v-model="from"
+                label="Start of working hours"
+                dense
+                :rules="[requiredRule]"
+                prepend-icon="mdi-arrow-down-bold-circle-outline"
+              ></v-select>
+            </v-col>
+            <v-col>
+              <v-select
+                :items="dayHours"
+                v-model="to"
+                label="End of working hours"
+                dense
+                :rules="[requiredRule]"
+                prepend-icon="mdi-arrow-up-bold-circle-outline"
+              ></v-select>
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col>
+          <v-row>
+            <v-col>
+              <v-text-field
+                v-model="country"
+                label="Country"
+                name="country"
+                prepend-icon="mdi-earth"
+                :rules="[requiredRule]"
+                type="text"
+                required
+              ></v-text-field>
+            </v-col>
+            <v-col>
+              <v-text-field
+                v-model="telephoneNum"
+                label="Tel. Number"
+                name="telephoneNum"
+                prepend-icon="phone"
+                :rules="[requiredRule, telephoneNumRule]"
+                type="text"
+                required
+              ></v-text-field>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+      </v-form>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -228,7 +251,7 @@ export default {
     },
   },
   computed: {
-    ...mapState('appointmentType', ['fetchAppointmentTypes']),
+    ...mapState('appointmentType', ['appointmentTypes']),
     passwordConfirmRule() {
       return () => this.password === this.confirmPassword || 'Passwords must match';
     },

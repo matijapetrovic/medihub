@@ -7,9 +7,7 @@ import clinicAdmin from './routes/clinic-admin';
 import clinicCenterAdmin from './routes/clinic-center-admin';
 import unregisteredUser from './routes/unregistered';
 import registeredUser from './routes/user';
-import patient from './routes/patient';
-
-import AllPatientsView from '../views/patient/AllPatientsView.vue';
+import medicalDoctor from './routes/medical_doctor';
 
 Vue.use(VueRouter);
 
@@ -26,15 +24,7 @@ const routes = [
   clinicCenterAdmin,
   unregisteredUser,
   registeredUser,
-  patient,
-  {
-    path: '/patients',
-    name: 'AllPatientsView',
-    component: AllPatientsView,
-    meta: {
-      requiresAuth: true,
-    },
-  },
+  medicalDoctor,
 ];
 
 const router = new VueRouter({

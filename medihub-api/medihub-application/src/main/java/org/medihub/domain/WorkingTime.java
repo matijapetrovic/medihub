@@ -15,14 +15,18 @@ import static java.time.temporal.ChronoUnit.HOURS;
 @Getter
 public class WorkingTime {
 
-
     private LocalTime from;
     private LocalTime to;
     private List<TimeSlot> timeSlots;
 
-    public WorkingTime(int from, int to){
-        this.from = LocalTime.parse(from + ":00");
-        this.to =  LocalTime.parse(to + ":00");
+    public WorkingTime(String from, String to){
+        this.from = LocalTime.parse(from);
+        this.to =  LocalTime.parse(to);
+    }
+
+    public WorkingTime(LocalTime from, LocalTime to){
+        this.from = from;
+        this.to =  to;
     }
 
     private long getWorkingTimeDuration(){

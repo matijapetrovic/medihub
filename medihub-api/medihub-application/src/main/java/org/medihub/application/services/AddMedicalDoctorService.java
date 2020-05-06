@@ -40,6 +40,7 @@ public class AddMedicalDoctorService implements AddMedicalDoctorUseCase {
                 ),
                 new WorkingCalendar(),
                 new Clinic(),
+                new WorkingTime( command.getFrom(), command.getTo()),
                 Set.of()
         );
         saveDoctorPort.saveDoctor(entity);

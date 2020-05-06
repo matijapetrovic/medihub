@@ -21,6 +21,9 @@ public interface AddMedicalDoctorUseCase {
         String country;
         String telephoneNumber;
         boolean passwordChanged;
+        String from;
+        String to;
+        String appointmentType;
 
         public AddMedicalDoctorCommand(
                 Long id,
@@ -32,7 +35,10 @@ public interface AddMedicalDoctorUseCase {
                 String city,
                 String country,
                 String telephoneNumber,
-                boolean passwordChanged){
+                boolean passwordChanged,
+                String from,
+                String to,
+                String appointmentType){
             this.id = id;
             this.email = email;
             this.password = password;
@@ -43,6 +49,9 @@ public interface AddMedicalDoctorUseCase {
             this.country = country;
             this.telephoneNumber = telephoneNumber;
             this.passwordChanged = passwordChanged;
+            this.from = from;
+            this.to = to;
+            this.appointmentType = appointmentType;
         }
     }
 }
