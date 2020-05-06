@@ -1,10 +1,13 @@
 package org.medihub.persistence.clinic;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.ports.outgoing.clinic.GetClinicByIDPort;
+import org.medihub.application.ports.outgoing.clinic.GetClinicNamesPort;
 import org.medihub.application.ports.outgoing.clinic.SaveClinicPort;
 import org.medihub.application.ports.outgoing.clinic.SearchClinicsPort;
 import org.medihub.domain.AppointmentType;
 import org.medihub.domain.Clinic;
+import org.medihub.persistence.clinic_admin.ClinicAdminJpaEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -13,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class ClinicAdapter implements SaveClinicPort, SearchClinicsPort {
+public class ClinicAdapter implements SaveClinicPort, SearchClinicsPort, GetClinicNamesPort, GetClinicByIDPort {
     private final ClinicRepository clinicRepository;
     private final ClinicMapper mapper;
 
@@ -31,5 +34,19 @@ public class ClinicAdapter implements SaveClinicPort, SearchClinicsPort {
                 .stream()
                 .map(mapper::mapToDomainEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Clinic> getClinicNames() {
+        return clinicRepository
+                .findAll()
+                .stream()
+                .map(mapper::mapToDomainEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Clinic getByID(Long id) {
+        return mapper.mapToDomainEntity(clinicRepository.findById(id).get());
     }
 }
