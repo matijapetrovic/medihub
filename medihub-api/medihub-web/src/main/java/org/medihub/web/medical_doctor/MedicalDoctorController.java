@@ -3,19 +3,16 @@ package org.medihub.web.medical_doctor;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase.AddMedicalDoctorCommand;
+import org.medihub.application.ports.incoming.medical_doctor.GetDoctorsOutput;
+import org.medihub.application.ports.incoming.medical_doctor.GetDoctorsQuery;
 import org.medihub.domain.*;
 import org.medihub.domain.identity.Account;
 import org.medihub.domain.identity.Authority;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -25,6 +22,12 @@ import java.util.List;
 @RequestMapping(value = "/medical-doctor", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MedicalDoctorController {
     private final AddMedicalDoctorUseCase AddMedicalDoctorUseCase;
+    private final GetDoctorsQuery getDoctorsQuery;
+
+    @GetMapping("")
+    ResponseEntity<List<GetDoctorsOutput>> getDoctors(@RequestParam Long clinicId) {
+        return ResponseEntity.ok(getDoctorsQuery.getDoctorsForClinic(clinicId));
+    }
 
     @PostMapping("/add")
     void add(@RequestBody MedicalDoctorRequest request) {
