@@ -24,14 +24,6 @@ export default {
   data: () => ({
     navItems: [
       {
-        text: 'Appointment Types',
-        icon: 'mdi-clipboard-pulse-outline',
-        children: [
-          { text: 'Add', path: '/addAppointmentType', icon: 'add' },
-          { text: 'Delete', path: '', icon: 'delete' },
-        ],
-      },
-      {
         text: 'Doctors',
         path: '/',
         icon: 'mdi-doctor',

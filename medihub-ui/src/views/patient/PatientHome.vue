@@ -1,9 +1,14 @@
 <template>
-  <h1>Patient Home</h1>
+  <Welcome/>
 </template>
 
 <script>
+import Welcome from '@/app/shared/_components/Welcome.vue';
+
 export default {
   name: 'PatientHome',
+  components: {
+    Welcome,
+  },
 };
 </script>
