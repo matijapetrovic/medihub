@@ -1,5 +1,6 @@
 import Patient from '@/views/patient/Patient.vue';
 import PatientSearchClinics from '@/views/patient/PatientSearchClinics.vue';
+import PatientSearchDoctors from '@/views/patient/PatientSearchDoctors.vue';
 import PatientHome from '@/views/patient/PatientHome.vue';
 
 export default {
@@ -14,6 +15,10 @@ export default {
     {
       path: '/search-clinics',
       component: PatientSearchClinics,
+    },
+    {
+      path: '/search-doctors',
+      component: PatientSearchDoctors,
     },
     {
       path: '',

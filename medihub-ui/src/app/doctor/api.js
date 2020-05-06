@@ -1,4 +1,4 @@
-import utils from './node_modules/@/utils';
+import utils from '@/utils';
 
 export default {
   addMedicalDoctor(credentials) {

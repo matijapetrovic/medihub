@@ -26,6 +26,11 @@ export default {
       {
         text: 'Search Clinics',
         path: '/search-clinics',
+        icon: 'mdi-hospital-building',
+      },
+      {
+        text: 'Search Doctors',
+        path: '/search-doctors',
         icon: 'mdi-doctor',
       },
     ],
