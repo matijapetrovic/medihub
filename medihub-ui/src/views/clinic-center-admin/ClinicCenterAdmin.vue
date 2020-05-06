@@ -27,16 +27,21 @@ export default {
         text: 'Clinic Admins',
         icon: 'mdi-account-cowboy-hat',
         children: [
-          { text: 'Add', path: '/clinic_admin_registration', icon: 'add' },
-          { text: 'Delete', path: '', icon: 'delete' },
+          { text: 'Add', path: '/register-clinic-admin', icon: 'add' },
         ],
       },
       {
         text: 'Clinics',
         icon: 'mdi-hospital-box-outline',
         children: [
-          { text: 'Add', path: '/add_clinic', icon: 'add' },
-          { text: 'Delete', path: '', icon: 'delete' },
+          { text: 'Add', path: '/add-clinic', icon: 'add' },
+        ],
+      },
+      {
+        text: 'Appointment Types',
+        icon: 'mdi-clipboard-pulse-outline',
+        children: [
+          { text: 'Add', path: '/add-appointment-type', icon: 'add' },
         ],
       },
     ],

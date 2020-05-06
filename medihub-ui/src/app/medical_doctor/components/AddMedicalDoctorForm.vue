@@ -136,30 +136,57 @@
         </v-col>
         <v-spacer></v-spacer>
         <v-col>
-          <v-row>
-            <v-col>
-              <v-text-field
-                v-model="country"
-                label="Country"
-                name="country"
-                prepend-icon="mdi-earth"
-                :rules="[requiredRule]"
-                type="text"
-                required
-              ></v-text-field>
-            </v-col>
-            <v-col>
-              <v-text-field
-                v-model="telephoneNum"
-                label="Tel. Number"
-                name="telephoneNum"
-                prepend-icon="phone"
-                :rules="[requiredRule, telephoneNumRule]"
-                type="text"
-                required
-              ></v-text-field>
-            </v-col>
-          </v-row>
+          <v-text-field
+            v-model="lastName"
+            label="Last Name"
+            name="lastName"
+            prepend-icon="person"
+            :rules="[requiredRule]"
+            type="text"
+            required
+          ></v-text-field>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-text-field
+            v-model="address"
+            label="Address"
+            name="address"
+            prepend-icon="house"
+            :rules="[requiredRule]"
+            type="text"
+            required
+          ></v-text-field>
+        </v-col>
+        <v-col>
+          <v-text-field
+            v-model="city"
+            label="City"
+            name="city"
+            prepend-icon="mdi-city"
+            :rules="[requiredRule]"
+            type="text"
+            required
+          ></v-text-field>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <CountrySelect
+            v-model="country"
+          />
+        </v-col>
+        <v-col>
+          <v-text-field
+            v-model="telephoneNum"
+            label="Tel. Number"
+            name="telephoneNum"
+            prepend-icon="phone"
+            :rules="[requiredRule, telephoneNumRule]"
+            type="text"
+            required
+          ></v-text-field>
         </v-col>
       </v-row>
       </v-form>
@@ -183,12 +210,14 @@
 import { mapActions, mapState } from 'vuex';
 import EmailInput from '@/app/shared/_components/_forms/EmailInput.vue';
 import PasswordInput from '@/app/shared/_components/_forms/PasswordInput.vue';
+import CountrySelect from '@/app/country/_components/CountrySelect.vue';
 
 export default {
   name: 'AddMedicalDoctorForm',
   components: {
     EmailInput,
     PasswordInput,
+    CountrySelect,
   },
   data: () => ({
     email: '',

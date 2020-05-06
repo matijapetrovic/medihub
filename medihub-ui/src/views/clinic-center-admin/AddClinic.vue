@@ -1,14 +1,10 @@
 <template>
-<v-container
-      fluid
-    >
-      <v-row
-        align="center"
-        justify="center"
-      >
-      <AddForm></AddForm>
-      </v-row>
-  </v-container>
+  <v-row
+    align="center"
+    justify="center"
+  >
+    <AddForm></AddForm>
+  </v-row>
 </template>
 
 <script>

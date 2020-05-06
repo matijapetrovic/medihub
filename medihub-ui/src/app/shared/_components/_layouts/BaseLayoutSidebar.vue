@@ -3,7 +3,6 @@
     <slot name="sidebar">
     </slot>
     <v-container
-      fluid
       class="fill-height"
     >
       <slot>
