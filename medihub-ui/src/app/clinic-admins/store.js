@@ -1,23 +1,17 @@
+import utils from '@/utils';
 import api from './api';
 
 export default {
   namespaced: true,
-  state: {
-    name: null,
-  },
-  mutations: {
-    SET_NAME(state, admin) {
-      state.name = admin.email;
-    },
-  },
   actions: {
-    registerClinicAdmin({ commit }, admin) {
+    registerClinicAdmin({ dispatch }, admin) {
       return api.addClinicAdmin(admin)
         .then(() => {
-          commit('SET_NAME', admin);
+          const message = 'Registration successful';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
         })
         .catch((err) => {
-          console.log(err);
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
   },

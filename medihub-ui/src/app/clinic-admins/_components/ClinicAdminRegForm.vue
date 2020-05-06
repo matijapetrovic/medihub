@@ -4,7 +4,6 @@
     sm="8"
     md="4"
   >
-  <p :class="{ success: !error, failure: error }">{{ message }}</p>
   <v-card class="elevation-12">
     <v-toolbar
       color="primary"
@@ -24,6 +23,16 @@
           />
         </v-col>
         <v-col>
+          <v-select
+            label="Clinic"
+            prepend-icon="mdi-hospital-box-outline"
+            v-model="clinic"
+            :items="clinicNames"
+            item-text="name"
+            :rules="[requiredRule]"
+            return-object
+            ref="clinic">
+          </v-select>
         </v-col>
       </v-row>
       <v-row>
@@ -135,7 +144,7 @@
 
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import EmailInput from '@/app/shared/_components/_forms/EmailInput.vue';
 import PasswordInput from '@/app/shared/_components/_forms/PasswordInput.vue';
 
@@ -155,11 +164,11 @@ export default {
     city: '',
     country: '',
     telephoneNum: '',
-    message: null,
-    error: false,
+    clinic: null,
   }),
   methods: {
     ...mapActions('clinicAdmin', ['registerClinicAdmin']),
+    ...mapActions('clinic', ['getClinicNames']),
     submit() {
       if (this.validate()) {
         this.registerClinicAdmin({
@@ -171,22 +180,19 @@ export default {
           city: this.city,
           country: this.country,
           telephoneNum: this.telephoneNum,
-        })
-          .then(() => {
-            this.error = false;
-            this.message = 'Registration request sent successfully.';
-          })
-          .catch((err) => {
-            this.error = true;
-            this.message = err.response.data.message;
-          });
+          clinic: this.clinic.id,
+        });
       }
     },
     validate() {
       return this.$refs.form.validate();
     },
   },
+  mounted() {
+    this.getClinicNames();
+  },
   computed: {
+    ...mapState('clinic', ['clinicNames']),
     passwordConfirmRule() {
       return () => this.password === this.confirmPassword || 'Passwords must match';
     },

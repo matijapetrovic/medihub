@@ -1,10 +1,8 @@
 package org.medihub.web.clinic;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.incoming.clinic.AddClinicUseCase;
+import org.medihub.application.ports.incoming.clinic.*;
 import org.medihub.application.ports.incoming.clinic.AddClinicUseCase.AddClinicCommand;
-import org.medihub.application.ports.incoming.clinic.SearchClinicsOutput;
-import org.medihub.application.ports.incoming.clinic.SearchClinicsQuery;
 import org.medihub.domain.Clinic;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +21,7 @@ import java.util.List;
 public class ClinicController {
     private final AddClinicUseCase addClinicUseCase;
     private final SearchClinicsQuery searchClinicsQuery;
+    private final GetClinicNamesQuery getClinicNamesQuery;
 
     @GetMapping("")
     ResponseEntity<List<SearchClinicsOutput>> searchClinics(@RequestParam(required = false) Date date,
@@ -47,5 +46,10 @@ public class ClinicController {
                 .toUri();
 
         return ResponseEntity.created(location).build();
+    }
+
+    @GetMapping("/names")
+    ResponseEntity<List<GetClinicNamesOutput>> getClinicNames() {
+        return ResponseEntity.ok(getClinicNamesQuery.getClinicNames());
     }
 }

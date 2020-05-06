@@ -4,6 +4,7 @@ import org.medihub.application.ports.incoming.*;
 import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase;
 import org.medihub.application.ports.incoming.appointment_type.GetAppointmentTypesQuery;
 import org.medihub.application.ports.incoming.authentication.LoginUseCase;
+import org.medihub.application.ports.incoming.clinic.GetClinicNamesQuery;
 import org.medihub.application.ports.incoming.clinic_admin.AddClinicAdminUseCase;
 import org.medihub.application.ports.incoming.clinic_room.AddClinicRoomUseCase;
 import org.medihub.application.ports.incoming.clinic_room.DeleteClinicRoomUseCase;
@@ -23,6 +24,8 @@ import org.medihub.application.ports.outgoing.account.SaveAccountPort;
 import org.medihub.application.ports.outgoing.appointment_type.GetAppointmentTypesPort;
 import org.medihub.application.ports.outgoing.appointment_type.LoadAppointmentTypePort;
 import org.medihub.application.ports.outgoing.appointment_type.SaveAppointmentTypePort;
+import org.medihub.application.ports.outgoing.clinic.GetClinicByIDPort;
+import org.medihub.application.ports.outgoing.clinic.GetClinicNamesPort;
 import org.medihub.application.ports.outgoing.clinic.SaveClinicPort;
 import org.medihub.application.ports.outgoing.clinic.SearchClinicsPort;
 import org.medihub.application.ports.outgoing.clinic_room.DeleteClinicRoomPort;
@@ -41,6 +44,7 @@ import org.medihub.application.services.account.UpdateProfileService;
 import org.medihub.application.services.appointment_type.AddAppointmentTypeService;
 import org.medihub.application.services.appointment_type.GetAppointmentTypeService;
 import org.medihub.application.services.clinic.AddClinicService;
+import org.medihub.application.services.clinic.GetClinicNamesService;
 import org.medihub.application.services.clinic.SearchClinicsService;
 import org.medihub.application.services.patient.RegisterPatientService;
 import org.springframework.context.annotation.Bean;
@@ -124,9 +128,10 @@ public class BeanConfig {
     public AddClinicAdminUseCase getAddClinicAdminUseCase(
             LoadAccountPort loadAccountPort,
             AddClinicAdminPort addClinicAdminPort,
-            EncoderPort encoderPort
+            EncoderPort encoderPort,
+            GetClinicByIDPort getClinicByIDPort
     ) {
-        return new AddClinicAdminService(addClinicAdminPort, loadAccountPort, encoderPort);
+        return new AddClinicAdminService(addClinicAdminPort, loadAccountPort, encoderPort, getClinicByIDPort);
     }
 
     @Bean
@@ -157,5 +162,10 @@ public class BeanConfig {
     @Bean
     public LoadPatientUseCase getLoadPatientPort(LoadPatientPort loadPatientPort){
         return new LaodPatientService(loadPatientPort);
+    }
+
+    @Bean
+    public GetClinicNamesQuery getClinicNamesQuery(GetClinicNamesPort getClinicNamesPort){
+        return new GetClinicNamesService(getClinicNamesPort);
     }
 }

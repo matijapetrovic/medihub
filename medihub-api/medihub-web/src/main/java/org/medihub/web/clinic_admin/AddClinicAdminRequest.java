@@ -18,4 +18,5 @@ public class AddClinicAdminRequest {
     private String city;
     private String country;
     private String telephoneNum;
+    private Long clinic;
 }

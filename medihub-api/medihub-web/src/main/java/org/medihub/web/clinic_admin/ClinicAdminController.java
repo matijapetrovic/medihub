@@ -43,7 +43,8 @@ public class ClinicAdminController {
                 addRequest.getAddress(),
                 addRequest.getCity(),
                 addRequest.getCountry(),
-                addRequest.getTelephoneNum()
+                addRequest.getTelephoneNum(),
+                addRequest.getClinic()
         );
     }
 
