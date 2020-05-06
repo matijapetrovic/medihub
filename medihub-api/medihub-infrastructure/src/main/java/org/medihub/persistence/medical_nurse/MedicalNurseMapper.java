@@ -7,6 +7,8 @@ import org.medihub.persistence.clinic.ClinicMapper;
 import org.medihub.persistence.working_calendar.WorkingCalendarMapper;
 import org.springframework.stereotype.Component;
 
+import java.sql.Time;
+
 @RequiredArgsConstructor
 @Component
 public class MedicalNurseMapper {
@@ -19,7 +21,8 @@ public class MedicalNurseMapper {
                 medicalNurseJpaEntity.getId(),
                 accountMapper.mapToDomainEntity(medicalNurseJpaEntity.getAccount()),
                 workingCalendarMapper.mapToDomainEntity(medicalNurseJpaEntity.getWorkingCalendarJpaEntity()),
-                clinicMapper.mapToDomainEntity(medicalNurseJpaEntity.getClinic())
+                clinicMapper.mapToDomainEntity(medicalNurseJpaEntity.getClinic()),
+                new WorkingTime(medicalNurseJpaEntity.getFrom().toLocalTime(), medicalNurseJpaEntity.getTo().toLocalTime())
         );
     }
 
@@ -28,7 +31,9 @@ public class MedicalNurseMapper {
                 null,
                 accountMapper.mapToJpaEntity(medicalNurse.getAccount()),
                 workingCalendarMapper.mapToJpaEntity(medicalNurse.getWorkingCalendar()),
-                clinicMapper.mapToJpaEntity(medicalNurse.getClinic())
+                clinicMapper.mapToJpaEntity(medicalNurse.getClinic()),
+                Time.valueOf(medicalNurse.getWorkingTime().getFrom()),
+                Time.valueOf(medicalNurse.getWorkingTime().getTo())
         );
     }
 }

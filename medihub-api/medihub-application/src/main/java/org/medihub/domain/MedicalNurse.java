@@ -8,7 +8,8 @@ public class MedicalNurse extends MedicalStaff {
             Long id,
             Account account,
             WorkingCalendar workingCalendar,
-            Clinic clinic) {
-        super(id, account, workingCalendar, clinic);
+            Clinic clinic,
+            WorkingTime workingTime) {
+        super(id, account, workingCalendar, clinic, workingTime);
     }
 }

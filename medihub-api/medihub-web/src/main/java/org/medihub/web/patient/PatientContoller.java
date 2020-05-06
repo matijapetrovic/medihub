@@ -31,7 +31,8 @@ public class PatientContoller {
                         patient.getAccount().getPersonalInfo().getFirstName(),
                         patient.getAccount().getPersonalInfo().getLastName(),
                         patient.getAccount().getEmail(),
-                        patient.getAccount().getAddress()
+                        patient.getAccount().getAddress(),
+                        patient.getInsuranceNumber()
                 )).collect(Collectors.toList());
     }
 }

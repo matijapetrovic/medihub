@@ -4,11 +4,11 @@
       class="mb-6"
       no-gutters
     >
-      <v-col
-        cols="12"
-        lg="10"
-        offset-md="1"
-      >
+    <v-col
+      cols="12"
+      lg="10"
+      offset-md="1"
+    >
     <v-data-table
       :headers="headers"
       :items="patients"
@@ -25,9 +25,6 @@
           ></v-divider>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="500px">
-            <template v-slot:activator="{ on }">
-              <v-btn color="primary" dark class="mb-2" v-on="on">New Item</v-btn>
-            </template>
             <v-card>
               <v-card-title>
                 <span class="headline">{{ formTitle }}</span>
@@ -45,11 +42,15 @@
                       </v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="editedItem.email" label="email">
+                      <v-text-field v-model="editedItem.email" label="Email">
                       </v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="editedItem.address" label="address">
+                      <v-text-field v-model="editedItem.addressLine" label="Address">
+                      </v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field v-model="editedItem.insuranceNumber" label="Insurance number">
                       </v-text-field>
                     </v-col>
                   </v-row>
@@ -103,20 +104,23 @@ export default {
       },
       { text: 'Last name', value: 'lastName' },
       { text: 'Email', value: 'email' },
-      { text: 'Address', value: 'address' },
+      { text: 'Address', value: 'addressLine' },
+      { text: 'Insurance number', value: 'insuranceNumber' },
     ],
     editedIndex: -1,
     editedItem: {
       firstName: '',
       lastName: '',
       email: '',
-      address: '',
+      addressLine: '',
+      insuranceNumber: '',
     },
     defaultItem: {
       firstName: '',
       lastName: '',
       email: '',
-      address: '',
+      addressLine: '',
+      insuranceNumber: '',
     },
   }),
 

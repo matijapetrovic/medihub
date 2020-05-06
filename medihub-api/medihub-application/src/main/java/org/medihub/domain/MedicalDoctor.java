@@ -20,9 +20,10 @@ public class MedicalDoctor extends  MedicalStaff {
             Account account,
             WorkingCalendar workingCalendar,
             Clinic clinic,
+            WorkingTime workingTime,
             Set<Appointment> appointments
     ) {
-        super(id, account, workingCalendar, clinic);
+        super(id, account, workingCalendar, clinic, workingTime);
         this.appointments = appointments;
     }
 }

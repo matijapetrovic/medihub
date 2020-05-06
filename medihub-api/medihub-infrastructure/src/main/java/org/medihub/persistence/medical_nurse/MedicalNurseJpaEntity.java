@@ -8,6 +8,7 @@ import org.medihub.persistence.clinic.ClinicJpaEntity;
 import org.medihub.persistence.working_calendar.WorkingCalendarJpaEntity;
 
 import javax.persistence.*;
+import java.sql.Time;
 
 @Entity
 @Table(name="medical_nirse")
@@ -32,4 +33,10 @@ public class MedicalNurseJpaEntity {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="clinic", referencedColumnName="id", nullable=true)
     private ClinicJpaEntity clinic;
+
+    @Column(name = "working_time_from")
+    private Time from;
+
+    @Column(name = "working_time_to")
+    private Time to;
 }
