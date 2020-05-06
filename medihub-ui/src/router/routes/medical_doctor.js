@@ -3,8 +3,8 @@ import AllPatientsView from '@/views/patient/AllPatientsView.vue';
 import MedicalDoctorHome from '@/views/medical_doctor/MedicalDoctorHome.vue';
 
 export default {
-  path: '/medical_doctor',
-  name: 'medical_doctor',
+  path: '/medical-doctor',
+  name: 'medical-doctor',
   component: MedicalDoctor,
   meta: {
     requiresAuth: true,
