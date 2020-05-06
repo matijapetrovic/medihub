@@ -17,8 +17,12 @@ export default {
     };
   },
   errorNotification(err) {
+    let text = err.response ? err.response.message : err;
+    if (!text) {
+      text = 'Authentication failed';
+    }
     return {
-      text: (err.response ? err.response.message : err),
+      text,
       color: 'error',
     };
   },

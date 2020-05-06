@@ -45,6 +45,7 @@
         >
           Change
         </v-btn>
+        <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>
   </div>
@@ -72,17 +73,15 @@ export default {
           oldPassword: this.oldPassword,
           newPassword: this.newPassword,
         }).then(() => {
-          this.reset();
+          this.clear();
         });
       }
     },
     validate() {
       return this.$refs.form.validate();
     },
-    reset() {
-      this.oldPassword = '';
-      this.newPassword = '';
-      this.confirmNewPassword = '';
+    clear() {
+      this.$refs.form.reset();
     },
   },
   computed: {

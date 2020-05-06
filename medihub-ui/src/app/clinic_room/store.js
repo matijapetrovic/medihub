@@ -1,3 +1,4 @@
+import utils from '@/utils';
 import api from './api';
 
 export default {
@@ -11,22 +12,24 @@ export default {
     },
   },
   actions: {
-    addClinicRoom({ commit }, payload) {
+    addClinicRoom({ dispatch }, payload) {
       return api.addClinicRoom(payload)
         .then(() => {
-          commit('SET_NAME', payload);
+          const message = 'Clinic room added successfully';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
         })
         .catch((err) => {
-          console.log(err);
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
-    deleteClinicRoom({ commit }, payload) {
+    deleteClinicRoom({ dispatch }, payload) {
       return api.deleteClinicRoom(payload)
         .then(() => {
-          commit('SET_NAME', payload);
+          const message = 'Clinic room deleted successfully';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
         })
         .catch((err) => {
-          console.log(err);
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
   },
