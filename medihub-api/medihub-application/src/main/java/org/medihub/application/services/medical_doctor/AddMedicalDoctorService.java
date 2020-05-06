@@ -1,4 +1,4 @@
-package org.medihub.application.services;
+package org.medihub.application.services.medical_doctor;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase;

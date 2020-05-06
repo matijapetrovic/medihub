@@ -1,16 +1,18 @@
 package org.medihub.persistence.medical_doctor;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.ports.outgoing.doctor.GetDoctorPort;
 import org.medihub.application.ports.outgoing.doctor.LoadDoctorPort;
 import org.medihub.application.ports.outgoing.doctor.SaveDoctorPort;
 import org.medihub.domain.MedicalDoctor;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class MedicalDoctorAdapter implements  LoadDoctorPort, SaveDoctorPort{
+public class MedicalDoctorAdapter implements  LoadDoctorPort, SaveDoctorPort, GetDoctorPort {
     private final MedicalDoctorMapper medicalDoctorMapper;
     private final MedicalDoctorRepository medicalDoctorRepository;
 
@@ -26,5 +28,10 @@ public class MedicalDoctorAdapter implements  LoadDoctorPort, SaveDoctorPort{
     @Override
     public void saveDoctor(MedicalDoctor doctor) {
         medicalDoctorRepository.save(medicalDoctorMapper.mapToJpaEntity(doctor));
+    }
+
+    @Override
+    public List<MedicalDoctor> getAllDoctors() {
+        return medicalDoctorMapper.mapToDomainList(medicalDoctorRepository.findAll());
     }
 }

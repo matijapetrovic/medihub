@@ -1,8 +1,8 @@
-package org.medihub.application.services;
+package org.medihub.application.services.patient;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.patient.LoadPatientUseCase;
-import org.medihub.application.ports.outgoing.LoadPatientPort;
+import org.medihub.application.ports.outgoing.patient.LoadPatientPort;
 import org.medihub.domain.Patient;
 
 import java.util.List;

@@ -1,6 +1,5 @@
 package org.medihub.config;
 
-import org.medihub.application.ports.incoming.*;
 import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase;
 import org.medihub.application.ports.incoming.appointment_type.GetAppointmentTypesQuery;
 import org.medihub.application.ports.incoming.authentication.LoginUseCase;
@@ -15,6 +14,7 @@ import org.medihub.application.ports.incoming.clinic.AddClinicUseCase;
 import org.medihub.application.ports.incoming.account.profile.GetProfileQuery;
 import org.medihub.application.ports.incoming.account.profile.UpdateProfileUseCase;
 import org.medihub.application.ports.incoming.clinic.SearchClinicsQuery;
+import org.medihub.application.ports.incoming.medical_doctor.GetMedicalDoctorUseCase;
 import org.medihub.application.ports.incoming.patient.LoadPatientUseCase;
 import org.medihub.application.ports.incoming.patient.RegisterPatientUseCase;
 import org.medihub.application.ports.outgoing.*;
@@ -29,8 +29,10 @@ import org.medihub.application.ports.outgoing.clinic.SaveClinicPort;
 import org.medihub.application.ports.outgoing.clinic.SearchClinicsPort;
 import org.medihub.application.ports.outgoing.clinic_room.DeleteClinicRoomPort;
 import org.medihub.application.ports.outgoing.clinic_room.SaveClinicRoomPort;
+import org.medihub.application.ports.outgoing.doctor.GetDoctorPort;
 import org.medihub.application.ports.outgoing.doctor.SaveDoctorPort;
 import org.medihub.application.ports.outgoing.encoding.EncoderPort;
+import org.medihub.application.ports.outgoing.patient.LoadPatientPort;
 import org.medihub.application.ports.outgoing.patient.SaveRegistrationRequestPort;
 import org.medihub.application.ports.outgoing.áuthentication.AuthenticationPort;
 import org.medihub.application.ports.outgoing.áuthentication.GetAuthenticatedPort;
@@ -44,6 +46,11 @@ import org.medihub.application.services.appointment_type.GetAppointmentTypeServi
 import org.medihub.application.services.clinic.AddClinicService;
 import org.medihub.application.services.clinic.GetClinicNamesService;
 import org.medihub.application.services.clinic.SearchClinicsService;
+import org.medihub.application.services.clinic_room.AddClinicRoomService;
+import org.medihub.application.services.clinic_room.DeleteClinicRoomService;
+import org.medihub.application.services.medical_doctor.AddMedicalDoctorService;
+import org.medihub.application.services.medical_doctor.GetMedicalDoctorService;
+import org.medihub.application.services.patient.LaodPatientService;
 import org.medihub.application.services.patient.RegisterPatientService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -138,6 +145,13 @@ public class BeanConfig {
         return new AddMedicalDoctorService(
                 saveDoctorPorts,
                 encoderPort
+        );
+    }
+
+    @Bean
+    public GetMedicalDoctorUseCase getMedicalDoctorUseCase(GetDoctorPort doctorPort){
+        return new GetMedicalDoctorService(
+                doctorPort
         );
     }
 

@@ -11,6 +11,7 @@ import org.medihub.persistence.working_calendar.WorkingCalendarMapper;
 import org.springframework.stereotype.Component;
 
 import java.sql.Time;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -50,5 +51,12 @@ public class MedicalDoctorMapper {
                         .map(appointmentJpa -> new AppointmentJpaEntity())
                         .collect(Collectors.toSet())
         );
+    }
+
+    public List<MedicalDoctor> mapToDomainList(List<MedicalDoctorJpaEntity> medicalDoctorJpaEntities){
+        return medicalDoctorJpaEntities
+                .stream()
+                .map(this::mapToDomainEntity)
+                .collect(Collectors.toList());
     }
 }

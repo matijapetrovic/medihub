@@ -4,4 +4,7 @@ export default {
   addMedicalDoctor(credentials) {
     return utils.apiClient.post('api/medical-doctor/add', credentials);
   },
+  getAllDoctors() {
+    return utils.apiClient.get('api/medical-doctor/getAll');
+  },
 };
