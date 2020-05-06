@@ -50,15 +50,9 @@
             ></v-text-field>
           </v-col>
           <v-col>
-            <v-text-field
+            <CountrySelect
               v-model="country"
-              label="Country"
-              name="country"
-              prepend-icon="mdi-earth"
-              :rules="[requiredRule]"
-              type="text"
-              required
-            ></v-text-field>
+            />
           </v-col>
         </v-row>
         <v-row>
@@ -92,9 +86,13 @@
 
 <script>
 import { mapActions } from 'vuex';
+import CountrySelect from '@/app/country/_components/CountrySelect.vue';
 
 export default {
   name: 'AddClinicForm',
+  components: {
+    CountrySelect,
+  },
   data: () => ({
     name: '',
     address: '',

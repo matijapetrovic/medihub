@@ -100,15 +100,9 @@
       </v-row>
       <v-row>
         <v-col>
-          <v-text-field
+          <CountrySelect
             v-model="country"
-            label="Country"
-            name="country"
-            prepend-icon="mdi-earth"
-            :rules="[requiredRule]"
-            type="text"
-            required
-          ></v-text-field>
+          />
         </v-col>
         <v-col>
           <v-text-field
@@ -144,12 +138,14 @@
 import { mapActions, mapState } from 'vuex';
 import EmailInput from '@/app/shared/_components/_forms/EmailInput.vue';
 import PasswordInput from '@/app/shared/_components/_forms/PasswordInput.vue';
+import CountrySelect from '@/app/country/_components/CountrySelect.vue';
 
 export default {
   name: 'ClinicAdminReg',
   components: {
     EmailInput,
     PasswordInput,
+    CountrySelect,
   },
   data: () => ({
     email: '',
