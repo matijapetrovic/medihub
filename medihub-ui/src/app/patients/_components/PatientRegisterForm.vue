@@ -170,11 +170,17 @@ export default {
           city: this.city,
           country: this.country,
           telephoneNum: this.telephoneNum,
-        });
+        })
+          .then(() => {
+            this.clear();
+          });
       }
     },
     validate() {
       return this.$refs.form.validate();
+    },
+    clear() {
+      this.$refs.form.reset();
     },
   },
   computed: {

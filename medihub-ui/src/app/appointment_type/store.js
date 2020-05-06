@@ -16,13 +16,14 @@ export default {
     },
   },
   actions: {
-    addAppointmentType({ commit }, payload) {
+    addAppointmentType({ dispatch }, payload) {
       return api.addAppointmentType(payload)
         .then(() => {
-          commit('SET_PRICE', payload);
+          const message = 'Appointment type added successfully';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
         })
         .catch((err) => {
-          console.log(err);
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
     fetchAppointmentTypes({ commit, dispatch }) {

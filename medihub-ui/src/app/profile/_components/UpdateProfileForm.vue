@@ -89,6 +89,7 @@
         >
           Update
         </v-btn>
+        <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>
   </div>
@@ -128,6 +129,9 @@ export default {
     },
     validate() {
       return this.$refs.form.validate();
+    },
+    clear() {
+      this.$refs.form.reset();
     },
   },
   mounted() {

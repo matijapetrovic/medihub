@@ -41,7 +41,7 @@ public class MedicalDoctorController {
                 medicalDoctorRequest.getAddress(),
                 medicalDoctorRequest.getCity(),
                 medicalDoctorRequest.getCountry(),
-                medicalDoctorRequest.getTelephoneNumber(),
+                medicalDoctorRequest.getTelephoneNum(),
                 medicalDoctorRequest.isPasswordChanged(),
                 medicalDoctorRequest.getFrom(),
                 medicalDoctorRequest.getTo(),

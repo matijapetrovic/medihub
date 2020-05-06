@@ -20,9 +20,10 @@
                             <v-btn @click="submit" color="primary" name="submit">
                                 Submit
                             </v-btn>
-                            <v-btn @click="clear" color="secondary" name="clear">
+                            <v-spacer></v-spacer>
+                            <!-- <v-btn @click="clear" color="secondary" name="clear">
                                 Clear
-                            </v-btn>
+                            </v-btn> -->
                         </v-card-actions>
                     </v-card>
                 </v-col>
@@ -45,11 +46,14 @@ export default {
       if (this.validate()) {
         this.addClinicRoom({
           name: this.name,
-        });
+        })
+          .then(() => {
+            this.clear();
+          });
       }
     },
     clear() {
-      this.name = null;
+      this.$refs.form.reset();
     },
     validate() {
       return this.$refs.form.validate();
