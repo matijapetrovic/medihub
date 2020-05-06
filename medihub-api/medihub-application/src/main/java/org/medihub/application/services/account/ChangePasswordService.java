@@ -20,7 +20,7 @@ public class ChangePasswordService implements ChangePasswordUseCase {
 
     @Override
     public boolean changePassword(ChangePasswordCommand command) throws AccountNotFoundException {
-        String email = getAuthenticatedPort.getAuthenticated();
+        String email = getAuthenticatedPort.getAuthenticated().getEmail();
         if (!authenticationPort.reauthenticate(email, command.getOldPassword()))
             return false;
 

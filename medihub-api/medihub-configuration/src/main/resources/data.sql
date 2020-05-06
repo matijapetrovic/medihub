@@ -22,6 +22,11 @@ insert into medical_record (id) values (2);
 insert into patient (insurance_number, account_id, medical_record_id) values ('14115151555', 2, 1);
 insert into patient (insurance_number, account_id, medical_record_id) values ('14115151252', 3, 2);
 
+insert into clinic (name, address, city, country, description) values ('Klinika 1', 'asf', 'adgsdg', 'Serbia', 'asgadg');
+insert into clinic (name, address, city, country, description) values ('Klinika 2', 'asf', 'adgsdg', 'Serbia', 'asgadg');
+
+insert into clinic_admin(account, clinic) values (4, 1);
+
 insert into appointment_type(name) values ('type1');
 insert into appointment_type(name) values ('type2');
 insert into appointment_type(name) values ('type3');

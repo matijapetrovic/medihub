@@ -41,8 +41,7 @@ public class MedicalDoctorMapper {
                 null,
                 accountMapper.mapToJpaEntity(medicalDoctor.getAccount()),
                 workingCalendarMapper.mapToJpaEntity(medicalDoctor.getWorkingCalendar()),
-                //clinicMapper.mapToJpaEntity(medicalDoctor.getClinic()),
-                new ClinicJpaEntity(),
+                clinicMapper.mapToJpaEntity(medicalDoctor.getClinic()),
                 Time.valueOf(medicalDoctor.getWorkingTime().getFrom()),
                 Time.valueOf(medicalDoctor.getWorkingTime().getTo()),
                 medicalDoctor.getAppointments()

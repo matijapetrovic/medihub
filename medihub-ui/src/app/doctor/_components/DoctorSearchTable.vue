@@ -46,13 +46,13 @@ export default {
   methods: {
     times(from, to) {
       const times = [];
-      const start = from.split(':')[0];
-      let end = to.split(':')[0];
+      const start = +from.split(':')[0];
+      let end = +to.split(':')[0];
       if (end < start) {
         end += 24;
       }
       for (let i = start; i <= end; i += 1) {
-        const time = i < 10 ? `0${i}` : `${i}`;
+        const time = (i % 24) < 10 ? `0${i % 24}` : `${i % 24}`;
         times.push(`${time}:00`);
       }
       return times;

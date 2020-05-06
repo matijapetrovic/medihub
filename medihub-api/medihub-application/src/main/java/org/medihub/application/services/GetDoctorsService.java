@@ -18,9 +18,12 @@ public class GetDoctorsService implements GetDoctorsQuery {
                 .getDoctorsForClinic(clinicId)
                 .stream()
                 .map(medicalDoctor -> new GetDoctorsOutput(
+                        medicalDoctor.getId(),
                         medicalDoctor.getFirstName(),
                         medicalDoctor.getLastName(),
-                        0.0))
+                        0.0,
+                        medicalDoctor.getWorkingTime().getFrom().toString(),
+                        medicalDoctor.getWorkingTime().getTo().toString()))
                 .collect(Collectors.toList());
     }
 }

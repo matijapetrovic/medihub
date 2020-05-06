@@ -14,7 +14,7 @@
             <td>{{ item.country }}</td>
             <td>{{ item.rating }}</td>
             <td>{{ item.appointmentPrice }}</td>
-            <td><v-btn>See doctors -></v-btn></td>
+            <td><v-btn @click="routeDoctors(item.id)">See doctors -></v-btn></td>
           </tr>
         </tbody>
       </template>
@@ -43,6 +43,11 @@ export default {
     items: {
       type: Array,
       required: true,
+    },
+  },
+  methods: {
+    routeDoctors(clinicId) {
+      this.$router.push(`/search-doctors/${clinicId}`);
     },
   },
 };

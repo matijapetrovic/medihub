@@ -7,6 +7,7 @@ import org.medihub.application.ports.incoming.clinic.GetClinicNamesQuery;
 import org.medihub.application.ports.incoming.clinic_admin.AddClinicAdminUseCase;
 import org.medihub.application.ports.incoming.clinic_room.AddClinicRoomUseCase;
 import org.medihub.application.ports.incoming.clinic_room.DeleteClinicRoomUseCase;
+import org.medihub.application.ports.incoming.clinic_room.GetClinicRoomsQuery;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase;
 import org.medihub.application.ports.incoming.account.ChangePasswordUseCase;
 import org.medihub.application.ports.incoming.account.GetAccountQuery;
@@ -28,6 +29,7 @@ import org.medihub.application.ports.outgoing.clinic.GetClinicNamesPort;
 import org.medihub.application.ports.outgoing.clinic.SaveClinicPort;
 import org.medihub.application.ports.outgoing.clinic.SearchClinicsPort;
 import org.medihub.application.ports.outgoing.clinic_room.DeleteClinicRoomPort;
+import org.medihub.application.ports.outgoing.clinic_room.GetClinicRoomsPort;
 import org.medihub.application.ports.outgoing.clinic_room.SaveClinicRoomPort;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorsPort;
 import org.medihub.application.ports.outgoing.doctor.SaveDoctorPort;
@@ -51,6 +53,14 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class BeanConfig {
+
+    @Bean
+    public GetClinicRoomsQuery getClinicRoomsQuery(
+            GetClinicRoomsPort getClinicRoomsPort,
+            GetAuthenticatedPort getAuthenticatedPort,
+            LoadClinicAdminPort loadClinicAdminPort) {
+        return new GetClinicRoomsService(getClinicRoomsPort, getAuthenticatedPort, loadClinicAdminPort);
+    }
 
     @Bean
     public GetDoctorsQuery getDoctorsQuery(
@@ -141,10 +151,16 @@ public class BeanConfig {
     }
 
     @Bean
-    public AddMedicalDoctorUseCase getAddDoctorUseCase(SaveDoctorPort saveDoctorPorts, EncoderPort encoderPort){
+    public AddMedicalDoctorUseCase getAddDoctorUseCase(
+            SaveDoctorPort saveDoctorPorts,
+            EncoderPort encoderPort,
+            GetAuthenticatedPort getAuthenticatedPort,
+            LoadClinicAdminPort loadClinicAdminPort){
         return new AddMedicalDoctorService(
                 saveDoctorPorts,
-                encoderPort
+                encoderPort,
+                getAuthenticatedPort,
+                loadClinicAdminPort
         );
     }
 

@@ -3,7 +3,6 @@
     <h1>Search Doctors</h1>
     <DoctorSearchTable
       :items="doctors"
-      v-if="doctors.length"
     />
   </div>
 </template>
