@@ -63,7 +63,7 @@
           <v-row>
             <v-col>
               <CountrySelect
-                v-model="country"
+                v-model="profile.country"
               />
             </v-col>
             <v-col>

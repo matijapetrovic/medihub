@@ -8,6 +8,7 @@ import clinicCenterAdmin from './routes/clinic-center-admin';
 import unregisteredUser from './routes/unregistered';
 import registeredUser from './routes/user';
 import medicalDoctor from './routes/medical_doctor';
+import patient from './routes/patient';
 
 Vue.use(VueRouter);
 
@@ -25,6 +26,7 @@ const routes = [
   unregisteredUser,
   registeredUser,
   medicalDoctor,
+  patient,
 ];
 
 const router = new VueRouter({

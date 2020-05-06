@@ -4,7 +4,7 @@ insert into authority (id, name) values (3, 'ROLE_NURSE');
 insert into authority (id, name) values (4, 'ROLE_CLINIC_ADMIN');
 insert into authority (id, name) values (5, 'ROLE_CLINIC_CENTER_ADMIN');
 
-insert into account (email, password, password_changed) values ('patient@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', true);
+insert into account (email, password, country, password_changed) values ('patient@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Serbia', true);
 insert into account (email, password, first_name, last_name, address, password_changed) values ('doctor@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Dragan', 'Arsic', 'aa', false);
 insert into account (email, password, first_name, last_name, address, password_changed) values ('nurse@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Marko', 'markov', 'aa', false);
 insert into account (email, password, first_name, last_name, address, password_changed) values ('clinicadmin@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Dusan', 'Susic', 'aa', false);

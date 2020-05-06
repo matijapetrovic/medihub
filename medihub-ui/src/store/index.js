@@ -9,11 +9,8 @@ import appointmentType from '@/app/appointment_type/store';
 import clinicAdmin from '@/app/clinic-admins/store';
 import patient from '@/app/patient/store';
 import clinic from '@/app/clinic/store';
-<<<<<<< HEAD
 import doctor from '@/app/doctor/store';
-=======
 import country from '@/app/country/store';
->>>>>>> master
 
 Vue.use(Vuex);
 
@@ -34,10 +31,7 @@ export default new Vuex.Store({
     profile,
     clinic,
     clinicAdmin,
-<<<<<<< HEAD
     doctor,
-=======
     country,
->>>>>>> master
   },
 });
