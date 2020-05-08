@@ -12,11 +12,20 @@
     <v-data-table
       :headers="headers"
       :items="doctors"
+      :search="search"
       class="elevation-1"
     >
       <template v-slot:top>
         <v-toolbar flat color="white">
           <v-toolbar-title>Medical Doctors</v-toolbar-title>
+          <v-spacer auto></v-spacer>
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+          ></v-text-field>
           <v-divider
             class="mx-4"
             inset
@@ -107,6 +116,7 @@ import { mapActions, mapState } from 'vuex';
 export default {
   data: () => ({
     dialog: false,
+    search: '',
     headers: [
       {
         text: 'First name',
