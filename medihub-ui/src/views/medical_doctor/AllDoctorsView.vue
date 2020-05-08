@@ -165,6 +165,9 @@ export default {
     dialog(val) {
       return () => val || this.close();
     },
+    search(val) {
+      return () => val && val !== this.select && this.querySelections(val);
+    },
   },
 
   created() {
@@ -175,6 +178,14 @@ export default {
     ...mapActions('medicalDoctor', ['getAllDoctors']),
     initialize() {
       this.getAllDoctors();
+    },
+
+    querySelections(v) {
+      this.loading = true;
+      setTimeout(() => {
+        this.items = this.states.filter((e) => (e || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1);
+        this.loading = false;
+      }, 500);
     },
 
     editItem(item) {
