@@ -25,7 +25,7 @@ export default {
     navItems: [
       {
         text: 'Doctors',
-        path: '/',
+        path: '/medical-doctor/getAll',
         icon: 'mdi-doctor',
         children: [
           { text: 'Add', path: '/addMedicalDoctor', icon: 'add' },

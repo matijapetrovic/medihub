@@ -12,7 +12,6 @@
     <v-data-table
       :headers="headers"
       :items="doctors"
-      sort-by="firstName"
       class="elevation-1"
     >
       <template v-slot:top>
@@ -128,6 +127,7 @@ export default {
       lastName: '',
       email: '',
       addressLine: '',
+      telephone: '',
       workingTimeStarts: '',
       workingTimeEnds: '',
       clinicName: '',
@@ -137,6 +137,7 @@ export default {
       lastName: '',
       email: '',
       addressLine: '',
+      telephone: '',
       workingTimeStarts: '',
       workingTimeEnds: '',
       clinicName: '',
