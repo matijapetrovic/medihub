@@ -4,6 +4,6 @@ import org.medihub.domain.MedicalDoctor;
 
 import java.util.List;
 
-public interface GetDoctorPort {
-    List<MedicalDoctor> getAllDoctors();
+public interface GetDoctorsPort {
+    List<MedicalDoctor> getDoctorsForClinic(Long clinicId);
 }

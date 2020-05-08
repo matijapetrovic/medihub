@@ -7,6 +7,7 @@ import org.medihub.application.ports.incoming.clinic.GetClinicNamesQuery;
 import org.medihub.application.ports.incoming.clinic_admin.AddClinicAdminUseCase;
 import org.medihub.application.ports.incoming.clinic_room.AddClinicRoomUseCase;
 import org.medihub.application.ports.incoming.clinic_room.DeleteClinicRoomUseCase;
+import org.medihub.application.ports.incoming.clinic_room.GetClinicRoomsQuery;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase;
 import org.medihub.application.ports.incoming.account.ChangePasswordUseCase;
 import org.medihub.application.ports.incoming.account.GetAccountQuery;
@@ -15,6 +16,7 @@ import org.medihub.application.ports.incoming.account.profile.GetProfileQuery;
 import org.medihub.application.ports.incoming.account.profile.UpdateProfileUseCase;
 import org.medihub.application.ports.incoming.clinic.SearchClinicsQuery;
 import org.medihub.application.ports.incoming.medical_doctor.GetMedicalDoctorUseCase;
+import org.medihub.application.ports.incoming.medical_doctor.GetDoctorsQuery;
 import org.medihub.application.ports.incoming.patient.LoadPatientUseCase;
 import org.medihub.application.ports.incoming.patient.RegisterPatientUseCase;
 import org.medihub.application.ports.outgoing.*;
@@ -28,14 +30,16 @@ import org.medihub.application.ports.outgoing.clinic.GetClinicNamesPort;
 import org.medihub.application.ports.outgoing.clinic.SaveClinicPort;
 import org.medihub.application.ports.outgoing.clinic.SearchClinicsPort;
 import org.medihub.application.ports.outgoing.clinic_room.DeleteClinicRoomPort;
+import org.medihub.application.ports.outgoing.clinic_room.GetClinicRoomsPort;
 import org.medihub.application.ports.outgoing.clinic_room.SaveClinicRoomPort;
-import org.medihub.application.ports.outgoing.doctor.GetDoctorPort;
+import org.medihub.application.ports.outgoing.doctor.GetAllDoctorsPort;
+import org.medihub.application.ports.outgoing.doctor.GetDoctorsPort;
 import org.medihub.application.ports.outgoing.doctor.SaveDoctorPort;
 import org.medihub.application.ports.outgoing.encoding.EncoderPort;
 import org.medihub.application.ports.outgoing.patient.LoadPatientPort;
 import org.medihub.application.ports.outgoing.patient.SaveRegistrationRequestPort;
-import org.medihub.application.ports.outgoing.áuthentication.AuthenticationPort;
-import org.medihub.application.ports.outgoing.áuthentication.GetAuthenticatedPort;
+import org.medihub.application.ports.outgoing.authentication.AuthenticationPort;
+import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
 import org.medihub.application.services.*;
 import org.medihub.application.services.account.ChangePasswordService;
 import org.medihub.application.services.account.GetAccountService;
@@ -57,6 +61,20 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class BeanConfig {
+
+    @Bean
+    public GetClinicRoomsQuery getClinicRoomsQuery(
+            GetClinicRoomsPort getClinicRoomsPort,
+            GetAuthenticatedPort getAuthenticatedPort,
+            LoadClinicAdminPort loadClinicAdminPort) {
+        return new GetClinicRoomsService(getClinicRoomsPort, getAuthenticatedPort, loadClinicAdminPort);
+    }
+
+    @Bean
+    public GetDoctorsQuery getDoctorsQuery(
+            GetDoctorsPort getDoctorsPort) {
+        return new GetDoctorsService(getDoctorsPort);
+    }
 
     @Bean
     public GetAppointmentTypesQuery getAppointmentTypesQuery(
@@ -141,15 +159,21 @@ public class BeanConfig {
     }
 
     @Bean
-    public AddMedicalDoctorUseCase getAddDoctorUseCase(SaveDoctorPort saveDoctorPorts, EncoderPort encoderPort){
+    public AddMedicalDoctorUseCase getAddDoctorUseCase(
+            SaveDoctorPort saveDoctorPorts,
+            EncoderPort encoderPort,
+            GetAuthenticatedPort getAuthenticatedPort,
+            LoadClinicAdminPort loadClinicAdminPort){
         return new AddMedicalDoctorService(
                 saveDoctorPorts,
-                encoderPort
+                encoderPort,
+                getAuthenticatedPort,
+                loadClinicAdminPort
         );
     }
 
     @Bean
-    public GetMedicalDoctorUseCase getMedicalDoctorUseCase(GetDoctorPort doctorPort){
+    public GetMedicalDoctorUseCase getMedicalDoctorUseCase(GetAllDoctorsPort doctorPort){
         return new GetMedicalDoctorService(
                 doctorPort
         );

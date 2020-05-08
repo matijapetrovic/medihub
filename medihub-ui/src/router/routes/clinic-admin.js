@@ -1,7 +1,11 @@
 import ClinicAdmin from '@/views/clinic-admin/ClinicAdmin.vue';
 import AddClinicRoomForm from '@/app/clinic_room/components/AddClinicRoomForm.vue';
 import AddMedicalDoctorForm from '@/app/medical_doctor/components/AddMedicalDoctorForm.vue';
+<<<<<<< HEAD
 import AllDoctorsView from '@/views/medical_doctor/AllDoctorsView.vue';
+=======
+import ClinicRoomTable from '@/app/clinic_room/components/ClinicRoomTable.vue';
+>>>>>>> master
 
 import ClinicAdminHome from '@/views/clinic-admin/ClinicAdminHome.vue';
 
@@ -29,6 +33,10 @@ export default {
     {
       path: '',
       component: ClinicAdminHome,
+    },
+    {
+      path: '/clinic-rooms',
+      component: ClinicRoomTable,
     },
   ],
 };

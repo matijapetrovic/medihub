@@ -1,5 +1,6 @@
 package org.medihub.persistence.medical_doctor;
 
+import org.medihub.domain.MedicalDoctor;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -9,4 +10,5 @@ public interface MedicalDoctorRepository extends JpaRepository<MedicalDoctorJpaE
     Optional<MedicalDoctorJpaEntity> findById(Long id);
 
     List<MedicalDoctorJpaEntity> findAll();
+    List<MedicalDoctorJpaEntity> findAllByClinicId(Long clinicId);
 }

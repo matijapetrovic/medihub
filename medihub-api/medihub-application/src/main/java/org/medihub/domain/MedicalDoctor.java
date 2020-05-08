@@ -26,4 +26,12 @@ public class MedicalDoctor extends  MedicalStaff {
         super(id, account, workingCalendar, clinic, workingTime);
         this.appointments = appointments;
     }
+
+    public String getFirstName() {
+        return getAccount().getFirstName();
+    }
+
+    public String getLastName() {
+        return getAccount().getLastName();
+    }
 }

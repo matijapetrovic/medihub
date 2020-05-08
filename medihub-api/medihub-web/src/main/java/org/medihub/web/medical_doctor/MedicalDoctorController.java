@@ -3,9 +3,11 @@ package org.medihub.web.medical_doctor;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase.AddMedicalDoctorCommand;
-import org.medihub.application.ports.outgoing.doctor.GetDoctorPort;
-import org.medihub.domain.MedicalDoctor;
+import org.medihub.application.ports.outgoing.doctor.GetAllDoctorsPort;
+import org.medihub.application.ports.incoming.medical_doctor.GetDoctorsOutput;
+import org.medihub.application.ports.incoming.medical_doctor.GetDoctorsQuery;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +20,13 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/medical-doctor", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MedicalDoctorController {
     private final AddMedicalDoctorUseCase AddMedicalDoctorUseCase;
-    private final GetDoctorPort getDoctorPort;
+    private final GetAllDoctorsPort getAllDoctorsPort;
+    private final GetDoctorsQuery getDoctorsQuery;
+
+    @GetMapping("/{clinicId}")
+    ResponseEntity<List<GetDoctorsOutput>> getDoctors(@PathVariable Long clinicId) {
+        return ResponseEntity.ok(getDoctorsQuery.getDoctorsForClinic(clinicId));
+    }
 
     @PostMapping("/add")
     void add(@RequestBody MedicalDoctorRequest request) {
@@ -41,7 +49,7 @@ public class MedicalDoctorController {
                 medicalDoctorRequest.getAddress(),
                 medicalDoctorRequest.getCity(),
                 medicalDoctorRequest.getCountry(),
-                medicalDoctorRequest.getTelephoneNumber(),
+                medicalDoctorRequest.getTelephoneNum(),
                 medicalDoctorRequest.isPasswordChanged(),
                 medicalDoctorRequest.getFrom(),
                 medicalDoctorRequest.getTo(),
@@ -50,7 +58,7 @@ public class MedicalDoctorController {
     }
 
     private List<?> getAllDoctors(){
-        return getDoctorPort.getAllDoctors()
+        return getAllDoctorsPort.getAllDoctors()
                 .stream()
                 .map(doctor -> new MedicalDoctorResponse(
                     doctor.getAccount().getId(),

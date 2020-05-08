@@ -29,7 +29,6 @@ export default {
         icon: 'mdi-doctor',
         children: [
           { text: 'Add', path: '/addMedicalDoctor', icon: 'add' },
-          { text: 'Delete', path: '', icon: 'delete' },
         ],
       },
       {
@@ -37,7 +36,6 @@ export default {
         icon: 'mdi-store-24-hour',
         children: [
           { text: 'Add', path: '/addClinicRoom', icon: 'add' },
-          { text: 'Delete', path: '', icon: 'delete' },
         ],
       },
       {

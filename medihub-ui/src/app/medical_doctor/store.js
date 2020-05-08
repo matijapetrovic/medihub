@@ -1,3 +1,4 @@
+import utils from '@/utils';
 import api from './api';
 
 export default {
@@ -15,13 +16,14 @@ export default {
     },
   },
   actions: {
-    addMedicalDoctor({ commit }, payload) {
+    addMedicalDoctor({ dispatch }, payload) {
       return api.addMedicalDoctor(payload)
         .then(() => {
-          commit('SET_NAME', payload);
+          const message = 'Added doctor successfully';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
         })
         .catch((err) => {
-          console.log(err);
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
     getAllDoctors({ commit }) {

@@ -1,35 +1,45 @@
+import utils from '@/utils';
 import api from './api';
 
 export default {
   namespaced: true,
   state: {
-    name: null,
+    clinicRooms: [],
   },
   mutations: {
-    SET_NAME(state, name) {
-      state.name = name;
+    SET_CLINIC_ROOMS(state, clinicRooms) {
+      state.clinicRooms = clinicRooms;
     },
   },
   actions: {
-    addClinicRoom({ commit }, payload) {
+    addClinicRoom({ dispatch }, payload) {
       return api.addClinicRoom(payload)
         .then(() => {
-          commit('SET_NAME', payload);
+          const message = 'Clinic room added successfully';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
         })
         .catch((err) => {
-          console.log(err);
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
-    deleteClinicRoom({ commit }, payload) {
+    deleteClinicRoom({ dispatch }, payload) {
       return api.deleteClinicRoom(payload)
         .then(() => {
-          commit('SET_NAME', payload);
+          const message = 'Clinic room deleted successfully';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
         })
         .catch((err) => {
-          console.log(err);
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
-  },
-  getters: {
+    fetchClinicRooms({ commit, dispatch }) {
+      return api.fetchClinicRooms()
+        .then((response) => {
+          commit('SET_CLINIC_ROOMS', response.data);
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
   },
 };
