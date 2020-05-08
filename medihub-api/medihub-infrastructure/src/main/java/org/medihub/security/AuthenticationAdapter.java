@@ -1,8 +1,8 @@
 package org.medihub.security;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.outgoing.áuthentication.AuthenticationPort;
-import org.medihub.application.ports.outgoing.áuthentication.GetAuthenticatedPort;
+import org.medihub.application.ports.outgoing.authentication.AuthenticationPort;
+import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
 import org.medihub.domain.identity.Account;
 import org.medihub.security.identity.CustomUserDetails;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -38,8 +38,8 @@ public class AuthenticationAdapter implements AuthenticationPort, GetAuthenticat
     }
 
     @Override
-    public String getAuthenticatedEmail() {
+    public Account getAuthenticated() {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-        return currentUser.getName();
+        return getPrincipal(currentUser);
     }
 }

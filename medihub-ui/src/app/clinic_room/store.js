@@ -4,11 +4,11 @@ import api from './api';
 export default {
   namespaced: true,
   state: {
-    name: null,
+    clinicRooms: [],
   },
   mutations: {
-    SET_NAME(state, name) {
-      state.name = name;
+    SET_CLINIC_ROOMS(state, clinicRooms) {
+      state.clinicRooms = clinicRooms;
     },
   },
   actions: {
@@ -32,7 +32,14 @@ export default {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
-  },
-  getters: {
+    fetchClinicRooms({ commit, dispatch }) {
+      return api.fetchClinicRooms()
+        .then((response) => {
+          commit('SET_CLINIC_ROOMS', response.data);
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
   },
 };

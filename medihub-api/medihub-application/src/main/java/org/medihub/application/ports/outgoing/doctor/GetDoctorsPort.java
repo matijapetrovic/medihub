@@ -1,0 +1,9 @@
+package org.medihub.application.ports.outgoing.doctor;
+
+import org.medihub.domain.MedicalDoctor;
+
+import java.util.List;
+
+public interface GetDoctorsPort {
+    List<MedicalDoctor> getDoctorsForClinic(Long clinicId);
+}

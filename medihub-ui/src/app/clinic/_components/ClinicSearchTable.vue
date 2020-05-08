@@ -5,6 +5,19 @@
     :items-per-page="5"
     class="elevation-1"
   >
+    <template v-slot:body="{ items }">
+        <tbody>
+          <tr v-for="item in items" :key="item.name">
+            <td>{{ item.name }}</td>
+            <td>{{ item.address }}</td>
+            <td>{{ item.city }}</td>
+            <td>{{ item.country }}</td>
+            <td>{{ item.rating }}</td>
+            <td>{{ item.appointmentPrice }}</td>
+            <td><v-btn @click="routeDoctors(item.id)">See doctors -></v-btn></td>
+          </tr>
+        </tbody>
+      </template>
   </v-data-table>
 </template>
 
@@ -30,6 +43,11 @@ export default {
     items: {
       type: Array,
       required: true,
+    },
+  },
+  methods: {
+    routeDoctors(clinicId) {
+      this.$router.push(`/search-doctors/${clinicId}`);
     },
   },
 };

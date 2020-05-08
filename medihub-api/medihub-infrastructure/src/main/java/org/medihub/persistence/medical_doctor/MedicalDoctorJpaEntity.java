@@ -32,7 +32,7 @@ public class MedicalDoctorJpaEntity {
     @JoinColumn(name = "working_calendar", referencedColumnName="id", nullable=true)
     private WorkingCalendarJpaEntity workingCalendarJpaEntity;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="clinic", referencedColumnName="id", nullable=true)
     private ClinicJpaEntity clinic;
 
