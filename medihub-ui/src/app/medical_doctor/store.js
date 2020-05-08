@@ -4,14 +4,14 @@ export default {
   namespaced: true,
   state: {
     name: null,
-    allDoctors: [],
+    doctors: [],
   },
   mutations: {
     SET_NAME(state, name) {
       state.name = name;
     },
-    SET_DOCTORS(state, doctor) {
-      state.doctor = doctor;
+    SET_DOCTORS(state, doctors) {
+      state.doctors = doctors;
     },
   },
   actions: {

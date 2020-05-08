@@ -40,6 +40,11 @@ export default {
           { text: 'Delete', path: '', icon: 'delete' },
         ],
       },
+      {
+        text: 'Doctors',
+        path: '/medical-doctor/getAll',
+        icon: 'mdi-account-multiple-outline',
+      },
     ],
   }),
 };

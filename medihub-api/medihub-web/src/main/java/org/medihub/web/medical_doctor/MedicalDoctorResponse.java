@@ -14,7 +14,7 @@ public class MedicalDoctorResponse {
     private String email;
     private String firstName;
     private String lastName;
-    private String address;
+    private String addressLine;
     private String telephone;
     private String workingTimeStarts;
     private String workingTimeEnds;
