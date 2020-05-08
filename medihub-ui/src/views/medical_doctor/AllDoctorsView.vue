@@ -165,6 +165,9 @@ export default {
     dialog(val) {
       return () => val || this.close();
     },
+    search(val) {
+      return () => val && val !== this.select && this.querySelections(val);
+    },
   },
 
   created() {
@@ -176,7 +179,6 @@ export default {
     initialize() {
       this.getAllDoctors();
     },
-
     editItem(item) {
       this.editedIndex = this.doctors.indexOf(item);
       this.editedItem = Object.assign(...item);
