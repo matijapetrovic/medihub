@@ -11,4 +11,13 @@ import lombok.Setter;
 @AllArgsConstructor
 public class MedicalDoctorResponse {
     private Long id;
+    private String email;
+    private String firstName;
+    private String lastName;
+    private String addressLine;
+    private String telephone;
+    private String workingTimeStarts;
+    private String workingTimeEnds;
+    private String clinicName;
+
 }

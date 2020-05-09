@@ -1,6 +1,7 @@
 package org.medihub.persistence.medical_doctor;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.ports.outgoing.doctor.GetAllDoctorsPort;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorsPort;
 import org.medihub.application.ports.outgoing.doctor.LoadDoctorPort;
 import org.medihub.application.ports.outgoing.doctor.SaveDoctorPort;
@@ -16,7 +17,8 @@ import java.util.stream.Collectors;
 public class MedicalDoctorAdapter implements
         LoadDoctorPort,
         SaveDoctorPort,
-        GetDoctorsPort {
+        GetDoctorsPort,
+        GetAllDoctorsPort{
     private final MedicalDoctorMapper medicalDoctorMapper;
     private final MedicalDoctorRepository medicalDoctorRepository;
 
@@ -35,6 +37,10 @@ public class MedicalDoctorAdapter implements
     }
 
     @Override
+    public List<MedicalDoctor> getAllDoctors() {
+        return medicalDoctorMapper.mapToDomainList(medicalDoctorRepository.findAll());
+    }
+
     public List<MedicalDoctor> getDoctorsForClinic(Long clinicId) {
         return medicalDoctorRepository
                 .findAllByClinicId(clinicId)
@@ -43,3 +49,4 @@ public class MedicalDoctorAdapter implements
                 .collect(Collectors.toList());
     }
 }
+

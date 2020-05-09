@@ -1,9 +1,8 @@
 package org.medihub.web.patient;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.outgoing.LoadPatientPort;
+import org.medihub.application.ports.outgoing.patient.LoadPatientPort;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 

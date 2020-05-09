@@ -25,7 +25,7 @@ export default {
     navItems: [
       {
         text: 'Doctors',
-        path: '/',
+        path: '/medical-doctors',
         icon: 'mdi-doctor',
         children: [
           { text: 'Add', path: '/addMedicalDoctor', icon: 'add' },
@@ -38,6 +38,11 @@ export default {
           { text: 'Add', path: '/addClinicRoom', icon: 'add' },
           { text: 'Search', path: '/clinic-rooms', icon: 'search' },
         ],
+      },
+      {
+        text: 'Doctors',
+        path: '/medical-doctors',
+        icon: 'mdi-account-multiple-outline',
       },
     ],
   }),
