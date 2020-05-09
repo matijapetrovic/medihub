@@ -1,15 +1,16 @@
 package org.medihub.persistence.clinic_admin;
 
+import lombok.RequiredArgsConstructor;
 import org.medihub.domain.ClinicAdmin;
 import org.medihub.persistence.account.AccountMapper;
 import org.medihub.persistence.clinic.ClinicMapper;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class ClinicAdminMapper {
-
-    private final AccountMapper accountMapper = new AccountMapper();
-    private final ClinicMapper clinicMapper = new ClinicMapper();
+    private final AccountMapper accountMapper;
+    private final ClinicMapper clinicMapper;
 
     public ClinicAdminJpaEntity mapToJpaEntity(ClinicAdmin clinicAdmin) {
         return new ClinicAdminJpaEntity(

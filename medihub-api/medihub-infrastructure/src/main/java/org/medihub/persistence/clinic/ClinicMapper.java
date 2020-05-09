@@ -1,11 +1,17 @@
 package org.medihub.persistence.clinic;
 
+import lombok.RequiredArgsConstructor;
 import org.medihub.domain.Address;
 import org.medihub.domain.Clinic;
+import org.medihub.persistence.clinic_room.ClinicRoomMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.stream.Collectors;
+
 @Component
+@RequiredArgsConstructor
 public class ClinicMapper {
+
     public Clinic mapToDomainEntity(ClinicJpaEntity clinic) {
         return new Clinic(
                 clinic.getId(),

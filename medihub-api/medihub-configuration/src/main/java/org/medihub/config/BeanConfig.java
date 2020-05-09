@@ -31,6 +31,7 @@ import org.medihub.application.ports.outgoing.clinic.SaveClinicPort;
 import org.medihub.application.ports.outgoing.clinic.SearchClinicsPort;
 import org.medihub.application.ports.outgoing.clinic_room.DeleteClinicRoomPort;
 import org.medihub.application.ports.outgoing.clinic_room.GetClinicRoomsPort;
+import org.medihub.application.ports.outgoing.clinic_room.LoadClinicRoomPort;
 import org.medihub.application.ports.outgoing.clinic_room.SaveClinicRoomPort;
 import org.medihub.application.ports.outgoing.doctor.GetAllDoctorsPort;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorsPort;
@@ -55,6 +56,7 @@ import org.medihub.application.services.clinic_room.DeleteClinicRoomService;
 import org.medihub.application.services.medical_doctor.AddMedicalDoctorService;
 import org.medihub.application.services.medical_doctor.GetMedicalDoctorService;
 import org.medihub.application.services.patient.LaodPatientService;
+import org.medihub.application.services.clinic_room.GetClinicRoomsService;
 import org.medihub.application.services.patient.RegisterPatientService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -64,10 +66,8 @@ public class BeanConfig {
 
     @Bean
     public GetClinicRoomsQuery getClinicRoomsQuery(
-            GetClinicRoomsPort getClinicRoomsPort,
-            GetAuthenticatedPort getAuthenticatedPort,
-            LoadClinicAdminPort loadClinicAdminPort) {
-        return new GetClinicRoomsService(getClinicRoomsPort, getAuthenticatedPort, loadClinicAdminPort);
+            GetClinicRoomsPort getClinicRoomsPort) {
+        return new GetClinicRoomsService(getClinicRoomsPort);
     }
 
     @Bean
@@ -83,8 +83,10 @@ public class BeanConfig {
     }
 
     @Bean
-    public LoginUseCase getLoginUseCase(AuthenticationPort authenticationPort) {
-        return new LoginService(authenticationPort);
+    public LoginUseCase getLoginUseCase(
+            AuthenticationPort authenticationPort,
+            LoadClinicAdminPort loadClinicAdminPort) {
+        return new LoginService(authenticationPort, loadClinicAdminPort);
     }
 
     @Bean
@@ -152,10 +154,12 @@ public class BeanConfig {
     }
 
     @Bean
-    public AddClinicRoomUseCase getClinicRoomUseCase(SaveClinicRoomPort saveClinicRoomPort){
+    public AddClinicRoomUseCase getClinicRoomUseCase(
+            SaveClinicRoomPort saveClinicRoomPort,
+            GetClinicByIDPort getClinicByIDPort) {
         return new AddClinicRoomService(
-                saveClinicRoomPort
-        );
+                saveClinicRoomPort,
+                getClinicByIDPort);
     }
 
     @Bean
@@ -185,8 +189,10 @@ public class BeanConfig {
     }
 
     @Bean
-    public DeleteClinicRoomUseCase getDeleteClinicRoomUseCase(DeleteClinicRoomPort deleteClinicRoomPort){
-        return new DeleteClinicRoomService(deleteClinicRoomPort);
+    public DeleteClinicRoomUseCase getDeleteClinicRoomUseCase(
+            DeleteClinicRoomPort deleteClinicRoomPort,
+            LoadClinicRoomPort loadClinicRoomPort){
+        return new DeleteClinicRoomService(deleteClinicRoomPort, loadClinicRoomPort);
     }
 
     @Bean

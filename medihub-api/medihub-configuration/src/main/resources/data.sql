@@ -12,6 +12,9 @@ insert into account (email, password, password_changed) values ('admin@gmail.com
 insert into account (email, password, first_name, last_name, address, password_changed, telephone_number) values ('d1@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Marko', 'markov', 'aa', false, '06951521616');
 insert into account (email, password, first_name, last_name, address, password_changed, telephone_number) values ('d2@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Marijan', 'Gagic', 'aa', false, '06951521616');
 
+insert into account (email, password, first_name, last_name, address, city, country, password_changed) values ('p1@gmail.com', 'random', 'Andrej', 'Petrovic', 'Ulica 1', 'Beograd', 'Serbia', 1);
+insert into account (email, password, first_name, last_name, address, city, country, password_changed) values ('p2@gmail.com', 'random', 'Milan', 'Milanovic', 'Ulica 2', 'Novi Sad', 'Serbia', 1);
+
 insert into account_authority (user_id, authority_id) values (1, 1);
 insert into account_authority (user_id, authority_id) values (2, 2);
 insert into account_authority (user_id, authority_id) values (3, 3);
@@ -19,6 +22,14 @@ insert into account_authority (user_id, authority_id) values (4, 4);
 insert into account_authority (user_id, authority_id) values (5, 5);
 insert into account_authority (user_id, authority_id) values (6, 2);
 insert into account_authority (user_id, authority_id) values (7, 2);
+insert into account_authority (user_id, authority_id) values (8, 1);
+insert into account_authority (user_id, authority_id) values (9, 1);
+
+insert into medical_record (id) values (1);
+insert into medical_record (id) values (2);
+
+insert into patient (insurance_number, account_id, medical_record_id) values ('14115151555', 8, 1);
+insert into patient (insurance_number, account_id, medical_record_id) values ('14115151252', 9, 2);
 
 insert into clinic (name, address, city, country, description) values ('Klinika 1', 'asf', 'adgsdg', 'Serbia', 'asgadg');
 insert into clinic (name, address, city, country, description) values ('Klinika 2', 'asf', 'adgsdg', 'Serbia', 'asgadg');
@@ -39,3 +50,4 @@ insert into medical_doctor (account_id, working_calendar, clinic, working_time_f
 insert into appointment_type(name) values ('type1');
 insert into appointment_type(name) values ('type2');
 insert into appointment_type(name) values ('type3');
+

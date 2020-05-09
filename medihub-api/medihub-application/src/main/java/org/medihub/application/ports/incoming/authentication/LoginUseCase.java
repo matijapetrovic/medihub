@@ -9,7 +9,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 public interface LoginUseCase {
-    Account login(LoginCommand command);
+    LoginOutput login(LoginCommand command);
 
     @Value
     @EqualsAndHashCode(callSuper = false)
