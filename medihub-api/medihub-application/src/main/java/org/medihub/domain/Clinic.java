@@ -2,6 +2,8 @@ package org.medihub.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.medihub.domain.appointment.Appointment;
+import org.medihub.domain.appointment.AppointmentType;
 
 import java.util.HashSet;
 import java.util.Set;

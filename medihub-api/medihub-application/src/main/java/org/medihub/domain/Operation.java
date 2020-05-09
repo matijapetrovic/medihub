@@ -1,6 +1,8 @@
 package org.medihub.domain;
 
 import lombok.Getter;
+import org.medihub.domain.appointment.Appointment;
+import org.medihub.domain.appointment.AppointmentType;
 
 import java.util.Date;
 import java.util.Set;

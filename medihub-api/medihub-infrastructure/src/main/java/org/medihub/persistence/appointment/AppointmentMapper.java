@@ -1,16 +1,13 @@
 package org.medihub.persistence.appointment;
 
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import org.medihub.domain.Appointment;
+import org.medihub.domain.appointment.Appointment;
 import org.medihub.persistence.appointment_type.AppointmentTypeMapper;
 import org.medihub.persistence.clinic_room.ClinicRoomMapper;
-import org.medihub.persistence.patient.PatientMapper;
 import org.medihub.persistence.prescription.PrescriptionMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor

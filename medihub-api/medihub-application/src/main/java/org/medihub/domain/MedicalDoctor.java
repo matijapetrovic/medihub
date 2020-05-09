@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.medihub.domain.appointment.Appointment;
 import org.medihub.domain.identity.Account;
 
 import java.util.Set;

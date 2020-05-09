@@ -52,6 +52,7 @@ public interface AddMedicalDoctorUseCase {
             this.from = from;
             this.to = to;
             this.appointmentType = appointmentType;
+            this.validateSelf();
         }
     }
 }

@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase;
 import org.medihub.application.ports.incoming.appointment_type.GetAppointmentTypesOutput;
 import org.medihub.application.ports.incoming.appointment_type.GetAppointmentTypesQuery;
-import org.medihub.domain.AppointmentType;
 import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase.AddAppointmentTypeCommand;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

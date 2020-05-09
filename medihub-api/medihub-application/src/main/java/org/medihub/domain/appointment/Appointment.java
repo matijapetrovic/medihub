@@ -1,8 +1,9 @@
-package org.medihub.domain;
+package org.medihub.domain.appointment;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import org.medihub.domain.ClinicRoom;
+import org.medihub.domain.Prescription;
 
 import java.util.Date;
 import java.util.Set;

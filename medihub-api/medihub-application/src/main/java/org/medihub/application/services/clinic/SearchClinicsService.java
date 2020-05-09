@@ -5,11 +5,10 @@ import org.medihub.application.ports.incoming.clinic.SearchClinicsOutput;
 import org.medihub.application.ports.incoming.clinic.SearchClinicsQuery;
 import org.medihub.application.ports.outgoing.appointment_type.LoadAppointmentTypePort;
 import org.medihub.application.ports.outgoing.clinic.SearchClinicsPort;
-import org.medihub.domain.AppointmentType;
+import org.medihub.domain.appointment.AppointmentType;
 import org.medihub.domain.Clinic;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;

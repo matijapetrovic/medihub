@@ -1,4 +1,4 @@
-package org.medihub.domain;
+package org.medihub.domain.appointment;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

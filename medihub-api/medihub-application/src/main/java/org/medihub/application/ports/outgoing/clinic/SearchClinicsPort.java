@@ -1,6 +1,6 @@
 package org.medihub.application.ports.outgoing.clinic;
 
-import org.medihub.domain.AppointmentType;
+import org.medihub.domain.appointment.AppointmentType;
 import org.medihub.domain.Clinic;
 
 import java.util.Date;
