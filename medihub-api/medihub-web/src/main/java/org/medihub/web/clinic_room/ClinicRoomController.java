@@ -1,13 +1,19 @@
 package org.medihub.web.clinic_room;
 
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.clinic_room.AddClinicRoomUseCase;
+import org.medihub.application.ports.incoming.clinic_room.AddClinicRoomUseCase.AddClinicRoomCommand;
 import org.medihub.application.ports.incoming.clinic_room.DeleteClinicRoomUseCase;
 import org.medihub.application.ports.incoming.clinic_room.GetClinicRoomsOutput;
 import org.medihub.application.ports.incoming.clinic_room.GetClinicRoomsQuery;
 import org.medihub.domain.ClinicRoom;
+import org.medihub.web.security.TokenUtil;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +24,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/clinic-room", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ClinicRoomController {
+    private final TokenUtil tokenUtil;
     private final AddClinicRoomUseCase addClinicRoomUseCase;
     private final DeleteClinicRoomUseCase deleteClinicRoomUseCase;
     private final GetClinicRoomsQuery getClinicRoomsQuery;
@@ -28,14 +35,26 @@ public class ClinicRoomController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
     void add(@RequestBody ClinicRoomRequest request) {
-        ClinicRoom cr = new ClinicRoom(null, request.getName());
-        addClinicRoomUseCase.addClinicRoom(cr);
+        String authToken = getToken();
+        Long clinicId = getClinicIdFromToken(authToken);
+        AddClinicRoomCommand command = new AddClinicRoomCommand(clinicId, request.getName());
+        addClinicRoomUseCase.addClinicRoom(command);
+    }
+
+    private String getToken() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        return (String) currentUser.getCredentials();
+    }
+
+    private Long getClinicIdFromToken(String token) {
+        Claims claims = tokenUtil.getAllClaimsFromToken(token);
+        return Long.valueOf((Integer) claims.get("clinicId"));
     }
 
     @PostMapping("/delete")
     void delete(@RequestBody ClinicRoomRequest request){
-        ClinicRoom cr = new ClinicRoom(null, request.getName());
-        deleteClinicRoomUseCase.deleteClinicRoom(cr.getName());
+        deleteClinicRoomUseCase.deleteClinicRoom(request.getName());
     }
 }

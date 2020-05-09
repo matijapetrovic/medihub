@@ -75,8 +75,10 @@ public class BeanConfig {
     }
 
     @Bean
-    public LoginUseCase getLoginUseCase(AuthenticationPort authenticationPort) {
-        return new LoginService(authenticationPort);
+    public LoginUseCase getLoginUseCase(
+            AuthenticationPort authenticationPort,
+            LoadClinicAdminPort loadClinicAdminPort) {
+        return new LoginService(authenticationPort, loadClinicAdminPort);
     }
 
     @Bean
@@ -144,10 +146,12 @@ public class BeanConfig {
     }
 
     @Bean
-    public AddClinicRoomUseCase getClinicRoomUseCase(SaveClinicRoomPort saveClinicRoomPort){
+    public AddClinicRoomUseCase getClinicRoomUseCase(
+            SaveClinicRoomPort saveClinicRoomPort,
+            GetClinicByIDPort getClinicByIDPort) {
         return new AddClinicRoomService(
-                saveClinicRoomPort
-        );
+                saveClinicRoomPort,
+                getClinicByIDPort);
     }
 
     @Bean

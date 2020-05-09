@@ -3,6 +3,7 @@ package org.medihub.persistence.clinic_room;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.medihub.persistence.clinic.ClinicJpaEntity;
 
 import javax.persistence.*;
 
@@ -19,4 +20,8 @@ public class ClinicRoomJpaEntity {
 
     @Column(name = "name")
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name="clinic_id", nullable = false)
+    private ClinicJpaEntity clinic;
 }
