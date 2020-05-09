@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 
 @Value
 public class SearchClinicsOutput {
+    Long id;
     String name;
     Double rating;
     String address;

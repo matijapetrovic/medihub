@@ -21,6 +21,9 @@ public class MedicalDoctorRequest {
     private String address;
     private String city;
     private String country;
-    private String telephoneNumber;
+    private String telephoneNum;
     private boolean passwordChanged;
+    private String from;
+    private String to;
+    private String appointmentType;
 }

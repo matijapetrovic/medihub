@@ -2,16 +2,23 @@ package org.medihub.persistence.clinic_room;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.outgoing.clinic_room.DeleteClinicRoomPort;
+import org.medihub.application.ports.outgoing.clinic_room.GetClinicRoomsPort;
 import org.medihub.application.ports.outgoing.clinic_room.LoadClinicRoomPort;
 import org.medihub.application.ports.outgoing.clinic_room.SaveClinicRoomPort;
 import org.medihub.domain.ClinicRoom;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class ClinicRoomRoomAdapter implements SaveClinicRoomPort, LoadClinicRoomPort, DeleteClinicRoomPort {
+public class ClinicRoomAdapter implements
+        SaveClinicRoomPort,
+        LoadClinicRoomPort,
+        DeleteClinicRoomPort,
+        GetClinicRoomsPort {
     private final ClinicRoomMapper clinicRoomMapper;
     private final ClinicRoomRepository clinicRoomRepository;
 
@@ -33,5 +40,14 @@ public class ClinicRoomRoomAdapter implements SaveClinicRoomPort, LoadClinicRoom
     @Override
     public void deleteClinicRoom(String clinicRoomName) {
         clinicRoomRepository.deleteClinicRoomByName(clinicRoomName);
+    }
+
+    @Override
+    public List<ClinicRoom> getClinicRooms(Long clinicId) {
+        return clinicRoomRepository
+                .findAllByClinicId(clinicId)
+                .stream()
+                .map(clinicRoomMapper::mapToDomainEntity)
+                .collect(Collectors.toList());
     }
 }

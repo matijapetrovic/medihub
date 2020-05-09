@@ -17,8 +17,12 @@ export default {
     };
   },
   errorNotification(err) {
+    let text = err.response ? err.response.message : err;
+    if (!text) {
+      text = 'Authentication failed';
+    }
     return {
-      text: (err.response ? err.response.message : err),
+      text,
       color: 'error',
     };
   },
@@ -28,7 +32,7 @@ export default {
       case 'ROLE_PATIENT':
         return '/patient';
       case 'ROLE_DOCTOR':
-        return '/doctor';
+        return '/medical-doctor';
       case 'ROLE_CLINIC_ADMIN':
         return '/clinic-admin';
       case 'ROLE_CLINIC_CENTER_ADMIN':

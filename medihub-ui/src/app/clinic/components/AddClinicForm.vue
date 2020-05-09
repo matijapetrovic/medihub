@@ -110,11 +110,17 @@ export default {
           city: this.city,
           country: this.country,
           description: this.description,
-        });
+        })
+          .then(() => {
+            this.clear();
+          });
       }
     },
     validate() {
       return this.$refs.form.validate();
+    },
+    clear() {
+      return this.$refs.form.reset();
     },
   },
   computed: {

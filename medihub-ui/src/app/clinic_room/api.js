@@ -7,4 +7,7 @@ export default {
   deleteClinicRoom(credentials) {
     return utils.apiClient.post('api/clinic-room/delete', credentials);
   },
+  fetchClinicRooms() {
+    return utils.apiClient.get('api/clinic-room');
+  },
 };

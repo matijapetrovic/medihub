@@ -24,17 +24,17 @@ export default {
   data: () => ({
     navItems: [
       {
-        text: 'Clinic Admins',
-        icon: 'mdi-account-cowboy-hat',
-        children: [
-          { text: 'Add', path: '/register-clinic-admin', icon: 'add' },
-        ],
-      },
-      {
         text: 'Clinics',
         icon: 'mdi-hospital-box-outline',
         children: [
           { text: 'Add', path: '/add-clinic', icon: 'add' },
+        ],
+      },
+      {
+        text: 'Clinic Admins',
+        icon: 'mdi-account-cowboy-hat',
+        children: [
+          { text: 'Add', path: '/register-clinic-admin', icon: 'add' },
         ],
       },
       {

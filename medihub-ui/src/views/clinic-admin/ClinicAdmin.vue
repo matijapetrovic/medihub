@@ -27,13 +27,15 @@ export default {
         text: 'Doctors',
         path: '/',
         icon: 'mdi-doctor',
+        children: [
+          { text: 'Add', path: '/addMedicalDoctor', icon: 'add' },
+        ],
       },
       {
         text: 'Clinic Rooms',
         icon: 'mdi-store-24-hour',
         children: [
           { text: 'Add', path: '/addClinicRoom', icon: 'add' },
-          { text: 'Delete', path: '', icon: 'delete' },
         ],
       },
     ],
