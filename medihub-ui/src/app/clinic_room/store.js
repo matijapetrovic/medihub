@@ -10,6 +10,10 @@ export default {
     SET_CLINIC_ROOMS(state, clinicRooms) {
       state.clinicRooms = clinicRooms;
     },
+    DELETE_CLINIC_ROOM(state, clinicRoom) {
+      const idx = state.clinicRooms.indexOf(clinicRoom);
+      state.clinicRooms.splice(idx, 1);
+    },
   },
   actions: {
     addClinicRoom({ dispatch }, payload) {
@@ -22,9 +26,10 @@ export default {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
-    deleteClinicRoom({ dispatch }, payload) {
-      return api.deleteClinicRoom(payload)
+    deleteClinicRoom({ commit, dispatch }, clinicRoom) {
+      return api.deleteClinicRoom(clinicRoom.id)
         .then(() => {
+          commit('DELETE_CLINIC_ROOM', clinicRoom);
           const message = 'Clinic room deleted successfully';
           dispatch('notifications/add', utils.successNotification(message), { root: true });
         })

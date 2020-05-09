@@ -2,6 +2,7 @@ package org.medihub.web.security.authentication;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.AccountNotFoundException;
+import org.medihub.application.ports.incoming.authentication.LoginOutput;
 import org.medihub.application.ports.incoming.authentication.LoginUseCase;
 import org.medihub.application.ports.incoming.authentication.LoginUseCase.LoginCommand;
 import org.medihub.application.ports.incoming.account.ChangePasswordUseCase;
@@ -35,24 +36,19 @@ public class AuthenticationController {
         return ResponseEntity.ok(response);
     }
 
-    private LoginResponse mapToLoginResponse(Account account) {
-        final String token = getToken(account.getEmail());
+    private LoginResponse mapToLoginResponse(LoginOutput output) {
+        final String token = getToken(output.getEmail(), output.getClinicId());
         return new LoginResponse(
                 token,
-                mapRoles(account.getAuthorities()),
-                account.isPasswordChanged(),
+                output.getRoles(),
+                output.isPasswordChanged(),
                 tokenUtil.getExpiresIn());
     }
 
-    private String getToken(String email) {
+    private String getToken(String email, Long clinicId) {
+        if (clinicId != null)
+            return tokenUtil.generateToken(email, clinicId);
         return tokenUtil.generateToken(email);
-    }
-
-    private List<String> mapRoles(List<Authority> authorities) {
-        return authorities
-                .stream()
-                .map(Authority::getName)
-                .collect(Collectors.toList());
     }
 
     @PostMapping("/password")
