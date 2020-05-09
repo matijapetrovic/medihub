@@ -23,10 +23,10 @@ public class ClinicRoomAdapter implements
     private final ClinicRoomRepository clinicRoomRepository;
 
     @Override
-    public ClinicRoom loadClinicRoom(String name) {
+    public ClinicRoom loadClinicRoom(Long id) {
         ClinicRoomJpaEntity clinicRoomJpa =
                 clinicRoomRepository
-                        .findByName(name)
+                        .findById(id)
                         .orElseThrow(EntityNotFoundException::new);
 
         return clinicRoomMapper.mapToDomainEntity(clinicRoomJpa);
@@ -38,14 +38,14 @@ public class ClinicRoomAdapter implements
     }
 
     @Override
-    public void deleteClinicRoom(String clinicRoomName) {
-        clinicRoomRepository.deleteClinicRoomByName(clinicRoomName);
+    public void deleteClinicRoom(Long id) {
+        clinicRoomRepository.deleteById(id);
     }
 
     @Override
     public List<ClinicRoom> getClinicRooms(Long clinicId) {
         return clinicRoomRepository
-                .findAllByClinicId(clinicId)
+                .findAllByClinic_Id(clinicId)
                 .stream()
                 .map(clinicRoomMapper::mapToDomainEntity)
                 .collect(Collectors.toList());

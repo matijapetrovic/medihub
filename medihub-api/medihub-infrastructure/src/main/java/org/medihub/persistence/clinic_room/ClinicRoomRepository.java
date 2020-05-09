@@ -14,6 +14,5 @@ public interface ClinicRoomRepository extends JpaRepository<ClinicRoomJpaEntity,
     @Transactional
     void deleteClinicRoomByName(String name);
 
-    @Query("select id, name from ClinicRoomJpaEntity where clinic_id = :clinicId")
-    List<ClinicRoomJpaEntity> findAllByClinicId(@Param("clinicId") Long clinicId);
+    List<ClinicRoomJpaEntity> findAllByClinic_Id(Long clinicId);
 }

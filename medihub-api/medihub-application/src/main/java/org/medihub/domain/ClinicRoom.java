@@ -10,4 +10,5 @@ import java.util.Set;
 public class ClinicRoom {
     private Long id;
     private String name;
+    private Clinic clinic;
 }

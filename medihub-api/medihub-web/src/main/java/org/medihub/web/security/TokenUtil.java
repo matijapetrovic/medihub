@@ -41,7 +41,7 @@ public class TokenUtil implements Serializable {
         return claimsResolver.apply(claims);
     }
 
-    private Claims getAllClaimsFromToken(String token) {
+    public Claims getAllClaimsFromToken(String token) {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
 
@@ -52,6 +52,12 @@ public class TokenUtil implements Serializable {
 
     public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
+        return doGenerateToken(claims, username);
+    }
+
+    public String generateToken(String username, Long clinicId) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("clinicId", clinicId);
         return doGenerateToken(claims, username);
     }
     //while creating the token -
