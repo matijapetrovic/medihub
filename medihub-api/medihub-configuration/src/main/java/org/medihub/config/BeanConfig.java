@@ -30,6 +30,7 @@ import org.medihub.application.ports.outgoing.clinic.SaveClinicPort;
 import org.medihub.application.ports.outgoing.clinic.SearchClinicsPort;
 import org.medihub.application.ports.outgoing.clinic_room.DeleteClinicRoomPort;
 import org.medihub.application.ports.outgoing.clinic_room.GetClinicRoomsPort;
+import org.medihub.application.ports.outgoing.clinic_room.LoadClinicRoomPort;
 import org.medihub.application.ports.outgoing.clinic_room.SaveClinicRoomPort;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorsPort;
 import org.medihub.application.ports.outgoing.doctor.SaveDoctorPort;
@@ -47,6 +48,9 @@ import org.medihub.application.services.appointment_type.GetAppointmentTypeServi
 import org.medihub.application.services.clinic.AddClinicService;
 import org.medihub.application.services.clinic.GetClinicNamesService;
 import org.medihub.application.services.clinic.SearchClinicsService;
+import org.medihub.application.services.clinic_room.AddClinicRoomService;
+import org.medihub.application.services.clinic_room.DeleteClinicRoomService;
+import org.medihub.application.services.clinic_room.GetClinicRoomsService;
 import org.medihub.application.services.patient.RegisterPatientService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -56,10 +60,8 @@ public class BeanConfig {
 
     @Bean
     public GetClinicRoomsQuery getClinicRoomsQuery(
-            GetClinicRoomsPort getClinicRoomsPort,
-            GetAuthenticatedPort getAuthenticatedPort,
-            LoadClinicAdminPort loadClinicAdminPort) {
-        return new GetClinicRoomsService(getClinicRoomsPort, getAuthenticatedPort, loadClinicAdminPort);
+            GetClinicRoomsPort getClinicRoomsPort) {
+        return new GetClinicRoomsService(getClinicRoomsPort);
     }
 
     @Bean
@@ -174,8 +176,10 @@ public class BeanConfig {
     }
 
     @Bean
-    public DeleteClinicRoomUseCase getDeleteClinicRoomUseCase(DeleteClinicRoomPort deleteClinicRoomPort){
-        return new DeleteClinicRoomService(deleteClinicRoomPort);
+    public DeleteClinicRoomUseCase getDeleteClinicRoomUseCase(
+            DeleteClinicRoomPort deleteClinicRoomPort,
+            LoadClinicRoomPort loadClinicRoomPort){
+        return new DeleteClinicRoomService(deleteClinicRoomPort, loadClinicRoomPort);
     }
 
     @Bean

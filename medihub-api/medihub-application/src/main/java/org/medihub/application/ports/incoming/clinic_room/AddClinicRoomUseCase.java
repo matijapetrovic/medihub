@@ -17,5 +17,13 @@ public interface AddClinicRoomUseCase {
         Long clinicId;
         @NotBlank
         String name;
+
+        public AddClinicRoomCommand(
+                Long clinicId,
+                String name) {
+            this.clinicId = clinicId;
+            this.name = name;
+            this.validateSelf();
+        }
     }
 }

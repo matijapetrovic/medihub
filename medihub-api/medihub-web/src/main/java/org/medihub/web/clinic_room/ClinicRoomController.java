@@ -2,12 +2,13 @@ package org.medihub.web.clinic_room;
 
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.ForbiddenException;
 import org.medihub.application.ports.incoming.clinic_room.AddClinicRoomUseCase;
 import org.medihub.application.ports.incoming.clinic_room.AddClinicRoomUseCase.AddClinicRoomCommand;
 import org.medihub.application.ports.incoming.clinic_room.DeleteClinicRoomUseCase;
+import org.medihub.application.ports.incoming.clinic_room.DeleteClinicRoomUseCase.DeleteClinicCommand;
 import org.medihub.application.ports.incoming.clinic_room.GetClinicRoomsOutput;
 import org.medihub.application.ports.incoming.clinic_room.GetClinicRoomsQuery;
-import org.medihub.domain.ClinicRoom;
 import org.medihub.web.security.TokenUtil;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -30,17 +31,26 @@ public class ClinicRoomController {
     private final GetClinicRoomsQuery getClinicRoomsQuery;
 
     @GetMapping("")
+    @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
     ResponseEntity<List<GetClinicRoomsOutput>> get() {
-        return ResponseEntity.ok(getClinicRoomsQuery.getClinicRooms());
+        Long clinicId = getAuthenticatedClinicId();
+        return ResponseEntity.ok(getClinicRoomsQuery.getClinicRooms(clinicId));
     }
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
     void add(@RequestBody ClinicRoomRequest request) {
-        String authToken = getToken();
-        Long clinicId = getClinicIdFromToken(authToken);
+        Long clinicId = getAuthenticatedClinicId();
         AddClinicRoomCommand command = new AddClinicRoomCommand(clinicId, request.getName());
         addClinicRoomUseCase.addClinicRoom(command);
+    }
+
+    @PostMapping("/delete")
+    @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
+    void delete(@RequestBody Long id) throws ForbiddenException {
+        Long clinicId = getAuthenticatedClinicId();
+        DeleteClinicCommand command = new DeleteClinicCommand(clinicId, id);
+        deleteClinicRoomUseCase.deleteClinicRoom(command);
     }
 
     private String getToken() {
@@ -48,13 +58,9 @@ public class ClinicRoomController {
         return (String) currentUser.getCredentials();
     }
 
-    private Long getClinicIdFromToken(String token) {
-        Claims claims = tokenUtil.getAllClaimsFromToken(token);
+    private Long getAuthenticatedClinicId() {
+        String authToken = getToken();
+        Claims claims = tokenUtil.getAllClaimsFromToken(authToken);
         return Long.valueOf((Integer) claims.get("clinicId"));
-    }
-
-    @PostMapping("/delete")
-    void delete(@RequestBody ClinicRoomRequest request){
-        deleteClinicRoomUseCase.deleteClinicRoom(request.getName());
     }
 }
