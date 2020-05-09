@@ -1,7 +1,7 @@
 package org.medihub.persistence.patient;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.outgoing.LoadPatientPort;
+import org.medihub.application.ports.outgoing.patient.LoadPatientPort;
 import org.medihub.domain.Patient;
 import org.springframework.stereotype.Component;
 

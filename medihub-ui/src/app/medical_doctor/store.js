@@ -5,10 +5,14 @@ export default {
   namespaced: true,
   state: {
     name: null,
+    doctors: [],
   },
   mutations: {
     SET_NAME(state, name) {
       state.name = name;
+    },
+    SET_DOCTORS(state, doctors) {
+      state.doctors = doctors;
     },
   },
   actions: {
@@ -20,6 +24,12 @@ export default {
         })
         .catch((err) => {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
+    getAllDoctors({ commit }) {
+      return api.getAllDoctors()
+        .then((data) => {
+          commit('SET_DOCTORS', data.data);
         });
     },
   },

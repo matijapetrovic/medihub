@@ -8,5 +8,7 @@ import java.util.Optional;
 
 public interface MedicalDoctorRepository extends JpaRepository<MedicalDoctorJpaEntity, Long> {
     Optional<MedicalDoctorJpaEntity> findById(Long id);
+
+    List<MedicalDoctorJpaEntity> findAll();
     List<MedicalDoctorJpaEntity> findAllByClinicId(Long clinicId);
 }
