@@ -19,7 +19,7 @@ export default {
         })
         .catch((err) => {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
-        })
+        });
     },
   },
 };
