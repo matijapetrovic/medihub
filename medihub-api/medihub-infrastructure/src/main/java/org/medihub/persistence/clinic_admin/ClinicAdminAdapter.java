@@ -21,7 +21,7 @@ public class ClinicAdminAdapter implements AddClinicAdminPort, LoadClinicAdminPo
     }
 
     @Override
-    public ClinicAdmin loadClinicAdmin(Long accountId) {
+    public ClinicAdmin loadClinicAdminByAccountId(Long accountId) {
         ClinicAdminJpaEntity clinicAdmin = clinicAdminRepository.findByAccount_Id(accountId).orElseThrow();
         return clinicAdminMapper.mapToDomainEntity(clinicAdmin);
     }

@@ -4,17 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.medihub.domain.appointment.Appointment;
+import org.medihub.domain.appointment.AppointmentType;
 import org.medihub.domain.identity.Account;
 
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 public class MedicalDoctor extends  MedicalStaff {
-    private Set<Appointment> appointments;
+    private AppointmentType specialization;
 
     public MedicalDoctor(
             Long id,
@@ -22,10 +21,10 @@ public class MedicalDoctor extends  MedicalStaff {
             WorkingCalendar workingCalendar,
             Clinic clinic,
             WorkingTime workingTime,
-            Set<Appointment> appointments
+            AppointmentType appointmentType
     ) {
         super(id, account, workingCalendar, clinic, workingTime);
-        this.appointments = appointments;
+        this.specialization = appointmentType;
     }
 
     public String getFirstName() {

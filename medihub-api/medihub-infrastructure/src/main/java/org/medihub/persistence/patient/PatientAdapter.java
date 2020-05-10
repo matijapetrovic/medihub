@@ -28,4 +28,13 @@ public class PatientAdapter implements GetPatientsPort, LoadPatientPort {
 
         return patientMapper.mapToDomainEntity(patient);
     }
+
+    @Override
+    public Patient loadPatientByAccountId(Long accountId) {
+        PatientJpaEntity patient = patientRepository
+                .findByAccount_Id(accountId)
+                .orElseThrow(EntityNotFoundException::new);
+
+        return patientMapper.mapToDomainEntity(patient);
+    }
 }

@@ -27,7 +27,7 @@ public class LoginService implements LoginUseCase {
                 .stream()
                 .anyMatch(authority -> authority.getName().equals("ROLE_CLINIC_ADMIN"))) {
             ClinicAdmin clinicAdmin = loadClinicAdminPort
-                    .loadClinicAdmin(account.getId());
+                    .loadClinicAdminByAccountId(account.getId());
             return new LoginOutput(
                     account.getEmail(),
                     account.isPasswordChanged(),

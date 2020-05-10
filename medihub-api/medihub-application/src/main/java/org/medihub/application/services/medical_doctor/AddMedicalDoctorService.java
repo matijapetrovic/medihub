@@ -3,10 +3,12 @@ package org.medihub.application.services.medical_doctor;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase;
 import org.medihub.application.ports.outgoing.LoadClinicAdminPort;
+import org.medihub.application.ports.outgoing.appointment_type.LoadAppointmentTypePort;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
 import org.medihub.application.ports.outgoing.doctor.SaveDoctorPort;
 import org.medihub.application.ports.outgoing.encoding.EncoderPort;
 import org.medihub.domain.*;
+import org.medihub.domain.appointment.AppointmentType;
 import org.medihub.domain.identity.Account;
 import org.medihub.domain.identity.Authority;
 
@@ -20,14 +22,17 @@ public class AddMedicalDoctorService implements AddMedicalDoctorUseCase {
     private final EncoderPort encoderPort;
     private final GetAuthenticatedPort getAuthenticatedPort;
     private final LoadClinicAdminPort loadClinicAdminPort;
+    private final LoadAppointmentTypePort loadAppointmentTypePort;
 
     @Override
     public void addDoctor(AddMedicalDoctorCommand command) {
         Account authenticated = getAuthenticatedPort.getAuthenticated();
-        ClinicAdmin clinicAdmin = loadClinicAdminPort.loadClinicAdmin(authenticated.getId());
+        ClinicAdmin clinicAdmin = loadClinicAdminPort.loadClinicAdminByAccountId(authenticated.getId());
+
+        AppointmentType specialization = loadAppointmentTypePort.loadAppointmentType(command.getAppointmentTypeId());
 
         MedicalDoctor entity = new MedicalDoctor(
-                command.getId(),
+                null,
                 new Account(
                         null,
                         command.getEmail(),
@@ -38,18 +43,14 @@ public class AddMedicalDoctorService implements AddMedicalDoctorUseCase {
                                 new Address(
                                         command.getAddressLine(),
                                         command.getCity(),
-                                        command.getCountry()
-                                ),
-                                command.getTelephoneNumber()
-                        ),
-                        command.isPasswordChanged(),
-                        new ArrayList<Authority>()
-                ),
+                                        command.getCountry()),
+                                command.getTelephoneNumber()),
+                        false,
+                        List.of(new Authority(2L, "ROLE_DOCTOR"))),
                 new WorkingCalendar(),
                 clinicAdmin.getClinic(),
-                new WorkingTime( command.getFrom(), command.getTo()),
-                Set.of()
-        );
+                new WorkingTime(command.getFrom(), command.getTo()),
+                specialization);
         saveDoctorPort.saveDoctor(entity);
     }
 }

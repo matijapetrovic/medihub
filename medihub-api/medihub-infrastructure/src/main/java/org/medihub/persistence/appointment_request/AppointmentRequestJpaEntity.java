@@ -9,6 +9,9 @@ import org.medihub.persistence.patient.PatientJpaEntity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Table(name="appointment_request")
@@ -29,10 +32,12 @@ public class AppointmentRequestJpaEntity {
     @JoinColumn(name="patient", referencedColumnName = "id", nullable = false)
     private PatientJpaEntity patientJpaEntity;
 
-    @ManyToOne
-    @JoinColumn(name="type", referencedColumnName = "id", nullable = false)
-    private AppointmentTypeJpaEntity appointmentTypeJpaEntity;
-
     @Column(name="price", nullable = false)
     private BigDecimal money;
+
+    @Column(name="date", nullable = false)
+    private LocalDate date;
+
+    @Column(name="time", nullable = false)
+    private LocalTime time;
 }

@@ -5,7 +5,9 @@ import lombok.Getter;
 import org.medihub.domain.appointment.Appointment;
 import org.medihub.domain.appointment.AppointmentType;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -16,17 +18,15 @@ public class Clinic {
     private Address address;
     private String description;
     private ClinicalCenter clinicalCenter;
-    private Set<AppointmentType> appointmentTypes;
+    private Map<AppointmentType, Money> appointmentPrices;
     private Set<Appointment> appointments;
     private ClinicAdmin clinicAdmin;
-    private Set<ClinicRoom> clinicRooms;
     private Set<MedicalStaff> medicalStaff;
 
     public Clinic() {
-        this.appointmentTypes = new HashSet<>();
-        this.appointments = new HashSet<>();
-        this.clinicRooms = new HashSet<>();
-        this.medicalStaff = new HashSet<>();
+        appointmentPrices = new HashMap<>();
+        appointments = new HashSet<>();
+        medicalStaff = new HashSet<>();
     }
 
     public Clinic(
@@ -46,5 +46,9 @@ public class Clinic {
             String description) {
         this(name, address, description);
         this.id = id;
+    }
+
+    public Money getPrice(AppointmentType appointmentType) {
+        return appointmentPrices.get(appointmentType);
     }
 }

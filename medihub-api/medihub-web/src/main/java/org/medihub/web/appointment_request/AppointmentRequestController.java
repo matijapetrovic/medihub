@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.appointment_request.ScheduleAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment_request.ScheduleAppointmentUseCase.ScheduleAppointmentCommand;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,7 @@ public class AppointmentRequestController {
     private final ScheduleAppointmentUseCase scheduleAppointmentUseCase;
 
     @PostMapping("")
+    @PreAuthorize("hasRole('ROLE_PATIENT')")
     void schedule(@RequestBody ScheduleAppointmentRequest request) {
         ScheduleAppointmentCommand command = createCommand(request);
         scheduleAppointmentUseCase.scheduleAppointment(command);
@@ -25,9 +27,8 @@ public class AppointmentRequestController {
 
     private ScheduleAppointmentCommand createCommand(ScheduleAppointmentRequest request) {
         return new ScheduleAppointmentCommand(
-                request.getPatientId(),
                 request.getDoctorId(),
-                request.getAppointmentTypeId(),
-                request.getDate());
+                request.getDate(),
+                request.getTime());
     }
 }

@@ -73,13 +73,13 @@ public class BeanConfig {
     public ScheduleAppointmentUseCase scheduleAppointmentUseCase(
             LoadDoctorPort loadDoctorPort,
             LoadPatientPort loadPatientPort,
-            LoadAppointmentTypePort loadAppointmentTypePort,
-            SaveAppointmentRequestPort saveAppointmentRequestPort) {
+            SaveAppointmentRequestPort saveAppointmentRequestPort,
+            GetAuthenticatedPort getAuthenticatedPort) {
         return new ScheduleAppointmentService(
                 loadDoctorPort,
                 loadPatientPort,
-                loadAppointmentTypePort,
-                saveAppointmentRequestPort);
+                saveAppointmentRequestPort,
+                getAuthenticatedPort);
     }
 
     @Bean
@@ -185,13 +185,14 @@ public class BeanConfig {
             SaveDoctorPort saveDoctorPorts,
             EncoderPort encoderPort,
             GetAuthenticatedPort getAuthenticatedPort,
-            LoadClinicAdminPort loadClinicAdminPort){
+            LoadClinicAdminPort loadClinicAdminPort,
+            LoadAppointmentTypePort loadAppointmentTypePort){
         return new AddMedicalDoctorService(
                 saveDoctorPorts,
                 encoderPort,
                 getAuthenticatedPort,
-                loadClinicAdminPort
-        );
+                loadClinicAdminPort,
+                loadAppointmentTypePort);
     }
 
     @Bean
