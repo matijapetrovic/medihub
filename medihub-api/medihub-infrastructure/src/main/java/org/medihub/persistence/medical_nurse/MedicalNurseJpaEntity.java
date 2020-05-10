@@ -11,7 +11,7 @@ import javax.persistence.*;
 import java.sql.Time;
 
 @Entity
-@Table(name="medical_nirse")
+@Table(name="medical_nurse")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

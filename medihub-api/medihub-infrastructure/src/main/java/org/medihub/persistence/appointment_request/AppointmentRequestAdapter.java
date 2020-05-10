@@ -12,6 +12,7 @@ public class AppointmentRequestAdapter implements SaveAppointmentRequestPort {
     private final AppointmentRequestMapper mapper;
     @Override
     public void saveAppointmentRequest(AppointmentRequest request) {
-
+        AppointmentRequestJpaEntity entity = mapper.mapToJpaEntity(request);
+        appointmentRequestRepository.save(entity);
     }
 }

@@ -12,8 +12,8 @@ insert into account (email, password, password_changed) values ('admin@gmail.com
 insert into account (email, password, first_name, last_name, address, password_changed, telephone_number) values ('d1@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Marko', 'markov', 'aa', false, '06951521616');
 insert into account (email, password, first_name, last_name, address, password_changed, telephone_number) values ('d2@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Marijan', 'Gagic', 'aa', false, '06951521616');
 
-insert into account (email, password, first_name, last_name, address, city, country, password_changed) values ('p1@gmail.com', 'random', 'Andrej', 'Petrovic', 'Ulica 1', 'Beograd', 'Serbia', 1);
-insert into account (email, password, first_name, last_name, address, city, country, password_changed) values ('p2@gmail.com', 'random', 'Milan', 'Milanovic', 'Ulica 2', 'Novi Sad', 'Serbia', 1);
+insert into account (email, password, first_name, last_name, address, city, country, password_changed) values ('p1@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Andrej', 'Petrovic', 'Ulica 1', 'Beograd', 'Serbia', 1);
+insert into account (email, password, first_name, last_name, address, city, country, password_changed) values ('p2@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Milan', 'Milanovic', 'Ulica 2', 'Novi Sad', 'Serbia', 1);
 
 insert into account_authority (user_id, authority_id) values (1, 1);
 insert into account_authority (user_id, authority_id) values (2, 2);
@@ -39,10 +39,11 @@ insert into clinic_admin(account, clinic) values (4, 1);
 insert into working_calendar (id) values (1);
 insert into working_calendar (id) values (2);
 
-insert into medical_doctor (account_id, working_calendar, clinic, working_time_from, working_time_to) values (6, 1, 1, '06:00:00', '14:00:00');
-insert into medical_doctor (account_id, working_calendar, clinic, working_time_from, working_time_to) values (7, 2, 2, '18:00:00', '01:00:00');
-
 insert into appointment_type(name) values ('type1');
 insert into appointment_type(name) values ('type2');
 insert into appointment_type(name) values ('type3');
 
+insert into medical_doctor (account_id, working_calendar, clinic, working_time_from, working_time_to, specialization) values (6, 1, 1, '06:00:00', '14:00:00', 1);
+insert into medical_doctor (account_id, working_calendar, clinic, working_time_from, working_time_to, specialization) values (7, 2, 2, '18:00:00', '01:00:00', 1);
+
+insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (1, 1, 500.0);

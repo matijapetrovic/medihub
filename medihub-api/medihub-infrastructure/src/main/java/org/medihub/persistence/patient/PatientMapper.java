@@ -29,7 +29,7 @@ public class PatientMapper {
 
     public PatientJpaEntity mapToJpaEntity(Patient patient){
         return new PatientJpaEntity(
-                null,
+                patient.getId(),
                 patient.getInsuranceNumber(),
                 accountMapper.mapToJpaEntity(patient.getAccount()),
                 medicalRecordMapper.mapToJpaEntity(patient.getMedicalRecord()),

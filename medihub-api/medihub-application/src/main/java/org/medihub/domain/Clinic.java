@@ -43,9 +43,11 @@ public class Clinic {
             Long id,
             String name,
             Address address,
-            String description) {
+            String description,
+            Map<AppointmentType, Money> appointmentPrices) {
         this(name, address, description);
         this.id = id;
+        this.appointmentPrices = appointmentPrices;
     }
 
     public Money getPrice(AppointmentType appointmentType) {
