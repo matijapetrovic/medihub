@@ -42,6 +42,7 @@ export default {
         icon: 'mdi-clipboard-pulse-outline',
         children: [
           { text: 'Add', path: '/add-appointment-type', icon: 'add' },
+          { text: 'Search', path: '/appointment-types', icon: 'search' },
         ],
       },
     ],
