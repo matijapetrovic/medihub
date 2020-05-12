@@ -36,6 +36,9 @@ public class MedicalDoctorJpaEntity {
     @Column(name = "working_time_to")
     private Time to;
 
+    @Column(name = "working_hours")
+    private Long working_hours;
+
     @ManyToOne
     @JoinColumn(name="specialization", referencedColumnName = "id", nullable = false)
     private AppointmentTypeJpaEntity specialization;

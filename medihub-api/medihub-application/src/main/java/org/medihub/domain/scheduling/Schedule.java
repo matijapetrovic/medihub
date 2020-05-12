@@ -9,22 +9,20 @@ import java.util.Map;
 
 @Getter
 public class Schedule<T extends DailyScheduleItem> {
-    private Long id;
     private Map<LocalDate, DailySchedule<T>> dailySchedules;
 
     public Schedule() {
         dailySchedules = new HashMap<>();
     }
 
-    public Schedule(Long id, Map<LocalDate, DailySchedule<T>> dailySchedules) {
-        this.id = id;
+    public Schedule(Map<LocalDate, DailySchedule<T>> dailySchedules) {
         this.dailySchedules = dailySchedules;
     }
 
     public boolean addToSchedule(LocalDate date, T scheduleItem) {
         DailySchedule<T> dailySchedule = dailySchedules.get(date);
         if (dailySchedule == null) {
-            dailySchedule = new DailySchedule<>();
+            dailySchedule = new DailySchedule<>(null);
             dailySchedules.put(date, dailySchedule);
         }
         return dailySchedule.addToSchedule(scheduleItem);

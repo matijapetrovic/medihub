@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import org.medihub.persistence.medical_doctor.MedicalDoctorJpaEntity;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.sql.Date;
 
 @Entity
 @Table(name="medical_doctor_schedule")
@@ -15,14 +15,13 @@ import java.util.Set;
 @NoArgsConstructor
 public class MedicalDoctorScheduleJpaEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @ManyToOne
     @JoinColumn(name="doctor_id", referencedColumnName = "id", nullable = false)
-    MedicalDoctorJpaEntity doctorJpaEntity;
+    MedicalDoctorJpaEntity doctor;
 
-    @OneToMany
-    @JoinColumn(name="schedule_id")
-    Set<MedicalDoctorScheduleItemJpaEntity> scheduleItems;
+    @Column(name="date")
+    Date date;
 }

@@ -8,7 +8,8 @@ import org.medihub.application.ports.outgoing.clinic.SearchClinicsPort;
 import org.medihub.domain.appointment.AppointmentType;
 import org.medihub.domain.clinic.Clinic;
 
-import java.util.Date;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,11 +19,11 @@ public class SearchClinicsService implements SearchClinicsQuery {
     private final SearchClinicsPort searchClinicsPort;
 
     @Override
-    public List<SearchClinicsOutput> searchClinics(Date date, Long appointmentTypeId) {
+    public List<SearchClinicsOutput> searchClinics(LocalDate date, Long appointmentTypeId) {
         AppointmentType appointmentType =
                 loadAppointmentTypePort.loadAppointmentType(appointmentTypeId);
 
-        return mapToOutput(searchClinicsPort.searchClinics(date, appointmentType), appointmentType);
+        return mapToOutput(searchClinicsPort.searchClinics(date, appointmentTypeId), appointmentType);
     }
 
     private List<SearchClinicsOutput> mapToOutput(List<Clinic> clinics, AppointmentType appointmentType) {
@@ -35,7 +36,7 @@ public class SearchClinicsService implements SearchClinicsQuery {
                         clinic.getAddress().getAddressLine(),
                         clinic.getAddress().getCity(),
                         clinic.getAddress().getCountry(),
-                        clinic.getPrice(appointmentType).getAmount()))
+                        BigDecimal.valueOf(500.0)))
                 .collect(Collectors.toList());
     }
 }

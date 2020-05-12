@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.sql.Time;
 
 @Entity
@@ -15,11 +14,13 @@ import java.sql.Time;
 @NoArgsConstructor
 public class MedicalDoctorScheduleItemJpaEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(name="date")
-    Date date;
+    @ManyToOne
+    @JoinColumn(name="schedule_id", referencedColumnName = "id", nullable = false)
+    MedicalDoctorScheduleJpaEntity schedule;
+
     @Column(name="time")
     Time time;
     @Column(name="schedule_item_type")
