@@ -7,6 +7,7 @@ import org.medihub.application.ports.incoming.clinic.GetClinicNamesQuery;
 import org.medihub.application.ports.incoming.clinic_admin.AddClinicAdminUseCase;
 import org.medihub.application.ports.incoming.clinic_room.AddClinicRoomUseCase;
 import org.medihub.application.ports.incoming.clinic_room.DeleteClinicRoomUseCase;
+import org.medihub.application.ports.incoming.clinic_room.GetClinicRoomUseCase;
 import org.medihub.application.ports.incoming.clinic_room.GetClinicRoomsQuery;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase;
 import org.medihub.application.ports.incoming.account.ChangePasswordUseCase;
@@ -160,6 +161,11 @@ public class BeanConfig {
         return new AddClinicRoomService(
                 saveClinicRoomPort,
                 getClinicByIDPort);
+    }
+
+    @Bean
+    public GetClinicRoomUseCase getClinicRoomUseCase(GetClinicRoomsPort getClinicRoomsPort){
+        return new GetClinicRoomsService(getClinicRoomsPort);
     }
 
     @Bean

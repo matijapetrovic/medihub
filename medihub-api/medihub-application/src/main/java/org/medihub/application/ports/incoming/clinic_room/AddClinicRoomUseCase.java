@@ -17,12 +17,16 @@ public interface AddClinicRoomUseCase {
         Long clinicId;
         @NotBlank
         String name;
+        @NotBlank
+        int number;
 
         public AddClinicRoomCommand(
                 Long clinicId,
-                String name) {
+                String name,
+                int number) {
             this.clinicId = clinicId;
             this.name = name;
+            this.number = number;
             this.validateSelf();
         }
     }

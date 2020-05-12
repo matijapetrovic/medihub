@@ -15,4 +15,6 @@ public interface ClinicRoomRepository extends JpaRepository<ClinicRoomJpaEntity,
     void deleteClinicRoomByName(String name);
 
     List<ClinicRoomJpaEntity> findAllByClinic_Id(Long clinicId);
+
+    List<ClinicRoomJpaEntity> getAll();
 }

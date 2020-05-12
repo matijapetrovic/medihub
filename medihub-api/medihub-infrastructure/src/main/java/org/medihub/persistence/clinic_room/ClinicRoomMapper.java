@@ -5,6 +5,9 @@ import org.medihub.domain.ClinicRoom;
 import org.medihub.persistence.clinic.ClinicMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 @RequiredArgsConstructor
 public class ClinicRoomMapper {
@@ -14,6 +17,7 @@ public class ClinicRoomMapper {
         return new ClinicRoom(
                 clinicRoomJpaEntity.getId(),
                 clinicRoomJpaEntity.getName(),
+                clinicRoomJpaEntity.getNumber(),
                 clinicMapper.mapToDomainEntity(clinicRoomJpaEntity.getClinic()));
     }
 
@@ -21,6 +25,14 @@ public class ClinicRoomMapper {
         return new ClinicRoomJpaEntity(
                 clinicRoom.getId(),
                 clinicRoom.getName(),
+                clinicRoom.getNumber(),
                 clinicMapper.mapToJpaEntity(clinicRoom.getClinic()));
+    }
+
+    public List<ClinicRoom> mapToDomainList(List<ClinicRoomJpaEntity> clinicRoomJpaEntities){
+        return clinicRoomJpaEntities
+                .stream()
+                .map(this::mapToDomainEntity)
+                .collect(Collectors.toList());
     }
 }

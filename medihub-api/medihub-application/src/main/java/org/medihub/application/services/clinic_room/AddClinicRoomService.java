@@ -15,7 +15,7 @@ public class AddClinicRoomService implements AddClinicRoomUseCase {
     @Override
     public void addClinicRoom(AddClinicRoomCommand command) {
         Clinic clinic = loadClinicPort.getByID(command.getClinicId());
-        ClinicRoom room = new ClinicRoom(null, command.getName(), clinic);
+        ClinicRoom room = new ClinicRoom(null, command.getName(), command.getNumber(), clinic);
         saveClinicRoomPort.saveClinicRoom(room);
     }
 }

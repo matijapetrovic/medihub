@@ -21,6 +21,9 @@ public class ClinicRoomJpaEntity {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "number")
+    private int number;
+
     @ManyToOne
     @JoinColumn(name="clinic_id", nullable = false)
     private ClinicJpaEntity clinic;
