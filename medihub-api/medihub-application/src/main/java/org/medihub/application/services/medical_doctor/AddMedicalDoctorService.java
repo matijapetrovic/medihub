@@ -8,13 +8,17 @@ import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPor
 import org.medihub.application.ports.outgoing.doctor.SaveDoctorPort;
 import org.medihub.application.ports.outgoing.encoding.EncoderPort;
 import org.medihub.domain.*;
+import org.medihub.domain.account.Address;
+import org.medihub.domain.account.PersonalInfo;
 import org.medihub.domain.appointment.AppointmentType;
-import org.medihub.domain.identity.Account;
-import org.medihub.domain.identity.Authority;
+import org.medihub.domain.account.Account;
+import org.medihub.domain.account.Authority;
+import org.medihub.domain.clinic.ClinicAdmin;
+import org.medihub.domain.medical_doctor.MedicalDoctor;
+import org.medihub.domain.scheduling.Schedule;
 
-import java.util.ArrayList;
+import java.time.LocalTime;
 import java.util.List;
-import java.util.Set;
 
 @RequiredArgsConstructor
 public class AddMedicalDoctorService implements AddMedicalDoctorUseCase {
@@ -47,9 +51,9 @@ public class AddMedicalDoctorService implements AddMedicalDoctorUseCase {
                                 command.getTelephoneNumber()),
                         false,
                         List.of(new Authority(2L, "ROLE_DOCTOR"))),
-                new WorkingCalendar(),
                 clinicAdmin.getClinic(),
-                new WorkingTime(command.getFrom(), command.getTo()),
+                new WorkingTime(LocalTime.parse(command.getFrom()),
+                                LocalTime.parse(command.getTo())),
                 specialization);
         saveDoctorPort.saveDoctor(entity);
     }

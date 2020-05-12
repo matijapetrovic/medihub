@@ -1,4 +1,4 @@
-package org.medihub.domain.identity;
+package org.medihub.domain.account;
 
 import lombok.EqualsAndHashCode;
 import lombok.Value;

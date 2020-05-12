@@ -1,9 +1,9 @@
-package org.medihub.domain;
+package org.medihub.domain.clinic_room;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
-import java.util.Set;
+import org.medihub.domain.clinic.Clinic;
+import org.medihub.domain.scheduling.Schedule;
 
 @AllArgsConstructor
 @Getter

@@ -3,21 +3,17 @@ package org.medihub.application.services.appointment;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.appointment_request.ScheduleAppointmentUseCase;
 import org.medihub.application.ports.outgoing.appointment.SaveAppointmentRequestPort;
-import org.medihub.application.ports.outgoing.appointment_type.LoadAppointmentTypePort;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
 import org.medihub.application.ports.outgoing.doctor.LoadDoctorPort;
 import org.medihub.application.ports.outgoing.patient.LoadPatientPort;
-import org.medihub.domain.MedicalDoctor;
+import org.medihub.domain.medical_doctor.MedicalDoctor;
 import org.medihub.domain.Money;
-import org.medihub.domain.Patient;
+import org.medihub.domain.patient.Patient;
 import org.medihub.domain.appointment.AppointmentRequest;
-import org.medihub.domain.appointment.AppointmentType;
-import org.medihub.domain.identity.Account;
+import org.medihub.domain.account.Account;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
 @RequiredArgsConstructor
 public class ScheduleAppointmentService implements ScheduleAppointmentUseCase {

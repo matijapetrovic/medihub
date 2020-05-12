@@ -1,7 +1,8 @@
-package org.medihub.domain;
+package org.medihub.domain.patient;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.medihub.domain.Diagnosis;
 
 import java.util.Set;
 

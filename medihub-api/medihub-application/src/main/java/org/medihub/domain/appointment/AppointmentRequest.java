@@ -2,9 +2,9 @@ package org.medihub.domain.appointment;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.medihub.domain.MedicalDoctor;
+import org.medihub.domain.medical_doctor.MedicalDoctor;
 import org.medihub.domain.Money;
-import org.medihub.domain.Patient;
+import org.medihub.domain.patient.Patient;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

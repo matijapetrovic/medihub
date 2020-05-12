@@ -1,6 +1,7 @@
-package org.medihub.domain;
+package org.medihub.domain.account;
 
 import lombok.Value;
+import org.medihub.domain.account.Address;
 
 @Value
 public class PersonalInfo {

@@ -5,9 +5,9 @@ import org.medihub.application.ports.incoming.authentication.LoginOutput;
 import org.medihub.application.ports.incoming.authentication.LoginUseCase;
 import org.medihub.application.ports.outgoing.LoadClinicAdminPort;
 import org.medihub.application.ports.outgoing.authentication.AuthenticationPort;
-import org.medihub.domain.ClinicAdmin;
-import org.medihub.domain.identity.Account;
-import org.medihub.domain.identity.Authority;
+import org.medihub.domain.clinic.ClinicAdmin;
+import org.medihub.domain.account.Account;
+import org.medihub.domain.account.Authority;
 
 import java.util.List;
 import java.util.stream.Collectors;

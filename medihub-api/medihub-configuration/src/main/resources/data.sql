@@ -36,14 +36,11 @@ insert into clinic (name, address, city, country, description) values ('Klinika 
 
 insert into clinic_admin(account, clinic) values (4, 1);
 
-insert into working_calendar (id) values (1);
-insert into working_calendar (id) values (2);
-
 insert into appointment_type(name) values ('type1');
 insert into appointment_type(name) values ('type2');
 insert into appointment_type(name) values ('type3');
 
-insert into medical_doctor (account_id, working_calendar, clinic, working_time_from, working_time_to, specialization) values (6, 1, 1, '06:00:00', '14:00:00', 1);
-insert into medical_doctor (account_id, working_calendar, clinic, working_time_from, working_time_to, specialization) values (7, 2, 2, '18:00:00', '01:00:00', 1);
+insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, specialization) values (6, 1, '06:00:00', '14:00:00', 1);
+insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, specialization) values (7, 2, '18:00:00', '01:00:00', 1);
 
 insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (1, 1, 500.0);

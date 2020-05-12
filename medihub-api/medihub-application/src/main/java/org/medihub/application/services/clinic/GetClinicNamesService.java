@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.clinic.GetClinicNamesOutput;
 import org.medihub.application.ports.incoming.clinic.GetClinicNamesQuery;
 import org.medihub.application.ports.outgoing.clinic.GetClinicNamesPort;
-import org.medihub.domain.Clinic;
+import org.medihub.domain.clinic.Clinic;
 
 import java.util.List;
 import java.util.stream.Collectors;

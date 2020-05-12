@@ -2,7 +2,7 @@ package org.medihub.domain.patient;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.medihub.domain.Address;
+import org.medihub.domain.account.Address;
 
 @Getter
 @AllArgsConstructor()

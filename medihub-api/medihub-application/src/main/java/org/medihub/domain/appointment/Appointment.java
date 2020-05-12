@@ -2,7 +2,7 @@ package org.medihub.domain.appointment;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.medihub.domain.ClinicRoom;
+import org.medihub.domain.clinic_room.ClinicRoom;
 import org.medihub.domain.Prescription;
 
 import java.util.Date;

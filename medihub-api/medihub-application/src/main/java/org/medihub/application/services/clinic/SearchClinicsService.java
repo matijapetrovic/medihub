@@ -6,7 +6,7 @@ import org.medihub.application.ports.incoming.clinic.SearchClinicsQuery;
 import org.medihub.application.ports.outgoing.appointment_type.LoadAppointmentTypePort;
 import org.medihub.application.ports.outgoing.clinic.SearchClinicsPort;
 import org.medihub.domain.appointment.AppointmentType;
-import org.medihub.domain.Clinic;
+import org.medihub.domain.clinic.Clinic;
 
 import java.util.Date;
 import java.util.List;

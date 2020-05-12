@@ -1,8 +1,9 @@
-package org.medihub.domain;
+package org.medihub.domain.clinic;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.medihub.domain.identity.Account;
+import org.medihub.domain.account.Account;
+import org.medihub.domain.clinic.Clinic;
 
 @AllArgsConstructor
 @Getter

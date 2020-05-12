@@ -3,7 +3,7 @@ package org.medihub.persistence.clinic_admin;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.outgoing.AddClinicAdminPort;
 import org.medihub.application.ports.outgoing.LoadClinicAdminPort;
-import org.medihub.domain.ClinicAdmin;
+import org.medihub.domain.clinic.ClinicAdmin;
 import org.springframework.stereotype.Component;
 
 @Component

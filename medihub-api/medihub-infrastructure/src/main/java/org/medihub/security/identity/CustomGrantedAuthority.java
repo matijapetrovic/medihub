@@ -1,7 +1,7 @@
 package org.medihub.security.identity;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.domain.identity.Authority;
+import org.medihub.domain.account.Authority;
 import org.springframework.security.core.GrantedAuthority;
 
 @RequiredArgsConstructor

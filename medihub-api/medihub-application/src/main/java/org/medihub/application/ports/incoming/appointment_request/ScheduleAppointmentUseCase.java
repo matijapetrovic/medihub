@@ -7,7 +7,6 @@ import org.medihub.common.SelfValidating;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
 public interface ScheduleAppointmentUseCase {
     void scheduleAppointment(ScheduleAppointmentCommand command);

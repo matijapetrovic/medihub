@@ -1,7 +1,10 @@
-package org.medihub.domain;
+package org.medihub.domain.clinic;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.medihub.domain.MedicalStaff;
+import org.medihub.domain.Money;
+import org.medihub.domain.account.Address;
 import org.medihub.domain.appointment.Appointment;
 import org.medihub.domain.appointment.AppointmentType;
 
@@ -17,7 +20,6 @@ public class Clinic {
     private String name;
     private Address address;
     private String description;
-    private ClinicalCenter clinicalCenter;
     private Map<AppointmentType, Money> appointmentPrices;
     private Set<Appointment> appointments;
     private ClinicAdmin clinicAdmin;

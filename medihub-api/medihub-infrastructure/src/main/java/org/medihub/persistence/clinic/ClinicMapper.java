@@ -1,13 +1,12 @@
 package org.medihub.persistence.clinic;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.domain.Address;
-import org.medihub.domain.Clinic;
+import org.medihub.domain.account.Address;
+import org.medihub.domain.clinic.Clinic;
 import org.medihub.domain.Money;
 import org.medihub.domain.appointment.AppointmentType;
 import org.medihub.persistence.appointment_type.AppointmentTypeJpaEntity;
 import org.medihub.persistence.appointment_type.AppointmentTypeMapper;
-import org.medihub.persistence.clinic_room.ClinicRoomMapper;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;

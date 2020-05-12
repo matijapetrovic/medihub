@@ -5,9 +5,9 @@ import org.medihub.application.exceptions.AccountNotFoundException;
 import org.medihub.application.ports.incoming.account.profile.UpdateProfileUseCase;
 import org.medihub.application.ports.outgoing.account.LoadAccountPort;
 import org.medihub.application.ports.outgoing.account.SaveAccountPort;
-import org.medihub.domain.Address;
-import org.medihub.domain.PersonalInfo;
-import org.medihub.domain.identity.Account;
+import org.medihub.domain.account.Address;
+import org.medihub.domain.account.PersonalInfo;
+import org.medihub.domain.account.Account;
 
 @RequiredArgsConstructor
 public class UpdateProfileService implements UpdateProfileUseCase {

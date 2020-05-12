@@ -3,7 +3,7 @@ package org.medihub.application.ports.incoming.clinic;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 import org.medihub.common.SelfValidating;
-import org.medihub.domain.Clinic;
+import org.medihub.domain.clinic.Clinic;
 
 import javax.validation.constraints.NotNull;
 

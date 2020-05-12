@@ -7,12 +7,12 @@ import org.medihub.application.ports.outgoing.AddClinicAdminPort;
 import org.medihub.application.ports.outgoing.account.LoadAccountPort;
 import org.medihub.application.ports.outgoing.clinic.GetClinicByIDPort;
 import org.medihub.application.ports.outgoing.encoding.EncoderPort;
-import org.medihub.domain.Address;
-import org.medihub.domain.Clinic;
-import org.medihub.domain.ClinicAdmin;
-import org.medihub.domain.PersonalInfo;
-import org.medihub.domain.identity.Account;
-import org.medihub.domain.identity.Authority;
+import org.medihub.domain.account.Address;
+import org.medihub.domain.clinic.Clinic;
+import org.medihub.domain.clinic.ClinicAdmin;
+import org.medihub.domain.account.PersonalInfo;
+import org.medihub.domain.account.Account;
+import org.medihub.domain.account.Authority;
 
 import java.util.List;
 import java.util.Optional;

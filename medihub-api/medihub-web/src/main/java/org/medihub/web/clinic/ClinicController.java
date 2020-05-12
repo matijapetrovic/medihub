@@ -3,7 +3,7 @@ package org.medihub.web.clinic;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.clinic.*;
 import org.medihub.application.ports.incoming.clinic.AddClinicUseCase.AddClinicCommand;
-import org.medihub.domain.Clinic;
+import org.medihub.domain.clinic.Clinic;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;

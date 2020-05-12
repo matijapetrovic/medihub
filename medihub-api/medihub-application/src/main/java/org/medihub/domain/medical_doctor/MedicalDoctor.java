@@ -1,29 +1,24 @@
-package org.medihub.domain;
+package org.medihub.domain.medical_doctor;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import org.medihub.domain.WorkingTime;
+import org.medihub.domain.clinic.Clinic;
+import org.medihub.domain.MedicalStaff;
 import org.medihub.domain.appointment.AppointmentType;
-import org.medihub.domain.identity.Account;
+import org.medihub.domain.account.Account;
 
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
-@Setter
-public class MedicalDoctor extends  MedicalStaff {
+public class MedicalDoctor extends MedicalStaff {
     private AppointmentType specialization;
 
     public MedicalDoctor(
             Long id,
             Account account,
-            WorkingCalendar workingCalendar,
             Clinic clinic,
             WorkingTime workingTime,
-            AppointmentType appointmentType
-    ) {
-        super(id, account, workingCalendar, clinic, workingTime);
+            AppointmentType appointmentType) {
+        super(id, account, clinic, workingTime);
         this.specialization = appointmentType;
     }
 

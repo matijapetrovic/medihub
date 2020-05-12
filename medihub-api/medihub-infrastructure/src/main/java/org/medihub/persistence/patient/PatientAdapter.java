@@ -3,7 +3,7 @@ package org.medihub.persistence.patient;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.outgoing.patient.GetPatientsPort;
 import org.medihub.application.ports.outgoing.patient.LoadPatientPort;
-import org.medihub.domain.Patient;
+import org.medihub.domain.patient.Patient;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;

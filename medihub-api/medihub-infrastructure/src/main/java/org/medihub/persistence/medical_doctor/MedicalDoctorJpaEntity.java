@@ -3,16 +3,12 @@ package org.medihub.persistence.medical_doctor;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.medihub.domain.appointment.AppointmentType;
 import org.medihub.persistence.account.AccountJpaEntity;
-import org.medihub.persistence.appointment.AppointmentJpaEntity;
 import org.medihub.persistence.appointment_type.AppointmentTypeJpaEntity;
 import org.medihub.persistence.clinic.ClinicJpaEntity;
-import org.medihub.persistence.working_calendar.WorkingCalendarJpaEntity;
 
 import javax.persistence.*;
 import java.sql.Time;
-import java.util.Set;
 
 @Entity
 @Table(name="medical_doctor")
@@ -29,10 +25,6 @@ public class MedicalDoctorJpaEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="account_id")
     private AccountJpaEntity account;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "working_calendar", referencedColumnName="id", nullable=true)
-    private WorkingCalendarJpaEntity workingCalendarJpaEntity;
 
     @ManyToOne
     @JoinColumn(name="clinic", referencedColumnName="id")

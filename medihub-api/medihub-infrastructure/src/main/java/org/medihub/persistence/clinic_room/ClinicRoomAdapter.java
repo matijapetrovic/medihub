@@ -5,7 +5,7 @@ import org.medihub.application.ports.outgoing.clinic_room.DeleteClinicRoomPort;
 import org.medihub.application.ports.outgoing.clinic_room.GetClinicRoomsPort;
 import org.medihub.application.ports.outgoing.clinic_room.LoadClinicRoomPort;
 import org.medihub.application.ports.outgoing.clinic_room.SaveClinicRoomPort;
-import org.medihub.domain.ClinicRoom;
+import org.medihub.domain.clinic_room.ClinicRoom;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;

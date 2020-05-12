@@ -1,4 +1,4 @@
-package org.medihub.domain;
+package org.medihub.domain.account;
 
 import lombok.Value;
 
