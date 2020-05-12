@@ -3,7 +3,6 @@ package org.medihub.application.ports.incoming.authentication;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 import org.medihub.common.SelfValidating;
-import org.medihub.domain.identity.Account;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

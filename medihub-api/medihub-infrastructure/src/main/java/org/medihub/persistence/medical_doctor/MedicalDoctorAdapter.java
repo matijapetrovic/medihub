@@ -5,7 +5,7 @@ import org.medihub.application.ports.outgoing.doctor.GetAllDoctorsPort;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorsPort;
 import org.medihub.application.ports.outgoing.doctor.LoadDoctorPort;
 import org.medihub.application.ports.outgoing.doctor.SaveDoctorPort;
-import org.medihub.domain.MedicalDoctor;
+import org.medihub.domain.medical_doctor.MedicalDoctor;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;

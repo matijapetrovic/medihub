@@ -1,7 +1,7 @@
 package org.medihub.persistence.clinic_room;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.domain.ClinicRoom;
+import org.medihub.domain.clinic_room.ClinicRoom;
 import org.medihub.persistence.clinic.ClinicMapper;
 import org.springframework.stereotype.Component;
 

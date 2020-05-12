@@ -1,6 +1,6 @@
 package org.medihub.application.ports.outgoing.clinic;
 
-import org.medihub.domain.Clinic;
+import org.medihub.domain.clinic.Clinic;
 
 import java.util.List;
 

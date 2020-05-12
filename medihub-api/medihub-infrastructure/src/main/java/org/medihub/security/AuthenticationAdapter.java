@@ -3,7 +3,7 @@ package org.medihub.security;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.outgoing.authentication.AuthenticationPort;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
-import org.medihub.domain.identity.Account;
+import org.medihub.domain.account.Account;
 import org.medihub.security.identity.CustomUserDetails;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

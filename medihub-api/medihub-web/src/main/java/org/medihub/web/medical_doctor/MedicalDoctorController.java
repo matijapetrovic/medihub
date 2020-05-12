@@ -8,6 +8,7 @@ import org.medihub.application.ports.incoming.medical_doctor.GetDoctorsOutput;
 import org.medihub.application.ports.incoming.medical_doctor.GetDoctorsQuery;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,7 @@ public class MedicalDoctorController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
     void add(@RequestBody MedicalDoctorRequest request) {
         AddMedicalDoctorCommand command = createCommand(request);
         AddMedicalDoctorUseCase.addDoctor(command);
@@ -41,7 +43,6 @@ public class MedicalDoctorController {
 
     private AddMedicalDoctorCommand createCommand(MedicalDoctorRequest medicalDoctorRequest){
         return new AddMedicalDoctorCommand(
-                null,
                 medicalDoctorRequest.getEmail(),
                 medicalDoctorRequest.getPassword(),
                 medicalDoctorRequest.getFirstName(),
@@ -50,10 +51,9 @@ public class MedicalDoctorController {
                 medicalDoctorRequest.getCity(),
                 medicalDoctorRequest.getCountry(),
                 medicalDoctorRequest.getTelephoneNum(),
-                medicalDoctorRequest.isPasswordChanged(),
                 medicalDoctorRequest.getFrom(),
                 medicalDoctorRequest.getTo(),
-                medicalDoctorRequest.getAppointmentType()
+                medicalDoctorRequest.getAppointmentTypeId()
         );
     }
 

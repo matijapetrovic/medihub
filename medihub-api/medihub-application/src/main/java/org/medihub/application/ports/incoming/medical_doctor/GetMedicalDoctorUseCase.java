@@ -1,6 +1,6 @@
 package org.medihub.application.ports.incoming.medical_doctor;
 
-import org.medihub.domain.MedicalDoctor;
+import org.medihub.domain.medical_doctor.MedicalDoctor;
 
 import java.util.List;
 

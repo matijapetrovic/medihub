@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.outgoing.appointment_type.GetAppointmentTypesPort;
 import org.medihub.application.ports.outgoing.appointment_type.SaveAppointmentTypePort;
 import org.medihub.application.ports.outgoing.appointment_type.LoadAppointmentTypePort;
-import org.medihub.domain.AppointmentType;
+import org.medihub.domain.appointment.AppointmentType;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

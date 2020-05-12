@@ -1,7 +1,7 @@
 package org.medihub.persistence.medical_record;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.domain.MedicalRecord;
+import org.medihub.domain.patient.MedicalRecord;
 import org.medihub.persistence.diagnosis.DiagnosisMapper;
 import org.springframework.stereotype.Component;
 

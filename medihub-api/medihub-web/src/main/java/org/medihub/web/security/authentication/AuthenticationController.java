@@ -7,8 +7,6 @@ import org.medihub.application.ports.incoming.authentication.LoginUseCase;
 import org.medihub.application.ports.incoming.authentication.LoginUseCase.LoginCommand;
 import org.medihub.application.ports.incoming.account.ChangePasswordUseCase;
 import org.medihub.application.ports.incoming.account.ChangePasswordUseCase.ChangePasswordCommand;
-import org.medihub.domain.identity.Account;
-import org.medihub.domain.identity.Authority;
 import org.medihub.web.security.TokenUtil;
 import org.medihub.web.security.authentication.dto.*;
 import org.springframework.http.MediaType;
@@ -16,9 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Component
 @RestController

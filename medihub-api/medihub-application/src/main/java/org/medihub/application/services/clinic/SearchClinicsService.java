@@ -5,11 +5,9 @@ import org.medihub.application.ports.incoming.clinic.SearchClinicsOutput;
 import org.medihub.application.ports.incoming.clinic.SearchClinicsQuery;
 import org.medihub.application.ports.outgoing.appointment_type.LoadAppointmentTypePort;
 import org.medihub.application.ports.outgoing.clinic.SearchClinicsPort;
-import org.medihub.domain.AppointmentType;
-import org.medihub.domain.Clinic;
+import org.medihub.domain.appointment.AppointmentType;
+import org.medihub.domain.clinic.Clinic;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,10 +22,10 @@ public class SearchClinicsService implements SearchClinicsQuery {
         AppointmentType appointmentType =
                 loadAppointmentTypePort.loadAppointmentType(appointmentTypeId);
 
-        return mapToOutput(searchClinicsPort.searchClinics(null, null));
+        return mapToOutput(searchClinicsPort.searchClinics(date, appointmentType), appointmentType);
     }
 
-    private List<SearchClinicsOutput> mapToOutput(List<Clinic> clinics) {
+    private List<SearchClinicsOutput> mapToOutput(List<Clinic> clinics, AppointmentType appointmentType) {
         return clinics
                 .stream()
                 .map((clinic) -> new SearchClinicsOutput(
@@ -37,7 +35,7 @@ public class SearchClinicsService implements SearchClinicsQuery {
                         clinic.getAddress().getAddressLine(),
                         clinic.getAddress().getCity(),
                         clinic.getAddress().getCountry(),
-                        BigDecimal.valueOf(500.0)))
+                        clinic.getPrice(appointmentType).getAmount()))
                 .collect(Collectors.toList());
     }
 }

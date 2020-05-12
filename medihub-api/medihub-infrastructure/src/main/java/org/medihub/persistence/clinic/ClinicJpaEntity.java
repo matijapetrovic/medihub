@@ -3,8 +3,11 @@ package org.medihub.persistence.clinic;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.medihub.persistence.appointment_type.AppointmentTypeJpaEntity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.Map;
 
 @Entity
 @Table(name="clinic")
@@ -31,4 +34,11 @@ public class ClinicJpaEntity {
 
     @Column(name="description")
     private String description;
+
+    @ElementCollection
+    @CollectionTable(name="clinic_appointment_type_mapping",
+        joinColumns = {@JoinColumn(name="clinic_id", referencedColumnName = "id")})
+    @MapKeyJoinColumn(name="appointment_type_id")
+    @Column(name="price")
+    private Map<AppointmentTypeJpaEntity, BigDecimal> appointmentTypePrices;
 }

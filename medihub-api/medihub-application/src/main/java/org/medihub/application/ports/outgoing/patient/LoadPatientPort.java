@@ -1,8 +1,8 @@
 package org.medihub.application.ports.outgoing.patient;
 
-import org.medihub.domain.Patient;
-import java.util.List;
+import org.medihub.domain.patient.Patient;
 
 public interface LoadPatientPort {
-    List<Patient> loadAllPatients();
+    Patient loadPatient(Long patientId);
+    Patient loadPatientByAccountId(Long accountId);
 }

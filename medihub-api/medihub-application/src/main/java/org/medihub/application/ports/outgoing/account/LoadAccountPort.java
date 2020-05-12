@@ -1,6 +1,6 @@
 package org.medihub.application.ports.outgoing.account;
 
-import org.medihub.domain.identity.Account;
+import org.medihub.domain.account.Account;
 
 import java.util.Optional;
 

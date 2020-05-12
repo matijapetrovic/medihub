@@ -1,6 +1,6 @@
 package org.medihub.security.identity;
 
-import org.medihub.domain.identity.Account;
+import org.medihub.domain.account.Account;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

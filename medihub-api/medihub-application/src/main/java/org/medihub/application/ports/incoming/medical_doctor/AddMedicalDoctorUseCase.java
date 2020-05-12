@@ -3,6 +3,12 @@ package org.medihub.application.ports.incoming.medical_doctor;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 import org.medihub.common.SelfValidating;
+import org.medihub.common.validation.annotations.Password;
+import org.medihub.common.validation.annotations.TelephoneNumber;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public interface AddMedicalDoctorUseCase {
     void addDoctor(AddMedicalDoctorCommand command);
@@ -10,23 +16,30 @@ public interface AddMedicalDoctorUseCase {
     @Value
     @EqualsAndHashCode(callSuper = false)
     class AddMedicalDoctorCommand extends SelfValidating<AddMedicalDoctorUseCase.AddMedicalDoctorCommand> {
-
-        Long id;
+        @Email
         String email;
+        @Password
         String password;
+        @NotBlank
         String firstName;
+        @NotBlank
         String lastName;
+        @NotBlank
         String addressLine;
+        @NotBlank
         String city;
+        @NotBlank
         String country;
+        @TelephoneNumber
         String telephoneNumber;
-        boolean passwordChanged;
-        String from;
+        @NotBlank
+        String from; // TODO: validate that it's a time
+        @NotBlank
         String to;
-        String appointmentType;
+        @NotNull
+        Long appointmentTypeId;
 
         public AddMedicalDoctorCommand(
-                Long id,
                 String email,
                 String password,
                 String firstName,
@@ -35,11 +48,9 @@ public interface AddMedicalDoctorUseCase {
                 String city,
                 String country,
                 String telephoneNumber,
-                boolean passwordChanged,
                 String from,
                 String to,
-                String appointmentType){
-            this.id = id;
+                Long appointmentTypeId){
             this.email = email;
             this.password = password;
             this.firstName = firstName;
@@ -48,10 +59,10 @@ public interface AddMedicalDoctorUseCase {
             this.city = city;
             this.country = country;
             this.telephoneNumber = telephoneNumber;
-            this.passwordChanged = passwordChanged;
             this.from = from;
             this.to = to;
-            this.appointmentType = appointmentType;
+            this.appointmentTypeId = appointmentTypeId;
+            this.validateSelf();
         }
     }
 }

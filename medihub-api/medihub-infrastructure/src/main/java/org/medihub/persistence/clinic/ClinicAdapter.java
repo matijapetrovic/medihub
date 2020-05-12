@@ -5,9 +5,8 @@ import org.medihub.application.ports.outgoing.clinic.GetClinicByIDPort;
 import org.medihub.application.ports.outgoing.clinic.GetClinicNamesPort;
 import org.medihub.application.ports.outgoing.clinic.SaveClinicPort;
 import org.medihub.application.ports.outgoing.clinic.SearchClinicsPort;
-import org.medihub.domain.AppointmentType;
-import org.medihub.domain.Clinic;
-import org.medihub.persistence.clinic_admin.ClinicAdminJpaEntity;
+import org.medihub.domain.appointment.AppointmentType;
+import org.medihub.domain.clinic.Clinic;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;

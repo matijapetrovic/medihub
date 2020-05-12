@@ -1,7 +1,7 @@
 package org.medihub.persistence.clinic_admin;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.domain.ClinicAdmin;
+import org.medihub.domain.clinic.ClinicAdmin;
 import org.medihub.persistence.account.AccountMapper;
 import org.medihub.persistence.clinic.ClinicMapper;
 import org.springframework.stereotype.Component;
