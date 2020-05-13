@@ -39,8 +39,6 @@ public class ClinicAdapter implements SaveClinicPort, SearchClinicsPort, GetClin
                 .findById(appointmentTypeId)
                 .orElseThrow(EntityNotFoundException::new);
 
-        System.out.println(Date.valueOf(date));
-
         return clinicRepository
                 .findAllWithDoctorsByAppointmentTypeOnDate(Date.valueOf(date), appointmentType)
                 .stream()

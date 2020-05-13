@@ -3,6 +3,7 @@ package org.medihub.persistence.clinic_room_schedule;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.medihub.persistence.medical_doctor_schedule.MedicalDoctorScheduleJpaEntity;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -18,8 +19,10 @@ public class ClinicRoomScheduleItemJpaEntity {
     @GeneratedValue
     Long id;
 
-    @Column(name="date")
-    Date date;
+    @ManyToOne
+    @JoinColumn(name="schedule_id", referencedColumnName = "id", nullable = false)
+    ClinicRoomScheduleJpaEntity schedule;
+
     @Column(name="time")
     Time time;
 }

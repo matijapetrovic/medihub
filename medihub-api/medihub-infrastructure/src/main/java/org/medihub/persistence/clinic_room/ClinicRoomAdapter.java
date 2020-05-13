@@ -50,9 +50,4 @@ public class ClinicRoomAdapter implements
                 .map(clinicRoomMapper::mapToDomainEntity)
                 .collect(Collectors.toList());
     }
-
-    @Override
-    public List<ClinicRoom> getAll() {
-        return clinicRoomMapper.mapToDomainList(clinicRoomRepository.getAll());
-    }
 }

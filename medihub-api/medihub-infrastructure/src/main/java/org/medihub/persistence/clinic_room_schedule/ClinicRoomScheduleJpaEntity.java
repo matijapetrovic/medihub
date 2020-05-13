@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.medihub.persistence.clinic_room.ClinicRoomJpaEntity;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.Set;
 
 @Entity
@@ -19,10 +20,9 @@ public class ClinicRoomScheduleJpaEntity {
     Long id;
 
     @ManyToOne
-    @JoinColumn(name="doctor_id", referencedColumnName = "id", nullable = false)
-    ClinicRoomJpaEntity clinicRoomJpaEntity;
+    @JoinColumn(name="clinic_room_id", referencedColumnName = "id", nullable = false)
+    ClinicRoomJpaEntity clinicRoom;
 
-    @OneToMany
-    @JoinColumn(name="schedule_id")
-    Set<ClinicRoomScheduleItemJpaEntity> scheduleItems;
+    @Column(name="date")
+    Date date;
 }

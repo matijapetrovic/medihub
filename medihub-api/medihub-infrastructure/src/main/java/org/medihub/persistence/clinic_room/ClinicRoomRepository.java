@@ -16,5 +16,5 @@ public interface ClinicRoomRepository extends JpaRepository<ClinicRoomJpaEntity,
 
     List<ClinicRoomJpaEntity> findAllByClinic_Id(Long clinicId);
 
-    List<ClinicRoomJpaEntity> getAll();
+    List<ClinicRoomJpaEntity> findAll();
 }

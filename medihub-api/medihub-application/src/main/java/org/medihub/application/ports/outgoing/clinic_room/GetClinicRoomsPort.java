@@ -6,6 +6,4 @@ import java.util.List;
 
 public interface GetClinicRoomsPort {
     List<ClinicRoom> getClinicRooms(Long clinicId);
-
-    List<ClinicRoom> getAll();
 }
