@@ -74,9 +74,13 @@ export default {
   }),
   methods: {
     ...mapActions('appointmentType', ['fetchAppointmentTypes']),
-    ...mapActions('clinic', ['fetchClinics']),
+    ...mapActions('clinic', ['fetchClinics', 'setSearchParams']),
     search() {
       if (this.validate()) {
+        this.setSearchParams({
+          appointmentTypeId: this.appointmentType.id,
+          date: this.date,
+        });
         this.fetchClinics();
       }
     },

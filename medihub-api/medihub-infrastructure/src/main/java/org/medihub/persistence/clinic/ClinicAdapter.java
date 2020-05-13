@@ -1,11 +1,10 @@
 package org.medihub.persistence.clinic;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.outgoing.clinic.GetClinicByIDPort;
+import org.medihub.application.ports.outgoing.clinic.LoadClinicPort;
 import org.medihub.application.ports.outgoing.clinic.GetClinicNamesPort;
 import org.medihub.application.ports.outgoing.clinic.SaveClinicPort;
 import org.medihub.application.ports.outgoing.clinic.SearchClinicsPort;
-import org.medihub.domain.appointment.AppointmentType;
 import org.medihub.domain.clinic.Clinic;
 import org.medihub.persistence.appointment_type.AppointmentTypeJpaEntity;
 import org.medihub.persistence.appointment_type.AppointmentTypeMapper;
@@ -20,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class ClinicAdapter implements SaveClinicPort, SearchClinicsPort, GetClinicNamesPort, GetClinicByIDPort {
+public class ClinicAdapter implements SaveClinicPort, SearchClinicsPort, GetClinicNamesPort, LoadClinicPort {
     private final ClinicRepository clinicRepository;
     private final ClinicMapper mapper;
     private final AppointmentTypeMapper appointmentTypeMapper;
@@ -56,7 +55,7 @@ public class ClinicAdapter implements SaveClinicPort, SearchClinicsPort, GetClin
     }
 
     @Override
-    public Clinic getByID(Long id) {
-        return mapper.mapToDomainEntity(clinicRepository.findById(id).get());
+    public Clinic loadClinic(Long clinicId) {
+        return mapper.mapToDomainEntity(clinicRepository.findById(clinicId).get());
     }
 }

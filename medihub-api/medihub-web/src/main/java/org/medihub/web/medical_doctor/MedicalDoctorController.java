@@ -3,15 +3,18 @@ package org.medihub.web.medical_doctor;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase.AddMedicalDoctorCommand;
+import org.medihub.application.ports.incoming.medical_doctor.SearchDoctorsQuery;
 import org.medihub.application.ports.outgoing.doctor.GetAllDoctorsPort;
-import org.medihub.application.ports.incoming.medical_doctor.GetDoctorsOutput;
+import org.medihub.application.ports.incoming.medical_doctor.SearchDoctorsOutput;
 import org.medihub.application.ports.incoming.medical_doctor.GetDoctorsQuery;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,10 +26,20 @@ public class MedicalDoctorController {
     private final AddMedicalDoctorUseCase AddMedicalDoctorUseCase;
     private final GetAllDoctorsPort getAllDoctorsPort;
     private final GetDoctorsQuery getDoctorsQuery;
+    private final SearchDoctorsQuery searchDoctorsQuery;
 
     @GetMapping("/{clinicId}")
-    ResponseEntity<List<GetDoctorsOutput>> getDoctors(@PathVariable Long clinicId) {
+    ResponseEntity<List<SearchDoctorsOutput>> getDoctors(@PathVariable Long clinicId) {
         return ResponseEntity.ok(getDoctorsQuery.getDoctorsForClinic(clinicId));
+    }
+
+    @GetMapping("")
+    ResponseEntity<List<SearchDoctorsOutput>> searchDoctors(@RequestParam Long clinicId,
+                                                            @RequestParam
+                                                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                                                    LocalDate date,
+                                                            @RequestParam Long appointmentTypeId) {
+        return ResponseEntity.ok(searchDoctorsQuery.searchDoctors(clinicId, date, appointmentTypeId));
     }
 
     @PostMapping("/add")

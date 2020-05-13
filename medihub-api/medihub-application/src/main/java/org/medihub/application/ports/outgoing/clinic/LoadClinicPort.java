@@ -2,6 +2,6 @@ package org.medihub.application.ports.outgoing.clinic;
 
 import org.medihub.domain.clinic.Clinic;
 
-public interface GetClinicByIDPort {
-    Clinic getByID(Long id);
+public interface LoadClinicPort {
+    Clinic loadClinic(Long clinicId);
 }

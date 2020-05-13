@@ -12,14 +12,16 @@ export default {
     },
   },
   actions: {
-    fetchDoctors({ commit, dispatch }, clinicId) {
-      return api.fetchDoctors(clinicId)
-        .then((response) => {
-          commit('SET_DOCTORS', response.data);
-        })
-        .catch((err) => {
-          dispatch('notifications/add', utils.errorNotification(err), { root: true });
-        });
+    fetchDoctors({ commit, dispatch, rootState }, clinicId) {
+      return api.fetchDoctors(
+        clinicId,
+        rootState.clinic.searchParams.date,
+        rootState.clinic.searchParams.appointmentTypeId,
+      ).then((response) => {
+        commit('SET_DOCTORS', response.data);
+      }).catch((err) => {
+        dispatch('notifications/add', utils.errorNotification(err), { root: true });
+      });
     },
   },
 };

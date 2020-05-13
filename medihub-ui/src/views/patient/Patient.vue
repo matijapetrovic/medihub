@@ -6,7 +6,7 @@
       />
     </template>
     <v-content>
-      <router-view></router-view>fa
+      <router-view></router-view>
     </v-content>
   </BaseLayoutSidebar>
 </template>

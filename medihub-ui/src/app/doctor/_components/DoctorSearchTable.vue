@@ -15,7 +15,7 @@
         :key="time"
       >
         <td>{{ time }}</td>
-        <td><v-btn>Schedule Appointment</v-btn></td>
+        <td><v-btn @click="schedule(item.id, time)">Schedule Appointment</v-btn></td>
       </tr>
     </td>
   </template>
@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: 'DoctorSearchTable',
   data: () => ({
@@ -44,6 +46,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions('appointment', ['scheduleAppointment']),
     times(from, to) {
       const times = [];
       const start = +from.split(':')[0];
@@ -56,6 +59,12 @@ export default {
         times.push(`${time}:00`);
       }
       return times;
+    },
+    schedule(doctorId, time) {
+      this.scheduleAppointment({
+        doctorId,
+        time,
+      });
     },
   },
 };
