@@ -7,6 +7,7 @@ import org.medihub.application.ports.outgoing.appointment_type.LoadAppointmentTy
 import org.medihub.domain.appointment.AppointmentType;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,8 +26,11 @@ public class AppointmentTypeAdapter implements
     }
 
     @Override
-    public AppointmentType loadAppointmentType(Long id) {
-        return null;
+    public AppointmentType loadAppointmentType(Long appointmentTypeId) {
+        AppointmentTypeJpaEntity appointmentType = appointmentTypeRepository
+                .findById(appointmentTypeId)
+                .orElseThrow(EntityNotFoundException::new);
+        return appointmentTypeMapper.mapToDomainEntity(appointmentType);
     }
 
     @Override

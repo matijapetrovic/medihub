@@ -36,6 +36,7 @@ public class MedicalDoctorMapper {
                 clinicMapper.mapToJpaEntity(medicalDoctor.getClinic()),
                 Time.valueOf(medicalDoctor.getWorkingTime().getFrom()),
                 Time.valueOf(medicalDoctor.getWorkingTime().getTo()),
+                medicalDoctor.getWorkingTime().getWorkingHours(),
                 appointmentTypeMapper.mapToJpaEntity(medicalDoctor.getSpecialization()));
     }
 

@@ -7,9 +7,14 @@ import org.medihub.application.ports.outgoing.clinic.SaveClinicPort;
 import org.medihub.application.ports.outgoing.clinic.SearchClinicsPort;
 import org.medihub.domain.appointment.AppointmentType;
 import org.medihub.domain.clinic.Clinic;
+import org.medihub.persistence.appointment_type.AppointmentTypeJpaEntity;
+import org.medihub.persistence.appointment_type.AppointmentTypeMapper;
+import org.medihub.persistence.appointment_type.AppointmentTypeRepository;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
+import javax.persistence.EntityNotFoundException;
+import java.time.LocalDate;
+import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +23,8 @@ import java.util.stream.Collectors;
 public class ClinicAdapter implements SaveClinicPort, SearchClinicsPort, GetClinicNamesPort, GetClinicByIDPort {
     private final ClinicRepository clinicRepository;
     private final ClinicMapper mapper;
+    private final AppointmentTypeMapper appointmentTypeMapper;
+    private final AppointmentTypeRepository appointmentTypeRepository;
 
     @Override
     public Clinic saveClinic(Clinic clinic) {
@@ -27,9 +34,15 @@ public class ClinicAdapter implements SaveClinicPort, SearchClinicsPort, GetClin
     }
 
     @Override
-    public List<Clinic> searchClinics(Date date, AppointmentType appointmentType) {
+    public List<Clinic> searchClinics(LocalDate date, Long appointmentTypeId) {
+        AppointmentTypeJpaEntity appointmentType = appointmentTypeRepository
+                .findById(appointmentTypeId)
+                .orElseThrow(EntityNotFoundException::new);
+
+        System.out.println(Date.valueOf(date));
+
         return clinicRepository
-                .findAll()
+                .findAllWithDoctorsByAppointmentTypeOnDate(Date.valueOf(date), appointmentType)
                 .stream()
                 .map(mapper::mapToDomainEntity)
                 .collect(Collectors.toList());
