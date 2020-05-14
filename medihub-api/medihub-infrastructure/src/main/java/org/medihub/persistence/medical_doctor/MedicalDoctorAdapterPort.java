@@ -2,8 +2,7 @@ package org.medihub.persistence.medical_doctor;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.outgoing.doctor.*;
-import org.medihub.domain.appointment.AppointmentType;
-import org.medihub.domain.clinic.Clinic;
+import org.medihub.domain.WorkingTime;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
 import org.medihub.persistence.appointment_type.AppointmentTypeJpaEntity;
 import org.medihub.persistence.appointment_type.AppointmentTypeRepository;
@@ -19,12 +18,13 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class MedicalDoctorAdapter implements
+public class MedicalDoctorAdapterPort implements
         LoadDoctorPort,
         SaveDoctorPort,
         GetDoctorsPort,
         GetAllDoctorsPort,
-        SearchDoctorsPort {
+        SearchDoctorsPort,
+        GetDoctorWorkingTimePort {
     private final MedicalDoctorMapper medicalDoctorMapper;
     private final MedicalDoctorRepository medicalDoctorRepository;
     private final ClinicRepository clinicRepository;
@@ -72,6 +72,15 @@ public class MedicalDoctorAdapter implements
                 .stream()
                 .map(medicalDoctorMapper::mapToDomainEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public WorkingTime getWorkingTime(Long doctorId) {
+        MedicalDoctorJpaEntity doctor = medicalDoctorRepository
+                .findById(doctorId)
+                .orElseThrow(EntityNotFoundException::new);
+
+        return new WorkingTime(doctor.getFrom().toLocalTime(), doctor.getTo().toLocalTime());
     }
 }
 

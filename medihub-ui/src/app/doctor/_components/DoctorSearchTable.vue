@@ -3,15 +3,19 @@
     :headers="headers"
     :items="items"
     :items-per-page="5"
-    :single-expand="true"
+    @item-expanded="getAvailableTimes"
     item-key="id"
     show-expand
+    single-expand
     class="elevation-1"
   >
-  <template v-slot:expanded-item="{ headers, item }">
-    <td :colspan="headers.length">
+  <template
+    v-slot:expanded-item="{ headers, item }">
+    <td
+      :colspan="headers.length"
+    >
       <tr
-        v-for="time in times(item.from, item.to)"
+        v-for="time in item.availableTimes"
         :key="time"
       >
         <td>{{ time }}</td>
@@ -23,7 +27,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'DoctorSearchTable',
@@ -45,26 +49,20 @@ export default {
       required: true,
     },
   },
+  computed: {
+    ...mapState('doctor', ['availableTimes']),
+  },
   methods: {
     ...mapActions('appointment', ['scheduleAppointment']),
-    times(from, to) {
-      const times = [];
-      const start = +from.split(':')[0];
-      let end = +to.split(':')[0];
-      if (end < start) {
-        end += 24;
-      }
-      for (let i = start; i <= end; i += 1) {
-        const time = (i % 24) < 10 ? `0${i % 24}` : `${i % 24}`;
-        times.push(`${time}:00`);
-      }
-      return times;
-    },
+    ...mapActions('doctor', ['fetchAvailableTimes']),
     schedule(doctorId, time) {
       this.scheduleAppointment({
         doctorId,
         time,
       });
+    },
+    getAvailableTimes({ item }) {
+      this.fetchAvailableTimes(item.id);
     },
   },
 };

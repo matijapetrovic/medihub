@@ -1,6 +1,7 @@
 package org.medihub.config;
 
-import org.medihub.application.ports.incoming.appointment_request.ScheduleAppointmentUseCase;
+import org.medihub.application.ports.incoming.scheduling.GetDoctorAvailableTimesQuery;
+import org.medihub.application.ports.incoming.scheduling.ScheduleAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase;
 import org.medihub.application.ports.incoming.appointment_type.GetAppointmentTypesQuery;
 import org.medihub.application.ports.incoming.authentication.LoginUseCase;
@@ -43,12 +44,14 @@ import org.medihub.application.ports.outgoing.patient.LoadPatientPort;
 import org.medihub.application.ports.outgoing.patient.SaveRegistrationRequestPort;
 import org.medihub.application.ports.outgoing.authentication.AuthenticationPort;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
+import org.medihub.application.ports.outgoing.scheduling.LoadDoctorDailySchedulePort;
 import org.medihub.application.services.*;
 import org.medihub.application.services.account.ChangePasswordService;
 import org.medihub.application.services.account.GetAccountService;
 import org.medihub.application.services.account.GetProfileService;
 import org.medihub.application.services.account.UpdateProfileService;
-import org.medihub.application.services.appointment.ScheduleAppointmentService;
+import org.medihub.application.services.scheduling.GetDoctorAvailableTimesService;
+import org.medihub.application.services.scheduling.ScheduleAppointmentService;
 import org.medihub.application.services.appointment_type.AddAppointmentTypeService;
 import org.medihub.application.services.appointment_type.GetAppointmentTypeService;
 import org.medihub.application.services.clinic.AddClinicService;
@@ -68,6 +71,15 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class BeanConfig {
+
+    @Bean
+    public GetDoctorAvailableTimesQuery getDoctorAvailableTimesQuery(
+            LoadDoctorDailySchedulePort loadDoctorDailySchedulePort,
+            GetDoctorWorkingTimePort getDoctorWorkingTimePort) {
+        return new GetDoctorAvailableTimesService(
+                loadDoctorDailySchedulePort,
+                getDoctorWorkingTimePort);
+    }
 
     @Bean
     public SearchDoctorsQuery searchDoctorsQuery(

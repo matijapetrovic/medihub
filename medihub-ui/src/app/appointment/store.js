@@ -6,8 +6,11 @@ export default {
   state: {
   },
   actions: {
-    scheduleAppointment({ dispatch }, appointmentRequest) {
-      return api.scheduleAppointment(appointmentRequest)
+    scheduleAppointment({ dispatch, rootState }, appointmentRequest) {
+      return api.scheduleAppointment({
+        ...appointmentRequest,
+        date: rootState.clinic.searchParams.date,
+      })
         .then(() => {
           const message = 'Appointment schedule request sent.';
           dispatch('notifications/add', utils.successNotification(message), { root: true });
