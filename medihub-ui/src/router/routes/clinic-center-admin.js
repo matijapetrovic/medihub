@@ -3,6 +3,7 @@ import ClinicCenterAdminHome from '@/views/clinic-center-admin/ClinicCenterAdmin
 import ClinicAdminRegistration from '@/views/clinic-center-admin/ClinicAdminRegistration.vue';
 import AddClinic from '@/views/clinic-center-admin/AddClinic.vue';
 import AddAppointmentTypeForm from '@/app/appointment_type/components/AddAppointmentTypeForm.vue';
+import AppointmentTypeTable from '@/app/appointment_type/components/AppointmentTypeTable.vue';
 
 export default {
   path: '/clinic-center-admin',
@@ -28,6 +29,10 @@ export default {
     {
       path: '/add-appointment-type',
       component: AddAppointmentTypeForm,
+    },
+    {
+      path: '/appointment-types',
+      component: AppointmentTypeTable,
     },
   ],
 };

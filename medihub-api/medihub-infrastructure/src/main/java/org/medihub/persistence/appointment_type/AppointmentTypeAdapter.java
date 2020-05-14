@@ -2,6 +2,7 @@ package org.medihub.persistence.appointment_type;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.outgoing.appointment_type.GetAppointmentTypesPort;
+import org.medihub.application.ports.outgoing.appointment_type.DeleteAppointmentTypePort;
 import org.medihub.application.ports.outgoing.appointment_type.SaveAppointmentTypePort;
 import org.medihub.application.ports.outgoing.appointment_type.LoadAppointmentTypePort;
 import org.medihub.domain.AppointmentType;
@@ -15,7 +16,8 @@ import java.util.stream.Collectors;
 public class AppointmentTypeAdapter implements
         SaveAppointmentTypePort,
         LoadAppointmentTypePort,
-        GetAppointmentTypesPort {
+        GetAppointmentTypesPort,
+        DeleteAppointmentTypePort {
     private final AppointmentTypeMapper appointmentTypeMapper;
     private final AppointmentTypeRepository appointmentTypeRepository;
 
@@ -41,5 +43,10 @@ public class AppointmentTypeAdapter implements
                 .stream()
                 .map(appointmentTypeMapper::mapToDomainEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void delete(Long id) {
+        appointmentTypeRepository.deleteById(id);
     }
 }

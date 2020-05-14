@@ -7,4 +7,7 @@ export default {
   fetchAppointmentTypes() {
     return utils.apiClient.get('api/appointment-type');
   },
+  removeAppointmentType(id) {
+    return utils.apiClient.post('api/appointment-type/delete', id);
+  },
 };
