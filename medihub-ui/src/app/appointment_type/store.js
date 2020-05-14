@@ -6,6 +6,7 @@ export default {
   state: {
     price: null,
     appointmentTypes: [],
+    lastRemoved: null,
   },
   mutations: {
     SET_PRICE(state, price) {
@@ -13,6 +14,13 @@ export default {
     },
     SET_APPOINTMENT_TYPES(state, appointmentTypes) {
       state.appointmentTypes = appointmentTypes;
+    },
+    SET_LAST_REMOVED(state, lastRemoved) {
+      state.lastRemoved = lastRemoved;
+    },
+    REMOVE_APPOINTMENT_TYPE(state, item) {
+      const index = state.appointmentTypes.indexOf(item);
+      state.appointmentTypes.splice(index, 1);
     },
   },
   actions: {
@@ -30,6 +38,16 @@ export default {
       return api.fetchAppointmentTypes()
         .then((response) => {
           commit('SET_APPOINTMENT_TYPES', response.data);
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
+    removeAppointmentType({ commit, dispatch }, item) {
+      return api.removeAppointmentType(item.id)
+        .then((response) => {
+          commit('SET_LAST_REMOVED', response.data);
+          commit('REMOVE_APPOINTMENT_TYPE', item);
         })
         .catch((err) => {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });

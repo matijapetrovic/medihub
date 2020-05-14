@@ -3,6 +3,7 @@
     :headers="headers"
     :items="appointmentTypes"
     :items-per-page="5"
+    :search="search"
     class="elevation-1"
   >
     <template v-slot:top>
@@ -64,7 +65,12 @@ export default {
     search: '',
   }),
   methods: {
-    ...mapActions('appointmentType', ['fetchAppointmentTypes']),
+    ...mapActions('appointmentType', ['fetchAppointmentTypes', 'removeAppointmentType']),
+    deleteItem(item) {
+      if (window.confirm('Are you sure you want to delete this item?')) {
+        this.removeAppointmentType(item);
+      }
+    },
   },
   computed: {
     ...mapState('appointmentType', ['appointmentTypes']),
