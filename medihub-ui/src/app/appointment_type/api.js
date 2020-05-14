@@ -8,6 +8,6 @@ export default {
     return utils.apiClient.get('api/appointment-type');
   },
   removeAppointmentType(id) {
-    return utils.apiClient.delete(`api/appointment-type/${id}`);
+    return utils.apiClient.post('api/appointment-type/delete', id);
   },
 };

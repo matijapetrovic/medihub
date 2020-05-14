@@ -2,7 +2,7 @@ package org.medihub.config;
 
 import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase;
 import org.medihub.application.ports.incoming.appointment_type.GetAppointmentTypesQuery;
-import org.medihub.application.ports.incoming.appointment_type.RemoveAppointmentTypeQuery;
+import org.medihub.application.ports.incoming.appointment_type.DeleteAppointmentTypeUseCase;
 import org.medihub.application.ports.incoming.authentication.LoginUseCase;
 import org.medihub.application.ports.incoming.clinic.GetClinicNamesQuery;
 import org.medihub.application.ports.incoming.clinic_admin.AddClinicAdminUseCase;
@@ -25,7 +25,7 @@ import org.medihub.application.ports.outgoing.account.LoadAccountPort;
 import org.medihub.application.ports.outgoing.account.SaveAccountPort;
 import org.medihub.application.ports.outgoing.appointment_type.GetAppointmentTypesPort;
 import org.medihub.application.ports.outgoing.appointment_type.LoadAppointmentTypePort;
-import org.medihub.application.ports.outgoing.appointment_type.RemoveAppointmentTypePort;
+import org.medihub.application.ports.outgoing.appointment_type.DeleteAppointmentTypePort;
 import org.medihub.application.ports.outgoing.appointment_type.SaveAppointmentTypePort;
 import org.medihub.application.ports.outgoing.clinic.GetClinicByIDPort;
 import org.medihub.application.ports.outgoing.clinic.GetClinicNamesPort;
@@ -50,7 +50,7 @@ import org.medihub.application.services.account.GetProfileService;
 import org.medihub.application.services.account.UpdateProfileService;
 import org.medihub.application.services.appointment_type.AddAppointmentTypeService;
 import org.medihub.application.services.appointment_type.GetAppointmentTypeService;
-import org.medihub.application.services.appointment_type.RemoveAppointmentTypeService;
+import org.medihub.application.services.appointment_type.DeleteAppointmentTypeService;
 import org.medihub.application.services.clinic.AddClinicService;
 import org.medihub.application.services.clinic.GetClinicNamesService;
 import org.medihub.application.services.clinic.SearchClinicsService;
@@ -209,7 +209,7 @@ public class BeanConfig {
     }
 
     @Bean
-    public RemoveAppointmentTypeQuery removeAppointmentTypeQuery(RemoveAppointmentTypePort removeAppointmentTypePort) {
-        return new RemoveAppointmentTypeService(removeAppointmentTypePort);
+    public DeleteAppointmentTypeUseCase removeAppointmentTypeQuery(DeleteAppointmentTypePort deleteAppointmentTypePort) {
+        return new DeleteAppointmentTypeService(deleteAppointmentTypePort);
     }
 }

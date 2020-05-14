@@ -1,9 +1,8 @@
 package org.medihub.persistence.appointment_type;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.incoming.appointment_type.RemoveAppointmentTypeOutput;
 import org.medihub.application.ports.outgoing.appointment_type.GetAppointmentTypesPort;
-import org.medihub.application.ports.outgoing.appointment_type.RemoveAppointmentTypePort;
+import org.medihub.application.ports.outgoing.appointment_type.DeleteAppointmentTypePort;
 import org.medihub.application.ports.outgoing.appointment_type.SaveAppointmentTypePort;
 import org.medihub.application.ports.outgoing.appointment_type.LoadAppointmentTypePort;
 import org.medihub.domain.AppointmentType;
@@ -18,7 +17,7 @@ public class AppointmentTypeAdapter implements
         SaveAppointmentTypePort,
         LoadAppointmentTypePort,
         GetAppointmentTypesPort,
-        RemoveAppointmentTypePort {
+        DeleteAppointmentTypePort {
     private final AppointmentTypeMapper appointmentTypeMapper;
     private final AppointmentTypeRepository appointmentTypeRepository;
 
@@ -47,7 +46,7 @@ public class AppointmentTypeAdapter implements
     }
 
     @Override
-    public AppointmentType remove(Long id) {
-        return null;
+    public void delete(Long id) {
+        appointmentTypeRepository.deleteById(id);
     }
 }

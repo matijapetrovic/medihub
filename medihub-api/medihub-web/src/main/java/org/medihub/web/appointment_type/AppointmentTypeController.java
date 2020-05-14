@@ -2,15 +2,13 @@ package org.medihub.web.appointment_type;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.appointment_type.*;
-import org.medihub.domain.AppointmentType;
 import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase.AddAppointmentTypeCommand;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
-import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -20,7 +18,7 @@ import java.util.List;
 public class AppointmentTypeController {
     private final AddAppointmentTypeUseCase addAppointmentTypeUseCase;
     private final GetAppointmentTypesQuery getAppointmentTypesQuery;
-    private final RemoveAppointmentTypeQuery removeAppointmentTypeQuery;
+    private final DeleteAppointmentTypeUseCase deleteAppointmentTypeUseCase;
 
     @PostMapping("/add")
     private void add(@RequestBody AppointmentTypeRequest appointmentTypeRequest){
@@ -38,8 +36,8 @@ public class AppointmentTypeController {
         return ResponseEntity.ok(getAppointmentTypesQuery.getAppointmentTypes());
     }
 
-    @DeleteMapping("/{id}")
-    private ResponseEntity<RemoveAppointmentTypeOutput> remove(@PathParam("id") Long id) {
-        return ResponseEntity.ok(removeAppointmentTypeQuery.remove(id));
+    @PostMapping("/delete")
+    private void delete(@RequestBody Long id) {
+        deleteAppointmentTypeUseCase.delete(id);
     }
 }
