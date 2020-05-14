@@ -2,6 +2,7 @@ package org.medihub.web.appointment_type;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase;
+import org.medihub.application.ports.incoming.appointment_type.DeleteAppointmentTypeUseCase;
 import org.medihub.application.ports.incoming.appointment_type.GetAppointmentTypesOutput;
 import org.medihub.application.ports.incoming.appointment_type.GetAppointmentTypesQuery;
 import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase.AddAppointmentTypeCommand;
@@ -19,6 +20,7 @@ import java.util.List;
 public class AppointmentTypeController {
     private final AddAppointmentTypeUseCase addAppointmentTypeUseCase;
     private final GetAppointmentTypesQuery getAppointmentTypesQuery;
+    private final DeleteAppointmentTypeUseCase deleteAppointmentTypeUseCase;
 
     @PostMapping("/add")
     private void add(@RequestBody AppointmentTypeRequest appointmentTypeRequest){
@@ -34,5 +36,10 @@ public class AppointmentTypeController {
     @GetMapping("")
     ResponseEntity<List<GetAppointmentTypesOutput>> get() {
         return ResponseEntity.ok(getAppointmentTypesQuery.getAppointmentTypes());
+    }
+
+    @PostMapping("/delete")
+    private void delete(@RequestBody Long id) {
+        deleteAppointmentTypeUseCase.delete(id);
     }
 }
