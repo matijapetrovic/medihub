@@ -7,7 +7,7 @@ export default {
   getClinicNames() {
     return utils.apiClient.get('api/clinic/names');
   },
-  fetchClinics() {
-    return utils.apiClient.get('/api/clinic');
+  fetchClinics(appointmentTypeId, date) {
+    return utils.apiClient.get(`/api/clinic?date=${date}&appointmentTypeId=${appointmentTypeId}`);
   },
 };

@@ -1,7 +1,7 @@
 package org.medihub.application.ports.outgoing;
 
-import org.medihub.domain.ClinicAdmin;
+import org.medihub.domain.clinic.ClinicAdmin;
 
 public interface LoadClinicAdminPort {
-    ClinicAdmin loadClinicAdmin(Long accountId);
+    ClinicAdmin loadClinicAdminByAccountId(Long accountId);
 }

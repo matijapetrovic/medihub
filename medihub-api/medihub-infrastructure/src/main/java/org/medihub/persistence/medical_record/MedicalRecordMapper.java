@@ -1,7 +1,6 @@
 package org.medihub.persistence.medical_record;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.domain.Patient;
 import org.medihub.domain.medical_record.Allergy;
 import org.medihub.domain.medical_record.MedicalRecord;
 import org.medihub.domain.medical_record.PatientDetails;

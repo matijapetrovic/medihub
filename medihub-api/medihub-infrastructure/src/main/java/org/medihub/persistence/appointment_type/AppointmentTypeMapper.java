@@ -1,6 +1,6 @@
 package org.medihub.persistence.appointment_type;
 
-import org.medihub.domain.AppointmentType;
+import org.medihub.domain.appointment.AppointmentType;
 import org.springframework.stereotype.Component;
 
 @Component

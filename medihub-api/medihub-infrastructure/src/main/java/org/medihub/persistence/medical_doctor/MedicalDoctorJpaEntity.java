@@ -4,13 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.medihub.persistence.account.AccountJpaEntity;
-import org.medihub.persistence.appointment.AppointmentJpaEntity;
+import org.medihub.persistence.appointment_type.AppointmentTypeJpaEntity;
 import org.medihub.persistence.clinic.ClinicJpaEntity;
-import org.medihub.persistence.working_calendar.WorkingCalendarJpaEntity;
 
 import javax.persistence.*;
 import java.sql.Time;
-import java.util.Set;
 
 @Entity
 @Table(name="medical_doctor")
@@ -28,12 +26,8 @@ public class MedicalDoctorJpaEntity {
     @JoinColumn(name="account_id")
     private AccountJpaEntity account;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "working_calendar", referencedColumnName="id", nullable=true)
-    private WorkingCalendarJpaEntity workingCalendarJpaEntity;
-
     @ManyToOne
-    @JoinColumn(name="clinic", referencedColumnName="id", nullable=true)
+    @JoinColumn(name="clinic", referencedColumnName="id")
     private ClinicJpaEntity clinic;
 
     @Column(name = "working_time_from")
@@ -42,8 +36,10 @@ public class MedicalDoctorJpaEntity {
     @Column(name = "working_time_to")
     private Time to;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name="user_id", referencedColumnName = "id")
-    private Set<AppointmentJpaEntity> appointments;
+    @Column(name = "working_hours")
+    private Long working_hours;
 
+    @ManyToOne
+    @JoinColumn(name="specialization", referencedColumnName = "id", nullable = false)
+    private AppointmentTypeJpaEntity specialization;
 }

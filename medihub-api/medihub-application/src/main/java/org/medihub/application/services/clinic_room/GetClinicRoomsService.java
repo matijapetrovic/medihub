@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-public class GetClinicRoomsService implements GetClinicRoomsQuery {
+public class GetClinicRoomsService implements GetClinicRoomsQuery{
     private final GetClinicRoomsPort getClinicRoomsPort;
 
     @Override
@@ -17,7 +17,7 @@ public class GetClinicRoomsService implements GetClinicRoomsQuery {
         return getClinicRoomsPort
                 .getClinicRooms(clinicId)
                 .stream()
-                .map(clinicRoom -> new GetClinicRoomsOutput(clinicRoom.getId(), clinicRoom.getName()))
+                .map(clinicRoom -> new GetClinicRoomsOutput(clinicRoom.getId(), clinicRoom.getName(), clinicRoom.getNumber()))
                 .collect(Collectors.toList());
     }
 }

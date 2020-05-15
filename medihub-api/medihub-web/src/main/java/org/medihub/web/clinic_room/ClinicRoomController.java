@@ -41,7 +41,7 @@ public class ClinicRoomController {
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
     void add(@RequestBody ClinicRoomRequest request) {
         Long clinicId = getAuthenticatedClinicId();
-        AddClinicRoomCommand command = new AddClinicRoomCommand(clinicId, request.getName());
+        AddClinicRoomCommand command = new AddClinicRoomCommand(clinicId, request.getName(), request.getNumber());
         addClinicRoomUseCase.addClinicRoom(command);
     }
 

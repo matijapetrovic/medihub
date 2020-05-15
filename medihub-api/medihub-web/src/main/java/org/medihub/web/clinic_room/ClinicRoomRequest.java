@@ -11,4 +11,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ClinicRoomRequest {
     private String name;
+    private int number;
 }
