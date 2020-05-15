@@ -1,13 +1,10 @@
 package org.medihub.web.medical_doctor;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase;
+import org.medihub.application.ports.incoming.medical_doctor.*;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase.AddMedicalDoctorCommand;
-import org.medihub.application.ports.incoming.medical_doctor.SearchDoctorsQuery;
 import org.medihub.application.ports.incoming.scheduling.GetDoctorAvailableTimesQuery;
 import org.medihub.application.ports.outgoing.doctor.GetAllDoctorsPort;
-import org.medihub.application.ports.incoming.medical_doctor.SearchDoctorsOutput;
-import org.medihub.application.ports.incoming.medical_doctor.GetDoctorsQuery;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +13,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +26,7 @@ public class MedicalDoctorController {
     private final GetDoctorsQuery getDoctorsQuery;
     private final SearchDoctorsQuery searchDoctorsQuery;
     private final GetDoctorAvailableTimesQuery getDoctorAvailableTimesQuery;
+    private final GetDoctorScheduleQuery getDoctorScheduleQuery;
 
     @GetMapping("/{clinicId}")
     ResponseEntity<List<SearchDoctorsOutput>> getDoctors(@PathVariable Long clinicId) {
@@ -98,8 +95,8 @@ public class MedicalDoctorController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/workingCalendar")
-    ResponseEntity<GetWorkingCalendarOutput> getWorkingCalendar() {
-        return null;
+    @GetMapping("/schedule")
+    ResponseEntity<GetDoctorScheduleOutput> getSchedules() {
+        return ResponseEntity.ok(getDoctorScheduleQuery.getDoctorSchedule());
     }
 }
