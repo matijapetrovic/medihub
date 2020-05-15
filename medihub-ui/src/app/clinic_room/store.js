@@ -37,8 +37,8 @@ export default {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
-    fetchClinicRooms({ commit, dispatch }) {
-      return api.fetchClinicRooms()
+    fetchClinicRooms({ commit, dispatch }, payload) {
+      return api.fetchClinicRooms(payload)
         .then((response) => {
           commit('SET_CLINIC_ROOMS', response.data);
         })
