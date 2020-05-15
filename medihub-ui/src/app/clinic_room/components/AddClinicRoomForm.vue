@@ -13,6 +13,10 @@
                                 name="name" type="text"
                                 :rules="[requiredRule,]">
                                 </v-text-field>
+                              <v-text-field v-model="name" label="Number"
+                              name="number" type="number"
+                              :rules="[requiredRule,]">
+                              </v-text-field>
                             </v-form>
                         </v-card-text>
                         <v-card-actions>
@@ -39,6 +43,7 @@ export default {
   name: 'AddClinicRoomForm',
   data: () => ({
     name: null,
+    number: null,
   }),
   methods: {
     ...mapActions('clinicRooms', ['addClinicRoom']),
@@ -46,6 +51,7 @@ export default {
       if (this.validate()) {
         this.addClinicRoom({
           name: this.name,
+          number: this.number,
         })
           .then(() => {
             this.clear();
@@ -62,6 +68,9 @@ export default {
   computed: {
     requiredRule() {
       return (value) => !!value || 'Required';
+    },
+    minNumberRule() {
+      return (value) => value > 0 || 'Number must be positive!';
     },
   },
 };

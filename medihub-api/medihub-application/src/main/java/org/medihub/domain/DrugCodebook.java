@@ -10,5 +10,4 @@ import java.util.Set;
 public class DrugCodebook {
     private Long id;
     private Set<Drug> drugs;
-    private ClinicalCenter clinicalCenter;
 }

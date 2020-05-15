@@ -5,7 +5,7 @@ import org.medihub.application.exceptions.AccountNotFoundException;
 import org.medihub.application.ports.incoming.account.profile.GetProfileOutput;
 import org.medihub.application.ports.incoming.account.profile.GetProfileQuery;
 import org.medihub.application.ports.outgoing.account.LoadAccountPort;
-import org.medihub.domain.identity.Account;
+import org.medihub.domain.account.Account;
 
 @RequiredArgsConstructor
 public class GetProfileService implements GetProfileQuery {

@@ -5,14 +5,14 @@ import org.medihub.application.exceptions.AccountNotFoundException;
 import org.medihub.application.ports.incoming.clinic_admin.AddClinicAdminUseCase;
 import org.medihub.application.ports.outgoing.AddClinicAdminPort;
 import org.medihub.application.ports.outgoing.account.LoadAccountPort;
-import org.medihub.application.ports.outgoing.clinic.GetClinicByIDPort;
+import org.medihub.application.ports.outgoing.clinic.LoadClinicPort;
 import org.medihub.application.ports.outgoing.encoding.EncoderPort;
-import org.medihub.domain.Address;
-import org.medihub.domain.Clinic;
-import org.medihub.domain.ClinicAdmin;
-import org.medihub.domain.PersonalInfo;
-import org.medihub.domain.identity.Account;
-import org.medihub.domain.identity.Authority;
+import org.medihub.domain.account.Address;
+import org.medihub.domain.clinic.Clinic;
+import org.medihub.domain.clinic.ClinicAdmin;
+import org.medihub.domain.account.PersonalInfo;
+import org.medihub.domain.account.Account;
+import org.medihub.domain.account.Authority;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +22,7 @@ public class AddClinicAdminService implements AddClinicAdminUseCase {
     private final AddClinicAdminPort dbPort;
     private final LoadAccountPort loadAccountPort;
     private final EncoderPort encoderPort;
-    private final GetClinicByIDPort getClinicByIDPort;
+    private final LoadClinicPort loadClinicPort;
 
     @Override
     public ClinicAdmin addClinicAdmin(AddClinicAdminCommand command) throws AccountNotFoundException{
@@ -50,7 +50,7 @@ public class AddClinicAdminService implements AddClinicAdminUseCase {
             List.of(new Authority(4L, "ROLE_CLINIC_ADMIN"))
         );
 
-        Clinic clinic = getClinicByIDPort.getByID(command.getClinic());
+        Clinic clinic = loadClinicPort.loadClinic(command.getClinic());
 
         ClinicAdmin clinicAdmin = new ClinicAdmin(
                 null,

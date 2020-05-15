@@ -1,7 +1,7 @@
 package org.medihub.web.patient;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.outgoing.patient.LoadPatientPort;
+import org.medihub.application.ports.outgoing.patient.GetPatientsPort;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "/patient", produces = MediaType.APPLICATION_JSON_VALUE)
 public class PatientContoller {
-    private final LoadPatientPort loadPatientPort;
+    private final GetPatientsPort getPatientsPort;
 
     @GetMapping("")
     @ResponseBody
@@ -23,8 +23,8 @@ public class PatientContoller {
     }
 
     private List<?> loadAll(){
-        return loadPatientPort.
-                loadAllPatients().
+        return getPatientsPort.
+                getAllPatients().
                 stream().
                 map(patient -> new PatientResponse(
                         patient.getAccount().getPersonalInfo().getFirstName(),

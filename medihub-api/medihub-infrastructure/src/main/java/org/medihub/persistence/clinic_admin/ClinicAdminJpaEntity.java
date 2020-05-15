@@ -3,12 +3,10 @@ package org.medihub.persistence.clinic_admin;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.medihub.domain.identity.Account;
 import org.medihub.persistence.account.AccountJpaEntity;
 import org.medihub.persistence.clinic.ClinicJpaEntity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="clinic_admin")

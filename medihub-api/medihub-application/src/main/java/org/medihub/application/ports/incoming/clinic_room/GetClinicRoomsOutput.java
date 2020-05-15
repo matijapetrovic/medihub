@@ -6,4 +6,5 @@ import lombok.Value;
 public class GetClinicRoomsOutput {
     Long id;
     String name;
+    int number;
 }

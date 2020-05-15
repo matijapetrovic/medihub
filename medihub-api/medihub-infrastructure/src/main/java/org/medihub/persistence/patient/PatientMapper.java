@@ -1,7 +1,7 @@
 package org.medihub.persistence.patient;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.domain.Patient;
+import org.medihub.domain.patient.Patient;
 import org.medihub.persistence.account.AccountMapper;
 import org.medihub.persistence.appointment.AppointmentMapper;
 import org.medihub.persistence.medical_record.MedicalRecordMapper;
@@ -29,7 +29,7 @@ public class PatientMapper {
 
     public PatientJpaEntity mapToJpaEntity(Patient patient){
         return new PatientJpaEntity(
-                null,
+                patient.getId(),
                 patient.getInsuranceNumber(),
                 accountMapper.mapToJpaEntity(patient.getAccount()),
                 medicalRecordMapper.mapToJpaEntity(patient.getMedicalRecord()),

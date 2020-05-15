@@ -8,7 +8,7 @@ import org.medihub.application.ports.outgoing.account.LoadAccountPort;
 import org.medihub.application.ports.outgoing.account.SaveAccountPort;
 import org.medihub.application.ports.outgoing.authentication.AuthenticationPort;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
-import org.medihub.domain.identity.Account;
+import org.medihub.domain.account.Account;
 
 @RequiredArgsConstructor
 public class ChangePasswordService implements ChangePasswordUseCase {

@@ -1,11 +1,13 @@
 package org.medihub.web.appointment_type;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.incoming.appointment_type.*;
+import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase;
+import org.medihub.application.ports.incoming.appointment_type.DeleteAppointmentTypeUseCase;
+import org.medihub.application.ports.incoming.appointment_type.GetAppointmentTypesOutput;
+import org.medihub.application.ports.incoming.appointment_type.GetAppointmentTypesQuery;
 import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase.AddAppointmentTypeCommand;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 

@@ -6,13 +6,11 @@ import org.medihub.application.exceptions.AccountNotFoundException;
 import org.medihub.common.SelfValidating;
 import org.medihub.common.validation.annotations.Password;
 import org.medihub.common.validation.annotations.TelephoneNumber;
-import org.medihub.domain.ClinicAdmin;
-import org.medihub.domain.identity.Authority;
+import org.medihub.domain.clinic.ClinicAdmin;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 public interface AddClinicAdminUseCase {
     ClinicAdmin addClinicAdmin(AddClinicAdminCommand command) throws AccountNotFoundException;

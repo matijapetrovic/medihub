@@ -3,7 +3,7 @@ package org.medihub.persistence.clinic_admin;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.outgoing.AddClinicAdminPort;
 import org.medihub.application.ports.outgoing.LoadClinicAdminPort;
-import org.medihub.domain.ClinicAdmin;
+import org.medihub.domain.clinic.ClinicAdmin;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,7 +21,7 @@ public class ClinicAdminAdapter implements AddClinicAdminPort, LoadClinicAdminPo
     }
 
     @Override
-    public ClinicAdmin loadClinicAdmin(Long accountId) {
+    public ClinicAdmin loadClinicAdminByAccountId(Long accountId) {
         ClinicAdminJpaEntity clinicAdmin = clinicAdminRepository.findByAccount_Id(accountId).orElseThrow();
         return clinicAdminMapper.mapToDomainEntity(clinicAdmin);
     }

@@ -1,9 +1,9 @@
 package org.medihub.persistence.account;
 
-import org.medihub.domain.Address;
-import org.medihub.domain.PersonalInfo;
-import org.medihub.domain.identity.Account;
-import org.medihub.domain.identity.Authority;
+import org.medihub.domain.account.Address;
+import org.medihub.domain.account.PersonalInfo;
+import org.medihub.domain.account.Account;
+import org.medihub.domain.account.Authority;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

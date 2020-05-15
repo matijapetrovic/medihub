@@ -6,8 +6,8 @@ import org.medihub.application.ports.incoming.patient.RegisterPatientUseCase;
 import org.medihub.application.ports.outgoing.encoding.EncoderPort;
 import org.medihub.application.ports.outgoing.account.LoadAccountPort;
 import org.medihub.application.ports.outgoing.patient.SaveRegistrationRequestPort;
-import org.medihub.domain.identity.Account;
-import org.medihub.domain.Address;
+import org.medihub.domain.account.Account;
+import org.medihub.domain.account.Address;
 import org.medihub.domain.patient.RegistrationRequest;
 
 import java.util.Optional;
