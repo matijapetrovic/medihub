@@ -1,18 +1,35 @@
 package org.medihub.domain.medical_record;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.medihub.domain.Diagnosis;
+import org.medihub.domain.patient.Patient;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class MedicalRecord {
     private Long id;
+    private Patient patient;
     private PatientDetails patientDetails;
     private Set<Diagnosis> diagnosis;
     private Set<Allergy> allergies;
+
+    public static MedicalRecord create(Patient patient) {
+        MedicalRecord record = new MedicalRecord();
+        record.id = null;
+        record.patient = patient;
+        record.patientDetails = PatientDetails.create();
+        record.diagnosis = new HashSet<>();
+        record.allergies = new HashSet<>();
+
+        return record;
+    }
 
     public Integer getHeight() {
         return patientDetails.getHeight();

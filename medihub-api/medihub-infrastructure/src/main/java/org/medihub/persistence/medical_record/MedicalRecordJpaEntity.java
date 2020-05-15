@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.medihub.persistence.diagnosis.DiagnosisJpaEntity;
+import org.medihub.persistence.patient.PatientJpaEntity;
 
 import javax.persistence.*;
 import java.util.Map;
@@ -20,6 +21,10 @@ public class MedicalRecordJpaEntity {
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @OneToOne
+    @JoinColumn(name="patient_id", referencedColumnName = "id", nullable = false)
+    private PatientJpaEntity patient;
 
     @Column(name="height")
     private Integer height;

@@ -31,10 +31,6 @@ public class PatientJpaEntity {
     @JoinColumn(name="account_id")
     private AccountJpaEntity account;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="medical_record_id")
-    private MedicalRecordJpaEntity medicalRecordJpaEntity;
-
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="appointments")
     private Set<AppointmentJpaEntity> appointmentJpaEntitySet;
