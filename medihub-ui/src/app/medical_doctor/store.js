@@ -14,6 +14,9 @@ export default {
     SET_DOCTORS(state, doctors) {
       state.doctors = doctors;
     },
+    SET_WORKING_CALENDAR(state, workindCalendar) {
+      state.workindCalendar = workindCalendar;
+    },
   },
   actions: {
     addMedicalDoctor({ dispatch }, payload) {
@@ -30,6 +33,12 @@ export default {
       return api.getAllDoctors()
         .then((data) => {
           commit('SET_DOCTORS', data.data);
+        });
+    },
+    getWorkindCalendar({ commit }) {
+      return api.getWorkindCalendar()
+        .then((response) => {
+          commit('SET_WORKING_CALENDAR', response.data);
         });
     },
   },

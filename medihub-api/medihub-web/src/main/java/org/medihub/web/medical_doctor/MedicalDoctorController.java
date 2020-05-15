@@ -97,4 +97,9 @@ public class MedicalDoctorController {
                 ))
                 .collect(Collectors.toList());
     }
+
+    @GetMapping("/workingCalendar")
+    ResponseEntity<GetWorkingCalendarOutput> getWorkingCalendar() {
+        return null;
+    }
 }

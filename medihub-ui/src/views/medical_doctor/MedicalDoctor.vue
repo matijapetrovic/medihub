@@ -28,6 +28,11 @@ export default {
         path: '/patients',
         icon: 'mdi-account-multiple-outline',
       },
+      {
+        text: 'Working calendar',
+        path: '/working-calendar',
+        icon: 'mdi-calendar',
+      },
     ],
   }),
 };

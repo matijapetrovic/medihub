@@ -7,4 +7,7 @@ export default {
   getAllDoctors() {
     return utils.apiClient.get('api/medical-doctor/getAll');
   },
+  getWorkindCalendar() {
+    return utils.apiClient.get('api/medical-doctor/workingCalendar');
+  },
 };
