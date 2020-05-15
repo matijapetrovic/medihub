@@ -3,6 +3,7 @@ import AddClinicRoomForm from '@/app/clinic_room/components/AddClinicRoomForm.vu
 import AddMedicalDoctorForm from '@/app/medical_doctor/components/AddMedicalDoctorForm.vue';
 import AllDoctorsView from '@/views/medical_doctor/AllDoctorsView.vue';
 import ClinicRoomTable from '@/app/clinic_room/components/ClinicRoomTable.vue';
+import RegistrationRequests from '@/views/clinic-admin/RegistrationRequests.vue';
 
 import ClinicAdminHome from '@/views/clinic-admin/ClinicAdminHome.vue';
 
@@ -34,6 +35,10 @@ export default {
     {
       path: '/clinic-rooms',
       component: ClinicRoomTable,
+    },
+    {
+      path: '/registration-requests',
+      component: RegistrationRequests,
     },
   ],
 };

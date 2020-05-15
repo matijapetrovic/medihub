@@ -44,6 +44,11 @@ export default {
         path: '/medical-doctors',
         icon: 'mdi-account-multiple-outline',
       },
+      {
+        text: 'Registration requests',
+        path: '/registration-requests',
+        icon: 'mdi-account-clock-outline',
+      },
     ],
   }),
 };

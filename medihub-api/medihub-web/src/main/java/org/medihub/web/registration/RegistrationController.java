@@ -2,19 +2,19 @@ package org.medihub.web.registration;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.AccountNotFoundException;
+import org.medihub.application.ports.incoming.patient.GetRegistrationRequestsOutput;
+import org.medihub.application.ports.incoming.patient.GetRegistrationRequestsQuery;
 import org.medihub.application.ports.incoming.patient.RegisterPatientUseCase;
 import org.medihub.application.ports.incoming.patient.RegisterPatientUseCase.RegisterPatientCommand;
 import org.medihub.domain.patient.RegistrationRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @Component
 @RestController
@@ -22,6 +22,7 @@ import java.net.URI;
 @RequiredArgsConstructor
 public class RegistrationController {
     private final RegisterPatientUseCase registerUseCase;
+    private final GetRegistrationRequestsQuery getRegistrationRequestsQuery;
 
     @PostMapping("")
     ResponseEntity<?> register(@RequestBody RegisterRequest request) throws AccountNotFoundException {
@@ -34,6 +35,11 @@ public class RegistrationController {
                 .buildAndExpand(entity.getId())
                 .toUri();
         return ResponseEntity.created(location).build();
+    }
+
+    @GetMapping("")
+    ResponseEntity<List<GetRegistrationRequestsOutput>> getRequests() {
+        return ResponseEntity.ok(getRegistrationRequestsQuery.getRequests());
     }
 
     private RegisterPatientCommand createCommand(RegisterRequest request) {

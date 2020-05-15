@@ -28,16 +28,12 @@ insert into account_authority (user_id, authority_id) values (9, 1);
 insert into medical_record (id) values (1);
 insert into medical_record (id) values (2);
 
-insert into patient (insurance_number, account_id, medical_record_id) values ('14115151555', 8, 1);
 insert into patient (insurance_number, account_id, medical_record_id) values ('14115151252', 9, 2);
 
 insert into clinic (name, address, city, country, description) values ('Klinika 1', 'asf', 'adgsdg', 'Serbia', 'asgadg');
 insert into clinic (name, address, city, country, description) values ('Klinika 2', 'asf', 'adgsdg', 'Serbia', 'asgadg');
 
 insert into clinic_admin(account, clinic) values (4, 1);
-
-insert into medical_record (id) values (1);
-insert into medical_record (id) values (2);
 
 insert into working_calendar (id) values (1);
 insert into working_calendar (id) values (2);

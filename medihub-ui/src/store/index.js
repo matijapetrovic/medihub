@@ -11,6 +11,7 @@ import patient from '@/app/patient/store';
 import clinic from '@/app/clinic/store';
 import doctor from '@/app/doctor/store';
 import country from '@/app/country/store';
+import registrationRequest from '@/app/registration_requests/store';
 
 Vue.use(Vuex);
 
@@ -33,5 +34,6 @@ export default new Vuex.Store({
     clinicAdmin,
     doctor,
     country,
+    registrationRequest,
   },
 });
