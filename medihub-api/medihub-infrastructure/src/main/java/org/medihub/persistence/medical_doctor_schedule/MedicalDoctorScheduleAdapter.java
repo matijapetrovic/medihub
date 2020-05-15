@@ -1,20 +1,23 @@
 package org.medihub.persistence.medical_doctor_schedule;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.ports.outgoing.scheduling.LoadDoctorDailySchedulePort;
 import org.medihub.domain.medical_doctor.MedicalDoctorSchedule;
 import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem;
 import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType;
 import org.medihub.domain.scheduling.DailySchedule;
 import org.springframework.stereotype.Component;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class MedicalDoctorScheduleAdapter {
+public class MedicalDoctorScheduleAdapter implements LoadDoctorDailySchedulePort {
     private final MedicalDoctorScheduleRepository repository;
     private final MedicalDoctorScheduleItemRepository itemRepository;
 
@@ -46,5 +49,16 @@ public class MedicalDoctorScheduleAdapter {
                             scheduleItem.getTime().toLocalTime(),
                             MedicalDoctorScheduleItemType.values()[scheduleItem.getType() - 1]))
                         .collect(Collectors.toSet()));
+    }
+
+    @Override
+    public DailySchedule<MedicalDoctorScheduleItem> loadDailySchedule(Long doctorId, LocalDate date) {
+        Optional<MedicalDoctorScheduleJpaEntity> schedule =
+                repository.findByDateAndDoctor_Id(Date.valueOf(date), doctorId);
+
+        if (schedule.isEmpty())
+            return new DailySchedule<>(null);
+
+        return loadMedicalDoctorDailySchedule(schedule.get().getId());
     }
 }

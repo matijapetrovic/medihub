@@ -1,7 +1,7 @@
-package org.medihub.application.services.appointment;
+package org.medihub.application.services.scheduling;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.incoming.appointment_request.ScheduleAppointmentUseCase;
+import org.medihub.application.ports.incoming.scheduling.ScheduleAppointmentUseCase;
 import org.medihub.application.ports.outgoing.appointment.SaveAppointmentRequestPort;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
 import org.medihub.application.ports.outgoing.doctor.LoadDoctorPort;

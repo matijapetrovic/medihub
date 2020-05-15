@@ -14,14 +14,10 @@ public interface ClinicRepository extends JpaRepository<ClinicJpaEntity, Long> {
             "where d.specialization = :appointmentType and d.working_hours > (select count(mdsi) " +
             "from MedicalDoctorJpaEntity dd inner join MedicalDoctorScheduleJpaEntity mds on dd=mds.doctor " +
             "inner join MedicalDoctorScheduleItemJpaEntity mdsi on mdsi.schedule = mds " +
-            "where mds.date=:date and dd=d)")
+            "where mds.date=:date and dd=d) " +
+            "and c in (select c from ClinicJpaEntity c join c.appointmentTypePrices atp " +
+            "           where KEY(atp) = :appointmentType)")
     Set<ClinicJpaEntity> findAllWithDoctorsByAppointmentTypeOnDate(
             @Param(value="date") Date date,
             @Param(value="appointmentType") AppointmentTypeJpaEntity appointmentType);
-
-    @Query("select count(mdsi) " +
-            "from MedicalDoctorJpaEntity dd inner join MedicalDoctorScheduleJpaEntity mds on dd=mds.doctor " +
-            "inner join MedicalDoctorScheduleItemJpaEntity mdsi on mdsi.schedule = mds " +
-            "where mds.date=:date and dd.id=1")
-    Integer countYourMom(@Param(value="date") Date date);
 }

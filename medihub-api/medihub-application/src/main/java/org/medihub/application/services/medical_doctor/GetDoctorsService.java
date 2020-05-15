@@ -1,7 +1,7 @@
-package org.medihub.application.services;
+package org.medihub.application.services.medical_doctor;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.incoming.medical_doctor.GetDoctorsOutput;
+import org.medihub.application.ports.incoming.medical_doctor.SearchDoctorsOutput;
 import org.medihub.application.ports.incoming.medical_doctor.GetDoctorsQuery;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorsPort;
 
@@ -13,11 +13,11 @@ public class GetDoctorsService implements GetDoctorsQuery {
     private final GetDoctorsPort getDoctorsPort;
 
     @Override
-    public List<GetDoctorsOutput> getDoctorsForClinic(Long clinicId) {
+    public List<SearchDoctorsOutput> getDoctorsForClinic(Long clinicId) {
         return getDoctorsPort
                 .getDoctorsForClinic(clinicId)
                 .stream()
-                .map(medicalDoctor -> new GetDoctorsOutput(
+                .map(medicalDoctor -> new SearchDoctorsOutput(
                         medicalDoctor.getId(),
                         medicalDoctor.getFirstName(),
                         medicalDoctor.getLastName(),

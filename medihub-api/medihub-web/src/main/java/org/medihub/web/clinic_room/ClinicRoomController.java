@@ -32,6 +32,7 @@ public class ClinicRoomController {
     private final GetClinicRoomsQuery getClinicRoomsQuery;
     private final SearchClinicRoomsQuery searchClinicRoomsQuery;
 
+    //TODO: Pogledaj da li ce ti posle trebati ova metoda, jer imas ispod search clinics
 //    @GetMapping("")
 //    @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
     ResponseEntity<List<GetClinicRoomsOutput>> get() {

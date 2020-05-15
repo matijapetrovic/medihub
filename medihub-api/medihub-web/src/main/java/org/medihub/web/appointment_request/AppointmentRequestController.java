@@ -1,8 +1,8 @@
 package org.medihub.web.appointment_request;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.incoming.appointment_request.ScheduleAppointmentUseCase;
-import org.medihub.application.ports.incoming.appointment_request.ScheduleAppointmentUseCase.ScheduleAppointmentCommand;
+import org.medihub.application.ports.incoming.scheduling.ScheduleAppointmentUseCase;
+import org.medihub.application.ports.incoming.scheduling.ScheduleAppointmentUseCase.ScheduleAppointmentCommand;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;

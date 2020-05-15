@@ -1,4 +1,4 @@
-package org.medihub.application.ports.incoming.appointment_request;
+package org.medihub.application.ports.incoming.scheduling;
 
 import lombok.EqualsAndHashCode;
 import lombok.Value;
