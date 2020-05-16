@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
+import static java.time.temporal.ChronoUnit.HOURS;
 
 @Getter
 public class Schedule<T extends DailyScheduleItem> {
@@ -33,5 +34,18 @@ public class Schedule<T extends DailyScheduleItem> {
         if (dailySchedule == null)
             return true;
         return dailySchedule.isAvailable(time);
+    }
+
+    public LocalTime getFirstDailySchedule(LocalDate date){
+        LocalTime currentTime = LocalTime.parse("00:00");
+        if(dailySchedules.get(date) == null)
+            return LocalTime.parse("00:00");
+        
+        for (int i = 0; i < dailySchedules.get(date).getScheduleItems().size(); i++) {
+            if (dailySchedules.get(date).isAvailable(currentTime))
+                return currentTime;
+            currentTime = currentTime.plusHours(1l);
+        }
+        return null;
     }
 }

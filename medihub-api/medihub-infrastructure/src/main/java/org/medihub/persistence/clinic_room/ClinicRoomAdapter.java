@@ -1,14 +1,13 @@
 package org.medihub.persistence.clinic_room;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.outgoing.clinic_room.DeleteClinicRoomPort;
-import org.medihub.application.ports.outgoing.clinic_room.GetClinicRoomsPort;
-import org.medihub.application.ports.outgoing.clinic_room.LoadClinicRoomPort;
-import org.medihub.application.ports.outgoing.clinic_room.SaveClinicRoomPort;
+import org.medihub.application.ports.outgoing.clinic_room.*;
 import org.medihub.domain.clinic_room.ClinicRoom;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +17,8 @@ public class ClinicRoomAdapter implements
         SaveClinicRoomPort,
         LoadClinicRoomPort,
         DeleteClinicRoomPort,
-        GetClinicRoomsPort {
+        GetClinicRoomsPort,
+        SearchClinicRoomsPort {
     private final ClinicRoomMapper clinicRoomMapper;
     private final ClinicRoomRepository clinicRoomRepository;
 
@@ -46,6 +46,15 @@ public class ClinicRoomAdapter implements
     public List<ClinicRoom> getClinicRooms(Long clinicId) {
         return clinicRoomRepository
                 .findAllByClinic_Id(clinicId)
+                .stream()
+                .map(clinicRoomMapper::mapToDomainEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ClinicRoom> searchClinicRooms(String name, Integer number, LocalDate date, Long clinicId) {
+        return clinicRoomRepository
+                .findAllWithNameOrNumberOnDate(name, number, date != null? Date.valueOf(date) : null, clinicId)
                 .stream()
                 .map(clinicRoomMapper::mapToDomainEntity)
                 .collect(Collectors.toList());

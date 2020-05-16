@@ -29,6 +29,7 @@ export default {
         icon: 'mdi-doctor',
         children: [
           { text: 'Add', path: '/addMedicalDoctor', icon: 'add' },
+          { text: 'All doctors', path: '/medical-doctors', icon: 'mdi-account-multiple-outline' },
         ],
       },
       {
@@ -38,11 +39,6 @@ export default {
           { text: 'Add', path: '/addClinicRoom', icon: 'add' },
           { text: 'Search', path: '/clinic-rooms', icon: 'search' },
         ],
-      },
-      {
-        text: 'Doctors',
-        path: '/medical-doctors',
-        icon: 'mdi-account-multiple-outline',
       },
     ],
   }),

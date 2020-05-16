@@ -1,6 +1,7 @@
 package org.medihub.persistence.clinic_room_schedule;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.ports.outgoing.clinic_room_schedule.LoadClinicRoomSchedulePort;
 import org.medihub.domain.clinic_room.ClinicRoomSchedule;
 import org.medihub.domain.clinic_room.ClinicRoomScheduleItem;
 import org.medihub.domain.scheduling.DailySchedule;
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class ClinicRoomScheduleAdapter {
+public class ClinicRoomSchedulePortAdapter implements LoadClinicRoomSchedulePort {
     private final ClinicRoomScheduleJpaRepository clinicRoomScheduleJpaRepository;
     private final ClinicRoomScheduleItemRepository clinicRoomScheduleItemRepository;
 
