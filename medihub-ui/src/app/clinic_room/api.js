@@ -7,7 +7,7 @@ export default {
   deleteClinicRoom(id) {
     return utils.apiClient.post('api/clinic-room/delete', id);
   },
-  fetchClinicRooms() {
-    return utils.apiClient.get('api/clinic-room');
+  fetchClinicRooms(payload) {
+    return utils.apiClient.get('api/clinic-room', { params: payload });
   },
 };
