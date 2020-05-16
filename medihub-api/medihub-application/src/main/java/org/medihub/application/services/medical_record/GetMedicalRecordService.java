@@ -6,9 +6,16 @@ import org.medihub.application.ports.incoming.medical_record.GetMedicalRecordQue
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
 import org.medihub.application.ports.outgoing.medical_record.LoadMedicalRecordPort;
 import org.medihub.application.ports.outgoing.patient.LoadPatientPort;
+import org.medihub.domain.Diagnosis;
 import org.medihub.domain.account.Account;
+import org.medihub.domain.medical_record.Allergy;
 import org.medihub.domain.medical_record.MedicalRecord;
 import org.medihub.domain.patient.Patient;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class GetMedicalRecordService implements GetMedicalRecordQuery {
@@ -34,7 +41,22 @@ public class GetMedicalRecordService implements GetMedicalRecordQuery {
                 medicalRecord.getRhPositive(),
                 medicalRecord.getLeftDioptry(),
                 medicalRecord.getRightDioptry(),
-                GetMedicalRecordOutput.mapToAllergyDTO(medicalRecord.getAllergies()),
-                GetMedicalRecordOutput.mapToDiagnosisDTO(medicalRecord.getDiagnosis()));
+                mapAllergies(medicalRecord.getAllergies()),
+                mapDiagnoses(medicalRecord.getDiagnosis()));
+    }
+
+    private Map<String, String> mapAllergies(Set<Allergy> allergies) {
+        return allergies
+                .stream()
+                .collect(Collectors.toMap(
+                        Allergy::getName,
+                        Allergy::getLevelString));
+    }
+
+    private List<String> mapDiagnoses(Set<Diagnosis> diagnoses) {
+        return diagnoses
+                .stream()
+                .map(Diagnosis::getName)
+                .collect(Collectors.toList());
     }
 }

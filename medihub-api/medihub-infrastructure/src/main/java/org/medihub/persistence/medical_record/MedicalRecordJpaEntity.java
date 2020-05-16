@@ -51,7 +51,7 @@ public class MedicalRecordJpaEntity {
     @ElementCollection
     @CollectionTable(name="medical_record_allergy_mapping",
             joinColumns = {@JoinColumn(name="medical_record_id", referencedColumnName = "id")})
-    @MapKeyJoinColumn(name="allergy_name")
+    @MapKeyColumn(name="allergy_name")
     @Column(name="allergy_level")
     private Map<String, String> allergies;
 
