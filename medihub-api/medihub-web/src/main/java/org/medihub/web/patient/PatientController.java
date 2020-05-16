@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @Component
 @RestController
 @RequestMapping(value = "/patient", produces = MediaType.APPLICATION_JSON_VALUE)
-public class PatientContoller {
+public class PatientController {
     private final GetPatientsPort getPatientsPort;
 
     @GetMapping("")

@@ -57,3 +57,6 @@ insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type)
 
 insert into clinic_room (id, name, number, clinic_id) values (1, 'soba1', 1, 1);
 insert into clinic_room (id, name, number, clinic_id) values (2, 'soba2', 2, 1);
+
+insert into clinic_room_schedule (id, clinic_room_id, date) values (1, 1, '2020-10-10');
+insert into clinic_room_schedule (id, clinic_room_id, date) values (2, 2, '2020-12-10');

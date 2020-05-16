@@ -11,6 +11,7 @@ import org.medihub.application.ports.incoming.clinic_admin.AddClinicAdminUseCase
 import org.medihub.application.ports.incoming.clinic_room.AddClinicRoomUseCase;
 import org.medihub.application.ports.incoming.clinic_room.DeleteClinicRoomUseCase;
 import org.medihub.application.ports.incoming.clinic_room.GetClinicRoomsQuery;
+import org.medihub.application.ports.incoming.clinic_room.SearchClinicRoomsQuery;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase;
 import org.medihub.application.ports.incoming.account.ChangePasswordUseCase;
 import org.medihub.application.ports.incoming.account.GetAccountQuery;
@@ -35,6 +36,12 @@ import org.medihub.application.ports.outgoing.clinic.LoadClinicPort;
 import org.medihub.application.ports.outgoing.clinic.GetClinicNamesPort;
 import org.medihub.application.ports.outgoing.clinic.SaveClinicPort;
 import org.medihub.application.ports.outgoing.clinic.SearchClinicsPort;
+import org.medihub.application.ports.outgoing.clinic_room.*;
+import org.medihub.application.ports.outgoing.clinic_room_schedule.LoadClinicRoomSchedulePort;
+import org.medihub.application.ports.outgoing.doctor.GetAllDoctorsPort;
+import org.medihub.application.ports.outgoing.doctor.GetDoctorsPort;
+import org.medihub.application.ports.outgoing.doctor.LoadDoctorPort;
+import org.medihub.application.ports.outgoing.doctor.SaveDoctorPort;
 import org.medihub.application.ports.outgoing.clinic_room.DeleteClinicRoomPort;
 import org.medihub.application.ports.outgoing.clinic_room.GetClinicRoomsPort;
 import org.medihub.application.ports.outgoing.clinic_room.LoadClinicRoomPort;
@@ -62,6 +69,7 @@ import org.medihub.application.services.clinic.GetClinicNamesService;
 import org.medihub.application.services.clinic.SearchClinicsService;
 import org.medihub.application.services.clinic_room.AddClinicRoomService;
 import org.medihub.application.services.clinic_room.DeleteClinicRoomService;
+import org.medihub.application.services.clinic_room.SearchClinicRoomsService;
 import org.medihub.application.services.medical_doctor.AddMedicalDoctorService;
 import org.medihub.application.services.medical_doctor.GetDoctorsService;
 import org.medihub.application.services.medical_doctor.GetMedicalDoctorService;
@@ -69,6 +77,7 @@ import org.medihub.application.services.medical_doctor.SearchDoctorsService;
 import org.medihub.application.services.patient.LaodPatientService;
 import org.medihub.application.services.clinic_room.GetClinicRoomsService;
 import org.medihub.application.services.patient.RegisterPatientService;
+import org.medihub.domain.clinic.ClinicAdmin;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -243,6 +252,19 @@ public class BeanConfig {
     @Bean
     public GetClinicNamesQuery getClinicNamesQuery(GetClinicNamesPort getClinicNamesPort){
         return new GetClinicNamesService(getClinicNamesPort);
+    }
+
+    @Bean
+    public SearchClinicRoomsQuery getSearchClinicRoomsQuery(
+            SearchClinicRoomsPort searchClinicRoomsPort,
+            LoadClinicRoomSchedulePort loadClinicRoomSchedulePort,
+            GetAuthenticatedPort loadAccountPort,
+            LoadClinicAdminPort loadClinicAdminPort){
+        return new SearchClinicRoomsService(
+                searchClinicRoomsPort,
+                loadClinicRoomSchedulePort,
+                loadAccountPort,
+                loadClinicAdminPort);
     }
 
     @Bean
