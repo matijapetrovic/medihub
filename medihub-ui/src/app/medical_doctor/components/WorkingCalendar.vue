@@ -103,6 +103,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   data: () => ({
     focus: '',
@@ -121,6 +123,7 @@ export default {
     events: [],
     colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
     names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
+    today: null,
   }),
   computed: {
     title() {
@@ -159,9 +162,10 @@ export default {
     },
   },
   mounted() {
-    this.$refs.calendar.checkChange();
+    this.getWorkindCalendar();
   },
   methods: {
+    ...mapActions('medicalDoctor', ['getWorkindCalendar']),
     viewDay({ date }) {
       this.focus = date;
       this.type = 'day';

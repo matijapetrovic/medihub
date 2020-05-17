@@ -25,7 +25,8 @@ public class GetDoctorScheduleService implements GetDoctorScheduleQuery {
         MedicalDoctor medicalDoctor = getDoctorByAccountIdPort.getDoctor(account.getId());
 
         MedicalDoctorSchedule medicalDoctorSchedule = getDoctorSchedulePort.getDoctorSchedule(medicalDoctor.getId());
-        return null;
+
+        return new GetDoctorScheduleOutput(medicalDoctorSchedule.getDailySchedules());
     }
 
 }
