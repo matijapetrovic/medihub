@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 @Value
 public class SearchClinicRoomsOutput {
+    Long id;
     String name;
     Integer number;
     String firstFree;
@@ -22,10 +23,12 @@ public class SearchClinicRoomsOutput {
     ClinicRoomSchedule schedule;
 
     public SearchClinicRoomsOutput(
+            Long id,
             String name,
             Integer number,
             ClinicRoomSchedule schedule,
             LocalDate date){
+        this.id = id;
         this.name = name;
         this.number = number;
         this.schedule = schedule;

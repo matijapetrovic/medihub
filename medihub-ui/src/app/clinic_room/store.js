@@ -46,5 +46,14 @@ export default {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
+    scheduleRoom({ dispatch }, payload) {
+      return api.scheduleRoom(payload).then(() => {
+        const message = 'Clinic room scheduled successfully';
+        dispatch('notifications/add', utils.successNotification(message), { root: true });
+      })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
   },
 };

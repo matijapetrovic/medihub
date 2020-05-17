@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -31,6 +32,7 @@ public class ClinicRoomController {
     private final DeleteClinicRoomUseCase deleteClinicRoomUseCase;
     private final GetClinicRoomsQuery getClinicRoomsQuery;
     private final SearchClinicRoomsQuery searchClinicRoomsQuery;
+    private final ScheduleClinicRoomUseCase scheduleClinicRoomUseCase;
 
     //TODO: Pogledaj da li ce ti posle trebati ova metoda, jer imas ispod search clinics
 //    @GetMapping("")
@@ -38,6 +40,18 @@ public class ClinicRoomController {
     ResponseEntity<List<GetClinicRoomsOutput>> get() {
         Long clinicId = getAuthenticatedClinicId();
         return ResponseEntity.ok(getClinicRoomsQuery.getClinicRooms(clinicId));
+    }
+
+    @GetMapping("/schedule")
+    @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
+    void scheduleClinicRoom(@RequestBody ScheduleClinicRoomRequest request) {
+        ScheduleClinicRoomUseCase.ScheduleClinicRoomCommand command =
+                new ScheduleClinicRoomUseCase.ScheduleClinicRoomCommand(
+                    request.getId(),
+                    LocalDate.parse(request.getDate()),
+                    LocalTime.parse(request.getTime())
+                );
+        scheduleClinicRoomUseCase.scheduleClinicRoom(command);
     }
 
     @GetMapping("")
