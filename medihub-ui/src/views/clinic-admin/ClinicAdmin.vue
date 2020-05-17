@@ -40,6 +40,11 @@ export default {
           { text: 'Search', path: '/clinic-rooms', icon: 'search' },
         ],
       },
+      {
+        text: 'Appointment requests',
+        icon: 'mdi-message-plus',
+        path: '/appointment_request',
+      },
     ],
   }),
 };

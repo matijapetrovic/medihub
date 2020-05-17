@@ -92,7 +92,6 @@
 import { mapState, mapActions } from 'vuex';
 
 export default {
-  name: 'ClinicRoomTable',
   data: () => ({
     dialog: false,
     name: null,
@@ -117,6 +116,7 @@ export default {
   }),
   methods: {
     ...mapActions('clinicRooms', ['fetchClinicRooms', 'deleteClinicRoom']),
+
     deleteItem(item) {
       this.deleteClinicRoom(item);
     },

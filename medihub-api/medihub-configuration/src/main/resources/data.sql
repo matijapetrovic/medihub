@@ -57,6 +57,15 @@ insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type)
 
 insert into clinic_room (id, name, number, clinic_id) values (1, 'soba1', 1, 1);
 insert into clinic_room (id, name, number, clinic_id) values (2, 'soba2', 2, 1);
+insert into clinic_room (id, name, number, clinic_id) values (3, 'soba3', 3, 1);
 
 insert into clinic_room_schedule (id, clinic_room_id, date) values (1, 1, '2020-10-10');
-insert into clinic_room_schedule (id, clinic_room_id, date) values (2, 2, '2020-12-10');
+insert into clinic_room_schedule (id, clinic_room_id, date) values (2, 2, '2020-11-10');
+insert into clinic_room_schedule (id, clinic_room_id, date) values (3, 3, '2020-10-10');
+
+insert into clinic_room_schedule_item (id, schedule_id, time) values (1, 1, '11:00:00');
+insert into clinic_room_schedule_item (id, schedule_id, time) values (2, 1, '11:00:00');
+insert into clinic_room_schedule_item (id, schedule_id, time) values (3, 3, '11:00:00');
+
+insert into appointment_request (id, doctor, patient, price, date, time) values (1, 1, 1, 500, '2020-10-10', '11:00:00');
+insert into appointment_request (id, doctor, patient, price, date, time) values (2, 1, 1, 1000, '2020-03-10', '11:00:00');
