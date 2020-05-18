@@ -40,6 +40,11 @@ export default {
           { text: 'Search', path: '/clinic-rooms', icon: 'search' },
         ],
       },
+      {
+        text: 'Predefined appointments',
+        icon: 'add',
+        path: '/predefined-appointment',
+      },
     ],
   }),
 };

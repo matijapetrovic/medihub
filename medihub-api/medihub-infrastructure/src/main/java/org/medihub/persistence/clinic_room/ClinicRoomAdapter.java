@@ -52,6 +52,11 @@ public class ClinicRoomAdapter implements
     }
 
     @Override
+    public ClinicRoom getClinicRoom(Long id) {
+        return clinicRoomMapper.mapToDomainEntity(clinicRoomRepository.findById(id).get());
+    }
+
+    @Override
     public List<ClinicRoom> searchClinicRooms(String name, Integer number, LocalDate date, Long clinicId) {
         return clinicRoomRepository
                 .findAllWithNameOrNumberOnDate(name, number, date != null? Date.valueOf(date) : null, clinicId)

@@ -40,7 +40,7 @@
 import { mapActions } from 'vuex';
 
 export default {
-  name: 'AddClinicRoomForm',
+  name: 'AddPredefinedAppointmentForm',
   data: () => ({
     name: null,
     number: null,
