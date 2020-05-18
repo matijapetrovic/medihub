@@ -29,12 +29,16 @@
                 <configuration>
                     <archive>
                         <manifest>
-
-                            <!-- give full qualified name of your main class-->
                             <mainClass>org.medihub.MedihubApplication</mainClass>
-
                         </manifest>
                     </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>org.medihub.MedihubApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>
