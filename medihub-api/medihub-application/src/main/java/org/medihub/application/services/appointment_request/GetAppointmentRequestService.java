@@ -3,6 +3,7 @@ package org.medihub.application.services.appointment_request;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.appointment_request.AppointmentRequestResponse;
 import org.medihub.application.ports.incoming.appointment_request.GetAppointmentRequestUseCase;
+import org.medihub.application.ports.incoming.medical_doctor.MedicalDoctorResponse;
 import org.medihub.application.ports.outgoing.LoadClinicAdminPort;
 import org.medihub.application.ports.outgoing.appointment_request.GetAppointmentRequestPort;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
@@ -31,7 +32,17 @@ public class GetAppointmentRequestService implements GetAppointmentRequestUseCas
                 .stream()
                 .map(appointmentRequest -> new AppointmentRequestResponse(
                         appointmentRequest.getId(),
-                        appointmentRequest.getDoctor().getAccount().getEmail(),
+                        new MedicalDoctorResponse(
+                                appointmentRequest.getDoctor().getId(),
+                                appointmentRequest.getDoctor().getAccount().getEmail(),
+                                appointmentRequest.getDoctor().getAccount().getFirstName(),
+                                appointmentRequest.getDoctor().getAccount().getLastName(),
+                                appointmentRequest.getDoctor().getAccount().getAddress(),
+                                appointmentRequest.getDoctor().getAccount().getTelephoneNumber(),
+                                appointmentRequest.getDoctor().getWorkingTime().getFrom().toString(),
+                                appointmentRequest.getDoctor().getWorkingTime().getTo().toString(),
+                                appointmentRequest.getDoctor().getClinic().getName()
+                        ),
                         appointmentRequest.getPatient().getAccount().getEmail(),
                         appointmentRequest.getPrice().getAmount(),
                         appointmentRequest.getDate().toString(),

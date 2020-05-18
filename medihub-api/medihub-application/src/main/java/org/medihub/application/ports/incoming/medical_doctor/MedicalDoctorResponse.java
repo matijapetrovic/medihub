@@ -1,4 +1,4 @@
-package org.medihub.web.medical_doctor;
+package org.medihub.application.ports.incoming.medical_doctor;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -37,7 +37,7 @@ export default {
         icon: 'mdi-store-24-hour',
         children: [
           { text: 'Add', path: '/addClinicRoom', icon: 'add' },
-          { text: 'Search', path: '/clinic-rooms', icon: 'search' },
+          { text: 'Search', path: '', icon: 'search' },
         ],
       },
       {

@@ -4,11 +4,11 @@ import api from './api';
 export default {
   namespaced: true,
   state: {
-    appointmentRequsts: [],
+    appointmentRequests: [],
   },
   mutations: {
-    SET_APPOINTMENT_REQUESTS(state, appointmentRequsts) {
-      state.appointmentRequsts = appointmentRequsts;
+    SET_APPOINTMENT_REQUESTS(state, appointmentRequests) {
+      state.appointmentRequests = appointmentRequests;
     },
   },
   actions: {
