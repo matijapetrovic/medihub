@@ -44,10 +44,6 @@ public class MedicalRecordJpaEntity {
     @Column(name="right_dioptry")
     private Double rightDioptry;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name="diagnosis_id", referencedColumnName = "id")
-    private Set<DiagnosisJpaEntity> diagnosis;
-
     @ElementCollection
     @CollectionTable(name="medical_record_allergy_mapping",
             joinColumns = {@JoinColumn(name="medical_record_id", referencedColumnName = "id")})

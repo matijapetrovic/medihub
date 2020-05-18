@@ -20,7 +20,9 @@
         </v-row>
         <v-row>
           <v-col>
-            <DiagnosesCard/>
+            <DiagnosesCard
+            v-if="medicalRecord.finishedAppointments"
+            :finished-appointments="medicalRecord.finishedAppointments"/>
           </v-col>
         </v-row>
       </v-col>

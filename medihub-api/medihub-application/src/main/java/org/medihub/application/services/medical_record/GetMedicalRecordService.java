@@ -1,13 +1,16 @@
 package org.medihub.application.services.medical_record;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.ports.incoming.medical_record.AllergyDTO;
+import org.medihub.application.ports.incoming.medical_record.FinishedAppointmentDTO;
 import org.medihub.application.ports.incoming.medical_record.GetMedicalRecordOutput;
 import org.medihub.application.ports.incoming.medical_record.GetMedicalRecordQuery;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
+import org.medihub.application.ports.outgoing.finished_appointment.GetFinishedAppointmentsPort;
 import org.medihub.application.ports.outgoing.medical_record.LoadMedicalRecordPort;
 import org.medihub.application.ports.outgoing.patient.LoadPatientPort;
-import org.medihub.domain.Diagnosis;
 import org.medihub.domain.account.Account;
+import org.medihub.domain.appointment.FinishedAppointment;
 import org.medihub.domain.medical_record.Allergy;
 import org.medihub.domain.medical_record.MedicalRecord;
 import org.medihub.domain.patient.Patient;
@@ -22,17 +25,20 @@ public class GetMedicalRecordService implements GetMedicalRecordQuery {
     private final LoadMedicalRecordPort loadMedicalRecordPort;
     private final GetAuthenticatedPort getAuthenticatedPort;
     private final LoadPatientPort loadPatientPort;
+    private final GetFinishedAppointmentsPort getFinishedAppointmentsPort;
 
     @Override
     public GetMedicalRecordOutput getMedicalRecord() {
         Account account= getAuthenticatedPort.getAuthenticated();
         Patient patient = loadPatientPort.loadPatientByAccountId(account.getId());
         MedicalRecord medicalRecord = loadMedicalRecordPort.loadMedicalRecord(patient.getId());
+        Set<FinishedAppointment> finishedAppointments =
+                getFinishedAppointmentsPort.getFinishedAppointments(patient.getId());
 
-        return mapToOutput(medicalRecord);
+        return mapToOutput(medicalRecord, finishedAppointments);
     }
 
-    private GetMedicalRecordOutput mapToOutput(MedicalRecord medicalRecord) {
+    private GetMedicalRecordOutput mapToOutput(MedicalRecord medicalRecord, Set<FinishedAppointment> finishedAppointments) {
         return new GetMedicalRecordOutput(
                 medicalRecord.getId(),
                 medicalRecord.getHeight(),
@@ -42,21 +48,28 @@ public class GetMedicalRecordService implements GetMedicalRecordQuery {
                 medicalRecord.getLeftDioptry(),
                 medicalRecord.getRightDioptry(),
                 mapAllergies(medicalRecord.getAllergies()),
-                mapDiagnoses(medicalRecord.getDiagnosis()));
+                mapFinishedAppointments(finishedAppointments));
     }
 
-    private Map<String, String> mapAllergies(Set<Allergy> allergies) {
+    private List<AllergyDTO> mapAllergies(Set<Allergy> allergies) {
         return allergies
                 .stream()
-                .collect(Collectors.toMap(
-                        Allergy::getName,
-                        Allergy::getLevelString));
+                .map(allergy -> new AllergyDTO(
+                        allergy.getName(),
+                        allergy.getLevelOrdinal() + 1,
+                        allergy.getLevelLabel()))
+                .collect(Collectors.toList());
+
     }
 
-    private List<String> mapDiagnoses(Set<Diagnosis> diagnoses) {
-        return diagnoses
+    private List<FinishedAppointmentDTO> mapFinishedAppointments(Set<FinishedAppointment> finishedAppointments) {
+        return finishedAppointments
                 .stream()
-                .map(Diagnosis::getName)
+                .map(fa -> new FinishedAppointmentDTO(
+                        fa.getAppointment().getDate().toString(),
+                        fa.getAppointment().getDoctor().getFullName(),
+                        fa.getDiagnosis().getName(),
+                        fa.getDescription()))
                 .collect(Collectors.toList());
     }
 }

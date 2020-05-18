@@ -14,6 +14,6 @@ public class GetMedicalRecordOutput {
     Boolean rhPositive;
     Double leftDioptry;
     Double rightDioptry;
-    Map<String, String> allergies;
-    List<String> diagnoses;
+    List<AllergyDTO> allergies;
+    List<FinishedAppointmentDTO> finishedAppointments;
 }

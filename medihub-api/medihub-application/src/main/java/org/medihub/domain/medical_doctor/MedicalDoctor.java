@@ -29,4 +29,6 @@ public class MedicalDoctor extends MedicalStaff {
     public String getLastName() {
         return getAccount().getLastName();
     }
+
+    public String getFullName() { return String.format("%s %s", getFirstName(), getLastName()); }
 }

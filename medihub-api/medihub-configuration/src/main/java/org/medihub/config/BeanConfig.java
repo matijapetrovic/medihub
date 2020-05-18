@@ -49,6 +49,7 @@ import org.medihub.application.ports.outgoing.clinic_room.LoadClinicRoomPort;
 import org.medihub.application.ports.outgoing.clinic_room.SaveClinicRoomPort;
 import org.medihub.application.ports.outgoing.doctor.*;
 import org.medihub.application.ports.outgoing.encoding.EncoderPort;
+import org.medihub.application.ports.outgoing.finished_appointment.GetFinishedAppointmentsPort;
 import org.medihub.application.ports.outgoing.medical_record.LoadMedicalRecordPort;
 import org.medihub.application.ports.outgoing.patient.GetPatientsPort;
 import org.medihub.application.ports.outgoing.patient.LoadPatientPort;
@@ -91,11 +92,13 @@ public class BeanConfig {
     public GetMedicalRecordQuery getMedicalRecordQuery(
             LoadMedicalRecordPort loadMedicalRecordPort,
             GetAuthenticatedPort getAuthenticatedPort,
-            LoadPatientPort loadPatientPort) {
+            LoadPatientPort loadPatientPort,
+            GetFinishedAppointmentsPort getFinishedAppointmentsPort) {
         return new GetMedicalRecordService(
                 loadMedicalRecordPort,
                 getAuthenticatedPort,
-                loadPatientPort);
+                loadPatientPort,
+                getFinishedAppointmentsPort);
     }
 
     @Bean

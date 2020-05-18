@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.medihub.domain.medical_record.Allergy;
 import org.medihub.domain.medical_record.MedicalRecord;
 import org.medihub.domain.medical_record.PatientDetails;
-import org.medihub.persistence.diagnosis.DiagnosisMapper;
 import org.medihub.persistence.patient.PatientMapper;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +14,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Component
 public class MedicalRecordMapper {
-    private final DiagnosisMapper diagnosisMapper;
     private final PatientMapper patientMapper;
 
     public MedicalRecord mapToDomainEntity(MedicalRecordJpaEntity medicalRecord){
@@ -29,7 +27,6 @@ public class MedicalRecordMapper {
                         medicalRecord.getRhPositive(),
                         medicalRecord.getLeftDioptry(),
                         medicalRecord.getRightDioptry()),
-                diagnosisMapper.mapToDomainSet(medicalRecord.getDiagnosis()),
                 mapToDomainAllergySet(medicalRecord.getAllergies()));
     }
 
@@ -43,7 +40,6 @@ public class MedicalRecordMapper {
                 medicalRecord.getRhPositive(),
                 medicalRecord.getLeftDioptry(),
                 medicalRecord.getRightDioptry(),
-                diagnosisMapper.mapToJpaSet(medicalRecord.getDiagnosis()),
                 mapToJpaEntityAllergyMap(medicalRecord.getAllergies()));
     }
 
@@ -61,6 +57,6 @@ public class MedicalRecordMapper {
                 .stream()
                 .collect(Collectors.toMap(
                         Allergy::getName,
-                        Allergy::getLevelString));
+                        Allergy::getLevelLabel));
     }
 }

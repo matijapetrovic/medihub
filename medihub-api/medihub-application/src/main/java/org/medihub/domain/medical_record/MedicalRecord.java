@@ -17,7 +17,6 @@ public class MedicalRecord {
     private Long id;
     private Patient patient;
     private PatientDetails patientDetails;
-    private Set<Diagnosis> diagnosis;
     private Set<Allergy> allergies;
 
     public static MedicalRecord create(Patient patient) {
@@ -25,7 +24,6 @@ public class MedicalRecord {
         record.id = null;
         record.patient = patient;
         record.patientDetails = PatientDetails.create();
-        record.diagnosis = new HashSet<>();
         record.allergies = new HashSet<>();
 
         return record;

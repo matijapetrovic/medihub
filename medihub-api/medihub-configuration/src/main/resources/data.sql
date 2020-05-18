@@ -64,3 +64,12 @@ insert into clinic_room (id, name, number, clinic_id) values (2, 'soba2', 2, 1);
 
 insert into clinic_room_schedule (id, clinic_room_id, date) values (1, 1, '2020-10-10');
 insert into clinic_room_schedule (id, clinic_room_id, date) values (2, 2, '2020-12-10');
+
+insert into appointment (date, time, patient_id, doctor_id, clinic_room_id) values ('2020-10-10', '12:00:00', 1, 1, 1);
+insert into appointment (date, time, patient_id, doctor_id, clinic_room_id) values ('2020-12-10', '13:00:00', 1, 1, 1);
+
+insert into diagnosis (name) values ('Kancer');
+insert into diagnosis (name) values ('Ded');
+
+insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Idemo niiis najjace je bilo najjace', 1, 1);
+insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Sad bas i nije heh', 1, 2);
