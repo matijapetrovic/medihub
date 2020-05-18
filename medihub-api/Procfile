@@ -1,0 +1,1 @@
+web: java -jar target/medihub-api-1.0.jar
