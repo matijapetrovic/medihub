@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   data: () => ({
@@ -121,11 +121,11 @@ export default {
     selectedElement: null,
     selectedOpen: false,
     events: [],
-    colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
     names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
     today: null,
   }),
   computed: {
+    ...mapState('medicalDoctor', ['workingCalendar']),
     title() {
       const { start, end } = this;
       if (!start || !end) {
@@ -162,7 +162,11 @@ export default {
     },
   },
   mounted() {
-    this.getWorkindCalendar();
+    this.$refs.calendar.checkChange();
+    this.getWorkindCalendar()
+      .then(() => {
+        this.setUpEvents();
+      });
   },
   methods: {
     ...mapActions('medicalDoctor', ['getWorkindCalendar']),
@@ -198,32 +202,48 @@ export default {
 
       nativeEvent.stopPropagation();
     },
-    updateRange({ start, end }) {
+    setUpEvents() {
       const events = [];
-
-      const min = new Date(`${start.date}T00:00:00`);
-      const max = new Date(`${end.date}T23:59:59`);
-      const days = (max.getTime() - min.getTime()) / 86400000;
-      const eventCount = this.rnd(days, days + 20);
-
-      for (let i = 0; i < eventCount; i += 1) {
-        const allDay = this.rnd(0, 3) === 0;
-        const firstTimestamp = this.rnd(min.getTime(), max.getTime());
-        const first = new Date(firstTimestamp - (firstTimestamp % 900000));
-        const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000;
-        const second = new Date(first.getTime() + secondTimestamp);
-
-        events.push({
-          name: this.names[this.rnd(0, this.names.length - 1)],
-          start: this.formatDate(first, !allDay),
-          end: this.formatDate(second, !allDay),
-          color: this.colors[this.rnd(0, this.colors.length - 1)],
+      Object.keys(this.workingCalendar.dailySchedules).forEach((key) => {
+        const items = this.workingCalendar.dailySchedules[key].scheduleItems;
+        items.forEach((item) => {
+          events.push({
+            name: item.type,
+            start: `${key} ${item.time}`,
+            end: `${key} ${this.incrementTime(item.time)}`,
+            color: this.getColorByName(item.type),
+          });
         });
-      }
+      });
 
+      this.events = events;
+    },
+    incrementTime(timeStr) {
+      const parts = timeStr.split(':');
+      let num = parseInt(parts[0], 10);
+      let firstPart = '';
+      num += 1;
+      if (num === 24) {
+        num = 0;
+      }
+      firstPart = num.toString();
+      if (firstPart.length === 1) {
+        firstPart = `0${firstPart}`;
+      }
+      return `${firstPart}:${parts[1]}`;
+    },
+    getColorByName(name) {
+      switch (name) {
+        case 'APPOINTMENT': return 'blue';
+        case 'OPERATION': return 'orange';
+        case 'VACATION': return 'green';
+        case 'LEAVE': return 'deep-purple';
+        default: return 'grey darken-1';
+      }
+    },
+    updateRange({ start, end }) {
       this.start = start;
       this.end = end;
-      this.events = events;
     },
     nth(d) {
       return d > 3 && d < 21
@@ -232,11 +252,6 @@ export default {
     },
     rnd(a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a;
-    },
-    formatDate(a, withTime) {
-      return withTime
-        ? `${a.getFullYear()}-${a.getMonth() + 1}-${a.getDate()} ${a.getHours()}:${a.getMinutes()}`
-        : `${a.getFullYear()}-${a.getMonth() + 1}-${a.getDate()}`;
     },
   },
 };
