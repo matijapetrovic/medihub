@@ -6,9 +6,12 @@ import org.medihub.application.ports.outgoing.clinic.GetClinicNamesPort;
 import org.medihub.application.ports.outgoing.clinic.SaveClinicPort;
 import org.medihub.application.ports.outgoing.clinic.SearchClinicsPort;
 import org.medihub.domain.clinic.Clinic;
+import org.medihub.domain.medical_doctor.MedicalDoctorSchedule;
 import org.medihub.persistence.appointment_type.AppointmentTypeJpaEntity;
 import org.medihub.persistence.appointment_type.AppointmentTypeMapper;
 import org.medihub.persistence.appointment_type.AppointmentTypeRepository;
+import org.medihub.persistence.medical_doctor_schedule.MedicalDoctorScheduleJpaEntity;
+import org.medihub.persistence.medical_doctor_schedule.MedicalDoctorScheduleRepository;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
