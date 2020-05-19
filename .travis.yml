@@ -6,7 +6,13 @@ services:
   - mysql
 
 script:
-  - cd medihub-api && mvn install -DskipTests=false -Dmaven.javadoc.skip=true -B -V
+  - cd medihub-api
+  - mvn install -DskipTests=false -Dmaven.javadoc.skip=true -B -V
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=matijapetrovic_medihub
+addons:
+  sonarcloud:
+    organization: "matijapetrovic"
+    token: $SONAR_TOKEN
 
 deploy:
   provider: heroku
