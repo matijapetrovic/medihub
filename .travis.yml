@@ -7,4 +7,9 @@ services:
 
 script:
   - cd medihub-api && mvn install -DskipTests=false -Dmaven.javadoc.skip=true -B -V
-  
+
+deploy:
+  provider: heroku
+  api-key:
+    secure: $HEROKU_API_KEY
+  app: medihub-app
