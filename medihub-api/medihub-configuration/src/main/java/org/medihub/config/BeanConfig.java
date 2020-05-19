@@ -1,5 +1,6 @@
 package org.medihub.config;
 
+import org.medihub.application.ports.incoming.medical_doctor.*;
 import org.medihub.application.ports.incoming.medical_record.GetMedicalRecordQuery;
 import org.medihub.application.ports.incoming.scheduling.GetDoctorAvailableTimesQuery;
 import org.medihub.application.ports.incoming.scheduling.ScheduleAppointmentUseCase;
@@ -20,9 +21,6 @@ import org.medihub.application.ports.incoming.clinic.AddClinicUseCase;
 import org.medihub.application.ports.incoming.account.profile.GetProfileQuery;
 import org.medihub.application.ports.incoming.account.profile.UpdateProfileUseCase;
 import org.medihub.application.ports.incoming.clinic.SearchClinicsQuery;
-import org.medihub.application.ports.incoming.medical_doctor.GetMedicalDoctorUseCase;
-import org.medihub.application.ports.incoming.medical_doctor.GetDoctorsQuery;
-import org.medihub.application.ports.incoming.medical_doctor.SearchDoctorsQuery;
 import org.medihub.application.ports.incoming.patient.LoadPatientUseCase;
 import org.medihub.application.ports.incoming.patient.RegisterPatientUseCase;
 import org.medihub.application.ports.outgoing.*;
@@ -62,6 +60,7 @@ import org.medihub.application.services.account.ChangePasswordService;
 import org.medihub.application.services.account.GetAccountService;
 import org.medihub.application.services.account.GetProfileService;
 import org.medihub.application.services.account.UpdateProfileService;
+import org.medihub.application.services.medical_doctor.*;
 import org.medihub.application.services.medical_record.GetMedicalRecordService;
 import org.medihub.application.services.scheduling.GetDoctorAvailableTimesService;
 import org.medihub.application.services.scheduling.ScheduleAppointmentService;
@@ -287,5 +286,10 @@ public class BeanConfig {
     @Bean
     public DeleteAppointmentTypeUseCase removeAppointmentTypeQuery(DeleteAppointmentTypePort deleteAppointmentTypePort) {
         return new DeleteAppointmentTypeService(deleteAppointmentTypePort);
+    }
+
+    @Bean
+    public GetDoctorScheduleQuery getDoctorScheduleQuery(GetDoctorSchedulePort getDoctorSchedulePort, GetAuthenticatedPort getAuthenticatedPort, GetDoctorByAccountIdPort getDoctorByAccountIdPort) {
+        return new GetDoctorScheduleService(getDoctorSchedulePort, getAuthenticatedPort, getDoctorByAccountIdPort);
     }
 }

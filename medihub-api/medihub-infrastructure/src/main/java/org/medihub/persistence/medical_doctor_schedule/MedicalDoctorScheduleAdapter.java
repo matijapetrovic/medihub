@@ -1,11 +1,17 @@
 package org.medihub.persistence.medical_doctor_schedule;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.ports.outgoing.doctor.GetDoctorSchedulePort;
 import org.medihub.application.ports.outgoing.scheduling.LoadDoctorDailySchedulePort;
+import org.medihub.domain.medical_doctor.MedicalDoctorAppointmentScheduleItem;
 import org.medihub.domain.medical_doctor.MedicalDoctorSchedule;
 import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem;
 import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType;
+import org.medihub.domain.medical_doctor.MedicalDoctorVacationScheduleItem;
 import org.medihub.domain.scheduling.DailySchedule;
+import org.medihub.persistence.clinic.ClinicMapper;
+import org.medihub.persistence.clinic_room.ClinicRoomMapper;
+import org.medihub.persistence.patient.PatientMapper;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
@@ -17,9 +23,11 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class MedicalDoctorScheduleAdapter implements LoadDoctorDailySchedulePort {
+public class MedicalDoctorScheduleAdapter implements LoadDoctorDailySchedulePort, GetDoctorSchedulePort {
     private final MedicalDoctorScheduleRepository repository;
     private final MedicalDoctorScheduleItemRepository itemRepository;
+    private final PatientMapper patientMapper;
+    private final ClinicRoomMapper clinicRoomMapper;
 
     public MedicalDoctorSchedule loadMedicalDoctorSchedule(Long doctorId) {
         Set<MedicalDoctorScheduleJpaEntity> schedules = repository
@@ -44,11 +52,35 @@ public class MedicalDoctorScheduleAdapter implements LoadDoctorDailySchedulePort
                 scheduleId,
                 scheduleItems
                         .stream()
-                        .map(scheduleItem -> new MedicalDoctorScheduleItem(
-                            scheduleItem.getId(),
-                            scheduleItem.getTime().toLocalTime(),
-                            MedicalDoctorScheduleItemType.values()[scheduleItem.getType() - 1]))
+                        .map(scheduleItem -> getItem(scheduleItem))
                         .collect(Collectors.toSet()));
+    }
+
+    private MedicalDoctorScheduleItem getItem(MedicalDoctorScheduleItemJpaEntity jpaItem) {
+
+        MedicalDoctorScheduleItem item;
+        MedicalDoctorScheduleItemType type = MedicalDoctorScheduleItemType.values()[jpaItem.getType() - 1];
+
+        switch (type) {
+            case APPOINTMENT:
+                MedicalDoctorAppointmentScheduleJpaItem appointmentItem = (MedicalDoctorAppointmentScheduleJpaItem) jpaItem;
+                return new MedicalDoctorAppointmentScheduleItem(
+                        appointmentItem.getId(),
+                        appointmentItem.getTime().toLocalTime(),
+                        type,
+                        patientMapper.mapToDomainEntity(appointmentItem.getPatient()),
+                        clinicRoomMapper.mapToDomainEntity(appointmentItem.getClinicRoom())
+                    );
+            case VACATION:
+                MedicalDoctorVacationScheduleJpaItem vacationItem = (MedicalDoctorVacationScheduleJpaItem) jpaItem;
+                return new MedicalDoctorVacationScheduleItem(
+                        vacationItem.getId(),
+                        vacationItem.getTime().toLocalTime(),
+                        type
+                );
+        }
+
+        return null;
     }
 
     @Override
@@ -60,5 +92,10 @@ public class MedicalDoctorScheduleAdapter implements LoadDoctorDailySchedulePort
             return new DailySchedule<>(null);
 
         return loadMedicalDoctorDailySchedule(schedule.get().getId());
+    }
+
+    @Override
+    public MedicalDoctorSchedule getDoctorSchedule(Long doctorId) {
+        return loadMedicalDoctorSchedule(doctorId);
     }
 }

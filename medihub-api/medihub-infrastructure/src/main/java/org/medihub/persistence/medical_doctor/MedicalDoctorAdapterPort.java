@@ -24,7 +24,8 @@ public class MedicalDoctorAdapterPort implements
         GetDoctorsPort,
         GetAllDoctorsPort,
         SearchDoctorsPort,
-        GetDoctorWorkingTimePort {
+        GetDoctorWorkingTimePort,
+        GetDoctorByAccountIdPort {
     private final MedicalDoctorMapper medicalDoctorMapper;
     private final MedicalDoctorRepository medicalDoctorRepository;
     private final ClinicRepository clinicRepository;
@@ -81,6 +82,13 @@ public class MedicalDoctorAdapterPort implements
                 .orElseThrow(EntityNotFoundException::new);
 
         return new WorkingTime(doctor.getFrom().toLocalTime(), doctor.getTo().toLocalTime());
+    }
+
+    @Override
+    public MedicalDoctor getDoctor(Long accountId) {
+        MedicalDoctorJpaEntity doctor = medicalDoctorRepository
+                .findByAccount_Id(accountId);
+        return medicalDoctorMapper.mapToDomainEntity(doctor);
     }
 }
 

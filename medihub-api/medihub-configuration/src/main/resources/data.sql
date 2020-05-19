@@ -49,18 +49,15 @@ insert into medical_doctor (account_id, clinic, working_time_from, working_time_
 
 insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (1, 1, 500.0);
 
-insert into medical_doctor_schedule (doctor_id, date) values (1, '2020-12-05');
-insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '12:00:00', 1);
-insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '13:00:00', 1);
-insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '14:00:00', 1);
-insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '15:00:00', 1);
-insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '16:00:00', 1);
-insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '17:00:00', 1);
-insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '18:00:00', 1);
-insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '19:00:00', 1);
-
 insert into clinic_room (id, name, number, clinic_id) values (1, 'soba1', 1, 1);
 insert into clinic_room (id, name, number, clinic_id) values (2, 'soba2', 2, 1);
+
+insert into medical_doctor_schedule (doctor_id, date) values (1, '2020-05-12');
+insert into medical_doctor_schedule (doctor_id, date) values (1, '2020-05-18');
+insert into medical_doctor_schedule (doctor_id, date) values (1, '2020-05-22');
+insert into medical_doctor_schedule (doctor_id, date) values (1, '2020-05-29');
+insert into medical_doctor_appointment_schedule_item (id, schedule_id, time, schedule_item_type, patient_id, clinic_room_id) values (1, 1, '12:00:00', 1, 1, 1);
+insert into medical_doctor_vacation_schedule_item (id, schedule_id, time, schedule_item_type) values (2, 3, '12:00:00', 3);
 
 insert into clinic_room_schedule (id, clinic_room_id, date) values (1, 1, '2020-10-10');
 insert into clinic_room_schedule (id, clinic_room_id, date) values (2, 2, '2020-12-10');
