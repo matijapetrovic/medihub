@@ -1,0 +1,10 @@
+sudo: required
+language: java
+jdk: openjdk14
+
+services:
+  - mysql
+
+script:
+  - cd medihub-api && mvn install -DskipTests=false -Dmaven.javadoc.skip=true -B -V
+  
