@@ -3,10 +3,7 @@ language: java
 jdk: openjdk14
 
 services:
-  - postgresql
-
-before_install:
-  - chmod +x mvnw
+  - mysql
 
 script:
   - cd medihub-api && mvn install -DskipTests=false -Dmaven.javadoc.skip=true -B -V
