@@ -13,6 +13,7 @@ import doctor from '@/app/doctor/store';
 import country from '@/app/country/store';
 import appointment from '@/app/appointment/store';
 import appointmentRequest from '@/app/appointment_request/store';
+import medicalRecord from '@/app/medical_record/store';
 
 Vue.use(Vuex);
 
@@ -37,5 +38,6 @@ export default new Vuex.Store({
     country,
     appointment,
     appointmentRequest,
+    medicalRecord,
   },
 });

@@ -20,6 +20,27 @@
                     <target>13</target>
                 </configuration>
             </plugin>
+            <plugin>
+
+                <!-- Building an executable jar -->
+
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>org.medihub.MedihubApplication</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>org.medihub.MedihubApplication</mainClass>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -34,6 +55,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
             <version>2.2.6.RELEASE</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.medihub</groupId>

@@ -25,11 +25,15 @@ insert into account_authority (user_id, authority_id) values (7, 2);
 insert into account_authority (user_id, authority_id) values (8, 1);
 insert into account_authority (user_id, authority_id) values (9, 1);
 
-insert into medical_record (id) values (1);
-insert into medical_record (id) values (2);
+insert into patient (insurance_number, account_id) values ('14115151555', 8);
+insert into patient (insurance_number, account_id) values ('14115151252', 9);
 
-insert into patient (insurance_number, account_id, medical_record_id) values ('14115151555', 8, 1);
-insert into patient (insurance_number, account_id, medical_record_id) values ('14115151252', 9, 2);
+insert into medical_record (patient_id, height, weight, blood_type, rh_positive, left_dioptry, right_dioptry) values (1, 190, 79, 'A', true, 0.5, 0.75);
+insert into medical_record (patient_id, height, weight, blood_type, rh_positive) values (2, 170, 55, 'O', false);
+
+insert into medical_record_allergy_mapping (medical_record_id, allergy_name, allergy_level) values (1, 'Penicillin', 'MILD');
+insert into medical_record_allergy_mapping (medical_record_id, allergy_name, allergy_level) values (1, 'Cats', 'SEVERE');
+insert into medical_record_allergy_mapping (medical_record_id, allergy_name, allergy_level) values (1, 'Dogs', 'MODERATE');
 
 insert into clinic (name, address, city, country, description) values ('Klinika 1', 'asf', 'adgsdg', 'Serbia', 'asgadg');
 insert into clinic (name, address, city, country, description) values ('Klinika 2', 'asf', 'adgsdg', 'Serbia', 'asgadg');
@@ -72,3 +76,14 @@ insert into appointment_request (doctor, patient, price, date, time) values (1, 
 insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1000, '2020-03-10', '12:00:00');
 insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1000, '2020-03-10', '13:00:00');
 insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1000, '2020-03-10', '14:00:00');
+insert into clinic_room_schedule (id, clinic_room_id, date) values (1, 1, '2020-10-10');
+insert into clinic_room_schedule (id, clinic_room_id, date) values (2, 2, '2020-12-10');
+
+insert into appointment (date, time, patient_id, doctor_id, clinic_room_id) values ('2020-10-10', '12:00:00', 1, 1, 1);
+insert into appointment (date, time, patient_id, doctor_id, clinic_room_id) values ('2020-12-10', '13:00:00', 1, 1, 1);
+
+insert into diagnosis (name) values ('Kancer');
+insert into diagnosis (name) values ('Ded');
+
+insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Idemo niiis najjace je bilo najjace', 1, 1);
+insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Sad bas i nije heh', 1, 2);

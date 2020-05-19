@@ -24,7 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         try {
             return getAccountQuery.getAccount(email);
         } catch (AccountNotFoundException ex) {
-            throw new UsernameNotFoundException("No account with email: %s found".formatted(email));
+            throw new UsernameNotFoundException(String.format("No account with email: %s found", email));
         }
     }
 }
