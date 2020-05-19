@@ -9,6 +9,7 @@ import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem;
 import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType;
 import org.medihub.domain.medical_doctor.MedicalDoctorVacationScheduleItem;
 import org.medihub.domain.scheduling.DailySchedule;
+import org.medihub.persistence.appointment.AppointmentMapper;
 import org.medihub.persistence.clinic.ClinicMapper;
 import org.medihub.persistence.clinic_room.ClinicRoomMapper;
 import org.medihub.persistence.patient.PatientMapper;
@@ -26,8 +27,7 @@ import java.util.stream.Collectors;
 public class MedicalDoctorScheduleAdapter implements LoadDoctorDailySchedulePort, GetDoctorSchedulePort {
     private final MedicalDoctorScheduleRepository repository;
     private final MedicalDoctorScheduleItemRepository itemRepository;
-    private final PatientMapper patientMapper;
-    private final ClinicRoomMapper clinicRoomMapper;
+    private final AppointmentMapper appointmentMapper;
 
     public MedicalDoctorSchedule loadMedicalDoctorSchedule(Long doctorId) {
         Set<MedicalDoctorScheduleJpaEntity> schedules = repository
@@ -68,8 +68,7 @@ public class MedicalDoctorScheduleAdapter implements LoadDoctorDailySchedulePort
                         appointmentItem.getId(),
                         appointmentItem.getTime().toLocalTime(),
                         type,
-                        patientMapper.mapToDomainEntity(appointmentItem.getPatient()),
-                        clinicRoomMapper.mapToDomainEntity(appointmentItem.getClinicRoom())
+                        appointmentMapper.mapToDomainEntity(appointmentItem.getAppointment())
                     );
             case VACATION:
                 MedicalDoctorVacationScheduleJpaItem vacationItem = (MedicalDoctorVacationScheduleJpaItem) jpaItem;
