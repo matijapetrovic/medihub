@@ -12,7 +12,8 @@ script:
 addons:
   sonarcloud:
     organization: "matijapetrovic"
-    token: $SONAR_TOKEN
+    token: 
+      secure: $SONAR_TOKEN
 
 deploy:
   provider: heroku
