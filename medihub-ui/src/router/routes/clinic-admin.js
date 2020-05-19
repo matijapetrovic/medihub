@@ -33,11 +33,11 @@ export default {
       component: ClinicAdminHome,
     },
     {
-      path: '/search-clinic-rooms/:date/:time/:doctor',
+      path: '/search-clinic-rooms/:param',
       component: SearchClinicRoomTable,
     },
     {
-      path: '/appointment_request',
+      path: '/appointment-request/:param',
       component: AppointmentRequest,
     },
   ],

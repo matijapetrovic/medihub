@@ -43,7 +43,7 @@ export default {
       {
         text: 'Appointment requests',
         icon: 'mdi-message-plus',
-        path: '/appointment_request',
+        path: `/appointment-request/${null}`,
       },
     ],
   }),

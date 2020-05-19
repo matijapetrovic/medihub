@@ -69,3 +69,6 @@ insert into clinic_room_schedule_item (schedule_id, time) values (3, '11:00:00')
 
 insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 500, '2020-10-10', '11:00:00');
 insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1000, '2020-03-10', '11:00:00');
+insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1000, '2020-03-10', '12:00:00');
+insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1000, '2020-03-10', '13:00:00');
+insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1000, '2020-03-10', '14:00:00');

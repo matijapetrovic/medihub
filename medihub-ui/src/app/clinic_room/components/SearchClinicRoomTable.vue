@@ -35,11 +35,12 @@
               v-model="date"
               label="Appointment Date"
               prepend-icon="event"
-              readonly
+              :readonly="!clinicRoomsEmpty()"
               v-on="on"
             ></v-text-field>
           </template>
           <v-date-picker
+            v-if="!clinicRoomsEmpty"
             v-model="date"
             :min="today"
             no-title
@@ -57,13 +58,34 @@
           label="Time"
           prepend-icon="mdi-timelapse"
           min="1"
-          readonly="true">
+          :readonly="!clinicRoomsEmpty()"
+          >
         </v-text-field>
       </v-col>
     </v-row>
     <v-row>
       <v-col>
+        <v-subheader>
+          Doctor:
+          {{this.doctor === null? '': this.doctor.firstName}}
+          {{this.doctor === null? '': this.doctor.lastName}}
+        </v-subheader>
+        <v-select
+          :items="doctors"
+          label="Doctors"
+          v-model="doctor"
+          item-text="email"
+          dense
+          solo
+          selected
+          :readonly="!clinicRoomsEmpty()"
+        >
+        </v-select>
+      </v-col>
+      <v-spacer></v-spacer>
+      <v-col>
         <v-container class="px-0" fluid>
+          Filter value:
           <v-radio-group v-model="radioGroup">
             <v-radio
               v-for="n in 3"
@@ -73,14 +95,6 @@
             ></v-radio>
           </v-radio-group>
         </v-container>
-      </v-col>
-      <v-select
-        :items="items"
-        label="Solo field"
-        dense
-        solo
-      ></v-select>
-      <v-col>
       </v-col>
     </v-row>
     <v-row justify="center">
@@ -99,28 +113,20 @@
       :items="clinicRooms"
       :items-per-page="5"
       class="elevation-1"
-      show-expand
-      single-expand
       item-key="id"
     >
-      <template v-slot:expanded-item="{ headers, item }">
-        <td :colspan="headers.length">First free: {{ item.firstFree }}</td>
+      <template v-slot:item.scheduleRoom="{ item }">
+        <div class="my-2">
+          <v-btn
+          rounded
+          small
+          color="primary"
+          @click="scheduleRoom(item)"
+          >
+            Reserve room
+          </v-btn>
+        </div>
       </template>
-      <template v-slot:item.actions="{ item }">
-          <v-icon
-            small
-            class="mr-2"
-            @click="editItem(item)"
-          >
-            mdi-pencil
-          </v-icon>
-          <v-icon
-            small
-            @click="deleteItem(item)"
-          >
-            mdi-delete
-          </v-icon>
-        </template>
     </v-data-table>
   </v-container>
 </template>
@@ -130,9 +136,13 @@ import { mapState, mapActions } from 'vuex';
 
 export default {
   data: () => ({
+    appointmentId: null,
+    params: null,
+    selectedDoctorEmail: 'a',
     checkbox: true,
     radioGroup: 1,
     switch1: true,
+    doctor: null,
     time: null,
     dialog: false,
     name: null,
@@ -148,15 +158,17 @@ export default {
         value: 'name',
       },
       { text: 'Number ', value: 'number' },
-      {
-        text: 'Actions',
-        value: 'actions',
-        sortable: false,
-      },
+      { text: 'First free', value: 'firstFree', sortable: false },
+      { text: 'Schedule room', value: 'scheduleRoom', sortable: false },
     ],
   }),
+  mounted() {
+    this.fetchClinicRooms();
+    this.fetchParams();
+  },
   methods: {
     ...mapActions('clinicRooms', ['fetchClinicRooms', 'deleteClinicRoom']),
+    ...mapActions('medicalDoctor', ['getDoctorsForDateTime']),
 
     deleteItem(item) {
       this.deleteClinicRoom(item);
@@ -179,20 +191,39 @@ export default {
     clear() {
       this.name = null;
       this.number = null;
-      this.date = this.today;
     },
-    fetchDateAndTime() {
-      this.date = this.$route.params.date;
-      this.time = this.$route.params.time;
-      this.doctor = this.$route.params.doctor;
+    fetchParams() {
+      this.params = this.getSearchParams();
+      this.mapParams();
     },
-  },
-  mounted() {
-    this.fetchClinicRooms();
-    this.fetchDateAndTime();
+    mapParams() {
+      this.appointmentId = this.params.id;
+      this.date = this.params.date;
+      this.time = this.params.time;
+      this.doctor = this.params.doctor;
+      this.doctors.length = 0;
+      this.doctors.push(this.doctor);
+    },
+    clinicRoomsEmpty() {
+      if (this.clinicRooms.length === 0) {
+        return true;
+      }
+      return false;
+    },
+    addDefaultDoctor() {
+      this.doctors.push(this.doctor);
+    },
+    scheduleRoom(item) {
+      this.$router.push(`/appointment-request/${JSON.stringify({
+        id: this.appointmentId,
+        doctor: this.doctor,
+        clinicRoom: item,
+      })}`);
+    },
   },
   computed: {
     ...mapState('clinicRooms', ['clinicRooms']),
+    ...mapState('medicalDoctor', ['doctors']),
     minNumberRule() {
       return (value) => value > 0 || 'Number must be positive';
     },

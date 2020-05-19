@@ -1,4 +1,4 @@
-package org.medihub.application.ports.incoming.medical_doctor;
+package org.medihub.application.ports.incoming.patient;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,14 +9,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MedicalDoctorResponse {
+public class PatientResponse {
     private Long id;
-    private String email;
     private String firstName;
     private String lastName;
+    private String email;
     private String addressLine;
-    private String telephone;
-    private String workingTimeStarts;
-    private String workingTimeEnds;
-    private String clinicName;
+    private String insuranceNumber;
 }

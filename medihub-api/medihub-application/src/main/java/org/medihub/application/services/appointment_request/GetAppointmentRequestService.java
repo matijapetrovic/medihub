@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.appointment_request.AppointmentRequestResponse;
 import org.medihub.application.ports.incoming.appointment_request.GetAppointmentRequestUseCase;
 import org.medihub.application.ports.incoming.medical_doctor.MedicalDoctorResponse;
+import org.medihub.application.ports.incoming.patient.PatientResponse;
 import org.medihub.application.ports.outgoing.LoadClinicAdminPort;
 import org.medihub.application.ports.outgoing.appointment_request.GetAppointmentRequestPort;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
@@ -43,7 +44,14 @@ public class GetAppointmentRequestService implements GetAppointmentRequestUseCas
                                 appointmentRequest.getDoctor().getWorkingTime().getTo().toString(),
                                 appointmentRequest.getDoctor().getClinic().getName()
                         ),
-                        appointmentRequest.getPatient().getAccount().getEmail(),
+                        new PatientResponse(
+                                appointmentRequest.getPatient().getId(),
+                                appointmentRequest.getPatient().getAccount().getFirstName(),
+                                appointmentRequest.getPatient().getAccount().getLastName(),
+                                appointmentRequest.getPatient().getAccount().getEmail(),
+                                appointmentRequest.getPatient().getAccount().getAddress(),
+                                appointmentRequest.getPatient().getInsuranceNumber()
+                        ),
                         appointmentRequest.getPrice().getAmount(),
                         appointmentRequest.getDate().toString(),
                         appointmentRequest.getTime().toString()
