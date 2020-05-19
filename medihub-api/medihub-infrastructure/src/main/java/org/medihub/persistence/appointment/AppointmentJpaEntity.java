@@ -3,15 +3,13 @@ package org.medihub.persistence.appointment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.medihub.persistence.appointment_type.AppointmentTypeJpaEntity;
 import org.medihub.persistence.clinic_room.ClinicRoomJpaEntity;
+import org.medihub.persistence.medical_doctor.MedicalDoctorJpaEntity;
 import org.medihub.persistence.patient.PatientJpaEntity;
-import org.medihub.persistence.prescription.PrescriptionJpaEntity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.Date;
-import java.util.Set;
+import java.sql.Time;
+import java.sql.Date;
 
 @Entity
 @Table(name="appointment")
@@ -19,30 +17,26 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AppointmentJpaEntity {
-
     @Id
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "patient_id")
-    private Long patientId;
-
     @Column(name = "date")
     private Date date;
 
-    @Column(name = "duration")
-    private double duration;
+    @Column(name="time")
+    private Time time;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="clinic_room", referencedColumnName="id", nullable=true)
-    private ClinicRoomJpaEntity clinicRoomJpaEntity;
+    @ManyToOne
+    @JoinColumn(name="patient_id", referencedColumnName = "id")
+    private PatientJpaEntity patient;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="appointment_type", referencedColumnName="id", nullable=true)
-    private AppointmentTypeJpaEntity appointmentTypeJpaEntity;
+    @ManyToOne
+    @JoinColumn(name="doctor_id", referencedColumnName = "id")
+    private MedicalDoctorJpaEntity doctor;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="prescriptions", referencedColumnName="id", nullable=true)
-    private Set<PrescriptionJpaEntity> prescriptions;
+    @ManyToOne
+    @JoinColumn(name="clinic_room_id", referencedColumnName = "id")
+    private ClinicRoomJpaEntity clinicRoom;
 }

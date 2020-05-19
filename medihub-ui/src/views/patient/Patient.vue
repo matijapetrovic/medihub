@@ -28,6 +28,11 @@ export default {
         path: '/search-clinics',
         icon: 'mdi-hospital-building',
       },
+      {
+        text: 'Medical Record',
+        path: '/medical-record',
+        icon: 'mdi-clipboard-pulse-outline',
+      },
     ],
   }),
 };
