@@ -8,6 +8,10 @@ services:
 script:
   - cd medihub-api && mvn install -DskipTests=false -Dmaven.javadoc.skip=true -B -V
 
+branches:
+  only: 
+    - master
+
 deploy:
   provider: heroku
   api-key:
