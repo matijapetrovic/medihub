@@ -5,7 +5,7 @@ import org.medihub.domain.scheduling.DailyScheduleItem;
 
 import java.time.LocalTime;
 
-public class MedicalDoctorScheduleItem extends DailyScheduleItem {
+public abstract class MedicalDoctorScheduleItem extends DailyScheduleItem {
     @Getter
     private MedicalDoctorScheduleItemType type;
 
