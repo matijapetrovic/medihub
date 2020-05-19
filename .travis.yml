@@ -1,0 +1,14 @@
+sudo: required
+language: java
+jdk: openjdk14
+
+services:
+  - mysql
+
+script:
+  - cd medihub-api && mvn install -DskipTests=false -Dmaven.javadoc.skip=true -B -V
+
+deploy:
+  provider: heroku
+  api_key: $HEROKU_API_KEY
+  app: medihub-app
