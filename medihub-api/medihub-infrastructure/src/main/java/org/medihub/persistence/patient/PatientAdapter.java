@@ -21,6 +21,11 @@ public class PatientAdapter implements GetPatientsPort, LoadPatientPort {
     }
 
     @Override
+    public Patient getPatientById(Long id) {
+        return patientMapper.mapToDomainEntity(patientRepository.findById(id).get());
+    }
+
+    @Override
     public Patient loadPatient(Long patientId) {
         PatientJpaEntity patient = patientRepository
                 .findById(patientId)

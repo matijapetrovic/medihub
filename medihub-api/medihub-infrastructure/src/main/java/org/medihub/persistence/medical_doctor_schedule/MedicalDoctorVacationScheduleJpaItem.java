@@ -6,4 +6,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="medical_doctor_vacation_schedule_item")
 public class MedicalDoctorVacationScheduleJpaItem extends  MedicalDoctorScheduleItemJpaEntity{
+    public MedicalDoctorVacationScheduleJpaItem() {
+        super();
+    }
 }

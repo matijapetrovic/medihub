@@ -5,6 +5,7 @@ export default {
   namespaced: true,
   state: {
     clinicRooms: [],
+    params: null,
   },
   mutations: {
     SET_CLINIC_ROOMS(state, clinicRooms) {
@@ -13,6 +14,12 @@ export default {
     DELETE_CLINIC_ROOM(state, clinicRoom) {
       const idx = state.clinicRooms.indexOf(clinicRoom);
       state.clinicRooms.splice(idx, 1);
+    },
+    SET_SEARCH_PARAMS(state, params) {
+      state.params = params;
+    },
+    GET_SEARCH_PARAMS(state) {
+      return state.params;
     },
   },
   actions: {
@@ -45,6 +52,21 @@ export default {
         .catch((err) => {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
+    },
+    scheduleRoom({ dispatch }, payload) {
+      return api.scheduleRoom(payload).then(() => {
+        const message = 'Clinic room scheduled successfully';
+        dispatch('notifications/add', utils.successNotification(message), { root: true });
+      })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
+    setSearchParams({ commit }, params) {
+      commit('SET_SEARCH_PARAMS', params);
+    },
+    getSearchParams({ commit }) {
+      commit('GET_SEARCH_PARAMS');
     },
   },
 };

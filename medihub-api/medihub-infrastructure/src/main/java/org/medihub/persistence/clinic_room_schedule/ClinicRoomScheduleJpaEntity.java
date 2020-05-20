@@ -16,7 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class ClinicRoomScheduleJpaEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @ManyToOne

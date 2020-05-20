@@ -8,6 +8,9 @@ export default {
     return utils.apiClient.post('api/clinic-room/delete', id);
   },
   fetchClinicRooms(payload) {
-    return utils.apiClient.get('api/clinic-room', { params: payload });
+    return utils.apiClient.get('api/clinic-room/search', { params: payload });
+  },
+  scheduleRoom(credentials) {
+    return utils.apiClient.post('api/clinic-room/schedule', credentials);
   },
 };
