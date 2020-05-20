@@ -85,13 +85,13 @@
       <v-spacer></v-spacer>
       <v-col>
         <v-container class="px-0" fluid>
-          Filter value:
+          Filter by:
           <v-radio-group v-model="radioGroup">
             <v-radio
-              v-for="n in 3"
+              v-for="n in radioButtonValues"
               :key="n"
-              :label="`Radio ${n}`"
-              :value="n"
+              :label="`${n}`"
+              :value="radioButtonValues[2]"
             ></v-radio>
           </v-radio-group>
         </v-container>
@@ -136,6 +136,7 @@ import { mapState, mapActions } from 'vuex';
 
 export default {
   data: () => ({
+    radioButtonValues: ['Doctor', 'Date', 'Date and time'],
     appointmentId: null,
     params: null,
     selectedDoctorEmail: 'a',
@@ -165,6 +166,7 @@ export default {
   mounted() {
     this.fetchClinicRooms();
     this.fetchParams();
+    this.search();
   },
   methods: {
     ...mapActions('clinicRooms', ['fetchClinicRooms', 'deleteClinicRoom']),
@@ -201,6 +203,7 @@ export default {
       this.date = this.params.date;
       this.time = this.params.time;
       this.doctor = this.params.doctor;
+      this.date = this.params.date;
       this.doctors.length = 0;
       this.doctors.push(this.doctor);
     },

@@ -13,4 +13,6 @@ public interface ClinicRoomScheduleJpaRepository  extends JpaRepository<ClinicRo
     @Query("select crs " +
             "from ClinicRoomScheduleJpaEntity crs where crs.date=:date")
     ClinicRoomScheduleJpaEntity findByDate(@Param(value="date") Date date);
+
+    boolean existsByDate(Date date);
 }

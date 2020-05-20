@@ -15,6 +15,7 @@ import org.medihub.persistence.medical_doctor_schedule.MedicalDoctorScheduleRepo
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.sql.Date;
 import java.util.List;

@@ -314,18 +314,6 @@ public class BeanConfig {
         return new ScheduleClinicRoomService(scheduleClinicRoomPort);
     }
 
-    @Bean
-    public AddAppointmentUseCase getAddAppointmentUseCase(
-            SaveAppointmentPort saveAppointmentPort,
-            GetDoctorsPort getDoctorsPort,
-            GetPatientsPort getPatientsPort,
-            GetClinicRoomsPort getClinicRoomsPort) {
-        return new AddAppointmentService(
-                saveAppointmentPort,
-                getDoctorsPort,
-                getPatientsPort,
-                getClinicRoomsPort);
-    }
 
     @Bean
     public GetDoctorScheduleQuery getDoctorScheduleQuery(
@@ -333,5 +321,32 @@ public class BeanConfig {
             GetAuthenticatedPort getAuthenticatedPort,
             GetDoctorByAccountIdPort getDoctorByAccountIdPort) {
         return new GetDoctorScheduleService(getDoctorSchedulePort, getAuthenticatedPort, getDoctorByAccountIdPort);
+    }
+
+    @Bean
+    public AddAppointmentToMedicalDoctorScheduleUseCase getAddAppointmentToMedicalDoctorScheduleUseCase(
+            AddAppointmentToMedicalDoctorSchedulePort addAppointmentToMedicalDoctorSchedulePort,
+            GetDoctorsPort getDoctorsPort
+    ){
+        return new AddAppointmentToMedicalDoctorService(addAppointmentToMedicalDoctorSchedulePort, getDoctorsPort);
+    }
+
+    @Bean
+    public AddAppointmentUseCase getAddAppointmentUseCase(
+            SaveAppointmentPort saveAppointmentPort,
+            GetDoctorsPort getDoctorsPort,
+            GetPatientsPort getPatientsPort,
+            GetClinicRoomsPort getClinicRoomsPort,
+            AddAppointmentToMedicalDoctorSchedulePort addAppointmentToMedicalDoctorSchedulePort,
+            AddAppointmentToClinicRoomPort addAppointmentToClinicRoomPort
+    ) {
+        return new AddAppointmentService(
+                saveAppointmentPort,
+                getDoctorsPort,
+                getPatientsPort,
+                getClinicRoomsPort,
+                addAppointmentToMedicalDoctorSchedulePort,
+                addAppointmentToClinicRoomPort
+        );
     }
 }

@@ -10,6 +10,8 @@ import static javax.persistence.InheritanceType.TABLE_PER_CLASS;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Inheritance(strategy=TABLE_PER_CLASS)
 public abstract class MedicalDoctorScheduleItemJpaEntity {
     @Id

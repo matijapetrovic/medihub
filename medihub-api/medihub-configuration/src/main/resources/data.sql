@@ -67,15 +67,15 @@ insert into clinic_room_schedule (clinic_room_id, date) values (1, '2020-10-10')
 insert into clinic_room_schedule (clinic_room_id, date) values (2, '2020-10-10');
 insert into clinic_room_schedule (clinic_room_id, date) values (3, '2020-10-10');
 
-insert into clinic_room_schedule_item (schedule_id, time) values (1, '11:00:00');
-insert into clinic_room_schedule_item (schedule_id, time) values (2, '11:00:00');
-insert into clinic_room_schedule_item (schedule_id, time) values (3, '11:00:00');
+insert into clinic_room_schedule_item (schedule_id, time) values (1, '00:00:00');
+insert into clinic_room_schedule_item (schedule_id, time) values (1, '01:00:00');
+insert into clinic_room_schedule_item (schedule_id, time) values (1, '23:00:00');
 
-insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 500, '2020-10-10', '11:00:00');
-insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1000, '2020-03-10', '11:00:00');
-insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1000, '2020-03-10', '12:00:00');
-insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1000, '2020-03-10', '13:00:00');
-insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1000, '2020-03-10', '14:00:00');
+insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 500, '2020-10-10', '01:00:00');
+insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1000, '2020-10-10', '00:00:00');
+insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 2500, '2020-10-10', '23:00:00');
+insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1500, '2020-03-10', '13:00:00');
+insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 6000, '2020-03-10', '14:00:00');
 
 insert into appointment (date, time, patient_id, doctor_id, clinic_room_id) values ('2020-10-10', '12:00:00', 1, 1, 1);
 insert into appointment (date, time, patient_id, doctor_id, clinic_room_id) values ('2020-12-10', '13:00:00', 1, 1, 1);
