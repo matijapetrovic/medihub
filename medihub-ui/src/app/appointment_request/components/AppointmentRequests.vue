@@ -20,65 +20,63 @@
           </v-btn>
         </div>
         <div v-else>
-          {{item.id}}
           {{item.clinicRoom.name}}
         </div>
       </template>
-      <template v-slot:item.schedule="{ item }">
+        <template v-slot:item.schedule="{ item }">
         <div class="my-2">
           <v-btn
           rounded
           small
           color="success"
-          :readonly="fun(item)"
           :disabled="!selectedRoom(item)"
-          @click="dialog = true"
+          @click="setEditedItemAndToggleDialog(item)"
           >
             Schedule appointment
           </v-btn>
-          <v-dialog
-            v-model="dialog"
-            max-width="420"
-          >
-            <v-card>
-              <v-card-title class="headline">
-                Are you sure you want to schedule appointment and reserve selected room?
-              </v-card-title>
-              <v-card-text>
-                {{item}}
-                Appointment info: <br><br>
-                Doctor's email: {{item.doctor.email}}<br>
-                Patient's email: {{item.patientEmail}}<br>
-                Price: {{item.price}}<br>
-                Date and time: {{item.date}} {{item.time}}<br>
-                Clinic room's name and number:
-                {{item.clinicRoom === null? '' : item.clinicRoom.name}}
-                {{item.clinicRoom === null? '' : item.clinicRoom.number}}
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-
-                <v-btn
-                  color="red darken-1"
-                  text
-                  @click="dialog = false"
-                >
-                  Disagree
-                </v-btn>
-
-                <v-btn
-                  color="green darken-1"
-                  text
-                  @click="scheduleRoomForAppointment(item)"
-                >
-                  Agree
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
         </div>
       </template>
     </v-data-table>
+    <v-dialog
+      v-model="dialog"
+      max-width="420"
+    >
+      <v-card>
+        <v-card-title class="headline">
+          Are you sure you want to schedule appointment and reserve selected room?
+        </v-card-title>
+        <v-card-text>
+          Appointment info: <br><br>
+          Doctor's email: {{this.editedItem !== null? this.editedItem.doctorEmail : ''}}<br>
+          Patient's email: {{this.editedItem !== null? this.editedItem.patientEmail : ''}}<br>
+          Date and time: {{this.editedItem !== null? this.editedItem.date : ''}}
+           {{this.editedItem !== null? this.editedItem.time : ''}}<br>
+          Clinic room:
+           {{this.editedItem !== null? this.editedItem.clinicRoom.number : ''}}
+           ({{this.editedItem !== null? this.editedItem.clinicRoom.name : ''}})<br>
+          Price: {{this.editedItem !== null? this.editedItem.price : ''}}<br>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn
+            color="red darken-1"
+            text
+            @click="dialog = false"
+          >
+            Disagree
+          </v-btn>
+
+          <v-btn
+            color="green darken-1"
+            text
+            @click="scheduleRoomForAppointment()"
+          >
+            Agree
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -111,7 +109,7 @@ export default {
         text: 'Doctor',
         align: 'start',
         sortable: true,
-        value: 'id',
+        value: 'doctorEmail',
       },
       { text: 'Patient', value: 'patientEmail' },
       { text: 'Price', value: 'price' },
@@ -182,6 +180,9 @@ export default {
       this.scheduled.clinicRoom = this.params.clinicRoom;
       this.scheduled.doctor = this.params.doctor;
     },
+    setEditedItem(item) {
+      this.editedItem = item;
+    },
     setItems() {
       this.appointmentRequests.forEach((item) => this.items.push({
         id: item.id,
@@ -196,7 +197,12 @@ export default {
         price: item.price,
       }));
     },
-    scheduleRoomForAppointment(item) {
+    setEditedItemAndToggleDialog(item) {
+      this.setEditedItem(item);
+      this.toggleDialog();
+    },
+    scheduleRoomForAppointment() {
+      const item = this.editedItem;
       // const request = {
       //   id: item.clinicRoom.id,
       //   date: item.date,
@@ -205,7 +211,7 @@ export default {
       const addAppointmentRequest = {
         date: item.date,
         time: item.time,
-        patientId: item.patientId,
+        patientId: item.patient.id,
         doctorId: item.doctorId,
         clinicRoomId: item.clinicRoom.id,
       };
@@ -216,8 +222,8 @@ export default {
       this.resetPathParams(null);
     },
     deleteItem(item) {
-      const index = this.appointmentRequests.indexOf(item);
-      this.appointmentRequests.splice(index, 1);
+      const index = this.items.map((e) => e.id).indexOf(item.id);
+      this.items.splice(index, 1);
       this.deleteAppointmentRequest(item.id);
     },
     setClinicRoom(appointmentId) {
@@ -227,11 +233,10 @@ export default {
       this.$router.push(`/search-clinic-rooms/${params}`);
     },
     resetPathParams(params) {
-      this.$router.push(`/search-clinic-rooms/${params}`);
+      this.$router.push(`/appointment-request/${params}`);
     },
-    fun(item) {
-      console.log(item);
-      return false;
+    toggleDialog() {
+      this.dialog = !this.dialog;
     },
   },
 };
