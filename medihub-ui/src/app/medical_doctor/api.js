@@ -9,5 +9,7 @@ export default {
   },
   getDoctorsForDateTime(payload) {
     return utils.apiClient.get(`api/medical-doctor/${payload.date}/${payload.time}`);
+  getWorkindCalendar() {
+    return utils.apiClient.get('api/medical-doctor/schedule');
   },
 };

@@ -26,6 +26,7 @@ public class MedicalDoctorController {
     private final GetDoctorsQuery getDoctorsQuery;
     private final SearchDoctorsQuery searchDoctorsQuery;
     private final GetDoctorAvailableTimesQuery getDoctorAvailableTimesQuery;
+    private final GetDoctorScheduleQuery getDoctorScheduleQuery;
 
     @GetMapping("/{clinicId}")
     ResponseEntity<List<SearchDoctorsOutput>> getDoctors(@PathVariable Long clinicId) {
@@ -92,5 +93,10 @@ public class MedicalDoctorController {
                         doctor.getClinic().getName()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/schedule")
+    ResponseEntity<GetDoctorScheduleOutput> getSchedules() {
+        return ResponseEntity.ok(getDoctorScheduleQuery.getDoctorSchedule());
     }
 }

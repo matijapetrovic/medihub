@@ -4,6 +4,7 @@ import org.medihub.application.ports.incoming.appointment.AddAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment_request.DeleteAppointmentRequestUseCase;
 import org.medihub.application.ports.incoming.appointment_request.GetAppointmentRequestUseCase;
 import org.medihub.application.ports.incoming.clinic_room.*;
+import org.medihub.application.ports.incoming.medical_doctor.*;
 import org.medihub.application.ports.incoming.medical_record.GetMedicalRecordQuery;
 import org.medihub.application.ports.incoming.scheduling.GetDoctorAvailableTimesQuery;
 import org.medihub.application.ports.incoming.scheduling.ScheduleAppointmentUseCase;
@@ -20,9 +21,6 @@ import org.medihub.application.ports.incoming.clinic.AddClinicUseCase;
 import org.medihub.application.ports.incoming.account.profile.GetProfileQuery;
 import org.medihub.application.ports.incoming.account.profile.UpdateProfileUseCase;
 import org.medihub.application.ports.incoming.clinic.SearchClinicsQuery;
-import org.medihub.application.ports.incoming.medical_doctor.GetMedicalDoctorUseCase;
-import org.medihub.application.ports.incoming.medical_doctor.GetDoctorsQuery;
-import org.medihub.application.ports.incoming.medical_doctor.SearchDoctorsQuery;
 import org.medihub.application.ports.incoming.patient.LoadPatientUseCase;
 import org.medihub.application.ports.incoming.patient.RegisterPatientUseCase;
 import org.medihub.application.ports.outgoing.*;
@@ -66,11 +64,15 @@ import org.medihub.application.services.account.ChangePasswordService;
 import org.medihub.application.services.account.GetAccountService;
 import org.medihub.application.services.account.GetProfileService;
 import org.medihub.application.services.account.UpdateProfileService;
+<<<<<<< HEAD
 import org.medihub.application.services.appointment.AddAppointmentService;
 import org.medihub.application.services.appointment_request.DeleteAppointmentRequestService;
 import org.medihub.application.services.appointment_request.GetAppointmentRequestService;
 import org.medihub.application.services.appointment_type.AddAppointmentTypeService;
 import org.medihub.application.services.clinic_room.*;
+=======
+import org.medihub.application.services.medical_doctor.*;
+>>>>>>> master
 import org.medihub.application.services.medical_record.GetMedicalRecordService;
 import org.medihub.application.services.scheduling.GetDoctorAvailableTimesService;
 import org.medihub.application.services.scheduling.ScheduleAppointmentService;
@@ -326,5 +328,7 @@ public class BeanConfig {
                 getDoctorsPort,
                 getPatientsPort,
                 getClinicRoomsPort);
+    public GetDoctorScheduleQuery getDoctorScheduleQuery(GetDoctorSchedulePort getDoctorSchedulePort, GetAuthenticatedPort getAuthenticatedPort, GetDoctorByAccountIdPort getDoctorByAccountIdPort) {
+        return new GetDoctorScheduleService(getDoctorSchedulePort, getAuthenticatedPort, getDoctorByAccountIdPort);
     }
 }
