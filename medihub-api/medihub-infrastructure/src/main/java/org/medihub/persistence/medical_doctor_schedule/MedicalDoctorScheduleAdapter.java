@@ -1,8 +1,10 @@
 package org.medihub.persistence.medical_doctor_schedule;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.ports.outgoing.doctor.AddAppointmentToMedicalDoctorSchedulePort;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorSchedulePort;
 import org.medihub.application.ports.outgoing.scheduling.LoadDoctorDailySchedulePort;
+import org.medihub.domain.appointment.Appointment;
 import org.medihub.domain.medical_doctor.MedicalDoctorAppointmentScheduleItem;
 import org.medihub.domain.medical_doctor.MedicalDoctorSchedule;
 import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem;
@@ -24,7 +26,10 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class MedicalDoctorScheduleAdapter implements LoadDoctorDailySchedulePort, GetDoctorSchedulePort {
+public class MedicalDoctorScheduleAdapter implements
+        LoadDoctorDailySchedulePort,
+        GetDoctorSchedulePort,
+        AddAppointmentToMedicalDoctorSchedulePort {
     private final MedicalDoctorScheduleRepository repository;
     private final MedicalDoctorScheduleItemRepository itemRepository;
     private final AppointmentMapper appointmentMapper;
@@ -96,5 +101,10 @@ public class MedicalDoctorScheduleAdapter implements LoadDoctorDailySchedulePort
     @Override
     public MedicalDoctorSchedule getDoctorSchedule(Long doctorId) {
         return loadMedicalDoctorSchedule(doctorId);
+    }
+
+    @Override
+    public void addAppointmentToSchedule(Appointment appointment) {
+
     }
 }

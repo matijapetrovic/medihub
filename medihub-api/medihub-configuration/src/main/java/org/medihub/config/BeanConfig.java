@@ -64,15 +64,12 @@ import org.medihub.application.services.account.ChangePasswordService;
 import org.medihub.application.services.account.GetAccountService;
 import org.medihub.application.services.account.GetProfileService;
 import org.medihub.application.services.account.UpdateProfileService;
-<<<<<<< HEAD
 import org.medihub.application.services.appointment.AddAppointmentService;
 import org.medihub.application.services.appointment_request.DeleteAppointmentRequestService;
 import org.medihub.application.services.appointment_request.GetAppointmentRequestService;
 import org.medihub.application.services.appointment_type.AddAppointmentTypeService;
 import org.medihub.application.services.clinic_room.*;
-=======
 import org.medihub.application.services.medical_doctor.*;
->>>>>>> master
 import org.medihub.application.services.medical_record.GetMedicalRecordService;
 import org.medihub.application.services.scheduling.GetDoctorAvailableTimesService;
 import org.medihub.application.services.scheduling.ScheduleAppointmentService;
@@ -328,7 +325,13 @@ public class BeanConfig {
                 getDoctorsPort,
                 getPatientsPort,
                 getClinicRoomsPort);
-    public GetDoctorScheduleQuery getDoctorScheduleQuery(GetDoctorSchedulePort getDoctorSchedulePort, GetAuthenticatedPort getAuthenticatedPort, GetDoctorByAccountIdPort getDoctorByAccountIdPort) {
+    }
+
+    @Bean
+    public GetDoctorScheduleQuery getDoctorScheduleQuery(
+            GetDoctorSchedulePort getDoctorSchedulePort,
+            GetAuthenticatedPort getAuthenticatedPort,
+            GetDoctorByAccountIdPort getDoctorByAccountIdPort) {
         return new GetDoctorScheduleService(getDoctorSchedulePort, getAuthenticatedPort, getDoctorByAccountIdPort);
     }
 }
