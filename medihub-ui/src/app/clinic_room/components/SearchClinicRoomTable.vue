@@ -193,7 +193,7 @@ export default {
       this.number = null;
     },
     fetchParams() {
-      this.params = this.getSearchParams();
+      this.params = JSON.parse(this.$route.params.param);
       this.mapParams();
     },
     mapParams() {

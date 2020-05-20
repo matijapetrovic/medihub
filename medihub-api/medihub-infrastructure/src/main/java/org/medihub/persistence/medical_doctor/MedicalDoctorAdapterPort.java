@@ -58,6 +58,11 @@ public class MedicalDoctorAdapterPort implements
     }
 
     @Override
+    public MedicalDoctor getMedicalDoctorById(Long id) {
+        return medicalDoctorMapper.mapToDomainEntity(medicalDoctorRepository.findById(id).get());
+    }
+
+    @Override
     public List<MedicalDoctor> searchDoctors(Long clinicId, LocalDate date, Long appointmentTypeId) {
         ClinicJpaEntity clinic = clinicRepository
                 .findById(clinicId)

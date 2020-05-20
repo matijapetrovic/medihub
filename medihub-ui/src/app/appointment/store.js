@@ -19,5 +19,15 @@ export default {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
+    addAppointment({ dispatch }, payload) {
+      return api.addAppointment(payload)
+        .then(() => {
+          const message = 'Appointment saved successfully';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
   },
 };

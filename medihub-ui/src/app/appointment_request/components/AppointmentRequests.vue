@@ -20,19 +20,21 @@
           </v-btn>
         </div>
         <div v-else>
+          {{item.id}}
           {{item.clinicRoom.name}}
         </div>
       </template>
-      <template v-slot:item.reserve="{ item }">
+      <template v-slot:item.schedule="{ item }">
         <div class="my-2">
           <v-btn
           rounded
           small
           color="success"
+          :readonly="fun(item)"
           :disabled="!selectedRoom(item)"
           @click="dialog = true"
           >
-            Reserve room
+            Schedule appointment
           </v-btn>
           <v-dialog
             v-model="dialog"
@@ -43,6 +45,7 @@
                 Are you sure you want to schedule appointment and reserve selected room?
               </v-card-title>
               <v-card-text>
+                {{item}}
                 Appointment info: <br><br>
                 Doctor's email: {{item.doctor.email}}<br>
                 Patient's email: {{item.patientEmail}}<br>
@@ -108,14 +111,14 @@ export default {
         text: 'Doctor',
         align: 'start',
         sortable: true,
-        value: 'doctorEmail',
+        value: 'id',
       },
       { text: 'Patient', value: 'patientEmail' },
       { text: 'Price', value: 'price' },
       { text: 'Date', value: 'date' },
       { text: 'Time', value: 'time' },
       { text: 'Clinic room', value: 'room', sortable: false },
-      { text: 'Reserve room', value: 'reserve', sortable: false },
+      { text: 'Schedule appointment', value: 'schedule', sortable: false },
     ],
   }),
   computed: {
@@ -132,6 +135,7 @@ export default {
   methods: {
     ...mapActions('appointmentRequest', ['fetchAppointmentRequests', 'deleteAppointmentRequest', 'getAppointmentRequests']),
     ...mapActions('clinicRooms', ['fetchClinicRooms', 'scheduleRoom']),
+    ...mapActions('appointment', ['addAppointment']),
 
     filterRooms(rooms, date, time) {
       const retList = [];
@@ -159,12 +163,12 @@ export default {
       return true;
     },
     searchRoom(item) {
-      this.$router.push(`/search-clinic-rooms/${JSON.stringify({
+      this.setPathParams(JSON.stringify({
         id: item.id,
         doctor: item.doctor,
         date: item.date,
         time: item.time,
-      })}`);
+      }));
     },
     fetchParams() {
       this.params = JSON.parse(this.$route.params.param);
@@ -198,9 +202,18 @@ export default {
       //   date: item.date,
       //   time: item.time,
       // };
+      const addAppointmentRequest = {
+        date: item.date,
+        time: item.time,
+        patientId: item.patientId,
+        doctorId: item.doctorId,
+        clinicRoomId: item.clinicRoom.id,
+      };
+      this.addAppointment(addAppointmentRequest);
       this.deleteItem(item);
       // this.scheduleRoom(request);
       this.dialog = false;
+      this.resetPathParams(null);
     },
     deleteItem(item) {
       const index = this.appointmentRequests.indexOf(item);
@@ -208,10 +221,17 @@ export default {
       this.deleteAppointmentRequest(item.id);
     },
     setClinicRoom(appointmentId) {
-      if (appointmentId === this.scheduled.id) {
-        return this.scheduled.clinicRoom;
-      }
-      return null;
+      return appointmentId === this.scheduled.id ? this.scheduled.clinicRoom : null;
+    },
+    setPathParams(params) {
+      this.$router.push(`/search-clinic-rooms/${params}`);
+    },
+    resetPathParams(params) {
+      this.$router.push(`/search-clinic-rooms/${params}`);
+    },
+    fun(item) {
+      console.log(item);
+      return false;
     },
   },
 };

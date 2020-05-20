@@ -76,8 +76,6 @@ insert into appointment_request (doctor, patient, price, date, time) values (1, 
 insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1000, '2020-03-10', '12:00:00');
 insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1000, '2020-03-10', '13:00:00');
 insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1000, '2020-03-10', '14:00:00');
-insert into clinic_room_schedule (id, clinic_room_id, date) values (1, 1, '2020-10-10');
-insert into clinic_room_schedule (id, clinic_room_id, date) values (2, 2, '2020-12-10');
 
 insert into appointment (date, time, patient_id, doctor_id, clinic_room_id) values ('2020-10-10', '12:00:00', 1, 1, 1);
 insert into appointment (date, time, patient_id, doctor_id, clinic_room_id) values ('2020-12-10', '13:00:00', 1, 1, 1);

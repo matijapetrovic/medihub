@@ -35,8 +35,8 @@ public class ClinicRoomController {
     private final ScheduleClinicRoomUseCase scheduleClinicRoomUseCase;
 
     //TODO: Pogledaj da li ce ti posle trebati ova metoda, jer imas ispod search clinics
-    @GetMapping("")
-    @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
+    //@GetMapping("")
+    //@PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
     ResponseEntity<List<GetClinicRoomsOutput>> get() {
         Long clinicId = getAuthenticatedClinicId();
         return ResponseEntity.ok(getClinicRoomsQuery.getClinicRooms(clinicId));
