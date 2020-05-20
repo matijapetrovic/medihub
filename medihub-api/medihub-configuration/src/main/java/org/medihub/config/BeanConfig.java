@@ -1,5 +1,7 @@
 package org.medihub.config;
 
+import org.medihub.application.ports.incoming.diagnosis.AddDiagnosisUseCase;
+import org.medihub.application.ports.incoming.drugs.AddDrugUseCase;
 import org.medihub.application.ports.incoming.medical_doctor.*;
 import org.medihub.application.ports.incoming.medical_record.GetMedicalRecordQuery;
 import org.medihub.application.ports.incoming.scheduling.GetDoctorAvailableTimesQuery;
@@ -37,6 +39,7 @@ import org.medihub.application.ports.outgoing.clinic.SaveClinicPort;
 import org.medihub.application.ports.outgoing.clinic.SearchClinicsPort;
 import org.medihub.application.ports.outgoing.clinic_room.*;
 import org.medihub.application.ports.outgoing.clinic_room_schedule.LoadClinicRoomSchedulePort;
+import org.medihub.application.ports.outgoing.diagnosis.SaveDiagnosisPort;
 import org.medihub.application.ports.outgoing.doctor.GetAllDoctorsPort;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorsPort;
 import org.medihub.application.ports.outgoing.doctor.LoadDoctorPort;
@@ -46,6 +49,7 @@ import org.medihub.application.ports.outgoing.clinic_room.GetClinicRoomsPort;
 import org.medihub.application.ports.outgoing.clinic_room.LoadClinicRoomPort;
 import org.medihub.application.ports.outgoing.clinic_room.SaveClinicRoomPort;
 import org.medihub.application.ports.outgoing.doctor.*;
+import org.medihub.application.ports.outgoing.drugs.SaveDrugPort;
 import org.medihub.application.ports.outgoing.encoding.EncoderPort;
 import org.medihub.application.ports.outgoing.finished_appointment.GetFinishedAppointmentsPort;
 import org.medihub.application.ports.outgoing.medical_record.LoadMedicalRecordPort;
@@ -60,6 +64,8 @@ import org.medihub.application.services.account.ChangePasswordService;
 import org.medihub.application.services.account.GetAccountService;
 import org.medihub.application.services.account.GetProfileService;
 import org.medihub.application.services.account.UpdateProfileService;
+import org.medihub.application.services.diagnosis.AddDiagnosisService;
+import org.medihub.application.services.drugs.AddDrugService;
 import org.medihub.application.services.medical_doctor.*;
 import org.medihub.application.services.medical_record.GetMedicalRecordService;
 import org.medihub.application.services.scheduling.GetDoctorAvailableTimesService;
@@ -291,5 +297,15 @@ public class BeanConfig {
     @Bean
     public GetDoctorScheduleQuery getDoctorScheduleQuery(GetDoctorSchedulePort getDoctorSchedulePort, GetAuthenticatedPort getAuthenticatedPort, GetDoctorByAccountIdPort getDoctorByAccountIdPort) {
         return new GetDoctorScheduleService(getDoctorSchedulePort, getAuthenticatedPort, getDoctorByAccountIdPort);
+    }
+
+    @Bean
+    public AddDrugUseCase addDrugUseCase(SaveDrugPort saveDrugPort) {
+        return new AddDrugService(saveDrugPort);
+    }
+
+    @Bean
+    public AddDiagnosisUseCase addDiagnosisUseCase(SaveDiagnosisPort saveDiagnosisPort) {
+        return new AddDiagnosisService(saveDiagnosisPort);
     }
 }
