@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 public class DrugMapper {
     public Drug mapToDomainEntity(DrugJpaEntity drugJpaEntity){
 
-        return new Drug(drugJpaEntity.getId());
+        return new Drug(drugJpaEntity.getId(), drugJpaEntity.getName());
     }
 
     public DrugJpaEntity mapToJpaEntity(Drug drug){
-        return new DrugJpaEntity(null);
+        return new DrugJpaEntity(null, drug.getName());
     }
 }
