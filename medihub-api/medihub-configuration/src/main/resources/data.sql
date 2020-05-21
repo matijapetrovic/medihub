@@ -54,7 +54,6 @@ insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type)
 insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '13:00:00', 1);
 insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '14:00:00', 1);
 insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '15:00:00', 1);
-insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '16:00:00', 1);
 insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '17:00:00', 1);
 insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '18:00:00', 1);
 insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '19:00:00', 1);
