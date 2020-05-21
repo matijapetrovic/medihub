@@ -16,7 +16,7 @@ import java.sql.Time;
 @NoArgsConstructor
 public class ClinicRoomScheduleItemJpaEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @ManyToOne

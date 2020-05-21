@@ -1,30 +1,27 @@
 package org.medihub.domain.appointment;
 
 import lombok.Getter;
-import org.medihub.domain.Prescription;
-import org.medihub.domain.appointment.Appointment;
-import org.medihub.domain.appointment.AppointmentType;
 import org.medihub.domain.clinic_room.ClinicRoom;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
+import org.medihub.domain.patient.Patient;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Set;
 
 @Getter
 public class Operation extends Appointment {
-    private Long id;
-    private Set<MedicalDoctor> medicalDoctors;
+    private Set<MedicalDoctor> presentDoctors;
 
     public Operation(
             Long id,
-            Long patientId,
-            Date date,
-            double duration,
+            Patient patient,
+            MedicalDoctor doctor,
+            LocalDate date,
+            LocalTime time,
             ClinicRoom clinicRoom,
-            AppointmentType appointmentType,
-            Set<Prescription> prescriptions,
-            Set<MedicalDoctor> medicalDoctors) {
-        super(null, patientId, date, duration, clinicRoom, appointmentType, prescriptions);
-        this.medicalDoctors = medicalDoctors;
+            Set<MedicalDoctor> presentDoctors) {
+        super(id, date, time, patient, doctor, clinicRoom);
+        this.presentDoctors = presentDoctors;
     }
 }

@@ -2,6 +2,7 @@ package org.medihub.persistence.clinic_room_schedule;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.sql.Date;
 import java.util.Set;
 
 public interface ClinicRoomScheduleItemRepository extends JpaRepository<ClinicRoomScheduleItemJpaEntity, Long> {

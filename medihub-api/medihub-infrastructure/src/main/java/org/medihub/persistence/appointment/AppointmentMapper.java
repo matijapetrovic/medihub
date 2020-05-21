@@ -4,41 +4,41 @@ import lombok.RequiredArgsConstructor;
 import org.medihub.domain.appointment.Appointment;
 import org.medihub.persistence.appointment_type.AppointmentTypeMapper;
 import org.medihub.persistence.clinic_room.ClinicRoomMapper;
+import org.medihub.persistence.medical_doctor.MedicalDoctorMapper;
+import org.medihub.persistence.patient.PatientMapper;
 import org.medihub.persistence.prescription.PrescriptionMapper;
 import org.springframework.stereotype.Component;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
 public class AppointmentMapper {
+    private final PatientMapper patientMapper;
+    private final MedicalDoctorMapper medicalDoctorMapper;
     private final ClinicRoomMapper clinicRoomMapper;
-    private final AppointmentTypeMapper appointmentTypeMapper;
-    private final PrescriptionMapper prescriptionMapper;
 
-    public Appointment mapToDomainEntity(AppointmentJpaEntity appointmentJpaEntity){
+    public Appointment mapToDomainEntity(AppointmentJpaEntity appointment){
         return new Appointment(
-                appointmentJpaEntity.getId(),
-                appointmentJpaEntity.getPatientId(),
-                appointmentJpaEntity.getDate(),
-                appointmentJpaEntity.getDuration(),
-                clinicRoomMapper.mapToDomainEntity(appointmentJpaEntity.getClinicRoomJpaEntity()),
-                appointmentTypeMapper.mapToDomainEntity(appointmentJpaEntity.getAppointmentTypeJpaEntity()),
-                prescriptionMapper.mapToDomainSet(appointmentJpaEntity.getPrescriptions())
-        );
+                appointment.getId(),
+                appointment.getDate().toLocalDate(),
+                appointment.getTime().toLocalTime(),
+                patientMapper.mapToDomainEntity(appointment.getPatient()),
+                medicalDoctorMapper.mapToDomainEntity(appointment.getDoctor()),
+                clinicRoomMapper.mapToDomainEntity(appointment.getClinicRoom()));
     }
 
     public AppointmentJpaEntity mapToJpaEntity(Appointment appointment){
         return new AppointmentJpaEntity(
-                null,
-                appointment.getPatientId(),
-                appointment.getDate(),
-                appointment.getDuration(),
-                clinicRoomMapper.mapToJpaEntity(appointment.getClinicRoom()),
-                appointmentTypeMapper.mapToJpaEntity(appointment.getAppointmentType()),
-                prescriptionMapper.mapToJpaSet(appointment.getPrescriptions())
-        );
+                appointment.getId(),
+                Date.valueOf(appointment.getDate()),
+                Time.valueOf(appointment.getTime()),
+                patientMapper.mapToJpaEntity(appointment.getPatient()),
+                medicalDoctorMapper.mapToJpaEntity(appointment.getDoctor()),
+                clinicRoomMapper.mapToJpaEntity(appointment.getClinicRoom()));
     }
 
     public Set<Appointment> mapToDomainSet(Set<AppointmentJpaEntity> appointmentJpaEntitySet){

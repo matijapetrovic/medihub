@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -31,24 +32,37 @@ public class ClinicRoomController {
     private final DeleteClinicRoomUseCase deleteClinicRoomUseCase;
     private final GetClinicRoomsQuery getClinicRoomsQuery;
     private final SearchClinicRoomsQuery searchClinicRoomsQuery;
+    private final ScheduleClinicRoomUseCase scheduleClinicRoomUseCase;
 
     //TODO: Pogledaj da li ce ti posle trebati ova metoda, jer imas ispod search clinics
-//    @GetMapping("")
-//    @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
+    //@GetMapping("")
+    //@PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
     ResponseEntity<List<GetClinicRoomsOutput>> get() {
         Long clinicId = getAuthenticatedClinicId();
         return ResponseEntity.ok(getClinicRoomsQuery.getClinicRooms(clinicId));
     }
 
-    @GetMapping("")
+    @GetMapping("/search")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
     ResponseEntity<List<SearchClinicRoomsOutput>> searchClinics(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Integer number,
             @RequestParam(required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-            LocalDate date)  {
+                    LocalDate date)  {
         return ResponseEntity.ok(searchClinicRoomsQuery.searchClinicRooms(name, number, date));
+    }
+
+    @GetMapping("/schedule")
+    @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
+    void scheduleClinicRoom(@RequestBody ScheduleClinicRoomRequest request) {
+        ScheduleClinicRoomUseCase.ScheduleClinicRoomCommand command =
+                new ScheduleClinicRoomUseCase.ScheduleClinicRoomCommand(
+                    request.getId(),
+                    LocalDate.parse(request.getDate()),
+                    LocalTime.parse(request.getTime())
+                );
+        scheduleClinicRoomUseCase.scheduleClinicRoom(command);
     }
 
     @PostMapping("/add")
