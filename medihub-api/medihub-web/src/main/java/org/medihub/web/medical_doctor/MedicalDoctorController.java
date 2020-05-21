@@ -82,7 +82,7 @@ public class MedicalDoctorController {
         return getAllDoctorsPort.getAllDoctors()
                 .stream()
                 .map(doctor -> new MedicalDoctorResponse(
-                    doctor.getAccount().getId(),
+                        doctor.getId(),
                         doctor.getAccount().getEmail(),
                         doctor.getAccount().getFirstName(),
                         doctor.getAccount().getLastName(),
@@ -90,7 +90,8 @@ public class MedicalDoctorController {
                         doctor.getAccount().getPersonalInfo().getTelephoneNumber(),
                         doctor.getWorkingTime().getFrom().toString(),
                         doctor.getWorkingTime().getTo().toString(),
-                        doctor.getClinic().getName()
+                        doctor.getClinic().getName(),
+                        doctor.getSpecialization().getName()
                 ))
                 .collect(Collectors.toList());
     }

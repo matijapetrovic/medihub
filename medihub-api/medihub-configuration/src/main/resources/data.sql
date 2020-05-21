@@ -45,7 +45,7 @@ insert into appointment_type(name) values ('type2');
 insert into appointment_type(name) values ('type3');
 
 insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, specialization) values (6, 1, '06:00:00', '14:00:00', 8, 1);
-insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, specialization) values (7, 2, '18:00:00', '01:00:00', 7, 1);
+insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, specialization) values (7, 2, '18:00:00', '01:00:00', 7, 2);
 
 insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (1, 1, 500.0);
 
@@ -62,14 +62,6 @@ insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type)
 insert into clinic_room (name, number, clinic_id) values ('soba1', 1, 1);
 insert into clinic_room (name, number, clinic_id) values ('soba2', 2, 1);
 insert into clinic_room (name, number, clinic_id) values ('soba3', 3, 1);
-
-insert into clinic_room_schedule (clinic_room_id, date) values (1, '2020-10-10');
-insert into clinic_room_schedule (clinic_room_id, date) values (2, '2020-10-10');
-insert into clinic_room_schedule (clinic_room_id, date) values (3, '2020-10-10');
-
-insert into clinic_room_schedule_item (schedule_id, time) values (1, '00:00:00');
-insert into clinic_room_schedule_item (schedule_id, time) values (1, '01:00:00');
-insert into clinic_room_schedule_item (schedule_id, time) values (1, '23:00:00');
 
 insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 500, '2020-10-10', '01:00:00');
 insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1000, '2020-10-10', '00:00:00');

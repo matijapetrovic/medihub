@@ -166,7 +166,6 @@ export default {
   mounted() {
     this.fetchClinicRooms();
     this.fetchParams();
-    this.search();
   },
   methods: {
     ...mapActions('clinicRooms', ['fetchClinicRooms', 'deleteClinicRoom']),
@@ -183,6 +182,7 @@ export default {
         name: this.name,
         number: this.number,
         date: this.date,
+        time: this.time,
       });
       this.clear();
       this.close();

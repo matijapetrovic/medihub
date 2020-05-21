@@ -1,22 +1,23 @@
 <template>
   <v-container>
-    <v-card max-width="1300" max-height="1200" class="mx-auto">
+    <v-card max-width="1300" max-height="1300" class="mx-auto">
       <v-row>
-        <v-col class="d-flex" cols="12" sm="6">
-          <v-subheader>
-            Doctor:
-          </v-subheader>
+        <v-spacer></v-spacer>
+        <v-col class="d-flex" cols="12" sm="4">
           <v-select
             :items="doctors"
             item-text="email"
             v-model="predefinedAppointment.doctor"
+            prepend-icon="mdi-doctor"
             return-object=""
             label="Medical doctor"
             dense
             outlined
+            @input="setDoctorParams()"
           ></v-select>
         </v-col>
-        <v-col>
+        <v-spacer></v-spacer>
+        <v-col cols="12" sm="6" md="4">
           <v-menu
             ref="menu"
             v-model="menu"
@@ -32,6 +33,7 @@
                 label="Appointment Date"
                 prepend-icon="event"
                 v-on="on"
+                :readonly="isDoctorSelected()"
               ></v-text-field>
             </template>
             <v-date-picker
@@ -46,53 +48,64 @@
             </v-date-picker>
           </v-menu>
         </v-col>
+        <v-spacer></v-spacer>
       </v-row>
       <v-row>
-        <v-col>
-          <v-text-field
-            v-model="time"
-            label="Time"
-            prepend-icon="mdi-timelapse"
-            min="1"
-            type="number"
-            >
-          </v-text-field>
-        </v-col>
-        <v-col>
+        <v-spacer></v-spacer>
+        <v-col cols="12" sm="6" md="4">
           <v-select
-            :items="doctors"
-            item-text="email"
-            v-model="predefinedAppointment.appointmentType"
+            :items="availableTimes"
+            item-text="name"
+            v-model="predefinedAppointment.time"
+            prepend-icon="mdi-timelapse"
             return-object=""
-            label="Appointmet type"
+            label="Time"
             dense
             outlined
+            :readonly="isDoctorSelected()"
+            @input="searchRoom()"
           ></v-select>
         </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-text-field
-            v-model="predefinedAppointment.time"
-            label="Duration"
-            prepend-icon="mdi-timelapse"
-            min="1"
-            type="number"
-            readonly="true"
-            >
-          </v-text-field>
-        </v-col>
-        <v-col>
+        <v-spacer></v-spacer>
+        <v-col cols="12" sm="6" md="4">
           <v-select
             :items="clinicRooms"
             item-text="name"
             v-model="predefinedAppointment.clinicRoom"
+            prepend-icon="room"
             return-object=""
             label="Clinic room"
             dense
             outlined
+            :readonly="isDoctorSelected()"
           ></v-select>
         </v-col>
+        <v-spacer></v-spacer>
+      </v-row>
+      <v-row>
+        <v-spacer></v-spacer>
+        <v-col cols="12" sm="6" md="4">
+          <v-text-field
+            v-model="predefinedAppointment.duration"
+            label="Duration"
+            prepend-icon="mdi-timer-sand"
+            min="1"
+            type="number"
+            :readonly="true"
+            >
+          </v-text-field>
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col cols="12" sm="6" md="4">
+          <v-text-field
+            v-model="predefinedAppointment.appointmentType"
+            label="Appointment type"
+            prepend-icon="mdi-format-list-bulleted-type"
+            :readonly="true"
+            >
+          </v-text-field>
+        </v-col>
+        <v-spacer></v-spacer>
       </v-row>
       <v-row>
         <v-spacer></v-spacer>
@@ -100,9 +113,10 @@
           <v-text-field
             v-model="predefinedAppointment.price"
             label="Price"
-            prepend-icon="mdi-timelapse"
+            prepend-icon="mdi-cash-usd"
             min="1"
             type="number"
+            :readonly="isDoctorSelected()"
             >
           </v-text-field>
         </v-col>
@@ -135,7 +149,8 @@ export default {
     predefinedAppointment: {
       doctor: null,
       date: null,
-      time: 1,
+      time: null,
+      duration: 1,
       clinicRoom: null,
       price: null,
       appointmentType: null,
@@ -151,29 +166,50 @@ export default {
     ...mapActions('predefinedAppointment', ['addPredefinedAppointment']),
     ...mapActions('medicalDoctor', ['getAllDoctors']),
     ...mapActions('clinicRooms', ['fetchClinicRooms']),
+    ...mapActions('clinicRooms', ['fetchClinicRooms', 'deleteClinicRoom']),
+    ...mapActions('doctor', ['fetchAvailableTimesWithoutState']),
 
     submit() {
       if (this.validate()) {
         this.addPredefinedAppointment(this.predefinedAppointment);
+        this.clear();
       }
     },
     clear() {
-      this.$refs.form.reset();
+      this.predefinedAppointment = null;
     },
     validate() {
-      return this.$refs.form.validate();
+      return true;
     },
     isDoctorSelected() {
       if (this.predefinedAppointment.doctor === null) {
-        return false;
+        return true;
       }
-      return true;
+      return false;
+    },
+    searchRoom() {
+      this.fetchClinicRooms({
+        name: null,
+        number: null,
+        date: this.predefinedAppointment.date,
+        time: this.predefinedAppointment.time,
+      });
+    },
+    setDoctorParams() {
+      this.searchRoom();
+      this.fetchAvailableTimesWithoutState({
+        doctorId: this.predefinedAppointment.doctor.id,
+        date: this.date,
+      });
+      this.predefinedAppointment.appointmentType = this.predefinedAppointment.doctor.specialization;
     },
   },
   computed: {
     ...mapState('medicalDoctor', ['doctors']),
     ...mapState('clinicRooms', ['clinicRooms']),
     ...mapState('predefinedAppointment', ['predefinedAppointments']),
+    ...mapState('clinicRooms', ['clinicRooms']),
+    ...mapState('doctor', ['availableTimes']),
     requiredRule() {
       return (value) => !!value || 'Required';
     },

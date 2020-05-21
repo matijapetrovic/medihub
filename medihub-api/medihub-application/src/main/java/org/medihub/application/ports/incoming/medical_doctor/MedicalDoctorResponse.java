@@ -19,4 +19,5 @@ public class MedicalDoctorResponse {
     private String workingTimeStarts;
     private String workingTimeEnds;
     private String clinicName;
+    private String specialization;
 }

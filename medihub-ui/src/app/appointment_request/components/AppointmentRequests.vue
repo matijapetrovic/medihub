@@ -50,10 +50,10 @@
           Doctor's email: {{this.editedItem !== null? this.editedItem.doctorEmail : ''}}<br>
           Patient's email: {{this.editedItem !== null? this.editedItem.patientEmail : ''}}<br>
           Date and time: {{this.editedItem !== null? this.editedItem.date : ''}}
-           {{this.editedItem !== null? this.editedItem.time : ''}}<br>
+          {{this.editedItem !== null? this.editedItem.time : ''}}<br>
           Clinic room:
-           {{this.editedItem !== null? this.editedItem.clinicRoom.number : ''}}
-           ({{this.editedItem !== null? this.editedItem.clinicRoom.name : ''}})<br>
+          {{this.editedItem !== null? this.editedItem.clinicRoom.number : ''}}
+          ({{this.editedItem !== null? this.editedItem.clinicRoom.name : ''}})<br>
           Price: {{this.editedItem !== null? this.editedItem.price : ''}}<br>
         </v-card-text>
         <v-card-actions>
@@ -135,6 +135,31 @@ export default {
     ...mapActions('clinicRooms', ['fetchClinicRooms', 'scheduleRoom']),
     ...mapActions('appointment', ['addAppointment']),
 
+    filterRooms(rooms, date, time) {
+      const retList = [];
+      let i;
+      for (i = 0; i < rooms.length; i += 1) {
+        if (this.isAvailable(rooms[i].simpleSchedule, date, time)) {
+          retList.push(rooms[i]);
+        }
+      }
+      return retList;
+    },
+    selectedRoom(item) {
+      if (item.clinicRoom === null) {
+        return false;
+      }
+      return true;
+    },
+    isAvailable(schedules, date, time) {
+      let i;
+      for (i = 0; i < schedules.length; i += 1) {
+        if (schedules[i].date === date && schedules[i].time === time) {
+          return false;
+        }
+      }
+      return true;
+    },
     searchRoom(item) {
       this.setPathParams(JSON.stringify({
         id: item.id,
@@ -206,12 +231,6 @@ export default {
     },
     toggleDialog() {
       this.dialog = !this.dialog;
-    },
-    selectedRoom() {
-      if (this.editedItem.clinicRoom === null) {
-        return false;
-      }
-      return true;
     },
   },
 };
