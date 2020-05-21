@@ -17,7 +17,7 @@ public interface AddClinicRoomUseCase {
         Long clinicId;
         @NotBlank
         String name;
-        @NotBlank
+        @NotNull
         int number;
 
         public AddClinicRoomCommand(

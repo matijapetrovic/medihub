@@ -2,6 +2,7 @@ import ClinicAdmin from '@/views/clinic-admin/ClinicAdmin.vue';
 import AddClinicRoomForm from '@/app/clinic_room/components/AddClinicRoomForm.vue';
 import AddMedicalDoctorForm from '@/app/medical_doctor/components/AddMedicalDoctorForm.vue';
 import AllDoctorsView from '@/views/medical_doctor/AllDoctorsView.vue';
+import AddPredefinedAppointmentForm from '@/app/predefined_appointment/_components/AddPredefinedAppointmentForm.vue';
 import SearchClinicRoomTable from '@/app/clinic_room/components/SearchClinicRoomTable.vue';
 import AppointmentRequest from '@/app/appointment_request/components/AppointmentRequests.vue';
 
@@ -39,6 +40,10 @@ export default {
     {
       path: '/appointment-request/:param',
       component: AppointmentRequest,
+    },
+    {
+      path: '/predefined-appointment',
+      component: AddPredefinedAppointmentForm,
     },
   ],
 };

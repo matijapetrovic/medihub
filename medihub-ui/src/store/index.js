@@ -16,6 +16,7 @@ import appointmentRequest from '@/app/appointment_request/store';
 import medicalRecord from '@/app/medical_record/store';
 import diagnosis from '@/app/diagnosis/store';
 import drugs from '@/app/drugs/store';
+import predefinedAppointment from '@/app/predefined_appointment/store';
 
 Vue.use(Vuex);
 
@@ -43,5 +44,6 @@ export default new Vuex.Store({
     medicalRecord,
     diagnosis,
     drugs,
+    predefinedAppointment,
   },
 });

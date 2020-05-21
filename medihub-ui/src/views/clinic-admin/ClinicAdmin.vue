@@ -41,6 +41,11 @@ export default {
         ],
       },
       {
+        text: 'Predefined appointments',
+        icon: 'add',
+        path: '/predefined-appointment',
+      },
+      {
         text: 'Appointment requests',
         icon: 'mdi-message-plus',
         path: `/appointment-request/${null}`,

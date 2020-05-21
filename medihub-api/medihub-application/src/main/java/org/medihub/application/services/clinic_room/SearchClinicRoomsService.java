@@ -12,6 +12,7 @@ import org.medihub.domain.clinic.ClinicAdmin;
 import org.medihub.domain.clinic_room.ClinicRoom;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,11 +24,11 @@ public class SearchClinicRoomsService implements SearchClinicRoomsQuery {
     private final LoadClinicAdminPort loadClinicAdminPort;
 
     @Override
-    public List<SearchClinicRoomsOutput> searchClinicRooms(String name, Integer number, LocalDate date) {
+    public List<SearchClinicRoomsOutput> searchClinicRooms(String name, Integer number, LocalDate date, LocalTime time) {
         Account account = getAuthenticatedPort.getAuthenticated();
         ClinicAdmin clinicAdmin = loadClinicAdminPort.loadClinicAdminByAccountId(account.getId());
         Long clinicId = clinicAdmin.getClinic().getId();
-        return mapToOutput(searchClinicRoomsPort.searchClinicRooms(name, number, date, clinicId), date);
+        return mapToOutput(searchClinicRoomsPort.searchClinicRooms(name, number, date, time, clinicId), date);
     }
 
     private List<SearchClinicRoomsOutput> mapToOutput(List<ClinicRoom> clinicRooms, LocalDate date){

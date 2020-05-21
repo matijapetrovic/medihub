@@ -13,7 +13,7 @@ public class AppointmentTypeMapper {
 
     public AppointmentTypeJpaEntity mapToJpaEntity(AppointmentType appointmentType){
         return new AppointmentTypeJpaEntity(
-                null,
+                appointmentType.getId(),
                 appointmentType.getName()
         );
     }
