@@ -7,7 +7,7 @@ services:
 script:
   - cd medihub-api
   - mvn install -DskipTests=false -Dmaven.javadoc.skip=true -B -V
-
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=matijapetrovic_medihub
 addons:
   sonarcloud:
     organization: "matijapetrovic"
@@ -17,7 +17,7 @@ addons:
 branches:
   only:
   - master
-  
+
 deploy:
   provider: heroku
   app: medihub-app
