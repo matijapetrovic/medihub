@@ -1,6 +1,7 @@
 package org.medihub.web.patient;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.ports.incoming.patient.PatientResponse;
 import org.medihub.application.ports.outgoing.patient.GetPatientsPort;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -27,6 +28,7 @@ public class PatientController {
                 getAllPatients().
                 stream().
                 map(patient -> new PatientResponse(
+                        patient.getId(),
                         patient.getAccount().getPersonalInfo().getFirstName(),
                         patient.getAccount().getPersonalInfo().getLastName(),
                         patient.getAccount().getEmail(),

@@ -29,3 +29,7 @@ target/
 
 ### VS Code ###
 .vscode/
+
+.env
+
+*.sql

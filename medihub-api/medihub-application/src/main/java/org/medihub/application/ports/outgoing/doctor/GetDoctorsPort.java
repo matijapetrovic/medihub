@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface GetDoctorsPort {
     List<MedicalDoctor> getDoctorsForClinic(Long clinicId);
+
+    MedicalDoctor getMedicalDoctorById(Long id);
 }

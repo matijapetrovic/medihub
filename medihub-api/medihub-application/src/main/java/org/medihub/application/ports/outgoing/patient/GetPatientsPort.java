@@ -5,4 +5,6 @@ import java.util.List;
 
 public interface GetPatientsPort {
     List<Patient> getAllPatients();
+
+    Patient getPatientById(Long id);
 }

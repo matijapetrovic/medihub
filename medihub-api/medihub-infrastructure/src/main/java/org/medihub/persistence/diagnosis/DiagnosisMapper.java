@@ -9,14 +9,16 @@ import java.util.stream.Collectors;
 
 @Component
 public class DiagnosisMapper {
-    public Diagnosis mapToDomainEntity(DiagnosisJpaEntity diagnosisJpaEntity){
-
-        return new Diagnosis(diagnosisJpaEntity.getId());
+    public Diagnosis mapToDomainEntity(DiagnosisJpaEntity diagnosis){
+        return new Diagnosis(
+                diagnosis.getId(),
+                diagnosis.getName());
     }
 
     public DiagnosisJpaEntity mapToJpaEntity(Diagnosis diagnosis){
-
-        return new DiagnosisJpaEntity(null);
+        return new DiagnosisJpaEntity(
+                diagnosis.getId(),
+                diagnosis.getName());
     }
 
     public Set<Diagnosis> mapToDomainSet(Set<DiagnosisJpaEntity> diagnosisJpaSet){

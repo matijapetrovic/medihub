@@ -1,15 +1,22 @@
 package org.medihub.persistence.medical_doctor_schedule;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.ports.outgoing.appointment.GetAppointmentPort;
+import org.medihub.application.ports.outgoing.doctor.AddAppointmentToMedicalDoctorSchedulePort;
+import org.medihub.application.ports.outgoing.doctor.GetDoctorSchedulePort;
 import org.medihub.application.ports.outgoing.scheduling.LoadDoctorDailySchedulePort;
-import org.medihub.domain.medical_doctor.MedicalDoctorSchedule;
-import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem;
+import org.medihub.domain.appointment.Appointment;
+import org.medihub.domain.medical_doctor.*;
 import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType;
 import org.medihub.domain.scheduling.DailySchedule;
+import org.medihub.persistence.appointment.AppointmentMapper;
+import org.medihub.persistence.appointment.AppointmentRepository;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -17,12 +24,18 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class MedicalDoctorScheduleAdapter implements LoadDoctorDailySchedulePort {
-    private final MedicalDoctorScheduleRepository repository;
+public class MedicalDoctorScheduleAdapter implements
+        LoadDoctorDailySchedulePort,
+        GetDoctorSchedulePort,
+        AddAppointmentToMedicalDoctorSchedulePort {
+    private final MedicalDoctorScheduleRepository medicalDoctorScheduleRepository;
     private final MedicalDoctorScheduleItemRepository itemRepository;
+    private final AppointmentMapper appointmentMapper;
+    private final GetAppointmentPort getAppointmentPort;
+    private final MedicalDoctorScheduleMapper medicalDoctorScheduleMapper;
 
     public MedicalDoctorSchedule loadMedicalDoctorSchedule(Long doctorId) {
-        Set<MedicalDoctorScheduleJpaEntity> schedules = repository
+        Set<MedicalDoctorScheduleJpaEntity> schedules = medicalDoctorScheduleRepository
                 .findAllByDoctor_Id(doctorId);
 
         Map<LocalDate, DailySchedule<MedicalDoctorScheduleItem>> dailySchedules =
@@ -44,21 +57,76 @@ public class MedicalDoctorScheduleAdapter implements LoadDoctorDailySchedulePort
                 scheduleId,
                 scheduleItems
                         .stream()
-                        .map(scheduleItem -> new MedicalDoctorScheduleItem(
-                            scheduleItem.getId(),
-                            scheduleItem.getTime().toLocalTime(),
-                            MedicalDoctorScheduleItemType.values()[scheduleItem.getType() - 1]))
+                        .map(scheduleItem -> getItem(scheduleItem))
                         .collect(Collectors.toSet()));
+    }
+
+    private MedicalDoctorScheduleItem getItem(MedicalDoctorScheduleItemJpaEntity jpaItem) {
+
+        MedicalDoctorScheduleItem item;
+        MedicalDoctorScheduleItemType type = MedicalDoctorScheduleItemType.values()[jpaItem.getType() - 1];
+
+        switch (type) {
+            case APPOINTMENT:
+                MedicalDoctorAppointmentScheduleJpaItem appointmentItem = (MedicalDoctorAppointmentScheduleJpaItem) jpaItem;
+                return new MedicalDoctorAppointmentScheduleItem(
+                        appointmentItem.getId(),
+                        appointmentItem.getTime().toLocalTime(),
+                        type,
+                        appointmentMapper.mapToDomainEntity(appointmentItem.getAppointment())
+                    );
+            case VACATION:
+                MedicalDoctorVacationScheduleJpaItem vacationItem = (MedicalDoctorVacationScheduleJpaItem) jpaItem;
+                return new MedicalDoctorVacationScheduleItem(
+                        vacationItem.getId(),
+                        vacationItem.getTime().toLocalTime(),
+                        type
+                );
+        }
+
+        return null;
     }
 
     @Override
     public DailySchedule<MedicalDoctorScheduleItem> loadDailySchedule(Long doctorId, LocalDate date) {
         Optional<MedicalDoctorScheduleJpaEntity> schedule =
-                repository.findByDateAndDoctor_Id(Date.valueOf(date), doctorId);
+                medicalDoctorScheduleRepository.findByDateAndDoctor_Id(Date.valueOf(date), doctorId);
 
         if (schedule.isEmpty())
             return new DailySchedule<>(null);
 
         return loadMedicalDoctorDailySchedule(schedule.get().getId());
+    }
+
+    @Override
+    public MedicalDoctorSchedule getDoctorSchedule(Long doctorId) {
+        return loadMedicalDoctorSchedule(doctorId);
+    }
+
+    @Override
+    public void addAppointmentToSchedule(
+                                         MedicalDoctor doctor,
+                                         LocalDate date,
+                                         LocalTime time,
+                                         Long appointmentId) {
+
+        MedicalDoctorScheduleJpaEntity schedule = getMedicalDoctorScheduleJpaEntity(doctor, date);
+        MedicalDoctorAppointmentScheduleJpaItem scheduleJpaItem =
+                new MedicalDoctorAppointmentScheduleJpaItem(
+                        null,
+                        schedule,
+                        Time.valueOf(time),
+                        MedicalDoctorScheduleItemType.APPOINTMENT.getOrdinal(),
+                        appointmentMapper.mapToJpaEntity(getAppointmentPort.getAppointmentById(appointmentId)));
+
+        medicalDoctorScheduleRepository.save(schedule);
+        itemRepository.save(scheduleJpaItem);
+    }
+
+    private MedicalDoctorScheduleJpaEntity getMedicalDoctorScheduleJpaEntity(MedicalDoctor doctor, LocalDate date) {
+        if(!medicalDoctorScheduleRepository.existsByDate(Date.valueOf(date))) {
+             return medicalDoctorScheduleMapper.mapToScheduleJpaEntity(doctor, date);
+        }
+        return medicalDoctorScheduleRepository.findByDate(Date.valueOf(date)).get();
     }
 }

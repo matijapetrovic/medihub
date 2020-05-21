@@ -14,27 +14,19 @@ import java.util.stream.Collectors;
 @Component
 public class PatientMapper {
     private final AccountMapper accountMapper;
-    private final MedicalRecordMapper medicalRecordMapper;
-    private final AppointmentMapper appointmentMapper;
 
     public Patient mapToDomainEntity(PatientJpaEntity patientJpaEntity){
         return new Patient(
                 patientJpaEntity.getId(),
                 patientJpaEntity.getInsuranceNumber(),
-                accountMapper.mapToDomainEntity(patientJpaEntity.getAccount()),
-                medicalRecordMapper.mapToDomainEntity(patientJpaEntity.getMedicalRecordJpaEntity()),
-                appointmentMapper.mapToDomainSet(patientJpaEntity.getAppointmentJpaEntitySet())
-                );
+                accountMapper.mapToDomainEntity(patientJpaEntity.getAccount()));
     }
 
     public PatientJpaEntity mapToJpaEntity(Patient patient){
         return new PatientJpaEntity(
                 patient.getId(),
                 patient.getInsuranceNumber(),
-                accountMapper.mapToJpaEntity(patient.getAccount()),
-                medicalRecordMapper.mapToJpaEntity(patient.getMedicalRecord()),
-                appointmentMapper.mapToJpaSet(patient.getAppointments())
-        );
+                accountMapper.mapToJpaEntity(patient.getAccount()));
     }
 
     public List<Patient> mapToDomainList(List<PatientJpaEntity> patientJpaEntities){

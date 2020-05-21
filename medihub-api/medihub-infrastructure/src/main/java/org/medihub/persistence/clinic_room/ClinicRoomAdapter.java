@@ -56,6 +56,10 @@ public class ClinicRoomAdapter implements
         return clinicRoomMapper.mapToDomainEntity(clinicRoomRepository.findById(id).get());
     }
 
+    public ClinicRoom getClinicRoomById(Long id) {
+        return clinicRoomMapper.mapToDomainEntity(clinicRoomRepository.findById(id).get());
+    }
+
     @Override
     public List<ClinicRoom> searchClinicRooms(String name, Integer number, LocalDate date, Long clinicId) {
         return clinicRoomRepository
@@ -64,4 +68,5 @@ public class ClinicRoomAdapter implements
                 .map(clinicRoomMapper::mapToDomainEntity)
                 .collect(Collectors.toList());
     }
+
 }

@@ -6,6 +6,7 @@ export default {
   state: {
     name: null,
     doctors: [],
+    workingCalendar: null,
   },
   mutations: {
     SET_NAME(state, name) {
@@ -13,6 +14,9 @@ export default {
     },
     SET_DOCTORS(state, doctors) {
       state.doctors = doctors;
+    },
+    SET_WORKING_CALENDAR(state, workingCalendar) {
+      state.workingCalendar = workingCalendar;
     },
   },
   actions: {
@@ -30,6 +34,15 @@ export default {
       return api.getAllDoctors()
         .then((data) => {
           commit('SET_DOCTORS', data.data);
+        });
+    },
+    getWorkindCalendar({ commit, dispatch }) {
+      return api.getWorkindCalendar()
+        .then((response) => {
+          commit('SET_WORKING_CALENDAR', response.data);
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
   },

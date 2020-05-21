@@ -1,20 +1,22 @@
 package org.medihub.persistence.medical_doctor_schedule;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Time;
 
+import static javax.persistence.InheritanceType.TABLE_PER_CLASS;
+
 @Entity
-@Table(name="medical_doctor_schedule_item")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MedicalDoctorScheduleItemJpaEntity {
+@Inheritance(strategy=TABLE_PER_CLASS)
+public abstract class MedicalDoctorScheduleItemJpaEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    @Column(name="id", unique=true, nullable=false)
     Long id;
 
     @ManyToOne

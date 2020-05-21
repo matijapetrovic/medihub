@@ -34,6 +34,7 @@ public class SearchClinicRoomsService implements SearchClinicRoomsQuery {
         return clinicRooms
                 .stream()
                 .map(clinicRoom -> new SearchClinicRoomsOutput(
+                        clinicRoom.getId(),
                         clinicRoom.getName(),
                         clinicRoom.getNumber(),
                         loadClinicRoomSchedulePort.loadClinicRoomSchedule(clinicRoom.getId()),
