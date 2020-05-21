@@ -10,4 +10,7 @@ export default {
   fetchAvailableTimes(doctorId, date) {
     return utils.apiClient.get(`api/medical-doctor/${doctorId}/available_times/${date}`);
   },
+  fetchAvailableTimesWithoutState(doctorId, date) {
+    return utils.apiClient.get(`api/medical-doctor/${doctorId}/available_times/${date}`);
+  },
 };

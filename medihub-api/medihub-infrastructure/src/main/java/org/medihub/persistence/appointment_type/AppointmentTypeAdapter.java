@@ -36,6 +36,11 @@ public class AppointmentTypeAdapter implements
     }
 
     @Override
+    public AppointmentType getById(Long id) {
+        return appointmentTypeMapper.mapToDomainEntity(appointmentTypeRepository.findById(id).get());
+    }
+
+    @Override
     public AppointmentType loadAppointmentType(String name) {
         return null;
     }

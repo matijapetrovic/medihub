@@ -49,8 +49,10 @@ public class ClinicRoomController {
             @RequestParam(required = false) Integer number,
             @RequestParam(required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-                    LocalDate date)  {
-        return ResponseEntity.ok(searchClinicRoomsQuery.searchClinicRooms(name, number, date));
+                    LocalDate date,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+                            LocalTime time)  {
+        return ResponseEntity.ok(searchClinicRoomsQuery.searchClinicRooms(name, number, date, time));
     }
 
     @GetMapping("/schedule")

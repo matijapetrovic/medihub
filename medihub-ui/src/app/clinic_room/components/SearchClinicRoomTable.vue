@@ -36,12 +36,12 @@
                 v-model="date"
                 label="Appointment Date"
                 prepend-icon="event"
-                :readonly="!clinicRoomsEmpty() && radioGroupValue==='dateTime'"
+                :readonly="!clinicRoomsEmpty()"
                 v-on="on"
               ></v-text-field>
             </template>
             <v-date-picker
-              v-if="!clinicRoomsEmpty && radioGroupValue==='dateTime'"
+              v-if="!clinicRoomsEmpty"
               v-model="date"
               :min="today"
               no-title
@@ -55,6 +55,7 @@
         </v-col>
         <v-col>
           <v-text-field
+            v-if="!clinicRoomsEmpty()"
             v-model="time"
             label="Time"
             prepend-icon="mdi-timelapse"
@@ -62,6 +63,16 @@
             :readonly="!clinicRoomsEmpty()"
             >
           </v-text-field>
+          <v-select
+            v-else
+            :items="availableTimes"
+            label="Time"
+            v-model="time"
+            dense
+            solo
+            selected
+          >
+          </v-select>
         </v-col>
       </v-row>
       <v-row>
@@ -69,7 +80,8 @@
           <v-subheader>
             Doctor:
             {{this.doctor === null? '': this.doctor.firstName}}
-            {{this.doctor === null? '': this.doctor.lastName}}
+            {{this.doctor === null? '': this.doctor.lastName}},
+            telephone number: {{this.doctor === null? '': this.doctor.telephone}}
           </v-subheader>
           <v-select
             :items="doctors"
@@ -79,7 +91,9 @@
             dense
             solo
             selected
+            return-object=""
             :readonly="!clinicRoomsEmpty()"
+            @input="setDoctorParams()"
           >
           </v-select>
         </v-col>
@@ -153,19 +167,13 @@ export default {
     ],
   }),
   mounted() {
-    this.fetchClinicRooms();
     this.fetchParams();
   },
   methods: {
     ...mapActions('clinicRooms', ['fetchClinicRooms', 'deleteClinicRoom']),
     ...mapActions('medicalDoctor', ['getDoctorsForDateTime', 'getAllDoctors']),
+    ...mapActions('doctor', ['fetchAvailableTimesWithoutState']),
 
-    deleteItem(item) {
-      this.deleteClinicRoom(item);
-    },
-    close() {
-      this.dialog = false;
-    },
     search() {
       this.fetchClinicRooms({
         name: this.name,
@@ -173,12 +181,15 @@ export default {
         date: this.date,
         time: this.time,
       });
-      this.clear();
-      this.close();
+      if (!this.clinicRoomsEmpty()) {
+        this.clear();
+      }
     },
     reset() {
       this.fetchClinicRooms();
       this.radioGroupValue = 'dateTime';
+      this.date = this.params.date;
+      this.time = this.params.time;
     },
     clear() {
       this.name = null;
@@ -191,10 +202,14 @@ export default {
       this.params = JSON.parse(this.$route.params.param);
       this.mapParams();
       this.search();
-      if (this.clinicRooms.length === 0) {
-        this.doctors.length = 0;
-        this.getAllDoctors();
+      if (this.clinicRoomsEmpty()) {
+        this.noResultsSearch();
       }
+    },
+    noResultsSearch() {
+      this.fetchAvailableTimesWithoutState({ doctorId: this.doctor.id, date: this.date });
+      this.getAllDoctors();
+      this.doctors.length = 0;
     },
     mapParams() {
       this.appointmentId = this.params.id;
@@ -204,6 +219,9 @@ export default {
       this.date = this.params.date;
       this.doctors.length = 0;
       this.doctors.push(this.doctor);
+    },
+    setDoctorParams() {
+      this.fetchAvailableTimesWithoutState({ doctorId: this.doctor.id, date: this.date });
     },
     clinicRoomsEmpty() {
       if (this.clinicRooms.length === 0) {
@@ -225,6 +243,7 @@ export default {
   computed: {
     ...mapState('clinicRooms', ['clinicRooms']),
     ...mapState('medicalDoctor', ['doctors']),
+    ...mapState('doctor', ['availableTimes']),
     minNumberRule() {
       return (value) => value > 0 || 'Number must be positive';
     },
