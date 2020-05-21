@@ -21,7 +21,7 @@ public interface ClinicRoomRepository extends JpaRepository<ClinicRoomJpaEntity,
 
     List<ClinicRoomJpaEntity> findAll();
 
-    @Query("select cr " +
+    @Query("select distinct cr " +
             "from ClinicRoomJpaEntity cr inner join ClinicRoomScheduleJpaEntity crs on cr=crs.clinicRoom " +
             "where (cr.name like concat('%', :name, '%') or :name is null ) "+
             "and (cr.number=:number or :number is null ) " +
