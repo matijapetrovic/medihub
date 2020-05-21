@@ -60,7 +60,7 @@ insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type)
 insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '19:00:00', 1);
 
 insert into clinic_room (name, number, clinic_id) values ('soba1', 1, 1);
-insert into clinic_room (name, number, clinic_id) values ('soba2', 2, 1);
+insert into clinic_room (name, number, clinic_id) values ('soba2', 2, 2);
 insert into clinic_room (name, number, clinic_id) values ('soba3', 3, 1);
 
 insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 500, '2020-10-10', '01:00:00');

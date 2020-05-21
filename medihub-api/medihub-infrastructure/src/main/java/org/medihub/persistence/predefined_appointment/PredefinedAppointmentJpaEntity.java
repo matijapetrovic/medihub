@@ -29,11 +29,11 @@ public class PredefinedAppointmentJpaEntity {
     @Column(name = "duration")
     private double duration;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="clinic_room", referencedColumnName="id", nullable=true)
+    @ManyToOne
+    @JoinColumn(name="clinic_room_id", referencedColumnName="id", nullable=true)
     private ClinicRoomJpaEntity clinicRoomJpaEntity;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="appointment_type", referencedColumnName="id", nullable=true)
+    @ManyToOne
+    @JoinColumn(name="appointment_type_id", referencedColumnName="id", nullable=true)
     private AppointmentTypeJpaEntity appointmentTypeJpaEntity;
 }

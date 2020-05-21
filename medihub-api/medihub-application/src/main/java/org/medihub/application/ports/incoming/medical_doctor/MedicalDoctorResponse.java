@@ -20,4 +20,5 @@ public class MedicalDoctorResponse {
     private String workingTimeEnds;
     private String clinicName;
     private String specialization;
+    private Long appointmentTypeId;
 }
