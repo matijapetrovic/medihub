@@ -1,4 +1,4 @@
-package org.medihub.application.ports.incoming.medical_doctor;
+package org.medihub.application.ports.incoming.medical_doctor.schedule;
 
 import lombok.AllArgsConstructor;
 

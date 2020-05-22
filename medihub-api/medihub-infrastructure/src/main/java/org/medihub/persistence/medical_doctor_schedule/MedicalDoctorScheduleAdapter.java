@@ -3,6 +3,7 @@ package org.medihub.persistence.medical_doctor_schedule;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.outgoing.appointment.GetAppointmentPort;
 import org.medihub.application.ports.outgoing.doctor.AddAppointmentToMedicalDoctorSchedulePort;
+import org.medihub.application.ports.outgoing.doctor.AddLeavePort;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorSchedulePort;
 import org.medihub.application.ports.outgoing.scheduling.LoadDoctorDailySchedulePort;
 import org.medihub.domain.appointment.Appointment;
@@ -17,6 +18,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -129,4 +131,24 @@ public class MedicalDoctorScheduleAdapter implements
         }
         return medicalDoctorScheduleRepository.findByDate(Date.valueOf(date)).get();
     }
+
+
+    public void addLeave(List<String> dates, Integer type, MedicalDoctor medicalDoctor) {
+        MedicalDoctorScheduleJpaEntity schedule = null;
+        MedicalDoctorVacationScheduleJpaItem item = null;
+        LocalTime time = LocalTime.parse("00:00");
+
+        for (String date: dates) {
+            schedule = getMedicalDoctorScheduleJpaEntity(medicalDoctor, LocalDate.parse(date));
+            for (int i = 0; i < 24; i++) {
+                item = medicalDoctorScheduleMapper.mapToJpaVacationItem(schedule, Time.valueOf(time), type);
+                time.plusHours(1L);
+                itemRepository.save(item);
+            }
+            medicalDoctorScheduleRepository.save(schedule);
+        }
+
+    }
+
+
 }

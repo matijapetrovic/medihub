@@ -33,6 +33,11 @@ export default {
         path: '/working-calendar',
         icon: 'mdi-calendar',
       },
+      {
+        text: 'Leave request',
+        path: '/leave-request/add',
+        icon: 'mdi-calendar-range',
+      },
     ],
   }),
 };
