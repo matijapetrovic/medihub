@@ -1,5 +1,6 @@
 package org.medihub.config;
 
+import org.medihub.application.ports.incoming.predefined_appointment.AddPredefinedAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment.AddAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment_request.DeleteAppointmentRequestUseCase;
 import org.medihub.application.ports.incoming.appointment_request.GetAppointmentRequestUseCase;
@@ -62,12 +63,14 @@ import org.medihub.application.ports.outgoing.patient.LoadPatientPort;
 import org.medihub.application.ports.outgoing.patient.SaveRegistrationRequestPort;
 import org.medihub.application.ports.outgoing.authentication.AuthenticationPort;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
+import org.medihub.application.ports.outgoing.predefined_appointment.AddPredefinedAppointmentPort;
 import org.medihub.application.ports.outgoing.scheduling.LoadDoctorDailySchedulePort;
 import org.medihub.application.services.*;
 import org.medihub.application.services.account.ChangePasswordService;
 import org.medihub.application.services.account.GetAccountService;
 import org.medihub.application.services.account.GetProfileService;
 import org.medihub.application.services.account.UpdateProfileService;
+import org.medihub.application.services.predefined_appointment.AddPredefinedAppointmentService;
 import org.medihub.application.services.appointment.AddAppointmentService;
 import org.medihub.application.services.appointment_request.DeleteAppointmentRequestService;
 import org.medihub.application.services.appointment_request.GetAppointmentRequestService;
@@ -296,6 +299,18 @@ public class BeanConfig {
     @Bean
     public DeleteAppointmentTypeUseCase removeAppointmentTypeQuery(DeleteAppointmentTypePort deleteAppointmentTypePort) {
         return new DeleteAppointmentTypeService(deleteAppointmentTypePort);
+    }
+
+    @Bean
+    public AddPredefinedAppointmentUseCase geAddPredefinedAppointmentUseCase(
+            AddPredefinedAppointmentPort addPredefinedAppointmentPort,
+            GetClinicRoomsPort getClinicRoomsPort,
+            GetAppointmentTypesPort getAppointmentTypesPort
+    ) {
+        return new AddPredefinedAppointmentService(
+                addPredefinedAppointmentPort,
+                getClinicRoomsPort,
+                getAppointmentTypesPort);
     }
 
     @Bean

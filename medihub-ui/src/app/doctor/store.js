@@ -5,6 +5,7 @@ export default {
   namespaced: true,
   state: {
     doctors: [],
+    availableTimes: [],
   },
   mutations: {
     SET_DOCTORS(state, doctors) {
@@ -13,6 +14,9 @@ export default {
     SET_AVAILABLE_TIMES(state, availableTimes) {
       const doctor = state.doctors.find((el) => el.id === availableTimes.doctorId);
       doctor.availableTimes = availableTimes.times;
+    },
+    SET_STATE_AVAILABLE_TIMES(state, availableTimes) {
+      state.availableTimes = availableTimes.times;
     },
   },
   actions: {
@@ -36,6 +40,16 @@ export default {
         rootState.clinic.searchParams.date,
       ).then((response) => {
         commit('SET_AVAILABLE_TIMES', { doctorId, times: response.data });
+      }).catch((err) => {
+        dispatch('notifications/add', utils.errorNotification(err), { root: true });
+      });
+    },
+    fetchAvailableTimesWithoutState({ commit, dispatch }, payload) {
+      return api.fetchAvailableTimesWithoutState(
+        payload.doctorId,
+        payload.date,
+      ).then((response) => {
+        commit('SET_STATE_AVAILABLE_TIMES', { doctorId: payload.doctorId, times: response.data });
       }).catch((err) => {
         dispatch('notifications/add', utils.errorNotification(err), { root: true });
       });

@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface GetAppointmentTypesPort {
     List<AppointmentType> getAppointmentTypes();
+
+    AppointmentType getById(Long id);
 }
