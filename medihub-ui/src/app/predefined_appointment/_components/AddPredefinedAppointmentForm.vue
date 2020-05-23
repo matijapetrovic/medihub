@@ -2,6 +2,7 @@
   <v-container>
     <v-form
       ref="form"
+      @submit="submit()"
     >
       <v-card max-width="1300" max-height="1300" class="mx-auto">
         <v-row>
@@ -140,7 +141,6 @@
               rounded
               max-width=""
               color="primary"
-              @click="submit()"
               >
                 Submit
               </v-btn>

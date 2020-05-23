@@ -1,5 +1,8 @@
 package org.medihub.config;
 
+import org.medihub.application.ports.incoming.leave_request.AddLeaveRequestUseCase;
+import org.medihub.application.ports.incoming.leave_request.GetLeaveRequestUseCase;
+import org.medihub.application.ports.incoming.medical_doctor.schedule.GetDoctorScheduleQuery;
 import org.medihub.application.ports.incoming.predefined_appointment.AddPredefinedAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment.AddAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment_request.DeleteAppointmentRequestUseCase;
@@ -57,6 +60,8 @@ import org.medihub.application.ports.outgoing.doctor.*;
 import org.medihub.application.ports.outgoing.drugs.SaveDrugPort;
 import org.medihub.application.ports.outgoing.encoding.EncoderPort;
 import org.medihub.application.ports.outgoing.finished_appointment.GetFinishedAppointmentsPort;
+import org.medihub.application.ports.outgoing.leave_request.AddLeaveRequestPort;
+import org.medihub.application.ports.outgoing.leave_request.GetLeaveRequestPort;
 import org.medihub.application.ports.outgoing.medical_record.LoadMedicalRecordPort;
 import org.medihub.application.ports.outgoing.patient.GetPatientsPort;
 import org.medihub.application.ports.outgoing.patient.LoadPatientPort;
@@ -70,6 +75,8 @@ import org.medihub.application.services.account.ChangePasswordService;
 import org.medihub.application.services.account.GetAccountService;
 import org.medihub.application.services.account.GetProfileService;
 import org.medihub.application.services.account.UpdateProfileService;
+import org.medihub.application.services.leave_request.AddLeaveRequestService;
+import org.medihub.application.services.leave_request.GetLeaveRequestService;
 import org.medihub.application.services.predefined_appointment.AddPredefinedAppointmentService;
 import org.medihub.application.services.appointment.AddAppointmentService;
 import org.medihub.application.services.appointment_request.DeleteAppointmentRequestService;
@@ -95,7 +102,6 @@ import org.medihub.application.services.patient.LaodPatientService;
 import org.medihub.application.services.patient.RegisterPatientService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableMBeanExport;
 
 @Configuration
 public class BeanConfig {
@@ -379,5 +385,21 @@ public class BeanConfig {
     @Bean
     public AddDiagnosisUseCase addDiagnosisUseCase(SaveDiagnosisPort saveDiagnosisPort) {
         return new AddDiagnosisService(saveDiagnosisPort);
+    }
+
+    @Bean
+    public AddLeaveRequestUseCase addLeaveRequestUseCase(
+            AddLeaveRequestPort addLeaveRequestPort,
+            GetDoctorByAccountIdPort getDoctorByAccountIdPort,
+            GetAuthenticatedPort getDoctorsPort) {
+        return new AddLeaveRequestService(
+                addLeaveRequestPort,
+                getDoctorByAccountIdPort,
+                getDoctorsPort);
+    }
+
+    @Bean
+    public GetLeaveRequestUseCase getLeaveRequestUseCase(GetLeaveRequestPort getLeaveRequestPort) {
+        return new GetLeaveRequestService(getLeaveRequestPort);
     }
 }

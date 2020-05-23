@@ -27,6 +27,19 @@ public class MedicalDoctorScheduleMapper {
         );
     }
 
+    public MedicalDoctorVacationScheduleJpaItem mapToJpaVacationItem(
+            MedicalDoctorScheduleJpaEntity schedule,
+            Time time,
+            Integer type
+    ) {
+        return new MedicalDoctorVacationScheduleJpaItem(
+                null,
+                schedule,
+                time,
+                type
+        );
+    }
+
     public MedicalDoctorAppointmentScheduleJpaItem mapToScheduleItemJpaEntity(
             MedicalDoctorScheduleJpaEntity schedule,
             LocalTime time,
