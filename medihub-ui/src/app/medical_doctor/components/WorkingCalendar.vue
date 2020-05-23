@@ -207,16 +207,29 @@ export default {
       Object.keys(this.workingCalendar.dailySchedules).forEach((key) => {
         const items = this.workingCalendar.dailySchedules[key].scheduleItems;
         items.forEach((item) => {
-          events.push({
-            name: item.type,
-            start: `${key} ${item.time}`,
-            end: `${key} ${this.incrementTime(item.time)}`,
-            color: this.getColorByName(item.type),
-          });
+          events.push(
+            this.getEvent(item, key),
+          );
         });
       });
 
       this.events = events;
+    },
+    getEvent(item, date) {
+      let fullName = '';
+      switch (item.type) {
+        case 'APPOINTMENT':
+          fullName = `${item.appointment.patient.firstName} ${item.appointment.patient.lastName}`;
+          return {
+            name: fullName,
+            start: `${date} ${item.time}`,
+            end: `${date} ${this.incrementTime(item.time)}`,
+            color: this.getColorByName(item.type),
+            details: `Patient: ${fullName} \nClinic room: ${item.appointment.clinicRoom.name}`,
+          };
+        default:
+          return null;
+      }
     },
     incrementTime(timeStr) {
       const parts = timeStr.split(':');

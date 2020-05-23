@@ -59,11 +59,10 @@ insert into clinic_room_schedule (id, clinic_room_id, date) values (2, 2, '2020-
 insert into appointment (date, time, patient_id, doctor_id) values ('2020-10-10', '12:00:00', 1, 1);
 insert into appointment (date, time, patient_id, doctor_id) values ('2020-12-10', '13:00:00', 1, 1);
 
-insert into medical_doctor_schedule (doctor_id, date) values (1, '2020-05-12');
-insert into medical_doctor_schedule (doctor_id, date) values (1, '2020-05-18');
-insert into medical_doctor_schedule (doctor_id, date) values (1, '2020-05-22');
-insert into medical_doctor_schedule (doctor_id, date) values (1, '2020-05-29');
-insert into medical_doctor_vacation_schedule_item (id, schedule_id, time, schedule_item_type) values (2, 3, '12:00:00', 3);
+insert into medical_doctor_schedule (doctor_id, date) values (2, '2020-05-12');
+insert into medical_doctor_schedule (doctor_id, date) values (2, '2020-05-18');
+insert into medical_doctor_schedule (doctor_id, date) values (2, '2020-05-22');
+insert into medical_doctor_schedule (doctor_id, date) values (2, '2020-05-29');
 
 insert into diagnosis (name) values ('Konjuktivitis');
 insert into diagnosis (name) values ('Prelom ruke');
