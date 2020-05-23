@@ -1,10 +1,10 @@
 package org.medihub.application.services.medical_doctor;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.incoming.medical_doctor.DailyScheduleItemOutput;
-import org.medihub.application.ports.incoming.medical_doctor.DailyScheduleOutput;
-import org.medihub.application.ports.incoming.medical_doctor.GetDoctorScheduleOutput;
-import org.medihub.application.ports.incoming.medical_doctor.GetDoctorScheduleQuery;
+import org.medihub.application.ports.incoming.medical_doctor.schedule.DailyScheduleItemOutput;
+import org.medihub.application.ports.incoming.medical_doctor.schedule.DailyScheduleOutput;
+import org.medihub.application.ports.incoming.medical_doctor.schedule.GetDoctorScheduleOutput;
+import org.medihub.application.ports.incoming.medical_doctor.schedule.GetDoctorScheduleQuery;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorByAccountIdPort;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorSchedulePort;

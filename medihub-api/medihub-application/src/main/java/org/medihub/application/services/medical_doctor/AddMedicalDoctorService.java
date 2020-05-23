@@ -15,7 +15,6 @@ import org.medihub.domain.account.Account;
 import org.medihub.domain.account.Authority;
 import org.medihub.domain.clinic.ClinicAdmin;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
-import org.medihub.domain.scheduling.Schedule;
 
 import java.time.LocalTime;
 import java.util.List;
