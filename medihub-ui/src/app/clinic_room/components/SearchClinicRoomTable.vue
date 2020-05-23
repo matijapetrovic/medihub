@@ -166,7 +166,6 @@ export default {
   mounted() {
     this.fetchClinicRooms();
     this.fetchParams();
-    this.search();
   },
   methods: {
     ...mapActions('clinicRooms', ['fetchClinicRooms', 'deleteClinicRoom']),

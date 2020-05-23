@@ -12,6 +12,7 @@ import java.sql.Time;
 @Entity
 @Table(name="medical_doctor_appointment_schedule_item")
 @Data
+@NoArgsConstructor
 public class MedicalDoctorAppointmentScheduleJpaItem extends  MedicalDoctorScheduleItemJpaEntity {
 
     @OneToOne
