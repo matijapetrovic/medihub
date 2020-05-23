@@ -8,6 +8,9 @@ import org.medihub.persistence.medical_doctor.MedicalDoctorMapper;
 import org.medihub.persistence.patient.PatientMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 @RequiredArgsConstructor
 public class AppointmentRequestMapper {
@@ -32,5 +35,11 @@ public class AppointmentRequestMapper {
                 request.getPrice().getAmount(),
                 request.getDate(),
                 request.getTime());
+    }
+
+    public List<AppointmentRequest> mapToDomainList(List<AppointmentRequestJpaEntity> appointmentRequestJpaEntities) {
+        return appointmentRequestJpaEntities.stream()
+                .map(this::mapToDomainEntity)
+                .collect(Collectors.toList());
     }
 }

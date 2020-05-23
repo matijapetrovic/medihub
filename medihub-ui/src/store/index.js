@@ -12,7 +12,12 @@ import clinic from '@/app/clinic/store';
 import doctor from '@/app/doctor/store';
 import country from '@/app/country/store';
 import appointment from '@/app/appointment/store';
+import appointmentRequest from '@/app/appointment_request/store';
 import medicalRecord from '@/app/medical_record/store';
+import diagnosis from '@/app/diagnosis/store';
+import drugs from '@/app/drugs/store';
+import predefinedAppointment from '@/app/predefined_appointment/store';
+import leaveRequest from '@/app/leave_request/store';
 
 Vue.use(Vuex);
 
@@ -36,6 +41,11 @@ export default new Vuex.Store({
     doctor,
     country,
     appointment,
+    appointmentRequest,
     medicalRecord,
+    diagnosis,
+    drugs,
+    predefinedAppointment,
+    leaveRequest,
   },
 });

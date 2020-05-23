@@ -3,6 +3,8 @@ package org.medihub.web.medical_doctor;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.medical_doctor.*;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase.AddMedicalDoctorCommand;
+import org.medihub.application.ports.incoming.medical_doctor.schedule.GetDoctorScheduleOutput;
+import org.medihub.application.ports.incoming.medical_doctor.schedule.GetDoctorScheduleQuery;
 import org.medihub.application.ports.incoming.scheduling.GetDoctorAvailableTimesQuery;
 import org.medihub.application.ports.outgoing.doctor.GetAllDoctorsPort;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -82,7 +84,7 @@ public class MedicalDoctorController {
         return getAllDoctorsPort.getAllDoctors()
                 .stream()
                 .map(doctor -> new MedicalDoctorResponse(
-                    doctor.getAccount().getId(),
+                        doctor.getId(),
                         doctor.getAccount().getEmail(),
                         doctor.getAccount().getFirstName(),
                         doctor.getAccount().getLastName(),
@@ -90,7 +92,9 @@ public class MedicalDoctorController {
                         doctor.getAccount().getPersonalInfo().getTelephoneNumber(),
                         doctor.getWorkingTime().getFrom().toString(),
                         doctor.getWorkingTime().getTo().toString(),
-                        doctor.getClinic().getName()
+                        doctor.getClinic().getName(),
+                        doctor.getSpecialization().getName(),
+                        doctor.getSpecialization().getId()
                 ))
                 .collect(Collectors.toList());
     }

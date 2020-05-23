@@ -45,6 +45,20 @@ export default {
           { text: 'Search', path: '/appointment-types', icon: 'search' },
         ],
       },
+      {
+        text: 'Drugs codebook',
+        icon: 'mdi-pill',
+        children: [
+          { text: 'Add', path: '/add-drug', icon: 'add' },
+        ],
+      },
+      {
+        text: 'Diagnosis codebook',
+        icon: 'mdi-virus-outline',
+        children: [
+          { text: 'Add', path: '/add-diagnosis', icon: 'add' },
+        ],
+      },
     ],
   }),
 };

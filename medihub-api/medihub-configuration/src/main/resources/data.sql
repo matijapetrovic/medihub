@@ -5,9 +5,9 @@ insert into authority (id, name) values (4, 'ROLE_CLINIC_ADMIN');
 insert into authority (id, name) values (5, 'ROLE_CLINIC_CENTER_ADMIN');
 
 insert into account (email, password, country, password_changed) values ('patient@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Serbia', true);
-insert into account (email, password, first_name, last_name, address, password_changed) values ('doctor@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Dragan', 'Arsic', 'aa', false);
+insert into account (email, password, first_name, last_name, address, password_changed) values ('doctor@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Dragan', 'Arsic', 'aa', true);
 insert into account (email, password, first_name, last_name, address, password_changed) values ('nurse@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Marko', 'markov', 'aa', false);
-insert into account (email, password, first_name, last_name, address, password_changed) values ('clinicadmin@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Dusan', 'Susic', 'aa', false);
+insert into account (email, password, first_name, last_name, address, password_changed) values ('clinicadmin@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Dusan', 'Susic', 'aa', true);
 insert into account (email, password, password_changed) values ('admin@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', false);
 insert into account (email, password, first_name, last_name, address, password_changed, telephone_number) values ('d1@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Marko', 'markov', 'aa', false, '06951521616');
 insert into account (email, password, first_name, last_name, address, password_changed, telephone_number) values ('d2@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Marijan', 'Gagic', 'aa', false, '06951521616');
@@ -40,12 +40,13 @@ insert into clinic (name, address, city, country, description) values ('Klinika 
 
 insert into clinic_admin(account, clinic) values (4, 1);
 
-insert into appointment_type(name) values ('type1');
-insert into appointment_type(name) values ('type2');
-insert into appointment_type(name) values ('type3');
+insert into appointment_type(name) values ('Pregeld uha');
+insert into appointment_type(name) values ('Pregled grla');
+insert into appointment_type(name) values ('Pregled nosa');
 
+insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, specialization) values (2, 2, '06:00:00', '14:00:00', 8, 3);
 insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, specialization) values (6, 1, '06:00:00', '14:00:00', 8, 1);
-insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, specialization) values (7, 2, '18:00:00', '01:00:00', 7, 1);
+insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, specialization) values (7, 2, '18:00:00', '01:00:00', 7, 2);
 
 insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (1, 1, 500.0);
 
@@ -55,8 +56,8 @@ insert into clinic_room (id, name, number, clinic_id) values (2, 'soba2', 2, 1);
 insert into clinic_room_schedule (id, clinic_room_id, date) values (1, 1, '2020-10-10');
 insert into clinic_room_schedule (id, clinic_room_id, date) values (2, 2, '2020-12-10');
 
-insert into appointment (date, time, patient_id, doctor_id, clinic_room_id) values ('2020-10-10', '12:00:00', 1, 1, 1);
-insert into appointment (date, time, patient_id, doctor_id, clinic_room_id) values ('2020-12-10', '13:00:00', 1, 1, 1);
+insert into appointment (date, time, patient_id, doctor_id) values ('2020-10-10', '12:00:00', 1, 1);
+insert into appointment (date, time, patient_id, doctor_id) values ('2020-12-10', '13:00:00', 1, 1);
 
 insert into medical_doctor_schedule (doctor_id, date) values (1, '2020-05-12');
 insert into medical_doctor_schedule (doctor_id, date) values (1, '2020-05-18');
@@ -64,8 +65,12 @@ insert into medical_doctor_schedule (doctor_id, date) values (1, '2020-05-22');
 insert into medical_doctor_schedule (doctor_id, date) values (1, '2020-05-29');
 insert into medical_doctor_vacation_schedule_item (id, schedule_id, time, schedule_item_type) values (2, 3, '12:00:00', 3);
 
-insert into diagnosis (name) values ('Kancer');
-insert into diagnosis (name) values ('Ded');
+insert into diagnosis (name) values ('Konjuktivitis');
+insert into diagnosis (name) values ('Prelom ruke');
 
-insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Idemo niiis najjace je bilo najjace', 1, 1);
-insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Sad bas i nije heh', 1, 2);
+insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Blaga upala oka', 1, 1);
+insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Otvoren prelom', 1, 2);
+
+insert into clinic_room_schedule_item (schedule_id, time) values (1, '00:00:00');
+insert into clinic_room_schedule_item (schedule_id, time) values (1, '01:00:00');
+insert into clinic_room_schedule_item (schedule_id, time) values (1, '23:00:00');

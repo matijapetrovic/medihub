@@ -1,10 +1,18 @@
 sudo: required
 language: java
 jdk: openjdk14
-
 services:
-  - mysql
-
+- mysql
 script:
-  - cd medihub-api && mvn install -DskipTests=false -Dmaven.javadoc.skip=true -B -V
-  
+- cd medihub-api && mvn install -DskipTests=false -Dmaven.javadoc.skip=true -B -V
+branches:
+  only:
+  - master
+deploy:
+  provider: heroku
+  app: medihub-app
+  api_key:
+    secure: gGs2OyfW37GXSlAGcaa6VxDQwbT7kpMM8QOCiUfp01gRCsEDHcQpdyzqx3+NtB1Ricfd3Sbqktqr/Qjd46Zi1WqRBjYKQX8L07aDJQgrz1FozMkF/K0QkGmtAXuSYzuA9TK8rOOjPYoJRZ1WWxycNqg+J+VM/7gCjUOUuUySpT01ACAMaNjM06R0UgHwna4HwiNEV+B1IJdnzWU/A/o4tX1B5aXucGM2ZL5IVelZLToRFIjZ/PwetTf5dgkmxMuLcKOax3nLMl6UZJ3I+Wb0ApUy9GhBgo55StfnzDTuu7TrrVqQ+uY/RT22pljJ0w+PMqig+9HfkQmiUy/Ph0FVkRjVTVTU+3u1n0FEPpxyk3BKk54yKLpuunsunesEGqSnFVxWm9lBLOfI/4h2nTE5+mBYF4gVPpmHYpAfV4f80FL3u0CSKab17O63168oXYD4bD4Zu7IJBDc7z0ds3SHEPYrnU2x8pPv0Oxgmqj27gpfeW9Ob1IrDsxf3vKQc2nB8GYC4BCQAaC8GO9vAjmr7kPL2nSUYh+pqRAJVKRRfgwumXJkuUFukT9relS+JXJXU39JasHZlMCZ1IIh/nDuncUHZR2ZpSeaeOBvkZ+j8H6M97AfKklnUhXubJEVNka5c4MXt8LpwaVXL8cL6DVGg0coJmfaj1iS57XLsdR5RZp0=
+  on:
+    repo: matijapetrovic/medihub
+    branch: master

@@ -7,7 +7,9 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
 import java.sql.Date;
+import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,11 +54,22 @@ public class ClinicRoomAdapter implements
     }
 
     @Override
-    public List<ClinicRoom> searchClinicRooms(String name, Integer number, LocalDate date, Long clinicId) {
+    public ClinicRoom getClinicRoom(Long id) {
+        return clinicRoomMapper.mapToDomainEntity(clinicRoomRepository.findById(id).get());
+    }
+
+    public ClinicRoom getClinicRoomById(Long id) {
+        return clinicRoomMapper.mapToDomainEntity(clinicRoomRepository.findById(id).get());
+    }
+
+    @Override
+    public List<ClinicRoom> searchClinicRooms(String name, Integer number, LocalDate date, LocalTime time, Long clinicId) {
         return clinicRoomRepository
-                .findAllWithNameOrNumberOnDate(name, number, date != null? Date.valueOf(date) : null, clinicId)
+                .findAllWithNameOrNumberOnDate(name, number, date != null? Date.valueOf(date) : null,
+                        time != null? Time.valueOf(time) : null,clinicId)
                 .stream()
                 .map(clinicRoomMapper::mapToDomainEntity)
                 .collect(Collectors.toList());
     }
+
 }
