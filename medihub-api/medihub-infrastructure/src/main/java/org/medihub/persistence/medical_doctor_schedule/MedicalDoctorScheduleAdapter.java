@@ -5,18 +5,22 @@ import org.medihub.application.ports.outgoing.appointment.GetAppointmentPort;
 import org.medihub.application.ports.outgoing.doctor.AddAppointmentToMedicalDoctorSchedulePort;
 import org.medihub.application.ports.outgoing.doctor.AddLeavePort;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorSchedulePort;
+import org.medihub.application.ports.outgoing.leave_request.ApproveLeaveRequestPort;
 import org.medihub.application.ports.outgoing.scheduling.LoadDoctorDailySchedulePort;
+import org.medihub.domain.LeaveRequest;
 import org.medihub.domain.appointment.Appointment;
 import org.medihub.domain.medical_doctor.*;
 import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType;
 import org.medihub.domain.scheduling.DailySchedule;
 import org.medihub.persistence.appointment.AppointmentMapper;
 import org.medihub.persistence.appointment.AppointmentRepository;
+import org.medihub.persistence.medical_doctor.MedicalDoctorRepository;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
@@ -29,12 +33,15 @@ import java.util.stream.Collectors;
 public class MedicalDoctorScheduleAdapter implements
         LoadDoctorDailySchedulePort,
         GetDoctorSchedulePort,
-        AddAppointmentToMedicalDoctorSchedulePort {
+        AddAppointmentToMedicalDoctorSchedulePort,
+        ApproveLeaveRequestPort {
     private final MedicalDoctorScheduleRepository medicalDoctorScheduleRepository;
     private final MedicalDoctorScheduleItemRepository itemRepository;
+    private final MedicalDoctorVacationScheduleItemRepository vacationRepository;
     private final AppointmentMapper appointmentMapper;
     private final GetAppointmentPort getAppointmentPort;
     private final MedicalDoctorScheduleMapper medicalDoctorScheduleMapper;
+    private final MedicalDoctorRepository medicalDoctorRepository;
 
     public MedicalDoctorSchedule loadMedicalDoctorSchedule(Long doctorId) {
         Set<MedicalDoctorScheduleJpaEntity> schedules = medicalDoctorScheduleRepository
@@ -115,7 +122,7 @@ public class MedicalDoctorScheduleAdapter implements
         MedicalDoctorScheduleJpaEntity schedule = getMedicalDoctorScheduleJpaEntity(doctor, date);
         MedicalDoctorAppointmentScheduleJpaItem scheduleJpaItem =
                 new MedicalDoctorAppointmentScheduleJpaItem(
-                        null,
+                        doctor.getId(),
                         schedule,
                         Time.valueOf(time),
                         MedicalDoctorScheduleItemType.APPOINTMENT.getOrdinal(),
@@ -126,29 +133,41 @@ public class MedicalDoctorScheduleAdapter implements
     }
 
     private MedicalDoctorScheduleJpaEntity getMedicalDoctorScheduleJpaEntity(MedicalDoctor doctor, LocalDate date) {
-        if(!medicalDoctorScheduleRepository.existsByDate(Date.valueOf(date))) {
-             return medicalDoctorScheduleMapper.mapToScheduleJpaEntity(doctor, date);
-        }
-        return medicalDoctorScheduleRepository.findByDate(Date.valueOf(date)).get();
+        Optional<MedicalDoctorScheduleJpaEntity> schedule = medicalDoctorScheduleRepository.findByDate(Date.valueOf(date));
+        if(!schedule.isPresent())
+             return new MedicalDoctorScheduleJpaEntity(null, medicalDoctorRepository.findById(doctor.getId()).get(), Date.valueOf(date));
+        return schedule.get();
     }
 
+    private void saveIfDoesNotExist(MedicalDoctorVacationScheduleJpaItem item) {
+        if(!(vacationRepository.findByTimeAndAndScheduleId(item.getTime(), item.getSchedule().getId()).isPresent()))
+        {
+            vacationRepository.save(item);
+        }
+    }
 
     public void addLeave(List<String> dates, Integer type, MedicalDoctor medicalDoctor) {
         MedicalDoctorScheduleJpaEntity schedule = null;
         MedicalDoctorVacationScheduleJpaItem item = null;
-        LocalTime time = LocalTime.parse("00:00");
+        LocalTime time = null;
 
         for (String date: dates) {
+            time = LocalTime.parse("00:00");
             schedule = getMedicalDoctorScheduleJpaEntity(medicalDoctor, LocalDate.parse(date));
+            medicalDoctorScheduleRepository.save(schedule);
             for (int i = 0; i < 24; i++) {
                 item = medicalDoctorScheduleMapper.mapToJpaVacationItem(schedule, Time.valueOf(time), type);
-                time.plusHours(1L);
-                itemRepository.save(item);
+                saveIfDoesNotExist(item);
+                time = time.plusHours(1L);
             }
-            medicalDoctorScheduleRepository.save(schedule);
         }
-
     }
 
+    @Override
+    public void approveLeaveRequest(LeaveRequest leaveRequest, MedicalDoctor medicalDoctor) {
+        addLeave(
+                leaveRequest.getDates(),
+                MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.valueOf(leaveRequest.getType()).getOrdinal(), medicalDoctor);
+    }
 
 }

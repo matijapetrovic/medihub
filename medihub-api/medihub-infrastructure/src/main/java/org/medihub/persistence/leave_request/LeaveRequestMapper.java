@@ -2,6 +2,7 @@ package org.medihub.persistence.leave_request;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.domain.LeaveRequest;
+import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem;
 import org.medihub.persistence.medical_doctor.MedicalDoctorMapper;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +20,7 @@ public class LeaveRequestMapper {
             leaveRequest.getId(),
                 leaveRequest.getDates().stream().map(date -> Date.valueOf(date)).collect(Collectors.toList()),
                 medicalDoctorMapper.mapToJpaEntity(leaveRequest.getMedicalDoctor()),
-                leaveRequest.getType()
+                MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.valueOf(leaveRequest.getType().toUpperCase()).getOrdinal()
         );
     }
 
@@ -27,7 +28,7 @@ public class LeaveRequestMapper {
         return new LeaveRequest(
                 leaveRequest.getId(),
                 leaveRequest.getDates().stream().map(date -> date.toString()).collect(Collectors.toList()),
-                leaveRequest.getType(),
+                MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.valueOf(leaveRequest.getType()).get().toString(),
                 medicalDoctorMapper.mapToDomainEntity(leaveRequest.getDoctor())
         );
     }

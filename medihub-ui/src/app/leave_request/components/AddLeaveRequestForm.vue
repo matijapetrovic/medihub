@@ -84,6 +84,7 @@ import { mapActions } from 'vuex';
 export default {
   name: 'AddLeaveRequest',
   data: () => ({
+    items: [],
     dates: [],
     menu: null,
     types: ['Vacation', 'Leave'],
@@ -93,6 +94,9 @@ export default {
   methods: {
     ...mapActions('leaveRequest', ['addLeaveRequest']),
 
+    setItems() {
+      return true;
+    },
     submit() {
       if (this.validate()) {
         const request = {
@@ -100,7 +104,12 @@ export default {
           type: this.type,
         };
         this.addLeaveRequest(request);
+        this.clear();
       }
+    },
+    clear() {
+      this.dates = [];
+      this.type = null;
     },
     validate() {
       return this.$refs.form.validate();
@@ -109,9 +118,6 @@ export default {
   computed: {
     requiredRule() {
       return (value) => !!value || 'Required';
-    },
-    minNumberRule() {
-      return (value) => value > 0 || 'Number must be positive!';
     },
   },
 };

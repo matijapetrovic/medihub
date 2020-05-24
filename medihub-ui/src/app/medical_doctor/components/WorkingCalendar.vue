@@ -106,6 +106,7 @@
 import { mapActions, mapState } from 'vuex';
 
 export default {
+  name: 'WorkingCalendar',
   data: () => ({
     focus: '',
     type: 'month',
@@ -169,7 +170,7 @@ export default {
       });
   },
   methods: {
-    ...mapActions('medicalDoctor', ['getWorkindCalendar']),
+    ...mapActions('medicalDoctor', ['getWorkindCalendar', 'getWorkindCalendarByDoctorId']),
     viewDay({ date }) {
       this.focus = date;
       this.type = 'day';
@@ -252,6 +253,9 @@ export default {
     },
     rnd(a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a;
+    },
+    props: {
+      doctorId: null,
     },
   },
 };

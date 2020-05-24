@@ -50,14 +50,14 @@ insert into medical_doctor (account_id, clinic, working_time_from, working_time_
 
 insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (1, 1, 500.0);
 
-insert into medical_doctor_schedule (doctor_id, date) values (1, '2020-12-05');
-insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '12:00:00', 1);
-insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '13:00:00', 1);
-insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '14:00:00', 1);
-insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '15:00:00', 1);
-insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '17:00:00', 1);
-insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '18:00:00', 1);
-insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '19:00:00', 1);
+-- insert into medical_doctor_schedule (doctor_id, date) values (1, '2020-12-05');
+-- insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '12:00:00', 1);
+-- insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '13:00:00', 1);
+-- insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '14:00:00', 1);
+-- insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '15:00:00', 1);
+-- insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '17:00:00', 1);
+-- insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '18:00:00', 1);
+-- insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '19:00:00', 1);
 
 insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 500, '2020-10-10', '01:00:00');
 insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1000, '2020-10-10', '00:00:00');
