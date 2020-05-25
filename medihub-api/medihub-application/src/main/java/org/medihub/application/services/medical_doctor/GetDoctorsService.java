@@ -4,8 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.medical_doctor.SearchDoctorsOutput;
 import org.medihub.application.ports.incoming.medical_doctor.GetDoctorsQuery;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorsPort;
-import org.medihub.application.ports.outgoing.doctor.LoadDoctorPort;
-import org.medihub.application.ports.outgoing.medical_record.LoadMedicalRecordPort;
 
 import java.util.List;
 import java.util.stream.Collectors;

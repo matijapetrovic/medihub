@@ -1,11 +1,3 @@
-<style scoped>
-  .description {
-    font-family:    Georgia, serif;
-    font-size:      15px;
-    white-space:    pre-line;
-  }
-</style>
-
 <template>
   <v-row class="fill-height">
     <v-col>
@@ -92,7 +84,7 @@
               </v-btn>
             </v-toolbar>
             <v-card-text>
-              <div class="description">{{selectedEvent.details}}</div>
+              <span v-html="selectedEvent.details"></span>
             </v-card-text>
             <v-card-actions>
               <v-btn
@@ -102,22 +94,9 @@
               >
                 Cancel
               </v-btn>
-              <v-btn
-                text
-                color="primary"
-                @click="openAppointmentModal"
-                v-if="selectedEvent.type === 'APPOINTMENT'"
-                :disabled="diagnosisDisabled()"
-              >
-                Enter Diagnosis
-              </v-btn>
             </v-card-actions>
           </v-card>
         </v-menu>
-        <appointment-dialog
-          ref="dialog"
-        >
-        </appointment-dialog>
       </v-sheet>
     </v-col>
   </v-row>
@@ -125,7 +104,6 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import AppointmentDialog from './AppointmentDialog.vue';
 
 export default {
   name: 'WorkingCalendar',
@@ -147,9 +125,6 @@ export default {
     names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
     today: null,
   }),
-  components: {
-    AppointmentDialog,
-  },
   computed: {
     ...mapState('medicalDoctor', ['workingCalendar']),
     title() {
@@ -189,13 +164,13 @@ export default {
   },
   mounted() {
     this.$refs.calendar.checkChange();
-    this.getWorkindCalendar()
+    this.getWorkindCalendarByDoctorId(this.doctorId)
       .then(() => {
         this.setUpEvents();
       });
   },
   methods: {
-    ...mapActions('medicalDoctor', ['getWorkindCalendar', 'getWorkindCalendarByDoctorId']),
+    ...mapActions('medicalDoctor', ['getWorkindCalendarByDoctorId']),
     viewDay({ date }) {
       this.focus = date;
       this.type = 'day';
@@ -233,32 +208,16 @@ export default {
       Object.keys(this.workingCalendar.dailySchedules).forEach((key) => {
         const items = this.workingCalendar.dailySchedules[key].scheduleItems;
         items.forEach((item) => {
-          events.push(
-            this.getEvent(item, key),
-          );
+          events.push({
+            name: item.type,
+            start: `${key} ${item.time}`,
+            end: `${key} ${this.incrementTime(item.time)}`,
+            color: this.getColorByName(item.type),
+          });
         });
       });
 
       this.events = events;
-    },
-    getEvent(item, date) {
-      let fullName = '';
-      switch (item.type) {
-        case 'APPOINTMENT':
-          fullName = `${item.appointment.patient.firstName} ${item.appointment.patient.lastName}`;
-          return {
-            name: item.type,
-            type: item.type,
-            start: `${date} ${item.time}`,
-            end: `${date} ${this.incrementTime(item.time)}`,
-            color: this.getColorByName(item.type),
-            details: `Patient: ${fullName} \nClinic room: ${item.appointment.clinicRoom.name}`,
-            patient: item.appointment.patient,
-            clinicRoom: item.appointment.clinicRoom,
-          };
-        default:
-          return null;
-      }
     },
     incrementTime(timeStr) {
       const parts = timeStr.split(':');
@@ -282,12 +241,6 @@ export default {
         case 'LEAVE': return 'deep-purple';
         default: return 'grey darken-1';
       }
-    },
-    openAppointmentModal() {
-      this.$refs.dialog.show(this.selectedEvent);
-    },
-    diagnosisDisabled() {
-      return false;
     },
     updateRange({ start, end }) {
       this.start = start;

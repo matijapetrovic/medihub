@@ -4,6 +4,8 @@ import lombok.Getter;
 import org.medihub.domain.scheduling.DailyScheduleItem;
 
 import java.time.LocalTime;
+import java.util.Arrays;
+import java.util.Optional;
 
 public abstract class MedicalDoctorScheduleItem extends DailyScheduleItem {
     @Getter
@@ -20,6 +22,11 @@ public abstract class MedicalDoctorScheduleItem extends DailyScheduleItem {
         private int ordinal;
         MedicalDoctorScheduleItemType(int ordinal) {
             this.ordinal = ordinal;
+        }
+        public static Optional<MedicalDoctorScheduleItemType> valueOf(int value) {
+            return Arrays.stream(values())
+                    .filter(type -> type.ordinal == value)
+                    .findFirst();
         }
     }
 }

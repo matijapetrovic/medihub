@@ -21,7 +21,7 @@ public class MedicalDoctorScheduleMapper {
 
     public MedicalDoctorScheduleJpaEntity mapToScheduleJpaEntity(MedicalDoctor doctor, LocalDate date){
         return new MedicalDoctorScheduleJpaEntity(
-                doctor.getId(),
+                null,
                 medicalDoctorMapper.mapToJpaEntity(doctor),
                 Date.valueOf(date)
         );
@@ -34,7 +34,10 @@ public class MedicalDoctorScheduleMapper {
     ) {
         return new MedicalDoctorVacationScheduleJpaItem(
                 null,
-                schedule,
+                new MedicalDoctorScheduleJpaEntity(
+                        schedule.getId(),
+                        schedule.getDoctor(),
+                        schedule.getDate()),
                 time,
                 type
         );

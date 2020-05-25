@@ -202,16 +202,15 @@ export default {
       this.toggleDialog();
     },
     scheduleRoomForAppointment() {
-      const item = this.editedItem;
       const addAppointmentRequest = {
-        date: item.date,
-        time: item.time,
-        patientId: item.patient.id,
-        doctorId: item.doctorId,
-        clinicRoomId: item.clinicRoom.id,
+        date: this.editedItem.date,
+        time: this.editedItem.time,
+        patientId: this.editedItem.patient.id,
+        doctorId: this.editedItem.doctorId,
+        clinicRoomId: this.editedItem.clinicRoom.id,
       };
       this.addAppointment(addAppointmentRequest);
-      this.deleteItem(item);
+      this.deleteItem(this.editedItem);
       this.dialog = false;
       this.resetPathParams(null);
     },

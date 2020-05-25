@@ -28,5 +28,25 @@ export default {
           commit('SET_LEAVE_REQUESTS', data.data);
         });
     },
+    deleteLeaveRequest({ dispatch }, id) {
+      return api.deleteLeaveRequest(id)
+        .then(() => {
+          const message = 'Leave request deleted successfully';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
+    approveLeaveRequest({ dispatch }, payload) {
+      return api.approveLeaveRequest(payload)
+        .then(() => {
+          const message = 'Request approved successfully';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
   },
 };

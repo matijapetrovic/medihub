@@ -33,6 +33,14 @@ public class GetDoctorScheduleService implements GetDoctorScheduleQuery {
         return getDoctorScheduleOutput;
     }
 
+    @Override
+    public GetDoctorScheduleOutput getDoctorSchedule(Long id) {
+        MedicalDoctorSchedule medicalDoctorSchedule = getDoctorSchedulePort.getDoctorSchedule(id);
+        GetDoctorScheduleOutput getDoctorScheduleOutput = createOutput(medicalDoctorSchedule);
+
+        return getDoctorScheduleOutput;
+    }
+
     public GetDoctorScheduleOutput createOutput(MedicalDoctorSchedule medicalDoctorSchedule) {
 
         Map<String, DailyScheduleOutput> dailySchedules = new HashMap<String, DailyScheduleOutput>();
