@@ -164,13 +164,13 @@ export default {
   },
   mounted() {
     this.$refs.calendar.checkChange();
-    this.getWorkindCalendar()
+    this.getWorkindCalendarByDoctorId(this.doctorId)
       .then(() => {
         this.setUpEvents();
       });
   },
   methods: {
-    ...mapActions('medicalDoctor', ['getWorkindCalendar', 'getWorkindCalendarByDoctorId']),
+    ...mapActions('medicalDoctor', ['getWorkindCalendarByDoctorId']),
     viewDay({ date }) {
       this.focus = date;
       this.type = 'day';

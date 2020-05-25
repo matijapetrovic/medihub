@@ -10,6 +10,4 @@ public interface MedicalDoctorScheduleRepository extends JpaRepository<MedicalDo
     Set<MedicalDoctorScheduleJpaEntity> findAllByDoctor_Id(Long doctorId);
     Optional<MedicalDoctorScheduleJpaEntity> findByDateAndDoctor_Id(Date date, Long doctorId);
     Optional<MedicalDoctorScheduleJpaEntity> findByDate(Date date);
-
-    boolean existsByDate(Date valueOf);
 }

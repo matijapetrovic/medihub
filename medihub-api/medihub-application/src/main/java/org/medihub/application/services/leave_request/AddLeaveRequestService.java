@@ -7,6 +7,7 @@ import org.medihub.application.ports.outgoing.doctor.GetDoctorByAccountIdPort;
 import org.medihub.application.ports.outgoing.leave_request.AddLeaveRequestPort;
 import org.medihub.domain.LeaveRequest;
 import org.medihub.domain.account.Account;
+import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem;
 
 @RequiredArgsConstructor
 public class AddLeaveRequestService implements AddLeaveRequestUseCase {
@@ -21,10 +22,9 @@ public class AddLeaveRequestService implements AddLeaveRequestUseCase {
                 new LeaveRequest(
                         null,
                         addLeaveCommand.getDates(),
-                        addLeaveCommand.getType(),
+                        MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.valueOf(addLeaveCommand.getType()).get().toString(),
                         getDoctorByAccountIdPort.getDoctor(authenticated.getId())
                         )
-
         );
     }
 }

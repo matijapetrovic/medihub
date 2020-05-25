@@ -53,7 +53,7 @@ export default {
       {
         text: 'Leave requests',
         icon: 'mdi-arrow-left-bold-circle-outline',
-        path: '/leave-requests',
+        path: '/leave-request',
       },
     ],
   }),
