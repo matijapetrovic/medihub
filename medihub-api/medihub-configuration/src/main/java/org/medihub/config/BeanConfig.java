@@ -1,6 +1,8 @@
 package org.medihub.config;
 
 import org.medihub.application.ports.incoming.leave_request.AddLeaveRequestUseCase;
+import org.medihub.application.ports.incoming.leave_request.ApproveLeaveRequestUseCase;
+import org.medihub.application.ports.incoming.leave_request.DeleteLeaveRequestUseCase;
 import org.medihub.application.ports.incoming.leave_request.GetLeaveRequestUseCase;
 import org.medihub.application.ports.incoming.medical_doctor.schedule.GetDoctorScheduleQuery;
 import org.medihub.application.ports.incoming.predefined_appointment.AddPredefinedAppointmentUseCase;
@@ -61,6 +63,8 @@ import org.medihub.application.ports.outgoing.drugs.SaveDrugPort;
 import org.medihub.application.ports.outgoing.encoding.EncoderPort;
 import org.medihub.application.ports.outgoing.finished_appointment.GetFinishedAppointmentsPort;
 import org.medihub.application.ports.outgoing.leave_request.AddLeaveRequestPort;
+import org.medihub.application.ports.outgoing.leave_request.ApproveLeaveRequestPort;
+import org.medihub.application.ports.outgoing.leave_request.DeleteLeaveRequestPort;
 import org.medihub.application.ports.outgoing.leave_request.GetLeaveRequestPort;
 import org.medihub.application.ports.outgoing.medical_record.LoadMedicalRecordPort;
 import org.medihub.application.ports.outgoing.patient.GetPatientsPort;
@@ -76,6 +80,8 @@ import org.medihub.application.services.account.GetAccountService;
 import org.medihub.application.services.account.GetProfileService;
 import org.medihub.application.services.account.UpdateProfileService;
 import org.medihub.application.services.leave_request.AddLeaveRequestService;
+import org.medihub.application.services.leave_request.ApproveLeaveRequestService;
+import org.medihub.application.services.leave_request.DeleteLeaveRequestService;
 import org.medihub.application.services.leave_request.GetLeaveRequestService;
 import org.medihub.application.services.predefined_appointment.AddPredefinedAppointmentService;
 import org.medihub.application.services.appointment.AddAppointmentService;
@@ -401,5 +407,23 @@ public class BeanConfig {
     @Bean
     public GetLeaveRequestUseCase getLeaveRequestUseCase(GetLeaveRequestPort getLeaveRequestPort) {
         return new GetLeaveRequestService(getLeaveRequestPort);
+    }
+
+    @Bean
+    public DeleteLeaveRequestUseCase deleteLeaveRequestUseCase(DeleteLeaveRequestPort deleteLeaveRequestPort) {
+        return new DeleteLeaveRequestService(deleteLeaveRequestPort);
+    }
+
+    @Bean
+    public ApproveLeaveRequestUseCase approveLeaveRequestUseCase(
+            ApproveLeaveRequestPort approveLeaveRequestPort,
+            GetLeaveRequestPort getLeaveRequestPort,
+            GetDoctorsPort getDoctorsPort,
+            DeleteLeaveRequestPort deleteLeaveRequestPort) {
+        return new ApproveLeaveRequestService(
+                approveLeaveRequestPort,
+                getLeaveRequestPort,
+                getDoctorsPort,
+                deleteLeaveRequestPort);
     }
 }

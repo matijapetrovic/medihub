@@ -11,6 +11,6 @@ import java.util.List;
 public class LeaveRequest {
     private Long id;
     private List<String> dates;
-    private Integer type;
+    private String type;
     private MedicalDoctor medicalDoctor;
 }

@@ -45,6 +45,15 @@ export default {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
+    getWorkindCalendarByDoctorId({ commit, dispatch }, id) {
+      return api.getWorkindCalendarByDoctorId(id)
+        .then((response) => {
+          commit('SET_WORKING_CALENDAR', response.data);
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
   },
   getters: {
   },

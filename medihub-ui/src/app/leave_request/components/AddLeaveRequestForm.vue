@@ -11,7 +11,9 @@
         <v-row>
           <v-col cols="12" sm="6">
             <v-date-picker
+              v-if="allowedDatesList !== null"
               v-model="dates"
+              :allowed-dates="allowedDates"
               multiple
               :min="today"
             ></v-date-picker>
@@ -84,15 +86,23 @@ import { mapActions } from 'vuex';
 export default {
   name: 'AddLeaveRequest',
   data: () => ({
+    allowedDates: [],
+    items: [],
     dates: [],
     menu: null,
     types: ['Vacation', 'Leave'],
     type: null,
     today: new Date().toISOString().substr(0, 10),
   }),
+  mounted() {
+    this.allowedDatesList.push('2020-05-27');
+  },
   methods: {
     ...mapActions('leaveRequest', ['addLeaveRequest']),
 
+    setItems() {
+      return true;
+    },
     submit() {
       if (this.validate()) {
         const request = {
@@ -100,18 +110,21 @@ export default {
           type: this.type,
         };
         this.addLeaveRequest(request);
+        this.clear();
       }
+    },
+    clear() {
+      this.dates = [];
+      this.type = null;
     },
     validate() {
       return this.$refs.form.validate();
     },
+    allowedDates: (val) => this.allowedDatesArray.includes(val),
   },
   computed: {
     requiredRule() {
       return (value) => !!value || 'Required';
-    },
-    minNumberRule() {
-      return (value) => value > 0 || 'Number must be positive!';
     },
   },
 };

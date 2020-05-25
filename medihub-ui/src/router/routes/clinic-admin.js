@@ -43,11 +43,11 @@ export default {
       component: AppointmentRequest,
     },
     {
-      path: '/predefined-appointment/add',
+      path: '/predefined-appointment',
       component: AddPredefinedAppointmentForm,
     },
     {
-      path: '/predefined-appointment',
+      path: '/leave-request',
       component: LeaveRequests,
     },
   ],
