@@ -7,6 +7,7 @@ import org.medihub.domain.clinic.Clinic;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -23,6 +24,7 @@ public class ClinicController {
     private final AddClinicUseCase addClinicUseCase;
     private final SearchClinicsQuery searchClinicsQuery;
     private final GetClinicNamesQuery getClinicNamesQuery;
+    private final GetCurrentClinicUseCase getCurrentClinicUseCase;
 
     @GetMapping("")
     ResponseEntity<List<SearchClinicsOutput>> searchClinics(@RequestParam(required = false)
@@ -54,5 +56,11 @@ public class ClinicController {
     @GetMapping("/names")
     ResponseEntity<List<GetClinicNamesOutput>> getClinicNames() {
         return ResponseEntity.ok(getClinicNamesQuery.getClinicNames());
+    }
+
+    @GetMapping("/getCurrent")
+    @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
+    ResponseEntity<?> getClinic() {
+        return ResponseEntity.ok(getCurrentClinicUseCase.getCurrentClinic());
     }
 }

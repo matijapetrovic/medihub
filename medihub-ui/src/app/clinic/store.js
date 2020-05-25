@@ -7,6 +7,7 @@ export default {
     clinicNames: [],
     clinics: [],
     searchParams: null,
+    clinic: null,
   },
   mutations: {
     SET_CLINIC_NAMES(state, clinicNames) {
@@ -14,6 +15,9 @@ export default {
     },
     SET_CLINICS(state, clinics) {
       state.clinics = clinics;
+    },
+    SET_CURRENT_CLINIC(state, clinic) {
+      state.clinic = clinic;
     },
     SET_SEARCH_PARAMS(state, params) {
       state.searchParams = params;
@@ -43,6 +47,15 @@ export default {
       return api.fetchClinics(state.searchParams.appointmentTypeId, state.searchParams.date)
         .then((response) => {
           commit('SET_CLINICS', response.data);
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
+    getCurrentClinic({ commit, dispatch }) {
+      return api.getCurrentClinic()
+        .then((response) => {
+          commit('SET_CURRENT_CLINIC', response.data);
         })
         .catch((err) => {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });

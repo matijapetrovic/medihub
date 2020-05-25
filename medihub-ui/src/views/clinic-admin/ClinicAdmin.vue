@@ -24,6 +24,11 @@ export default {
   data: () => ({
     navItems: [
       {
+        text: 'Clinic information',
+        icon: 'mdi-hospital-building',
+        path: '/clinicInfo',
+      },
+      {
         text: 'Doctors',
         path: '/medical-doctors',
         icon: 'mdi-doctor',
