@@ -84,6 +84,7 @@ public class MedicalDoctorScheduleAdapter implements
                         type,
                         appointmentMapper.mapToDomainEntity(appointmentItem.getAppointment())
                     );
+            case LEAVE:
             case VACATION:
                 MedicalDoctorVacationScheduleJpaItem vacationItem = (MedicalDoctorVacationScheduleJpaItem) jpaItem;
                 return new MedicalDoctorVacationScheduleItem(

@@ -1,8 +1,10 @@
 <style scoped>
   .areaTitle {
-    font-family:    Georgia, serif;
-    font-size:      20px;
+    font-size: 20px;
     font-weight: bold;
+  }
+  .select {
+    width: 45%;
   }
 </style>
 
@@ -10,7 +12,7 @@
   <div class="text-center">
     <v-dialog
       v-model="dialog"
-      width="520"
+      width="500"
     >
       <v-card>
         <v-card-title
@@ -26,8 +28,8 @@
         </v-card-title>
 
         <v-card-text>
-          <br/>
-          <div class="areaTitle">Patient</div>
+         <br/>
+         <div class="areaTitle">Patient</div>
           <v-container>
             <v-row>
               <v-text-field
@@ -36,6 +38,7 @@
                 v-model="model.patient.firstName"
                 disabled="true"
               ></v-text-field>
+              <v-spacer></v-spacer>
               <v-text-field
                 filled
                 label="Last name:"
@@ -53,22 +56,51 @@
                 v-model="model.clinicRoom.name"
                 disabled="true"
               ></v-text-field>
+              <v-spacer></v-spacer>
+              <v-text-field
+                filled
+                label="Number:"
+                v-model="model.clinicRoom.number"
+                disabled="true"
+              ></v-text-field>
             </v-row>
           </v-container>
           <div class="areaTitle">Diagnosis</div>
-          <v-container>
-            <v-row>
-              <v-select
-                outlined
-                label="Diagnosis"
-              ></v-select>
-              <v-spacer></v-spacer>
-              <v-select
-                outlined
-                label="Drugs"
-              ></v-select>
-            </v-row>
-          </v-container>
+          <v-form ref="form">
+            <v-container>
+              <v-row>
+                <v-select
+                  class="select"
+                  outlined
+                  label="Diagnosis"
+                  :rules="[requiredRule]"
+                ></v-select>
+                <v-spacer></v-spacer>
+                <v-select
+                  class="select"
+                  outlined
+                  label="Drugs"
+                  :rules="[requiredRule]"
+                ></v-select>
+              </v-row>
+              <v-row>
+                <v-textarea
+                  label="Description"
+                  v-model="description"
+                  color="teal"
+                  no-resize="true"
+                  :rules="[requiredRule]"
+                  rows="3"
+                >
+                  <template v-slot:label>
+                    <div>
+                      Description
+                    </div>
+                  </template>
+                </v-textarea>
+              </v-row>
+            </v-container>
+          </v-form>
         </v-card-text>
 
         <v-divider></v-divider>
@@ -95,7 +127,13 @@ export default {
     return {
       dialog: false,
       model: null,
+      description: '',
     };
+  },
+  computed: {
+    requiredRule() {
+      return (value) => !!value || 'Required';
+    },
   },
   methods: {
     show(model) {

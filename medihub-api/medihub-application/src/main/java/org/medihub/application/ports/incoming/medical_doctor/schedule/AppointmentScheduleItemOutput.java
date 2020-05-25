@@ -7,6 +7,7 @@ import org.medihub.domain.appointment.Appointment;
 class ClinicRoomOutput {
    public Long id;
    public String name;
+   public int number;
 }
 
 @AllArgsConstructor
@@ -49,7 +50,8 @@ public class AppointmentScheduleItemOutput extends DailyScheduleItemOutput {
                         appointment.getDoctor().getAccount().getPersonalInfo().getFirstName(),
                         appointment.getDoctor().getAccount().getPersonalInfo().getLastName()),
                 new ClinicRoomOutput(appointment.getClinicRoom().getId(),
-                        appointment.getClinicRoom().getName())
+                        appointment.getClinicRoom().getName(),
+                        appointment.getClinicRoom().getNumber())
 
         );
     }
