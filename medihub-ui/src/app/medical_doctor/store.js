@@ -7,6 +7,7 @@ export default {
     name: null,
     doctors: [],
     workingCalendar: null,
+    newRecordItem: null,
   },
   mutations: {
     SET_NAME(state, name) {
@@ -17,6 +18,9 @@ export default {
     },
     SET_WORKING_CALENDAR(state, workingCalendar) {
       state.workingCalendar = workingCalendar;
+    },
+    SET_NEW_RECORD_ITEM(state, newRecordItem) {
+      state.newRecordItem = newRecordItem;
     },
   },
   actions: {
@@ -49,6 +53,17 @@ export default {
       return api.getWorkindCalendarByDoctorId(id)
         .then((response) => {
           commit('SET_WORKING_CALENDAR', response.data);
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
+    finishAppointment({ commit, dispatch }, appointment) {
+      return api.finishAppointment(appointment)
+        .then((response) => {
+          commit('SET_NEW_RECORD_ITEM', response.data);
+          const message = 'Appointment finished successfully';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
         })
         .catch((err) => {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });

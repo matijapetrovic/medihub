@@ -22,7 +22,7 @@
           Enter Diagnosis
           <v-spacer></v-spacer>
           <v-btn icon
-            @click="dialog=false">
+            @click="close">
               <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -35,15 +35,15 @@
               <v-text-field
                 filled
                 label="First name:"
-                v-model="model.patient.firstName"
-                disabled="true"
+                v-model="firstName"
+                :disabled="true"
               ></v-text-field>
               <v-spacer></v-spacer>
               <v-text-field
                 filled
                 label="Last name:"
-                v-model="model.patient.lastName"
-                disabled="true"
+                v-model="lastName"
+                :disabled="true"
               ></v-text-field>
             </v-row>
           </v-container>
@@ -53,15 +53,15 @@
               <v-text-field
                 filled
                 label="Name:"
-                v-model="model.clinicRoom.name"
-                disabled="true"
+                v-model="clinicRoom"
+                :disabled="true"
               ></v-text-field>
               <v-spacer></v-spacer>
               <v-text-field
                 filled
                 label="Number:"
-                v-model="model.clinicRoom.number"
-                disabled="true"
+                v-model="number"
+                :disabled="true"
               ></v-text-field>
             </v-row>
           </v-container>
@@ -72,15 +72,23 @@
                 <v-select
                   class="select"
                   outlined
+                  v-model="tempDiagnosis"
+                  :items="diagnosis"
+                  item-text="name"
                   label="Diagnosis"
                   :rules="[requiredRule]"
+                  return-object
                 ></v-select>
                 <v-spacer></v-spacer>
                 <v-select
                   class="select"
                   outlined
+                  v-model="tempDrug"
+                  :items="drugs"
+                  item-text="name"
                   label="Drugs"
                   :rules="[requiredRule]"
+                  return-object
                 ></v-select>
               </v-row>
               <v-row>
@@ -88,7 +96,7 @@
                   label="Description"
                   v-model="description"
                   color="teal"
-                  no-resize="true"
+                  :no-resize="true"
                   :rules="[requiredRule]"
                   rows="3"
                 >
@@ -111,6 +119,7 @@
             color="success"
             rounded
             width="150"
+            @click="submit"
           >
             Finish
           </v-btn>
@@ -122,24 +131,62 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex';
+
 export default {
   data() {
     return {
       dialog: false,
       model: null,
+      firstName: '',
+      lastName: '',
+      clinicRoom: '',
+      number: '',
       description: '',
+      tempDiagnosis: null,
+      tempDrug: null,
     };
   },
   computed: {
+    ...mapState('diagnosis', ['diagnosis']),
+    ...mapState('drugs', ['drugs']),
     requiredRule() {
       return (value) => !!value || 'Required';
     },
   },
   methods: {
+    ...mapActions('diagnosis', ['getDiagnosis']),
+    ...mapActions('drugs', ['getDrugs']),
+    ...mapActions('medicalDoctor', ['finishAppointment']),
     show(model) {
       this.model = model;
+      this.firstName = model.appointment.patient.firstName;
+      this.lastName = model.appointment.patient.lastName;
+      this.clinicRoom = model.appointment.clinicRoom.name;
+      this.number = model.appointment.clinicRoom.number;
       this.dialog = true;
     },
+    close() {
+      this.$refs.form.reset();
+      this.dialog = false;
+    },
+    submit() {
+      if (this.validate()) {
+        this.finishAppointment({
+          appointment: this.model.appointment.id,
+          diagnosis: this.tempDiagnosis.id,
+          drugs: this.tempDrug.id,
+          description: this.description,
+        });
+      }
+    },
+    validate() {
+      return this.$refs.form.validate();
+    },
+  },
+  mounted() {
+    this.getDiagnosis();
+    this.getDrugs();
   },
 };
 </script>

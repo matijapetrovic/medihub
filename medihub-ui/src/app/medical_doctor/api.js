@@ -19,4 +19,7 @@ export default {
   addLeaveRequest(credentials) {
     return utils.apiClient.post('api/medical-doctor/addLeaveRequest', credentials);
   },
+  finishAppointment(appointment) {
+    return appointment;
+  },
 };

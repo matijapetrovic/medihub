@@ -253,8 +253,7 @@ export default {
             end: `${date} ${this.incrementTime(item.time)}`,
             color: this.getColorByName(item.type),
             details: `Patient: ${fullName} \nClinic room: ${item.appointment.clinicRoom.name}`,
-            patient: item.appointment.patient,
-            clinicRoom: item.appointment.clinicRoom,
+            appointment: item.appointment,
           };
         default:
           return null;
