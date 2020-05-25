@@ -37,7 +37,7 @@
           Working calendar
         </v-card-title>
         <v-card-text>
-          <WorkingCalendar></WorkingCalendar>
+          <WorkingCalendar v-bind:doctorId="editedItem.doctorId"></WorkingCalendar>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import WorkingCalendar from '@/views/medical_doctor/WorkingCalendar.vue';
+import WorkingCalendar from '@/app/shared/_components/DoctorWorkingCalendar.vue';
 import { mapActions, mapState } from 'vuex';
 
 export default {

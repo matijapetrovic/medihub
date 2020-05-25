@@ -140,7 +140,9 @@ public class MedicalDoctorScheduleAdapter implements
     }
 
     private void saveIfDoesNotExist(MedicalDoctorVacationScheduleJpaItem item) {
-        if(!(vacationRepository.findByTimeAndAndScheduleId(item.getTime(), item.getSchedule().getId()).isPresent()))
+        if(!(vacationRepository.findByTimeAndAndScheduleId(
+                item.getTime(),
+                item.getSchedule().getId()).isPresent()))
         {
             vacationRepository.save(item);
         }

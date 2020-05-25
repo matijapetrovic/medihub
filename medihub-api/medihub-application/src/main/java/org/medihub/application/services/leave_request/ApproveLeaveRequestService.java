@@ -21,5 +21,6 @@ public class ApproveLeaveRequestService implements ApproveLeaveRequestUseCase {
         approveLeaveRequestPort.approveLeaveRequest(
                 getLeaveRequestPort.getById(id),
                 getDoctorsPort.getMedicalDoctorById(medicalDoctorId));
+        deleteLeaveRequestPort.delete(id);
     }
 }
