@@ -41,9 +41,19 @@ export default {
         ],
       },
       {
+        text: 'Predefined appointments',
+        icon: 'mdi-book-open-page-variant',
+        path: '/predefined-appointment',
+      },
+      {
         text: 'Appointment requests',
         icon: 'mdi-message-plus',
         path: `/appointment-request/${null}`,
+      },
+      {
+        text: 'Leave requests',
+        icon: 'mdi-arrow-left-bold-circle-outline',
+        path: '/leave-request',
       },
     ],
   }),

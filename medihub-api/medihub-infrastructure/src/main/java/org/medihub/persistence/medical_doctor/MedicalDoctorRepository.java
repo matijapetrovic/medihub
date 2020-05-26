@@ -16,7 +16,7 @@ public interface MedicalDoctorRepository extends JpaRepository<MedicalDoctorJpaE
 
     List<MedicalDoctorJpaEntity> findAll();
     List<MedicalDoctorJpaEntity> findAllByClinicId(Long clinicId);
-    MedicalDoctorJpaEntity findByAccount_Id(Long accountId);
+    MedicalDoctorJpaEntity findByAccountId(Long accountId);
 
     @Query("select d from MedicalDoctorJpaEntity d " +
             "where d.specialization = :appointmentType and d.clinic = :clinic " +

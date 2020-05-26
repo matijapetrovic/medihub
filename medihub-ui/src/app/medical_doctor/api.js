@@ -13,4 +13,10 @@ export default {
   getWorkindCalendar() {
     return utils.apiClient.get('api/medical-doctor/schedule');
   },
+  getWorkindCalendarByDoctorId(id) {
+    return utils.apiClient.get(`api/medical-doctor/schedule/:${id}`);
+  },
+  addLeaveRequest(credentials) {
+    return utils.apiClient.post('api/medical-doctor/addLeaveRequest', credentials);
+  },
 };

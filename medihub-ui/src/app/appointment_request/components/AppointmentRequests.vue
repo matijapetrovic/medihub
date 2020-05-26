@@ -50,10 +50,10 @@
           Doctor's email: {{this.editedItem !== null? this.editedItem.doctorEmail : ''}}<br>
           Patient's email: {{this.editedItem !== null? this.editedItem.patientEmail : ''}}<br>
           Date and time: {{this.editedItem !== null? this.editedItem.date : ''}}
-           {{this.editedItem !== null? this.editedItem.time : ''}}<br>
+          {{this.editedItem !== null? this.editedItem.time : ''}}<br>
           Clinic room:
-           {{this.editedItem !== null? this.editedItem.clinicRoom.number : ''}}
-           ({{this.editedItem !== null? this.editedItem.clinicRoom.name : ''}})<br>
+          {{this.editedItem !== null? this.editedItem.clinicRoom.number : ''}}
+          ({{this.editedItem !== null? this.editedItem.clinicRoom.name : ''}})<br>
           Price: {{this.editedItem !== null? this.editedItem.price : ''}}<br>
         </v-card-text>
         <v-card-actions>
@@ -202,22 +202,15 @@ export default {
       this.toggleDialog();
     },
     scheduleRoomForAppointment() {
-      const item = this.editedItem;
-      // const request = {
-      //   id: item.clinicRoom.id,
-      //   date: item.date,
-      //   time: item.time,
-      // };
       const addAppointmentRequest = {
-        date: item.date,
-        time: item.time,
-        patientId: item.patient.id,
-        doctorId: item.doctorId,
-        clinicRoomId: item.clinicRoom.id,
+        date: this.editedItem.date,
+        time: this.editedItem.time,
+        patientId: this.editedItem.patient.id,
+        doctorId: this.editedItem.doctorId,
+        clinicRoomId: this.editedItem.clinicRoom.id,
       };
       this.addAppointment(addAppointmentRequest);
-      this.deleteItem(item);
-      // this.scheduleRoom(request);
+      this.deleteItem(this.editedItem);
       this.dialog = false;
       this.resetPathParams(null);
     },

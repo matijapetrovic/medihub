@@ -13,7 +13,7 @@
                                 name="name" type="text"
                                 :rules="[requiredRule,]">
                                 </v-text-field>
-                              <v-text-field v-model="name" label="Number"
+                              <v-text-field v-model="number" label="Number"
                               name="number" type="number"
                               :rules="[requiredRule,]">
                               </v-text-field>

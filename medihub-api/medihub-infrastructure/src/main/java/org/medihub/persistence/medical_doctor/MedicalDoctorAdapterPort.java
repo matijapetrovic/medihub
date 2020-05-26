@@ -92,7 +92,7 @@ public class MedicalDoctorAdapterPort implements
     @Override
     public MedicalDoctor getDoctor(Long accountId) {
         MedicalDoctorJpaEntity doctor = medicalDoctorRepository
-                .findByAccount_Id(accountId);
+                .findByAccountId(accountId);
         return medicalDoctorMapper.mapToDomainEntity(doctor);
     }
 }
