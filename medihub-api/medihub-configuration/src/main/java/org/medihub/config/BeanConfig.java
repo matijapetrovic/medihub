@@ -1,5 +1,6 @@
 package org.medihub.config;
 
+import org.medihub.application.ports.incoming.clinic.GetClinicProfileQuery;
 import org.medihub.application.ports.incoming.leave_request.AddLeaveRequestUseCase;
 import org.medihub.application.ports.incoming.leave_request.ApproveLeaveRequestUseCase;
 import org.medihub.application.ports.incoming.leave_request.DeleteLeaveRequestUseCase;
@@ -79,6 +80,7 @@ import org.medihub.application.services.account.ChangePasswordService;
 import org.medihub.application.services.account.GetAccountService;
 import org.medihub.application.services.account.GetProfileService;
 import org.medihub.application.services.account.UpdateProfileService;
+import org.medihub.application.services.clinic.GetClinicProfileService;
 import org.medihub.application.services.leave_request.AddLeaveRequestService;
 import org.medihub.application.services.leave_request.ApproveLeaveRequestService;
 import org.medihub.application.services.leave_request.DeleteLeaveRequestService;
@@ -425,5 +427,11 @@ public class BeanConfig {
                 getLeaveRequestPort,
                 getDoctorsPort,
                 deleteLeaveRequestPort);
+    }
+
+    @Bean
+    public GetClinicProfileQuery getClinicProfileQuery(
+            LoadClinicPort loadClinicPort) {
+        return new GetClinicProfileService(loadClinicPort);
     }
 }
