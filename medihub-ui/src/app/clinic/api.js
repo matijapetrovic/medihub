@@ -13,4 +13,7 @@ export default {
   getCurrentClinic() {
     return utils.apiClient.get('/api/clinic/getCurrent');
   },
+  updateClinic(clinic) {
+    return utils.apiClient.post('/api/clinic/update', clinic);
+  },
 };

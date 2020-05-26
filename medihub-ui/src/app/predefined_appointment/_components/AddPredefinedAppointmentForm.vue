@@ -134,19 +134,19 @@
           </v-col>
           <v-spacer></v-spacer>
         </v-row>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <div class="my-2">
-              <v-btn
-              rounded
-              max-width=""
-              color="primary"
-              >
-                Submit
-              </v-btn>
-            </div>
-            <v-spacer></v-spacer>
-          </v-card-actions>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <div class="my-2">
+            <v-btn
+            rounded
+            max-width=""
+            color="primary"
+            >
+              Submit
+            </v-btn>
+          </div>
+          <v-spacer></v-spacer>
+        </v-card-actions>
       </v-card>
     </v-form>
   </v-container>

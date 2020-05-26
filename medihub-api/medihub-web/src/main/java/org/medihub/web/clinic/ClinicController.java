@@ -3,6 +3,7 @@ package org.medihub.web.clinic;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.clinic.*;
 import org.medihub.application.ports.incoming.clinic.AddClinicUseCase.AddClinicCommand;
+import org.medihub.application.ports.incoming.clinic.UpdateClinicUseCase.UpdateClinicCommand;
 import org.medihub.domain.clinic.Clinic;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
@@ -25,6 +26,7 @@ public class ClinicController {
     private final SearchClinicsQuery searchClinicsQuery;
     private final GetClinicNamesQuery getClinicNamesQuery;
     private final GetCurrentClinicUseCase getCurrentClinicUseCase;
+    private final UpdateClinicUseCase updateClinicUseCase;
 
     @GetMapping("")
     ResponseEntity<List<SearchClinicsOutput>> searchClinics(@RequestParam(required = false)
@@ -62,5 +64,22 @@ public class ClinicController {
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
     ResponseEntity<?> getClinic() {
         return ResponseEntity.ok(getCurrentClinicUseCase.getCurrentClinic());
+    }
+
+    @PostMapping("/update")
+    @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
+    void updateClinic(@RequestBody UpdateClinicRequest updateClinicRequest) {
+        UpdateClinicUseCase.UpdateClinicCommand updateClinicCommand = createUpdateCommand(updateClinicRequest);
+        updateClinicUseCase.updateClinic(updateClinicCommand);
+    }
+
+    private UpdateClinicCommand createUpdateCommand(UpdateClinicRequest updateClinicRequest) {
+        return new UpdateClinicCommand(
+                updateClinicRequest.getName(),
+                updateClinicRequest.getAddressLine(),
+                updateClinicRequest.getCity(),
+                updateClinicRequest.getCountry(),
+                updateClinicRequest.getDescription()
+        );
     }
 }

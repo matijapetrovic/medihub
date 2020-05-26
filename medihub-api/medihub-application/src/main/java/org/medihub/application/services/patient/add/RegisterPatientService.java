@@ -1,4 +1,4 @@
-package org.medihub.application.services.patient;
+package org.medihub.application.services.patient.add;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.AccountNotFoundException;

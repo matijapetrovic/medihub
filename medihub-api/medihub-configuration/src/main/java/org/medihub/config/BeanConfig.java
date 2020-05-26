@@ -1,6 +1,6 @@
 package org.medihub.config;
 
-import org.medihub.application.ports.incoming.clinic.GetCurrentClinicUseCase;
+import org.medihub.application.ports.incoming.clinic.*;
 import org.medihub.application.ports.incoming.leave_request.AddLeaveRequestUseCase;
 import org.medihub.application.ports.incoming.leave_request.ApproveLeaveRequestUseCase;
 import org.medihub.application.ports.incoming.leave_request.DeleteLeaveRequestUseCase;
@@ -21,15 +21,12 @@ import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTyp
 import org.medihub.application.ports.incoming.appointment_type.GetAppointmentTypesQuery;
 import org.medihub.application.ports.incoming.appointment_type.DeleteAppointmentTypeUseCase;
 import org.medihub.application.ports.incoming.authentication.LoginUseCase;
-import org.medihub.application.ports.incoming.clinic.GetClinicNamesQuery;
 import org.medihub.application.ports.incoming.clinic_admin.AddClinicAdminUseCase;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase;
 import org.medihub.application.ports.incoming.account.ChangePasswordUseCase;
 import org.medihub.application.ports.incoming.account.GetAccountQuery;
-import org.medihub.application.ports.incoming.clinic.AddClinicUseCase;
 import org.medihub.application.ports.incoming.account.profile.GetProfileQuery;
 import org.medihub.application.ports.incoming.account.profile.UpdateProfileUseCase;
-import org.medihub.application.ports.incoming.clinic.SearchClinicsQuery;
 import org.medihub.application.ports.incoming.patient.LoadPatientUseCase;
 import org.medihub.application.ports.incoming.patient.RegisterPatientUseCase;
 import org.medihub.application.ports.outgoing.*;
@@ -82,6 +79,7 @@ import org.medihub.application.services.account.get.GetAccountService;
 import org.medihub.application.services.account.get.GetProfileService;
 import org.medihub.application.services.account.post.UpdateProfileService;
 import org.medihub.application.services.clinic.get.GetCurrentClinicService;
+import org.medihub.application.services.clinic.put.UpdateClinicService;
 import org.medihub.application.services.clinic_room.add.AddClinicRoomService;
 import org.medihub.application.services.clinic_room.add.ScheduleClinicRoomService;
 import org.medihub.application.services.clinic_room.delete.DeleteClinicRoomService;
@@ -112,8 +110,8 @@ import org.medihub.application.services.medical_doctor.add.AddMedicalDoctorServi
 import org.medihub.application.services.medical_doctor.get.GetDoctorsService;
 import org.medihub.application.services.medical_doctor.get.GetMedicalDoctorService;
 import org.medihub.application.services.medical_doctor.get.SearchDoctorsService;
-import org.medihub.application.services.patient.LaodPatientService;
-import org.medihub.application.services.patient.RegisterPatientService;
+import org.medihub.application.services.patient.get.LoadPatientService;
+import org.medihub.application.services.patient.add.RegisterPatientService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -191,6 +189,21 @@ public class BeanConfig {
             LoadAppointmentTypePort loadAppointmentTypePort,
             SearchClinicsPort searchClinicsPort) {
         return new SearchClinicsService(loadAppointmentTypePort, searchClinicsPort);
+    }
+
+    @Bean
+    UpdateClinicUseCase updateClinicUseCase(
+            GetAuthenticatedPort getAuthenticatedPort,
+            LoadClinicAdminPort loadClinicAdminPort,
+            LoadClinicPort loadClinicPort,
+            SaveClinicPort saveClinicPort
+    ) {
+        return new UpdateClinicService(
+                getAuthenticatedPort,
+                loadClinicAdminPort,
+                loadClinicPort,
+                saveClinicPort
+                );
     }
 
     @Bean
@@ -295,7 +308,7 @@ public class BeanConfig {
 
     @Bean
     public LoadPatientUseCase getLoadPatientPort(GetPatientsPort getPatientsPort){
-        return new LaodPatientService(getPatientsPort);
+        return new LoadPatientService(getPatientsPort);
     }
 
     @Bean

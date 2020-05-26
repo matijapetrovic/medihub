@@ -25,22 +25,18 @@ public interface UpdateClinicUseCase {
         String country;
         @NotBlank
         String description;
-        @NotNull
-        Map<String, BigDecimal> appointmentPrices;
 
         public UpdateClinicCommand(
                 String name,
                 String addressLine,
                 String city,
                 String country,
-                String description,
-                Map<String, BigDecimal> appointmentPrices) {
+                String description) {
             this.name = name;
             this.addressLine = addressLine;
             this.city = city;
             this.country = country;
             this.description = description;
-            this.appointmentPrices = appointmentPrices;
         }
     }
 }

@@ -2,6 +2,7 @@ package org.medihub.domain.clinic;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import org.medihub.domain.MedicalStaff;
 import org.medihub.domain.Money;
 import org.medihub.domain.account.Address;
@@ -15,6 +16,7 @@ import java.util.Set;
 
 @AllArgsConstructor
 @Getter
+@Setter
 public class Clinic {
     private Long id;
     private String name;

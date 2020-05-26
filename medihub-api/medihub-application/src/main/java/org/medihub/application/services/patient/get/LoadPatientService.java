@@ -1,4 +1,4 @@
-package org.medihub.application.services.patient;
+package org.medihub.application.services.patient.get;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.patient.LoadPatientUseCase;
@@ -8,7 +8,7 @@ import org.medihub.domain.patient.Patient;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class LaodPatientService implements LoadPatientUseCase {
+public class LoadPatientService implements LoadPatientUseCase {
     private final GetPatientsPort getPatientsPort;
 
     @Override
