@@ -152,19 +152,20 @@ public class MedicalDoctorScheduleAdapter implements
 
     public void addLeave(List<String> dates, Integer type, MedicalDoctor medicalDoctor) {
         MedicalDoctorScheduleJpaEntity schedule = null;
-        LocalTime time = LocalTime.parse("00:00");
         List<LocalDate> localDates = fillDates(LocalDate.parse(dates.get(0)), LocalDate.parse(dates.get(dates.size() - 1)));
 
         for (LocalDate date: localDates) {
             schedule = getMedicalDoctorScheduleJpaEntity(medicalDoctor, date);
             medicalDoctorScheduleRepository.save(schedule);
+            if(date.equals(localDates.get(0))) {
+                MedicalDoctorVacationScheduleJpaItem item = medicalDoctorScheduleMapper.mapToJpaVacationItem(
+                        schedule,
+                        Time.valueOf(LocalTime.parse("00:00")),
+                        type,
+                        Date.valueOf(dates.get(dates.size() - 1)));
+                saveIfDoesNotExist(item);
+            }
         }
-        MedicalDoctorVacationScheduleJpaItem item = medicalDoctorScheduleMapper.mapToJpaVacationItem(
-                schedule,
-                Time.valueOf(time),
-                type,
-                Date.valueOf(dates.get(dates.size() - 1)));
-        saveIfDoesNotExist(item);
     }
 
     @Override
