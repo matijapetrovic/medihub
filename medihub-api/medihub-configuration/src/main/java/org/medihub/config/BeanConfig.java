@@ -1,6 +1,7 @@
 package org.medihub.config;
 
 import org.medihub.application.ports.incoming.clinic.GetAppointmentPriceUseCase;
+import org.medihub.application.ports.incoming.finished_appointment.GetAppointmentHistoryQuery;
 import org.medihub.application.ports.incoming.leave_request.AddLeaveRequestUseCase;
 import org.medihub.application.ports.incoming.leave_request.ApproveLeaveRequestUseCase;
 import org.medihub.application.ports.incoming.leave_request.DeleteLeaveRequestUseCase;
@@ -73,6 +74,7 @@ import org.medihub.application.ports.outgoing.patient.SaveRegistrationRequestPor
 import org.medihub.application.ports.outgoing.authentication.AuthenticationPort;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
 import org.medihub.application.ports.outgoing.predefined_appointment.AddPredefinedAppointmentPort;
+import org.medihub.application.ports.outgoing.reviewing.LoadClinicReviewPort;
 import org.medihub.application.ports.outgoing.reviewing.SaveClinicReviewPort;
 import org.medihub.application.ports.outgoing.scheduling.LoadDoctorDailySchedulePort;
 import org.medihub.application.services.*;
@@ -81,6 +83,7 @@ import org.medihub.application.services.account.GetAccountService;
 import org.medihub.application.services.account.GetProfileService;
 import org.medihub.application.services.account.UpdateProfileService;
 import org.medihub.application.services.clinic.GetAppointmentPriceService;
+import org.medihub.application.services.finished_appointment.GetAppointmentHistoryService;
 import org.medihub.application.services.leave_request.AddLeaveRequestService;
 import org.medihub.application.services.leave_request.ApproveLeaveRequestService;
 import org.medihub.application.services.leave_request.DeleteLeaveRequestService;
@@ -114,6 +117,19 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class BeanConfig {
+
+    @Bean
+    public GetAppointmentHistoryQuery getAppointmentHistoryQuery(
+            GetAuthenticatedPort getAuthenticatedPort,
+            LoadPatientPort loadPatientPort,
+            GetFinishedAppointmentsPort getFinishedAppointmentsPort,
+            LoadClinicReviewPort loadClinicReviewPort) {
+        return new GetAppointmentHistoryService(
+                getAuthenticatedPort,
+                loadPatientPort,
+                getFinishedAppointmentsPort,
+                loadClinicReviewPort);
+    }
 
     @Bean
     public AddClinicReviewUseCase addClinicReviewUseCase(
