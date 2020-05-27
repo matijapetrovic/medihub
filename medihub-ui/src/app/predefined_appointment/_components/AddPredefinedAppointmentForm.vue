@@ -4,7 +4,9 @@
       ref="form"
     >
       <v-card max-width="1300" max-height="1300" class="mx-auto">
-        <v-card-title>Define appointment</v-card-title>
+        <v-card-title>
+          Define appointment
+        </v-card-title>
         <v-row>
           <v-spacer></v-spacer>
           <v-col class="d-flex" cols="12" sm="4">
@@ -27,7 +29,7 @@
               ref="menu"
               v-model="menu"
               :close-on-content-click="false"
-              :return-value.sync="predefinedAppointment.date"
+              :return-value.sync="date"
               transition="scale-transition"
               offset-y
               min-width="290px"
@@ -35,18 +37,16 @@
               <template v-slot:activator="{ on }">
                 <v-text-field
                   v-model="predefinedAppointment.date"
-                  label="Appointment Date"
+                  label="Appointment date"
                   prepend-icon="event"
+                  readonly
                   v-on="on"
-                  :rules="[requiredRule]"
-                  :readonly="isDoctorSelected()"
                 ></v-text-field>
               </template>
               <v-date-picker
-                v-model="predefinedAppointment.date"
-                :min="today"
-                no-title
-                scrollable
+              v-model="predefinedAppointment.date"
+              no-title scrollable
+              :min="today"
               >
                 <v-spacer></v-spacer>
                 <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
@@ -125,26 +125,29 @@
               v-model="predefinedAppointment.price"
               label="Price"
               prepend-icon="mdi-cash-usd"
-              readonly
+              min="1"
+              type="number"
+              :rules="[requiredRule, minNumberRule]"
+              :readonly="isDoctorSelected()"
               >
             </v-text-field>
           </v-col>
           <v-spacer></v-spacer>
         </v-row>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <div class="my-2">
-              <v-btn
-              rounded
-              max-width=""
-              color="primary"
-              @click="submit()"
-              >
-                Submit
-              </v-btn>
-            </div>
-            <v-spacer></v-spacer>
-          </v-card-actions>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <div class="my-2">
+            <v-btn
+            rounded
+            max-width=""
+            color="primary"
+            @click="submit()"
+            >
+              Submit
+            </v-btn>
+          </div>
+          <v-spacer></v-spacer>
+        </v-card-actions>
       </v-card>
     </v-form>
   </v-container>
@@ -156,6 +159,7 @@ import { mapActions, mapState } from 'vuex';
 export default {
   name: 'AddPredefinedAppointmentForm',
   data: () => ({
+    date: null,
     predefinedAppointment: {
       doctor: null,
       date: new Date().toISOString().substr(0, 10),
@@ -178,7 +182,6 @@ export default {
     ...mapActions('clinicRooms', ['fetchClinicRooms', 'deleteClinicRoom']),
     ...mapActions('doctor', ['fetchAvailableTimesWithoutState']),
     ...mapActions('clinic', ['fetchPrices']),
-
     submit() {
       if (this.validate()) {
         const request = {
