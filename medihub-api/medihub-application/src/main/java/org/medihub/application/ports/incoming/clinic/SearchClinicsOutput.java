@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 public class SearchClinicsOutput {
     Long id;
     String name;
+    String description;
     Double rating;
     String address;
     String city;
