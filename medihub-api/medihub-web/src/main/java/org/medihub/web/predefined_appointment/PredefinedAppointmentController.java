@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
+
 @RequiredArgsConstructor
 @Component
 @RestController
@@ -31,7 +33,9 @@ public class PredefinedAppointmentController {
                 request.getStart(),
                 request.getDuration(),
                 request.getClinicRoomId(),
-                request.getAppointmentTypeId()
+                request.getAppointmentTypeId(),
+                LocalDate.parse(request.getDate()),
+                request.getPrice()
         );
     }
 }

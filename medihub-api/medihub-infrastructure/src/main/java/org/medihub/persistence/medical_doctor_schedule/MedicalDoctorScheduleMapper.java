@@ -19,27 +19,32 @@ public class MedicalDoctorScheduleMapper {
     private final MedicalDoctorMapper medicalDoctorMapper;
     private final AppointmentMapper appointmentMapper;
 
-    public MedicalDoctorScheduleJpaEntity mapToScheduleJpaEntity(MedicalDoctor doctor, LocalDate date){
+    public MedicalDoctorScheduleJpaEntity mapToScheduleJpaEntity(MedicalDoctor doctor, LocalDate date, boolean available){
         return new MedicalDoctorScheduleJpaEntity(
                 null,
                 medicalDoctorMapper.mapToJpaEntity(doctor),
-                Date.valueOf(date)
+                Date.valueOf(date),
+                available
         );
     }
 
     public MedicalDoctorVacationScheduleJpaItem mapToJpaVacationItem(
             MedicalDoctorScheduleJpaEntity schedule,
             Time time,
-            Integer type
+            Integer type,
+            Date endDate
     ) {
         return new MedicalDoctorVacationScheduleJpaItem(
                 null,
                 new MedicalDoctorScheduleJpaEntity(
                         schedule.getId(),
                         schedule.getDoctor(),
-                        schedule.getDate()),
+                        schedule.getDate(),
+                        schedule.isAvailable()),
                 time,
-                type
+                type,
+                endDate
+
         );
     }
 

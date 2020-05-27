@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,4 +17,6 @@ public class PredefinedAppointmentRequest {
     private double duration;
     private Long clinicRoomId;
     private Long appointmentTypeId;
+    private String date;
+    private BigDecimal price;
 }

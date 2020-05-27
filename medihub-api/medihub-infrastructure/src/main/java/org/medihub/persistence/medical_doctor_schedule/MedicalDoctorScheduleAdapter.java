@@ -3,29 +3,22 @@ package org.medihub.persistence.medical_doctor_schedule;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.outgoing.appointment.GetAppointmentPort;
 import org.medihub.application.ports.outgoing.doctor.AddAppointmentToMedicalDoctorSchedulePort;
-import org.medihub.application.ports.outgoing.doctor.AddLeavePort;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorSchedulePort;
 import org.medihub.application.ports.outgoing.leave_request.ApproveLeaveRequestPort;
 import org.medihub.application.ports.outgoing.scheduling.LoadDoctorDailySchedulePort;
 import org.medihub.domain.LeaveRequest;
-import org.medihub.domain.appointment.Appointment;
 import org.medihub.domain.medical_doctor.*;
 import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType;
 import org.medihub.domain.scheduling.DailySchedule;
 import org.medihub.persistence.appointment.AppointmentMapper;
-import org.medihub.persistence.appointment.AppointmentRepository;
 import org.medihub.persistence.medical_doctor.MedicalDoctorRepository;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -135,32 +128,42 @@ public class MedicalDoctorScheduleAdapter implements
     private MedicalDoctorScheduleJpaEntity getMedicalDoctorScheduleJpaEntity(MedicalDoctor doctor, LocalDate date) {
         Optional<MedicalDoctorScheduleJpaEntity> schedule = medicalDoctorScheduleRepository.findByDate(Date.valueOf(date));
         if(!schedule.isPresent())
-             return new MedicalDoctorScheduleJpaEntity(null, medicalDoctorRepository.findById(doctor.getId()).get(), Date.valueOf(date));
+             return new MedicalDoctorScheduleJpaEntity(null, medicalDoctorRepository.findById(doctor.getId()).get(), Date.valueOf(date), false);
         return schedule.get();
     }
 
     private void saveIfDoesNotExist(MedicalDoctorVacationScheduleJpaItem item) {
-        if(!(vacationRepository.findByTimeAndAndScheduleId(
-                item.getTime(),
+        if(!(vacationRepository.findByAndEndDateAndAndScheduleId(
+                item.getEndDate(),
                 item.getSchedule().getId()).isPresent()))
         {
             vacationRepository.save(item);
         }
     }
 
+    private List<LocalDate> fillDates(LocalDate start, LocalDate end) {
+        List<LocalDate> dates = new ArrayList<>();
+        while(!start.isAfter(end)) {
+            dates.add(start);
+            start = start.plusDays(1L);
+        }
+        return dates;
+    }
+
     public void addLeave(List<String> dates, Integer type, MedicalDoctor medicalDoctor) {
         MedicalDoctorScheduleJpaEntity schedule = null;
-        MedicalDoctorVacationScheduleJpaItem item = null;
-        LocalTime time = null;
+        List<LocalDate> localDates = fillDates(LocalDate.parse(dates.get(0)), LocalDate.parse(dates.get(dates.size() - 1)));
 
-        for (String date: dates) {
-            time = LocalTime.parse("00:00");
-            schedule = getMedicalDoctorScheduleJpaEntity(medicalDoctor, LocalDate.parse(date));
+        for (LocalDate date: localDates) {
+            schedule = getMedicalDoctorScheduleJpaEntity(medicalDoctor, date);
             medicalDoctorScheduleRepository.save(schedule);
-            for (int i = 0; i < 24; i++) {
-                item = medicalDoctorScheduleMapper.mapToJpaVacationItem(schedule, Time.valueOf(time), type);
+            if(date.equals(localDates.get(0))) {
+                MedicalDoctorVacationScheduleJpaItem item = medicalDoctorScheduleMapper.mapToJpaVacationItem(
+                        schedule,
+                        Time.valueOf(LocalTime.parse("00:00")),
+                        type,
+                        Date.valueOf(dates.get(dates.size() - 1)));
                 saveIfDoesNotExist(item);
-                time = time.plusHours(1L);
             }
         }
     }
