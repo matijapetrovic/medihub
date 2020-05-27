@@ -1,6 +1,7 @@
 package org.medihub.persistence.diagnosis;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.ports.outgoing.diagnosis.GetDiagnosisByIdPort;
 import org.medihub.application.ports.outgoing.diagnosis.GetDiagnosisPort;
 import org.medihub.application.ports.outgoing.diagnosis.SaveDiagnosisPort;
 import org.medihub.domain.Diagnosis;
@@ -11,7 +12,7 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class DiagnosisAdapter implements SaveDiagnosisPort, GetDiagnosisPort {
+public class DiagnosisAdapter implements SaveDiagnosisPort, GetDiagnosisPort, GetDiagnosisByIdPort {
     private final DiagnosisRepository diagnosisRepository;
     private final DiagnosisMapper diagnosisMapper;
 
@@ -28,5 +29,10 @@ public class DiagnosisAdapter implements SaveDiagnosisPort, GetDiagnosisPort {
                 .stream()
                 .map(diagnosisMapper::mapToDomainEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Diagnosis getDiagnosisById(Long id) {
+        return diagnosisMapper.mapToDomainEntity(diagnosisRepository.getOne(id));
     }
 }

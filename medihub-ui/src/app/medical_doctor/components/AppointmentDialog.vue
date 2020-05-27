@@ -83,13 +83,27 @@
                 <v-select
                   class="select"
                   outlined
-                  v-model="tempDrug"
+                  v-model="tempDrugs"
                   :items="drugs"
                   item-text="name"
                   label="Drugs"
                   :rules="[requiredRule]"
                   return-object
-                ></v-select>
+                  multiple
+                >
+                  <template v-slot:selection="{ item, index }">
+                    <v-chip v-if="index === 0">
+                      <span>{{ item.name }}</span>
+                    </v-chip>
+                    <v-chip v-if="index === 1">
+                      <span>{{ item.name }}</span>
+                    </v-chip>
+                    <span
+                      v-if="index === 2"
+                      class="grey--text caption"
+                    >(+{{ tempDrugs.length - 2 }})</span>
+                  </template>
+                </v-select>
               </v-row>
               <v-row>
                 <v-textarea
@@ -144,7 +158,7 @@ export default {
       number: '',
       description: '',
       tempDiagnosis: null,
-      tempDrug: null,
+      tempDrugs: [],
     };
   },
   computed: {
@@ -172,12 +186,21 @@ export default {
     },
     submit() {
       if (this.validate()) {
+        const drugList = [];
+        this.tempDrugs.forEach((element) => {
+          drugList.push(element.id);
+        });
         this.finishAppointment({
+          itemId: this.model.itemId,
+          itemDate: this.model.itemDate,
           appointment: this.model.appointment.id,
           diagnosis: this.tempDiagnosis.id,
-          drugs: this.tempDrug.id,
+          drugs: drugList,
           description: this.description,
-        });
+        })
+          .then(
+            this.$emit('appointmentFinished', this.model.itemId),
+          );
       }
     },
     validate() {

@@ -81,6 +81,8 @@ insert into medical_doctor_schedule (doctor_id, date) values (2, '2020-05-29');
 
 insert into diagnosis (name) values ('Konjuktivitis');
 insert into diagnosis (name) values ('Prelom ruke');
+insert into drug (name) value ('Aspirin');
+insert into drug (name) value ('Andol');
 
 insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Blaga upala oka', 1, 1);
 insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Otvoren prelom', 1, 2);

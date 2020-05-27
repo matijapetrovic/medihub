@@ -22,6 +22,15 @@ export default {
     SET_NEW_RECORD_ITEM(state, newRecordItem) {
       state.newRecordItem = newRecordItem;
     },
+    UPDATE_WORKING_CALENDAR(state, update) {
+      const index = state.workingCalendar
+        .dailySchedules[update.date]
+        .scheduleItems
+        .findIndex((element) => element.id === update.id);
+      state.workingCalendar
+        .dailySchedules[update.date]
+        .scheduleItems.splice(index, 1);
+    },
   },
   actions: {
     addMedicalDoctor({ dispatch }, payload) {
@@ -62,6 +71,8 @@ export default {
       return api.finishAppointment(appointment)
         .then((response) => {
           commit('SET_NEW_RECORD_ITEM', response.data);
+          const calendarUpdate = { date: appointment.itemDate, id: appointment.itemId };
+          commit('UPDATE_WORKING_CALENDAR', calendarUpdate);
           const message = 'Appointment finished successfully';
           dispatch('notifications/add', utils.successNotification(message), { root: true });
         })

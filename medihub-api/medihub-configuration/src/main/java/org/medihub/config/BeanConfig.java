@@ -2,6 +2,7 @@ package org.medihub.config;
 
 import org.medihub.application.ports.incoming.diagnosis.GetDiagnosisQuery;
 import org.medihub.application.ports.incoming.drugs.GetDrugsQuery;
+import org.medihub.application.ports.incoming.finished_appointment.AddFinishedAppointmentUseCase;
 import org.medihub.application.ports.incoming.leave_request.AddLeaveRequestUseCase;
 import org.medihub.application.ports.incoming.leave_request.ApproveLeaveRequestUseCase;
 import org.medihub.application.ports.incoming.leave_request.DeleteLeaveRequestUseCase;
@@ -36,6 +37,7 @@ import org.medihub.application.ports.incoming.patient.RegisterPatientUseCase;
 import org.medihub.application.ports.outgoing.*;
 import org.medihub.application.ports.outgoing.account.LoadAccountPort;
 import org.medihub.application.ports.outgoing.account.SaveAccountPort;
+import org.medihub.application.ports.outgoing.appointment.GetAppointmentPort;
 import org.medihub.application.ports.outgoing.appointment.SaveAppointmentPort;
 import org.medihub.application.ports.outgoing.appointment.SaveAppointmentRequestPort;
 import org.medihub.application.ports.outgoing.appointment_request.DeleteAppointmentRequestPort;
@@ -51,6 +53,7 @@ import org.medihub.application.ports.outgoing.clinic.SearchClinicsPort;
 import org.medihub.application.ports.outgoing.clinic_room.*;
 import org.medihub.application.ports.outgoing.clinic_room_schedule.LoadClinicRoomSchedulePort;
 import org.medihub.application.ports.outgoing.clinic_room_schedule.ScheduleClinicRoomPort;
+import org.medihub.application.ports.outgoing.diagnosis.GetDiagnosisByIdPort;
 import org.medihub.application.ports.outgoing.diagnosis.GetDiagnosisPort;
 import org.medihub.application.ports.outgoing.diagnosis.SaveDiagnosisPort;
 import org.medihub.application.ports.outgoing.doctor.GetAllDoctorsPort;
@@ -62,10 +65,12 @@ import org.medihub.application.ports.outgoing.clinic_room.GetClinicRoomsPort;
 import org.medihub.application.ports.outgoing.clinic_room.LoadClinicRoomPort;
 import org.medihub.application.ports.outgoing.clinic_room.SaveClinicRoomPort;
 import org.medihub.application.ports.outgoing.doctor.*;
+import org.medihub.application.ports.outgoing.drugs.GetDrugByIdPort;
 import org.medihub.application.ports.outgoing.drugs.GetDrugsPort;
 import org.medihub.application.ports.outgoing.drugs.SaveDrugPort;
 import org.medihub.application.ports.outgoing.encoding.EncoderPort;
 import org.medihub.application.ports.outgoing.finished_appointment.GetFinishedAppointmentsPort;
+import org.medihub.application.ports.outgoing.finished_appointment.SaveFinishedAppointmentPort;
 import org.medihub.application.ports.outgoing.leave_request.AddLeaveRequestPort;
 import org.medihub.application.ports.outgoing.leave_request.ApproveLeaveRequestPort;
 import org.medihub.application.ports.outgoing.leave_request.DeleteLeaveRequestPort;
@@ -77,6 +82,7 @@ import org.medihub.application.ports.outgoing.patient.SaveRegistrationRequestPor
 import org.medihub.application.ports.outgoing.authentication.AuthenticationPort;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
 import org.medihub.application.ports.outgoing.predefined_appointment.AddPredefinedAppointmentPort;
+import org.medihub.application.ports.outgoing.prescription.SavePrescriptionPort;
 import org.medihub.application.ports.outgoing.scheduling.LoadDoctorDailySchedulePort;
 import org.medihub.application.services.*;
 import org.medihub.application.services.account.ChangePasswordService;
@@ -85,6 +91,7 @@ import org.medihub.application.services.account.GetProfileService;
 import org.medihub.application.services.account.UpdateProfileService;
 import org.medihub.application.services.diagnosis.GetDiagnosisService;
 import org.medihub.application.services.drugs.GetDrugsService;
+import org.medihub.application.services.finished_appointment.AddFinishedAppointmentService;
 import org.medihub.application.services.leave_request.AddLeaveRequestService;
 import org.medihub.application.services.leave_request.ApproveLeaveRequestService;
 import org.medihub.application.services.leave_request.DeleteLeaveRequestService;
@@ -441,5 +448,20 @@ public class BeanConfig {
     @Bean
     public GetDrugsQuery getDrugsQuery(GetDrugsPort getDrugsPort) {
         return new GetDrugsService(getDrugsPort);
+    }
+
+    @Bean
+    public AddFinishedAppointmentUseCase addFinishedAppointmentUseCase(GetAppointmentPort getAppointmentPort,
+                                                                       GetDiagnosisByIdPort getDiagnosisByIdPort,
+                                                                       SaveFinishedAppointmentPort saveFinishedAppointmentPort,
+                                                                       GetDrugByIdPort getDrugByIdPort,
+                                                                       SavePrescriptionPort savePrescriptionPort,
+                                                                       DeleteAppointmentScheduleItemPort deleteAppointmentScheduleItemPort) {
+        return new AddFinishedAppointmentService(getAppointmentPort,
+                getDiagnosisByIdPort,
+                saveFinishedAppointmentPort,
+                getDrugByIdPort,
+                savePrescriptionPort,
+                deleteAppointmentScheduleItemPort);
     }
 }

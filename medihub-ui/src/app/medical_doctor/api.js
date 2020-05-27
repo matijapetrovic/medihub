@@ -20,6 +20,6 @@ export default {
     return utils.apiClient.post('api/medical-doctor/addLeaveRequest', credentials);
   },
   finishAppointment(appointment) {
-    return appointment;
+    return utils.apiClient.post('api/finished_appointment/add', appointment);
   },
 };

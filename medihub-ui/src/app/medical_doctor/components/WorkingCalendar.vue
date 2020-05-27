@@ -116,6 +116,7 @@
         </v-menu>
         <appointment-dialog
           ref="dialog"
+          @appointmentFinished="deleteEvent($event)"
         >
         </appointment-dialog>
       </v-sheet>
@@ -253,6 +254,8 @@ export default {
             end: `${date} ${this.incrementTime(item.time)}`,
             color: this.getColorByName(item.type),
             details: `Patient: ${fullName} \nClinic room: ${item.appointment.clinicRoom.name}`,
+            itemId: item.id,
+            itemDate: date,
             appointment: item.appointment,
           };
         default:
@@ -291,6 +294,10 @@ export default {
     updateRange({ start, end }) {
       this.start = start;
       this.end = end;
+    },
+    deleteEvent(id) {
+      const index = this.events.findIndex((element) => element.itemId === id);
+      this.events.splice(index, 1);
     },
     nth(d) {
       return d > 3 && d < 21

@@ -3,24 +3,21 @@ package org.medihub.persistence.medical_doctor_schedule;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.outgoing.appointment.GetAppointmentPort;
 import org.medihub.application.ports.outgoing.doctor.AddAppointmentToMedicalDoctorSchedulePort;
-import org.medihub.application.ports.outgoing.doctor.AddLeavePort;
+import org.medihub.application.ports.outgoing.doctor.DeleteAppointmentScheduleItemPort;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorSchedulePort;
 import org.medihub.application.ports.outgoing.leave_request.ApproveLeaveRequestPort;
 import org.medihub.application.ports.outgoing.scheduling.LoadDoctorDailySchedulePort;
 import org.medihub.domain.LeaveRequest;
-import org.medihub.domain.appointment.Appointment;
 import org.medihub.domain.medical_doctor.*;
 import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType;
 import org.medihub.domain.scheduling.DailySchedule;
 import org.medihub.persistence.appointment.AppointmentMapper;
-import org.medihub.persistence.appointment.AppointmentRepository;
 import org.medihub.persistence.medical_doctor.MedicalDoctorRepository;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
@@ -30,11 +27,12 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class MedicalDoctorScheduleAdapter implements
+public class MedicalDoctorScheduleAdapterPort implements
         LoadDoctorDailySchedulePort,
         GetDoctorSchedulePort,
         AddAppointmentToMedicalDoctorSchedulePort,
-        ApproveLeaveRequestPort {
+        ApproveLeaveRequestPort,
+        DeleteAppointmentScheduleItemPort {
     private final MedicalDoctorScheduleRepository medicalDoctorScheduleRepository;
     private final MedicalDoctorScheduleItemRepository itemRepository;
     private final MedicalDoctorVacationScheduleItemRepository vacationRepository;
@@ -42,6 +40,7 @@ public class MedicalDoctorScheduleAdapter implements
     private final GetAppointmentPort getAppointmentPort;
     private final MedicalDoctorScheduleMapper medicalDoctorScheduleMapper;
     private final MedicalDoctorRepository medicalDoctorRepository;
+    private final MedicalDoctorAppointmentScheduleItemRepository medicalDoctorAppointmentScheduleItemRepository;
 
     public MedicalDoctorSchedule loadMedicalDoctorSchedule(Long doctorId) {
         Set<MedicalDoctorScheduleJpaEntity> schedules = medicalDoctorScheduleRepository
@@ -173,4 +172,8 @@ public class MedicalDoctorScheduleAdapter implements
                 MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.valueOf(leaveRequest.getType()).getOrdinal(), medicalDoctor);
     }
 
+    @Override
+    public void deleteAppointmentItem(Long id) {
+        medicalDoctorAppointmentScheduleItemRepository.deleteById(id);
+    }
 }
