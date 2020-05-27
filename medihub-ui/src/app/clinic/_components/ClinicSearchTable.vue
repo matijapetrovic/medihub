@@ -14,7 +14,25 @@
             <td>{{ item.country }}</td>
             <td>{{ item.rating }}</td>
             <td>{{ item.appointmentPrice }}</td>
-            <td><v-btn @click="routeDoctors(item.id)">See doctors -></v-btn></td>
+            <td>
+              <v-dialog
+                v-model="dialog"
+                width="500"
+              >
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    color="red lighten-2"
+                    dark
+                    v-on="on"
+                  >
+                    Profile
+                  </v-btn>
+                </template>
+                <ClinicProfile
+                  :clinic="item"
+                />
+              </v-dialog>
+              </td>
           </tr>
         </tbody>
       </template>
@@ -22,8 +40,13 @@
 </template>
 
 <script>
+import ClinicProfile from '@/app/clinic/_components/ClinicProfile.vue';
+
 export default {
   name: 'ClinicSearchTable',
+  components: {
+    ClinicProfile,
+  },
   data: () => ({
     headers: [
       {
@@ -38,16 +61,12 @@ export default {
       { text: 'Rating', value: 'rating' },
       { text: 'Price', value: 'appointmentPrice' },
     ],
+    dialog: false,
   }),
   props: {
     items: {
       type: Array,
       required: true,
-    },
-  },
-  methods: {
-    routeDoctors(clinicId) {
-      this.$router.push(`/search-doctors/${clinicId}`);
     },
   },
 };
