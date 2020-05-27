@@ -2,9 +2,9 @@
   <v-container>
     <v-form
       ref="form"
-      @submit="submit()"
     >
       <v-card max-width="1300" max-height="1300" class="mx-auto">
+        <v-card-title>Define appointment</v-card-title>
         <v-row>
           <v-spacer></v-spacer>
           <v-col class="d-flex" cols="12" sm="4">
@@ -125,10 +125,7 @@
               v-model="predefinedAppointment.price"
               label="Price"
               prepend-icon="mdi-cash-usd"
-              min="1"
-              type="number"
-              :rules="[requiredRule, minNumberRule]"
-              :readonly="isDoctorSelected()"
+              readonly
               >
             </v-text-field>
           </v-col>
@@ -141,6 +138,7 @@
               rounded
               max-width=""
               color="primary"
+              @click="submit()"
               >
                 Submit
               </v-btn>
@@ -172,14 +170,14 @@ export default {
     today: new Date().toISOString().substr(0, 10),
   }),
   mounted() {
-    this.getAllDoctors();
+    this.getDoctorsAndPrices();
   },
   methods: {
     ...mapActions('predefinedAppointment', ['addPredefinedAppointment']),
     ...mapActions('medicalDoctor', ['getAllDoctors']),
-    ...mapActions('clinicRooms', ['fetchClinicRooms']),
     ...mapActions('clinicRooms', ['fetchClinicRooms', 'deleteClinicRoom']),
     ...mapActions('doctor', ['fetchAvailableTimesWithoutState']),
+    ...mapActions('clinic', ['fetchPrices']),
 
     submit() {
       if (this.validate()) {
@@ -189,6 +187,8 @@ export default {
           duration: this.predefinedAppointment.duration,
           clinicRoomId: this.predefinedAppointment.clinicRoom.id,
           appointmentTypeId: this.predefinedAppointment.doctor.appointmentTypeId,
+          price: this.predefinedAppointment.price,
+          date: this.predefinedAppointment.date,
         };
         this.addPredefinedAppointment(request);
         this.clear();
@@ -235,14 +235,32 @@ export default {
         date: this.predefinedAppointment.date,
       });
       this.predefinedAppointment.appointmentType = this.predefinedAppointment.doctor.specialization;
+      this.setAppointmentTypePrice();
+    },
+    getDoctorsAndPrices() {
+      this.getAllDoctors();
+      this.fetchPrices();
+    },
+    setAppointmentTypePrice() {
+      this.predefinedAppointment.price = this.getPriceForAppointmentId(this.getAppointmentId());
+    },
+    getPriceForAppointmentId(appointmentTypeId) {
+      let retVal = null;
+      Object.keys(this.prices).forEach((key) => {
+        if (Number(key) === appointmentTypeId) {
+          retVal = this.prices[key];
+        }
+        return retVal;
+      });
+      return retVal;
     },
   },
   computed: {
     ...mapState('medicalDoctor', ['doctors']),
-    ...mapState('clinicRooms', ['clinicRooms']),
     ...mapState('predefinedAppointment', ['predefinedAppointments']),
     ...mapState('clinicRooms', ['clinicRooms']),
     ...mapState('doctor', ['availableTimes']),
+    ...mapState('clinic', ['prices']),
     requiredRule() {
       return (value) => !!value || 'Required';
     },

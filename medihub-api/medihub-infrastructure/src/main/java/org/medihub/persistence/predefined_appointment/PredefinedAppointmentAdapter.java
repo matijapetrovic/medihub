@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class PredefinedAppointmentAdapter implements AddPredefinedAppointmentPort {
     private final PredefinedAppointmentRepository predefinedAppointmentRepository;
-    private final PredefinedAppointmenetMapper predefinedAppointmenetMapper;
+    private final PredefinedAppointmentMapper predefinedAppointmentMapper;
 
     @Override
     public void addPredefinedAppointment(PredefinedAppointment predefinedAppointment) {
-        predefinedAppointmentRepository.save(predefinedAppointmenetMapper.mapToJpaEntity(predefinedAppointment));
+        predefinedAppointmentRepository.save(predefinedAppointmentMapper.mapToJpaEntity(predefinedAppointment));
     }
 }
