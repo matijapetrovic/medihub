@@ -5,8 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.medihub.persistence.appointment_type.AppointmentTypeJpaEntity;
 import org.medihub.persistence.clinic_room.ClinicRoomJpaEntity;
+import org.medihub.persistence.medical_doctor.MedicalDoctorJpaEntity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.Time;
 
 @Entity
@@ -20,14 +23,21 @@ public class PredefinedAppointmentJpaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "doctor_id")
-    private Long doctorId;
+    @ManyToOne
+    @JoinColumn(name="doctor_id", referencedColumnName="id", nullable=true)
+    private MedicalDoctorJpaEntity medicalDoctor;
 
-    @Column(name = "date")
+    @Column(name= "date")
+    private Date date;
+
+    @Column(name = "time")
     private Time start;
 
     @Column(name = "duration")
     private double duration;
+
+    @Column(name = "price")
+    private BigDecimal price;
 
     @ManyToOne
     @JoinColumn(name="clinic_room_id", referencedColumnName="id", nullable=true)
