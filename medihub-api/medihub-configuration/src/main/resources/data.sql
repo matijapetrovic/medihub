@@ -67,13 +67,12 @@ insert into appointment_request (doctor, patient, price, date, time) values (1, 
 insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1500, '2020-03-10', '13:00:00');
 insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 6000, '2020-03-10', '14:00:00');
 
-insert into appointment (date, time, patient_id, doctor_id) values ('2020-10-10', '12:00:00', 1, 1);
-insert into appointment (date, time, patient_id, doctor_id) values ('2020-12-10', '13:00:00', 1, 1);
+insert into clinic_room (name, number, clinic_id) values ('soba1', 1, 1);
+insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values ('2020-10-10', '12:00:00', 1, 1, 1);
+insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values ('2020-12-10', '13:00:00', 1, 1, 1);
 
 insert into diagnosis (name) values ('Kancer');
 insert into diagnosis (name) values ('Ded');
 
 insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Idemo niiis najjace je bilo najjace', 1, 1);
 insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Sad bas i nije heh', 1, 2);
-
-insert into clinic_room (name, number, clinic_id) values ('soba1', 1, 1);
