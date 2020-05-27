@@ -60,6 +60,11 @@ export default {
         icon: 'mdi-arrow-left-bold-circle-outline',
         path: '/leave-request',
       },
+      {
+        text: 'Pricelist',
+        icon: 'mdi-book-open',
+        path: '/pricelist',
+      },
     ],
   }),
 };

@@ -7,6 +7,7 @@ import SearchClinicRoomTable from '@/app/clinic_room/components/SearchClinicRoom
 import AppointmentRequest from '@/app/appointment_request/components/AppointmentRequests.vue';
 import LeaveRequests from '@/views/clinic-admin/LeaveRequests.vue';
 import ClinicInfo from '@/views/clinic/ClinicInformation.vue';
+import PriceListTable from '@/views/clinic/PriceListTable.vue';
 
 import ClinicAdminHome from '@/views/clinic-admin/ClinicAdminHome.vue';
 
@@ -54,6 +55,10 @@ export default {
     {
       path: '/leave-request',
       component: LeaveRequests,
+    },
+    {
+      path: '/pricelist',
+      component: PriceListTable,
     },
   ],
 };
