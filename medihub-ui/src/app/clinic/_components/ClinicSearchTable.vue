@@ -8,31 +8,31 @@
     <template v-slot:body="{ items }">
         <tbody>
           <tr v-for="item in items" :key="item.name">
-            <td>{{ item.name }}</td>
-            <td>{{ item.address }}</td>
-            <td>{{ item.city }}</td>
-            <td>{{ item.country }}</td>
-            <td>{{ item.rating }}</td>
-            <td>{{ item.appointmentPrice }}</td>
             <td>
               <v-dialog
                 v-model="dialog"
-                width="500"
+                width="800"
               >
                 <template v-slot:activator="{ on }">
                   <v-btn
                     color="red lighten-2"
                     dark
+                    text
                     v-on="on"
                   >
-                    Profile
+                    {{ item.name }}
                   </v-btn>
                 </template>
                 <ClinicProfile
                   :clinic="item"
                 />
               </v-dialog>
-              </td>
+            </td>
+            <td>{{ item.address }}</td>
+            <td>{{ item.city }}</td>
+            <td>{{ item.country }}</td>
+            <td>{{ item.rating }}</td>
+            <td>{{ item.appointmentPrice }}</td>
           </tr>
         </tbody>
       </template>

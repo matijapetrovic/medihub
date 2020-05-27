@@ -22,5 +22,14 @@ export default {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
+    fetchPredefinedAppointments({ commit, dispatch }, clinicId) {
+      return api.fetchPredefinedAppointments(clinicId)
+        .then((response) => {
+          commit('SET_PREDEFINED_APPOINTMENTS', response.data);
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
   },
 };
