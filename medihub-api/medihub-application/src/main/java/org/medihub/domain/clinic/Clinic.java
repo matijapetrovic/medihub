@@ -57,4 +57,6 @@ public class Clinic {
     public Money getPrice(AppointmentType appointmentType) {
         return appointmentPrices.get(appointmentType);
     }
+
+    public void addPrice(AppointmentType appointmentType, Money money) { this.appointmentPrices.put(appointmentType, money);}
 }

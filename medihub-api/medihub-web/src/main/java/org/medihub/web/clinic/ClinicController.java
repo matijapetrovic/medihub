@@ -3,7 +3,8 @@ package org.medihub.web.clinic;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.clinic.*;
 import org.medihub.application.ports.incoming.clinic.AddClinicUseCase.AddClinicCommand;
-import org.medihub.application.ports.incoming.clinic.UpdateClinicUseCase.UpdateClinicCommand;
+import org.medihub.domain.Money;
+import org.medihub.domain.appointment.AppointmentType;
 import org.medihub.domain.clinic.Clinic;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
@@ -13,9 +14,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 @RestController
@@ -25,8 +29,8 @@ public class ClinicController {
     private final AddClinicUseCase addClinicUseCase;
     private final SearchClinicsQuery searchClinicsQuery;
     private final GetClinicNamesQuery getClinicNamesQuery;
-    private final GetCurrentClinicUseCase getCurrentClinicUseCase;
-    private final UpdateClinicUseCase updateClinicUseCase;
+    private final GetAppointmentPriceUseCase getAppointmentPriceUseCase;
+    private final AddPriceToAppointmentTypeUseCase addPriceToAppointmentTypeUseCase;
 
     @GetMapping("")
     ResponseEntity<List<SearchClinicsOutput>> searchClinics(@RequestParam(required = false)
@@ -60,26 +64,34 @@ public class ClinicController {
         return ResponseEntity.ok(getClinicNamesQuery.getClinicNames());
     }
 
-    @GetMapping("/getCurrent")
+    @GetMapping("/prices")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    ResponseEntity<?> getClinic() {
-        return ResponseEntity.ok(getCurrentClinicUseCase.getCurrentClinic());
+    ResponseEntity<Map<Long, BigDecimal>> getPrices() {
+        return ResponseEntity.ok(mapResponse(getAppointmentPriceUseCase.getPrices()));
     }
 
-    @PostMapping("/update")
-    @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    void updateClinic(@RequestBody UpdateClinicRequest updateClinicRequest) {
-        UpdateClinicUseCase.UpdateClinicCommand updateClinicCommand = createUpdateCommand(updateClinicRequest);
-        updateClinicUseCase.updateClinic(updateClinicCommand);
+    private Map<Long, BigDecimal> mapResponse(Map<AppointmentType, Money> map) {
+        return map.
+                entrySet()
+                .stream()
+                .collect(Collectors.toMap(
+                        entry -> entry.getKey().getId(),
+                        entry -> entry.getValue().getAmount()));
     }
 
-    private UpdateClinicCommand createUpdateCommand(UpdateClinicRequest updateClinicRequest) {
-        return new UpdateClinicCommand(
-                updateClinicRequest.getName(),
-                updateClinicRequest.getAddressLine(),
-                updateClinicRequest.getCity(),
-                updateClinicRequest.getCountry(),
-                updateClinicRequest.getDescription()
+    @PostMapping("/addPrice")
+    @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
+    ResponseEntity<Map<Long, BigDecimal>> addPrices(@RequestBody AddPriceRequest addPriceRequest) {
+        AddPriceToAppointmentTypeUseCase.AddPriceCommand addPriceCommand = createAddPriceCommand(addPriceRequest);
+        addPriceToAppointmentTypeUseCase.addPrice(addPriceCommand);
+
+        return ResponseEntity.ok(mapResponse(getAppointmentPriceUseCase.getPrices()));
+    }
+
+    private AddPriceToAppointmentTypeUseCase.AddPriceCommand createAddPriceCommand(AddPriceRequest addPriceRequest) {
+        return new AddPriceToAppointmentTypeUseCase.AddPriceCommand(
+                addPriceRequest.getAppointmentTypeId(),
+                addPriceRequest.getPrice()
         );
     }
 }

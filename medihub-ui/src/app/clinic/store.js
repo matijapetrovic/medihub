@@ -8,6 +8,7 @@ export default {
     clinics: [],
     searchParams: null,
     clinic: {},
+    prices: null,
   },
   mutations: {
     SET_CLINIC_NAMES(state, clinicNames) {
@@ -22,8 +23,31 @@ export default {
     SET_SEARCH_PARAMS(state, params) {
       state.searchParams = params;
     },
+    SET_PRICES(state, prices) {
+      state.prices = prices;
+    },
   },
   actions: {
+    fetchPrices({ commit, dispatch }) {
+      return api.fetchPrices()
+        .then((response) => {
+          commit('SET_PRICES', response.data);
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
+    addPrice({ dispatch, commit }, payload) {
+      return api.addPrice(payload)
+        .then((response) => {
+          commit('SET_PRICES', response.data);
+          const message = 'Price added successfuly!';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
     addClinic({ dispatch }, clinic) {
       return api.addClinic(clinic)
         .then(() => {

@@ -43,12 +43,15 @@ insert into clinic_admin(account, clinic) values (4, 1);
 insert into appointment_type(name) values ('type1');
 insert into appointment_type(name) values ('type2');
 insert into appointment_type(name) values ('type3');
+insert into appointment_type(name) values ('type4');
 
 insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, specialization) values (2, 2, '06:00:00', '14:00:00', 8, 3);
 insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, specialization) values (6, 1, '06:00:00', '14:00:00', 8, 1);
 insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, specialization) values (7, 2, '18:00:00', '01:00:00', 7, 2);
 
 insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (1, 1, 500.0);
+insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (1, 2, 1500.0);
+insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (1, 3, 2000.0);
 
 -- insert into medical_doctor_schedule (doctor_id, date) values (1, '2020-12-05');
 -- insert into medical_doctor_schedule_item (schedule_id, time, schedule_item_type) values (1, '12:00:00', 1);
@@ -73,3 +76,5 @@ insert into diagnosis (name) values ('Ded');
 
 insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Idemo niiis najjace je bilo najjace', 1, 1);
 insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Sad bas i nije heh', 1, 2);
+
+insert into clinic_room (name, number, clinic_id) values ('soba1', 1, 1);
