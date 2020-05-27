@@ -3,17 +3,23 @@ package org.medihub.web.clinic;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.clinic.*;
 import org.medihub.application.ports.incoming.clinic.AddClinicUseCase.AddClinicCommand;
+import org.medihub.domain.Money;
+import org.medihub.domain.appointment.AppointmentType;
 import org.medihub.domain.clinic.Clinic;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 @RestController
@@ -23,6 +29,7 @@ public class ClinicController {
     private final AddClinicUseCase addClinicUseCase;
     private final SearchClinicsQuery searchClinicsQuery;
     private final GetClinicNamesQuery getClinicNamesQuery;
+    private final GetAppointmentPriceUseCase getAppointmentPriceUseCase;
 
     @GetMapping("")
     ResponseEntity<List<SearchClinicsOutput>> searchClinics(@RequestParam(required = false)
@@ -54,5 +61,20 @@ public class ClinicController {
     @GetMapping("/names")
     ResponseEntity<List<GetClinicNamesOutput>> getClinicNames() {
         return ResponseEntity.ok(getClinicNamesQuery.getClinicNames());
+    }
+
+    @GetMapping("/prices")
+    @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
+    ResponseEntity<Map<Long, BigDecimal>> getPrices() {
+        return ResponseEntity.ok(mapResponse(getAppointmentPriceUseCase.getPrices()));
+    }
+
+    private Map<Long, BigDecimal> mapResponse(Map<AppointmentType, Money> map) {
+        return map.
+                entrySet()
+                .stream()
+                .collect(Collectors.toMap(
+                        entry -> entry.getKey().getId(),
+                        entry -> entry.getValue().getAmount()));
     }
 }

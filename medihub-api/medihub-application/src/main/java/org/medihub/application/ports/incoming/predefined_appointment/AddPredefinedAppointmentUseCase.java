@@ -7,6 +7,9 @@ import org.medihub.common.validation.annotations.Password;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 public interface AddPredefinedAppointmentUseCase {
     void addPredefinedAppointment(AddPredefinedAppointmentUseCase.AddPredefinedAppointmentCommand command);
@@ -24,18 +27,26 @@ public interface AddPredefinedAppointmentUseCase {
         Long clinicRoomId;
         @NotBlank
         Long appointmentTypeId;
+        @NotNull
+        LocalDate date;
+        @NotNull
+        BigDecimal price;
 
         public AddPredefinedAppointmentCommand(
                 Long doctorId,
                 String start,
                 double duration,
                 Long clinicRoomId,
-                Long appointmentTypeId){
+                Long appointmentTypeId,
+                LocalDate date,
+                BigDecimal price){
             this.doctorId = doctorId;
             this.start = start;
             this.duration = duration;
             this.clinicRoomId = clinicRoomId;
             this.appointmentTypeId = appointmentTypeId;
+            this.date = date;
+            this.price = price;
         }
     }
 }

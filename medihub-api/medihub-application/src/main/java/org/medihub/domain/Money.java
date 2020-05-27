@@ -1,12 +1,10 @@
 package org.medihub.domain;
 
-import lombok.Getter;
 import lombok.Value;
 
 import java.math.BigDecimal;
 
 @Value
-
 public class Money {
     BigDecimal amount;
 

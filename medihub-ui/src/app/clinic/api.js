@@ -10,4 +10,7 @@ export default {
   fetchClinics(appointmentTypeId, date) {
     return utils.apiClient.get(`/api/clinic?date=${date}&appointmentTypeId=${appointmentTypeId}`);
   },
+  fetchPrices() {
+    return utils.apiClient.get('api/clinic/prices');
+  },
 };

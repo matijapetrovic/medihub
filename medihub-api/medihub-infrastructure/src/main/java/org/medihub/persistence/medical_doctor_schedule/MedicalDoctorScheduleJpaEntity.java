@@ -24,4 +24,7 @@ public class MedicalDoctorScheduleJpaEntity {
 
     @Column(name="date")
     Date date;
+
+    @Column(name="available")
+    boolean available;
 }
