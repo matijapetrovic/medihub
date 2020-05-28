@@ -258,6 +258,16 @@ export default {
             itemDate: date,
             appointment: item.appointment,
           };
+        case 'LEAVE':
+        case 'VACATION':
+          return {
+            name: item.type,
+            type: item.type,
+            start: `${date} ${item.time}`,
+            end: `${item.endDate}`,
+            color: this.getColorByName(item.type),
+            details: `This is ${item.type}`,
+          };
         default:
           return null;
       }
