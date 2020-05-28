@@ -73,3 +73,7 @@ insert into diagnosis (name) values ('Ded');
 
 insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Idemo niiis najjace je bilo najjace', 1, 1);
 insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Sad bas i nije heh', 1, 2);
+
+insert into clinic_room (name, number, clinic_id) values ('soba1', 1, 1);
+insert into clinic_room (name, number, clinic_id) values ('soba2', 2, 1);
+insert into clinic_room (name, number, clinic_id) values ('soba3', 3, 1);

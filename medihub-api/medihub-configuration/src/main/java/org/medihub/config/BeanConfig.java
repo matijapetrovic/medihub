@@ -252,6 +252,16 @@ public class BeanConfig {
     }
 
     @Bean
+    public UpdateClinicRoomUseCase updateClinicRoomUseCase(
+            LoadClinicRoomPort loadClinicRoomPort,
+            SaveClinicRoomPort saveClinicRoomPort
+    ) {
+        return new UpdateClinicRoomService(
+                loadClinicRoomPort,
+                saveClinicRoomPort);
+    }
+
+    @Bean
     public AddMedicalDoctorUseCase getAddDoctorUseCase(
             SaveDoctorPort saveDoctorPorts,
             EncoderPort encoderPort,
