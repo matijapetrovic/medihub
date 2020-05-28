@@ -32,7 +32,8 @@ public class SearchClinicsService implements SearchClinicsQuery {
                 .map((clinic) -> new SearchClinicsOutput(
                         clinic.getId(),
                         clinic.getName(),
-                        5.0,
+                        clinic.getRating().getRating(),
+                        clinic.getRating().getCount(),
                         clinic.getAddress().getAddressLine(),
                         clinic.getAddress().getCity(),
                         clinic.getAddress().getCountry(),

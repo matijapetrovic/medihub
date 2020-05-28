@@ -32,13 +32,13 @@ public class GetMedicalRecordService implements GetMedicalRecordQuery {
         Account account= getAuthenticatedPort.getAuthenticated();
         Patient patient = loadPatientPort.loadPatientByAccountId(account.getId());
         MedicalRecord medicalRecord = loadMedicalRecordPort.loadMedicalRecord(patient.getId());
-        Set<FinishedAppointment> finishedAppointments =
+        List<FinishedAppointment> finishedAppointments =
                 getFinishedAppointmentsPort.getFinishedAppointments(patient.getId());
 
         return mapToOutput(medicalRecord, finishedAppointments);
     }
 
-    private GetMedicalRecordOutput mapToOutput(MedicalRecord medicalRecord, Set<FinishedAppointment> finishedAppointments) {
+    private GetMedicalRecordOutput mapToOutput(MedicalRecord medicalRecord, List<FinishedAppointment> finishedAppointments) {
         return new GetMedicalRecordOutput(
                 medicalRecord.getId(),
                 medicalRecord.getHeight(),
@@ -62,7 +62,7 @@ public class GetMedicalRecordService implements GetMedicalRecordQuery {
 
     }
 
-    private List<FinishedAppointmentDTO> mapFinishedAppointments(Set<FinishedAppointment> finishedAppointments) {
+    private List<FinishedAppointmentDTO> mapFinishedAppointments(List<FinishedAppointment> finishedAppointments) {
         return finishedAppointments
                 .stream()
                 .map(fa -> new FinishedAppointmentDTO(
