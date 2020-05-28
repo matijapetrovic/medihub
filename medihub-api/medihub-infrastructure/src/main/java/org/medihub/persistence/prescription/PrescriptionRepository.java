@@ -1,4 +1,6 @@
 package org.medihub.persistence.prescription;
 
-public interface PrescriptionRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PrescriptionRepository extends JpaRepository<PrescriptionJpaEntity, Long> {
 }

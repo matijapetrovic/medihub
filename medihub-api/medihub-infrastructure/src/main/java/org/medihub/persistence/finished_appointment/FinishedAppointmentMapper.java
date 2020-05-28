@@ -12,14 +12,12 @@ import org.springframework.stereotype.Component;
 public class FinishedAppointmentMapper {
     private final AppointmentMapper appointmentMapper;
     private final DiagnosisMapper diagnosisMapper;
-    private final PrescriptionMapper prescriptionMapper;
 
     public FinishedAppointment mapToDomainEntity(FinishedAppointmentJpaEntity appointment){
         return new FinishedAppointment(
                 appointment.getId(),
                 appointment.getDescription(),
                 appointmentMapper.mapToDomainEntity(appointment.getAppointment()),
-                prescriptionMapper.mapToDomainSet(appointment.getPrescriptions()),
                 diagnosisMapper.mapToDomainEntity(appointment.getDiagnosis()));
     }
 
@@ -28,7 +26,6 @@ public class FinishedAppointmentMapper {
                 appointment.getId(),
                 appointment.getDescription(),
                 appointmentMapper.mapToJpaEntity(appointment.getAppointment()),
-                prescriptionMapper.mapToJpaSet(appointment.getPrescriptions()),
                 diagnosisMapper.mapToJpaEntity(appointment.getDiagnosis()));
     }
 }
