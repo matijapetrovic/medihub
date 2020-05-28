@@ -59,7 +59,7 @@ import { mapActions } from 'vuex';
 export default {
   name: 'AddLeaveRequest',
   data: () => ({
-    allowedDates: [],
+    allowedDatesList: [],
     items: [],
     dates: [],
     menu: null,
@@ -69,7 +69,7 @@ export default {
   }),
   methods: {
     ...mapActions('leaveRequest', ['addLeaveRequest']),
-
+    ...mapActions('medicalDoctor', ['getWorkindCalendarByDoctorId']),
     setItems() {
       return true;
     },

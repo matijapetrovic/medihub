@@ -23,7 +23,7 @@
           {{item.clinicRoom.name}}
         </div>
       </template>
-        <template v-slot:item.schedule="{ item }">
+      <template v-slot:item.schedule="{ item }">
         <div class="my-2">
           <v-btn
           rounded

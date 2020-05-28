@@ -40,6 +40,10 @@ insert into clinic (name, address, city, country, description, rating, review_co
 
 insert into clinic_admin(account, clinic) values (4, 1);
 
+insert into appointment_type(name) values ('type1');
+insert into appointment_type(name) values ('type2');
+insert into appointment_type(name) values ('type3');
+insert into appointment_type(name) values ('type4');
 insert into appointment_type(name) values ('Pregeld uha');
 insert into appointment_type(name) values ('Pregled grla');
 insert into appointment_type(name) values ('Pregled nosa');
