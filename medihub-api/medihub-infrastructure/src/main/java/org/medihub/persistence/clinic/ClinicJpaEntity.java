@@ -35,6 +35,12 @@ public class ClinicJpaEntity {
     @Column(name="description")
     private String description;
 
+    @Column(name="rating")
+    private BigDecimal rating;
+
+    @Column(name="review_count")
+    private Integer reviewCount;
+
     @ElementCollection
     @CollectionTable(name="clinic_appointment_type_mapping",
         joinColumns = {@JoinColumn(name="clinic_id", referencedColumnName = "id")})

@@ -6,6 +6,8 @@ import org.medihub.application.ports.outgoing.clinic.SaveClinicPort;
 import org.medihub.domain.account.Address;
 import org.medihub.domain.clinic.Clinic;
 
+import java.util.HashMap;
+
 @RequiredArgsConstructor
 public class AddClinicService implements AddClinicUseCase {
     private final SaveClinicPort saveClinicPort;
@@ -13,12 +15,15 @@ public class AddClinicService implements AddClinicUseCase {
     @Override
     public Clinic addClinic(AddClinicCommand command) {
         Clinic clinic = new Clinic(
+                null,
                 command.getName(),
                 new Address(
                         command.getAddress(),
                         command.getCity(),
                         command.getCountry()),
-                command.getDescription());
+                command.getDescription(),
+                new HashMap<>(),
+                null);
         return saveClinicPort.saveClinic(clinic);
     }
 }

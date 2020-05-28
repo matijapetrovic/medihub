@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.medihub.persistence.drug.DrugJpaEntity;
+import org.medihub.persistence.finished_appointment.FinishedAppointmentJpaEntity;
 import org.medihub.persistence.medical_nurse.MedicalNurseJpaEntity;
 
 import javax.persistence.*;
@@ -25,6 +26,10 @@ public class PrescriptionJpaEntity {
     private DrugJpaEntity drugJpaEntity;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="medical_nurse_id")
+    @JoinColumn(name="medical_nurse_id", nullable = true)
     private MedicalNurseJpaEntity medicalNurseJpaEntity;
+
+    @ManyToOne
+    @JoinColumn(name="finished_appointment_id")
+    private FinishedAppointmentJpaEntity finishedAppointment;
 }

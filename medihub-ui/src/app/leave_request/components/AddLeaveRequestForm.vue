@@ -11,52 +11,27 @@
         <v-row>
           <v-col cols="12" sm="6">
             <v-date-picker
-              v-model="dates"
-              multiple
-              :min="today"
-            ></v-date-picker>
+            v-model="dates"
+            range
+            :min="today">
+            </v-date-picker>
           </v-col>
           <v-col cols="12" sm="6">
-            <v-menu
-              ref="menu"
-              v-model="menu"
-              :close-on-content-click="false"
-              :return-value.sync="dates"
-              transition="scale-transition"
-              offset-y
-              min-width="290px"
-            >
-              <template v-slot:activator="{ on }">
-                <v-select
-                  :items="types"
-                  v-model="type"
-                  prepend-icon="mdi-format-list-bulleted-type"
-                  label="Type of leave request"
-                  dense
-                  outlined
-                  :rules="[requiredRule]"
-                ></v-select>
-                <v-combobox
-                  v-model="dates"
-                  multiple
-                  chips
-                  small-chips
-                  label="Multiple picker in menu"
-                  prepend-icon="event"
-                  readonly
-                  v-on="on"
-                ></v-combobox>
-              </template>
-              <v-date-picker
-              v-model="dates"
-              multiple
-              no-title scrollable
-              :min="today"
-              >
-                <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-                <v-btn text color="primary" @click="$refs.menu.save(dates)">OK</v-btn>
-              </v-date-picker>
-            </v-menu>
+            <v-select
+              :items="types"
+              v-model="type"
+              prepend-icon="mdi-format-list-bulleted-type"
+              label="Type of leave request"
+              dense
+              outlined
+              :rules="[requiredRule]"
+            ></v-select>
+            <v-text-field
+            v-model="dateRangeText"
+            label="Date range"
+            prepend-icon="event"
+            readonly>
+            </v-text-field>
           </v-col>
         </v-row>
         <v-card-actions>
@@ -100,6 +75,7 @@ export default {
     },
     submit() {
       if (this.validate()) {
+        this.dates = this.dates.sort();
         const request = {
           dates: this.dates,
           type: this.type,
@@ -119,6 +95,9 @@ export default {
   computed: {
     requiredRule() {
       return (value) => !!value || 'Required';
+    },
+    dateRangeText() {
+      return this.dates.join(' ~ ');
     },
   },
 };

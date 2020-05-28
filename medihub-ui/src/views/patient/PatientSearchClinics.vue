@@ -6,6 +6,7 @@
       :items="clinics"
       v-if="clinics.length"
     />
+    <p v-else>No clinics match your search criteria.</p>
   </div>
 </template>
 
