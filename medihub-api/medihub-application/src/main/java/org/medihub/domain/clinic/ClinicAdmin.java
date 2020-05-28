@@ -10,6 +10,5 @@ import org.medihub.domain.clinic.Clinic;
 public class ClinicAdmin {
     private Long id;
     private Account account;
-
     private Clinic clinic;
 }

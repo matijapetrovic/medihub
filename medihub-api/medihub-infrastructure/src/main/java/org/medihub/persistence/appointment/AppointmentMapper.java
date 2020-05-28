@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -46,6 +47,12 @@ public class AppointmentMapper {
                 .stream()
                 .map(this::mapToDomainEntity)
                 .collect(Collectors.toSet());
+    }
+    public List<Appointment> mapToDomainList(List<AppointmentJpaEntity> appointmentJpaEntitySet){
+        return appointmentJpaEntitySet
+                .stream()
+                .map(this::mapToDomainEntity)
+                .collect(Collectors.toList());
     }
 
     public Set<AppointmentJpaEntity> mapToJpaSet(Set<Appointment> appointments){

@@ -6,9 +6,13 @@ import org.medihub.application.ports.outgoing.LoadClinicAdminPort;
 import org.medihub.domain.clinic.ClinicAdmin;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
-public class ClinicAdminAdapter implements AddClinicAdminPort, LoadClinicAdminPort {
+public class ClinicAdminAdapter implements
+        AddClinicAdminPort,
+        LoadClinicAdminPort {
     private final ClinicAdminRepository clinicAdminRepository;
     private final ClinicAdminMapper clinicAdminMapper;
 
@@ -24,5 +28,10 @@ public class ClinicAdminAdapter implements AddClinicAdminPort, LoadClinicAdminPo
     public ClinicAdmin loadClinicAdminByAccountId(Long accountId) {
         ClinicAdminJpaEntity clinicAdmin = clinicAdminRepository.findByAccount_Id(accountId).orElseThrow();
         return clinicAdminMapper.mapToDomainEntity(clinicAdmin);
+    }
+
+    @Override
+    public List<ClinicAdmin> loadClinicAdminsFromClinic(Long clinicId) {
+        return clinicAdminMapper.mapToDomainList(clinicAdminRepository.findAllByClinicId(clinicId));
     }
 }

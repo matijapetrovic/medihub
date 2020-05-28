@@ -4,6 +4,9 @@ export default {
   addClinicRoom(credentials) {
     return utils.apiClient.post('api/clinic-room/add', credentials);
   },
+  fetchAllClinicRooms() {
+    return utils.apiClient.get('api/clinic-room');
+  },
   deleteClinicRoom(id) {
     return utils.apiClient.post('api/clinic-room/delete', id);
   },
@@ -12,5 +15,8 @@ export default {
   },
   scheduleRoom(credentials) {
     return utils.apiClient.post('api/clinic-room/schedule', credentials);
+  },
+  updateClinicRoom(credentials) {
+    return utils.apiClient.post('api/clinic-room/update', credentials);
   },
 };

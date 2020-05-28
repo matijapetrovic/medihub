@@ -1,5 +1,6 @@
 package org.medihub.domain.account;
 
+import lombok.Setter;
 import lombok.Value;
 
 @Value
