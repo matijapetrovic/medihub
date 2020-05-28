@@ -2,6 +2,7 @@ package org.medihub.persistence.finished_appointment;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.outgoing.finished_appointment.GetFinishedAppointmentsPort;
+import org.medihub.application.ports.outgoing.finished_appointment.SaveFinishedAppointmentPort;
 import org.medihub.domain.appointment.FinishedAppointment;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +11,7 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class FinishedAppointmentAdapter implements GetFinishedAppointmentsPort {
+public class FinishedAppointmentAdapter implements GetFinishedAppointmentsPort, SaveFinishedAppointmentPort {
     private final FinishedAppointmentMapper mapper;
     private final FinishedAppointmentRepository repository;
 
@@ -21,5 +22,10 @@ public class FinishedAppointmentAdapter implements GetFinishedAppointmentsPort {
                 .stream()
                 .map(mapper::mapToDomainEntity)
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public FinishedAppointment saveFinishedAppointment(FinishedAppointment finishedAppointment) {
+        return mapper.mapToDomainEntity(repository.save(mapper.mapToJpaEntity(finishedAppointment)));
     }
 }
