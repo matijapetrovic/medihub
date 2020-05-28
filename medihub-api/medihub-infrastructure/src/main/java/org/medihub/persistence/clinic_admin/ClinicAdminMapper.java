@@ -6,6 +6,9 @@ import org.medihub.persistence.account.AccountMapper;
 import org.medihub.persistence.clinic.ClinicMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 @RequiredArgsConstructor
 public class ClinicAdminMapper {
@@ -26,5 +29,9 @@ public class ClinicAdminMapper {
                 accountMapper.mapToDomainEntity(clinicAdminJpaEntity.getAccount()),
                 clinicMapper.mapToDomainEntity(clinicAdminJpaEntity.getClinic())
         );
+    }
+
+    public List<ClinicAdmin> mapToDomainList(List<ClinicAdminJpaEntity> clinicAdminJpaEntities) {
+        return clinicAdminJpaEntities.stream().map(this::mapToDomainEntity).collect(Collectors.toList());
     }
 }

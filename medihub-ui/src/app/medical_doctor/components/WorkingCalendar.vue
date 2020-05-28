@@ -317,9 +317,6 @@ export default {
     rnd(a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a;
     },
-    props: {
-      doctorId: null,
-    },
   },
 };
 </script>
