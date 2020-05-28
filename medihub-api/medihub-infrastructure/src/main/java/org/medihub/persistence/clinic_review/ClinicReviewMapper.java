@@ -2,10 +2,8 @@ package org.medihub.persistence.clinic_review;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.domain.clinic.ClinicReview;
-import org.medihub.persistence.appointment.AppointmentMapper;
 import org.medihub.persistence.clinic.ClinicMapper;
 import org.medihub.persistence.finished_appointment.FinishedAppointmentMapper;
-import org.medihub.persistence.patient.PatientMapper;
 import org.springframework.stereotype.Component;
 
 @Component

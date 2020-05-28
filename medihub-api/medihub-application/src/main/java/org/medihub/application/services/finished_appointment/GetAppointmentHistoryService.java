@@ -29,22 +29,24 @@ public class GetAppointmentHistoryService implements GetAppointmentHistoryQuery 
         Account account = getAuthenticatedPort.getAuthenticated();
         Patient patient = loadPatientPort.loadPatientByAccountId(account.getId());
 
-        Set<FinishedAppointment> finishedAppointments =
+        List<FinishedAppointment> finishedAppointments =
                 getFinishedAppointmentsPort.getFinishedAppointments(patient.getId());
 
         return mapToOutput(finishedAppointments);
     }
 
-    private List<GetAppointmentHistoryOutput> mapToOutput(Set<FinishedAppointment> appointments) {
+    private List<GetAppointmentHistoryOutput> mapToOutput(List<FinishedAppointment> appointments) {
         return appointments
                 .stream()
                 .map(appointment ->
                         new GetAppointmentHistoryOutput(
+                            appointment.getId(),
                             appointment.getAppointment().getDoctor().getSpecialization().getName(), // mozda predugacko
                             appointment.getAppointment().getDoctor().getFullName(),
-                                appointment.getAppointment().getDate().toString(),
-                                appointment.getAppointment().getTime().toString(),
-                                getRating(appointment)
+                            appointment.getAppointment().getDoctor().getClinic().getName(),
+                            appointment.getAppointment().getDate().toString(),
+                            appointment.getAppointment().getTime().toString(),
+                            getRating(appointment)
                         ))
                 .collect(Collectors.toList());
     }

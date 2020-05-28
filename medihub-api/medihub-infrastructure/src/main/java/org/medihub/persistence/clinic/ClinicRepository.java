@@ -14,7 +14,7 @@ public interface ClinicRepository extends JpaRepository<ClinicJpaEntity, Long> {
             "from MedicalDoctorJpaEntity d inner join ClinicJpaEntity c on d.clinic=c " +
             "where d.specialization = :appointmentType and d.working_hours > (select count(mdsi) " +
             "from MedicalDoctorJpaEntity dd inner join MedicalDoctorScheduleJpaEntity mds on dd=mds.doctor " +
-            "inner join MedicalDoctorScheduleItemJpaEntity mdsi on mdsi.schedule = md " +
+            "inner join MedicalDoctorScheduleItemJpaEntity mdsi on mdsi.schedule = mds " +
             "where mds.date=:date and dd=d) " +
             "and c in (select c from ClinicJpaEntity c join c.appointmentTypePrices atp " +
             "           where KEY(atp) = :appointmentType)")

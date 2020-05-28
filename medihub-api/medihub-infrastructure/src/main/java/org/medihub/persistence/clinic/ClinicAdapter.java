@@ -32,7 +32,6 @@ public class ClinicAdapter implements
         GetAppointmentPricePort{
     private final ClinicRepository clinicRepository;
     private final ClinicMapper mapper;
-    private final AppointmentTypeMapper appointmentTypeMapper;
     private final AppointmentTypeRepository appointmentTypeRepository;
 
     @Override

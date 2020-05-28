@@ -7,6 +7,7 @@ import org.medihub.domain.appointment.FinishedAppointment;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,12 +18,12 @@ public class FinishedAppointmentAdapter implements GetFinishedAppointmentsPort, 
     private final FinishedAppointmentRepository repository;
 
     @Override
-    public Set<FinishedAppointment> getFinishedAppointments(Long patientId) {
+    public List<FinishedAppointment> getFinishedAppointments(Long patientId) {
         return repository
                 .findAllByAppointment_Patient_Id(patientId)
                 .stream()
                 .map(mapper::mapToDomainEntity)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     @Override

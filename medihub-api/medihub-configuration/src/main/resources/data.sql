@@ -35,8 +35,8 @@ insert into medical_record_allergy_mapping (medical_record_id, allergy_name, all
 insert into medical_record_allergy_mapping (medical_record_id, allergy_name, allergy_level) values (1, 'Cats', 'SEVERE');
 insert into medical_record_allergy_mapping (medical_record_id, allergy_name, allergy_level) values (1, 'Dogs', 'MODERATE');
 
-insert into clinic (name, address, city, country, description) values ('Klinika 1', 'asf', 'adgsdg', 'Serbia', 'asgadg');
-insert into clinic (name, address, city, country, description) values ('Klinika 2', 'asf', 'adgsdg', 'Serbia', 'asgadg');
+insert into clinic (name, address, city, country, description, rating, review_count) values ('Klinika 1', 'asf', 'adgsdg', 'Serbia', 'asgadg', 0.0, 0);
+insert into clinic (name, address, city, country, description, rating, review_count) values ('Klinika 2', 'asf', 'adgsdg', 'Serbia', 'asgadg', 0.0, 0);
 
 insert into clinic_admin(account, clinic) values (4, 1);
 
@@ -75,4 +75,10 @@ insert into diagnosis (name) values ('Kancer');
 insert into diagnosis (name) values ('Ded');
 
 insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Idemo niiis najjace je bilo najjace', 1, 1);
-insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Sad bas i nije heh', 1, 2);
+insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Sad bas i nije heh', 2, 2);
+
+create trigger after_clinic_review_insert
+    after insert on clinic_review for each row
+    update clinic c set rating = (select avg(rating) from clinic_review  where clinic_id= c.id),
+                        review_count = (select count(rating) from clinic_review where clinic_id=c.id)
+    where id = NEW.clinic_id;
