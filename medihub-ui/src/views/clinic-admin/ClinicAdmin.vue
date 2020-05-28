@@ -24,6 +24,11 @@ export default {
   data: () => ({
     navItems: [
       {
+        text: 'Clinic information',
+        icon: 'mdi-hospital-building',
+        path: '/clinicInfo',
+      },
+      {
         text: 'Doctors',
         path: '/medical-doctors',
         icon: 'mdi-doctor',
@@ -54,6 +59,11 @@ export default {
         text: 'Leave requests',
         icon: 'mdi-arrow-left-bold-circle-outline',
         path: '/leave-request',
+      },
+      {
+        text: 'Pricelist',
+        icon: 'mdi-book-open',
+        path: '/pricelist',
       },
     ],
   }),

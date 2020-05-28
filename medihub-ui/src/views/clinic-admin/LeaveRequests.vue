@@ -37,7 +37,7 @@
           Working calendar
         </v-card-title>
         <v-card-text>
-          <WorkingCalendar v-bind:doctorId="editedItem.doctorId"></WorkingCalendar>
+          <WorkingCalendar :doctorId="editedItem.doctorId"></WorkingCalendar>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -83,6 +83,7 @@ export default {
   },
   methods: {
     ...mapActions('leaveRequest', ['getAllLeaveRequests', 'deleteLeaveRequest', 'approveLeaveRequest']),
+    ...mapState('medicalDoctor', ['workingCalendar']),
     setItems() {
       this.leaveRequests.forEach((item) => this.items.push({
         id: item.id,

@@ -1,9 +1,11 @@
 package org.medihub.config;
 
+import org.medihub.application.ports.incoming.clinic.*;
 import org.medihub.application.ports.incoming.diagnosis.GetDiagnosisQuery;
 import org.medihub.application.ports.incoming.drugs.GetDrugsQuery;
 import org.medihub.application.ports.incoming.finished_appointment.AddFinishedAppointmentUseCase;
 import org.medihub.application.ports.incoming.clinic.GetAppointmentPriceUseCase;
+import org.medihub.application.ports.incoming.finished_appointment.GetAppointmentHistoryQuery;
 import org.medihub.application.ports.incoming.leave_request.AddLeaveRequestUseCase;
 import org.medihub.application.ports.incoming.leave_request.ApproveLeaveRequestUseCase;
 import org.medihub.application.ports.incoming.leave_request.DeleteLeaveRequestUseCase;
@@ -18,21 +20,19 @@ import org.medihub.application.ports.incoming.diagnosis.AddDiagnosisUseCase;
 import org.medihub.application.ports.incoming.drugs.AddDrugUseCase;
 import org.medihub.application.ports.incoming.medical_doctor.*;
 import org.medihub.application.ports.incoming.medical_record.GetMedicalRecordQuery;
+import org.medihub.application.ports.incoming.reviewing.AddClinicReviewUseCase;
 import org.medihub.application.ports.incoming.scheduling.GetDoctorAvailableTimesQuery;
 import org.medihub.application.ports.incoming.scheduling.ScheduleAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase;
 import org.medihub.application.ports.incoming.appointment_type.GetAppointmentTypesQuery;
 import org.medihub.application.ports.incoming.appointment_type.DeleteAppointmentTypeUseCase;
 import org.medihub.application.ports.incoming.authentication.LoginUseCase;
-import org.medihub.application.ports.incoming.clinic.GetClinicNamesQuery;
 import org.medihub.application.ports.incoming.clinic_admin.AddClinicAdminUseCase;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase;
 import org.medihub.application.ports.incoming.account.ChangePasswordUseCase;
 import org.medihub.application.ports.incoming.account.GetAccountQuery;
-import org.medihub.application.ports.incoming.clinic.AddClinicUseCase;
 import org.medihub.application.ports.incoming.account.profile.GetProfileQuery;
 import org.medihub.application.ports.incoming.account.profile.UpdateProfileUseCase;
-import org.medihub.application.ports.incoming.clinic.SearchClinicsQuery;
 import org.medihub.application.ports.incoming.patient.LoadPatientUseCase;
 import org.medihub.application.ports.incoming.patient.RegisterPatientUseCase;
 import org.medihub.application.ports.outgoing.*;
@@ -68,6 +68,7 @@ import org.medihub.application.ports.outgoing.drugs.GetDrugsPort;
 import org.medihub.application.ports.outgoing.drugs.SaveDrugPort;
 import org.medihub.application.ports.outgoing.encoding.EncoderPort;
 import org.medihub.application.ports.outgoing.finished_appointment.GetFinishedAppointmentsPort;
+import org.medihub.application.ports.outgoing.finished_appointment.LoadFinishedAppointmentPort;
 import org.medihub.application.ports.outgoing.finished_appointment.SaveFinishedAppointmentPort;
 import org.medihub.application.ports.outgoing.leave_request.AddLeaveRequestPort;
 import org.medihub.application.ports.outgoing.leave_request.ApproveLeaveRequestPort;
@@ -80,49 +81,85 @@ import org.medihub.application.ports.outgoing.patient.SaveRegistrationRequestPor
 import org.medihub.application.ports.outgoing.authentication.AuthenticationPort;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
 import org.medihub.application.ports.outgoing.predefined_appointment.AddPredefinedAppointmentPort;
+import org.medihub.application.ports.outgoing.reviewing.LoadClinicReviewPort;
+import org.medihub.application.ports.outgoing.reviewing.SaveClinicReviewPort;
 import org.medihub.application.ports.outgoing.prescription.SavePrescriptionPort;
 import org.medihub.application.ports.outgoing.scheduling.LoadDoctorDailySchedulePort;
 import org.medihub.application.services.*;
-import org.medihub.application.services.account.ChangePasswordService;
-import org.medihub.application.services.account.GetAccountService;
-import org.medihub.application.services.account.GetProfileService;
-import org.medihub.application.services.account.UpdateProfileService;
+import org.medihub.application.services.account.post.ChangePasswordService;
+import org.medihub.application.services.account.get.GetAccountService;
+import org.medihub.application.services.account.get.GetProfileService;
+import org.medihub.application.services.account.post.UpdateProfileService;
+import org.medihub.application.services.clinic.add.AddPriceService;
+import org.medihub.application.services.clinic.get.GetCurrentClinicService;
+import org.medihub.application.services.clinic.put.UpdateClinicService;
+import org.medihub.application.services.clinic_room.add.AddClinicRoomService;
+import org.medihub.application.services.clinic_room.add.ScheduleClinicRoomService;
+import org.medihub.application.services.clinic_room.delete.DeleteClinicRoomService;
+import org.medihub.application.services.clinic_room.get.GetClinicRoomsService;
+import org.medihub.application.services.clinic_room.get.SearchClinicRoomsService;
+import org.medihub.application.services.leave_request.add.AddLeaveRequestService;
+import org.medihub.application.services.leave_request.add.ApproveLeaveRequestService;
+import org.medihub.application.services.leave_request.delete.DeleteLeaveRequestService;
+import org.medihub.application.services.leave_request.get.GetLeaveRequestService;
+import org.medihub.application.services.medical_doctor.add.AddAppointmentToMedicalDoctorService;
+import org.medihub.application.services.medical_doctor.get.GetDoctorScheduleService;
+import org.medihub.application.services.clinic.get.GetAppointmentPriceService;
 import org.medihub.application.services.diagnosis.GetDiagnosisService;
 import org.medihub.application.services.drugs.GetDrugsService;
 import org.medihub.application.services.finished_appointment.AddFinishedAppointmentService;
-import org.medihub.application.services.clinic.GetAppointmentPriceService;
-import org.medihub.application.services.leave_request.AddLeaveRequestService;
-import org.medihub.application.services.leave_request.ApproveLeaveRequestService;
-import org.medihub.application.services.leave_request.DeleteLeaveRequestService;
-import org.medihub.application.services.leave_request.GetLeaveRequestService;
+import org.medihub.application.services.finished_appointment.GetAppointmentHistoryService;
 import org.medihub.application.services.predefined_appointment.AddPredefinedAppointmentService;
 import org.medihub.application.services.appointment.AddAppointmentService;
-import org.medihub.application.services.appointment_request.DeleteAppointmentRequestService;
-import org.medihub.application.services.appointment_request.GetAppointmentRequestService;
-import org.medihub.application.services.appointment_type.AddAppointmentTypeService;
-import org.medihub.application.services.clinic_room.*;
+import org.medihub.application.services.appointment_request.delete.DeleteAppointmentRequestService;
+import org.medihub.application.services.appointment_request.get.GetAppointmentRequestService;
+import org.medihub.application.services.appointment_type.add.AddAppointmentTypeService;
 import org.medihub.application.services.diagnosis.AddDiagnosisService;
 import org.medihub.application.services.drugs.AddDrugService;
-import org.medihub.application.services.medical_doctor.*;
 import org.medihub.application.services.medical_record.GetMedicalRecordService;
-import org.medihub.application.services.scheduling.GetDoctorAvailableTimesService;
-import org.medihub.application.services.scheduling.ScheduleAppointmentService;
-import org.medihub.application.services.appointment_type.GetAppointmentTypeService;
-import org.medihub.application.services.appointment_type.DeleteAppointmentTypeService;
-import org.medihub.application.services.clinic.AddClinicService;
-import org.medihub.application.services.clinic.GetClinicNamesService;
-import org.medihub.application.services.clinic.SearchClinicsService;
-import org.medihub.application.services.medical_doctor.AddMedicalDoctorService;
-import org.medihub.application.services.medical_doctor.GetDoctorsService;
-import org.medihub.application.services.medical_doctor.GetMedicalDoctorService;
-import org.medihub.application.services.medical_doctor.SearchDoctorsService;
-import org.medihub.application.services.patient.LaodPatientService;
-import org.medihub.application.services.patient.RegisterPatientService;
+import org.medihub.application.services.scheduling.get.GetDoctorAvailableTimesService;
+import org.medihub.application.services.scheduling.add.ScheduleAppointmentService;
+import org.medihub.application.services.appointment_type.get.GetAppointmentTypeService;
+import org.medihub.application.services.appointment_type.delete.DeleteAppointmentTypeService;
+import org.medihub.application.services.clinic.add.AddClinicService;
+import org.medihub.application.services.clinic.get.GetClinicNamesService;
+import org.medihub.application.services.clinic.get.SearchClinicsService;
+import org.medihub.application.services.medical_doctor.add.AddMedicalDoctorService;
+import org.medihub.application.services.medical_doctor.get.GetDoctorsService;
+import org.medihub.application.services.medical_doctor.get.GetMedicalDoctorService;
+import org.medihub.application.services.medical_doctor.get.SearchDoctorsService;
+import org.medihub.application.services.patient.get.LoadPatientService;
+import org.medihub.application.services.patient.add.RegisterPatientService;
+import org.medihub.application.services.reviewing.AddClinicReviewService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class BeanConfig {
+
+    @Bean
+    public GetAppointmentHistoryQuery getAppointmentHistoryQuery(
+            GetAuthenticatedPort getAuthenticatedPort,
+            LoadPatientPort loadPatientPort,
+            GetFinishedAppointmentsPort getFinishedAppointmentsPort,
+            LoadClinicReviewPort loadClinicReviewPort) {
+        return new GetAppointmentHistoryService(
+                getAuthenticatedPort,
+                loadPatientPort,
+                getFinishedAppointmentsPort,
+                loadClinicReviewPort);
+    }
+
+    @Bean
+    public AddClinicReviewUseCase addClinicReviewUseCase(
+            GetAuthenticatedPort getAuthenticatedPort,
+            LoadFinishedAppointmentPort loadFinishedAppointmentPort,
+            SaveClinicReviewPort saveClinicReviewPort) {
+        return new AddClinicReviewService(
+                getAuthenticatedPort,
+                loadFinishedAppointmentPort,
+                saveClinicReviewPort);
+    }
 
     @Bean
     public GetMedicalRecordQuery getMedicalRecordQuery(
@@ -195,6 +232,21 @@ public class BeanConfig {
             LoadAppointmentTypePort loadAppointmentTypePort,
             SearchClinicsPort searchClinicsPort) {
         return new SearchClinicsService(loadAppointmentTypePort, searchClinicsPort);
+    }
+
+    @Bean
+    UpdateClinicUseCase updateClinicUseCase(
+            GetAuthenticatedPort getAuthenticatedPort,
+            LoadClinicAdminPort loadClinicAdminPort,
+            LoadClinicPort loadClinicPort,
+            SaveClinicPort saveClinicPort
+    ) {
+        return new UpdateClinicService(
+                getAuthenticatedPort,
+                loadClinicAdminPort,
+                loadClinicPort,
+                saveClinicPort
+                );
     }
 
     @Bean
@@ -309,7 +361,7 @@ public class BeanConfig {
 
     @Bean
     public LoadPatientUseCase getLoadPatientPort(GetPatientsPort getPatientsPort){
-        return new LaodPatientService(getPatientsPort);
+        return new LoadPatientService(getPatientsPort);
     }
 
     @Bean
@@ -460,6 +512,40 @@ public class BeanConfig {
                 getLeaveRequestPort,
                 getDoctorsPort,
                 deleteLeaveRequestPort);
+    }
+
+    @Bean
+    public GetCurrentClinicUseCase getCurrentClinicUseCase(
+            LoadClinicPort loadClinicPort,
+            GetAuthenticatedPort getAuthenticatedPort,
+            LoadClinicAdminPort loadClinicAdminPort,
+            GetClinicRoomsPort getClinicRoomsPort,
+            GetDoctorsPort getDoctorsPort,
+            GetAppointmentPort getAppointmentPort
+    ){
+        return new GetCurrentClinicService(
+                loadClinicPort,
+                getAuthenticatedPort,
+                loadClinicAdminPort,
+                getClinicRoomsPort,
+                getDoctorsPort,
+                getAppointmentPort
+        );
+    }
+
+    @Bean
+    public AddPriceToAppointmentTypeUseCase addPriceToAppointmentTypeUseCase(
+            SaveClinicPort saveClinicPort,
+            GetAuthenticatedPort getAuthenticatedPort,
+            LoadClinicAdminPort loadClinicAdminPort,
+            LoadAppointmentTypePort loadAppointmentTypePort
+    ) {
+        return new AddPriceService(
+                getAuthenticatedPort,
+                loadClinicAdminPort,
+                saveClinicPort,
+                loadAppointmentTypePort
+        );
     }
 
     @Bean

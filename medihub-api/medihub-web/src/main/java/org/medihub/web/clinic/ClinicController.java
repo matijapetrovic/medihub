@@ -30,6 +30,7 @@ public class ClinicController {
     private final SearchClinicsQuery searchClinicsQuery;
     private final GetClinicNamesQuery getClinicNamesQuery;
     private final GetAppointmentPriceUseCase getAppointmentPriceUseCase;
+    private final AddPriceToAppointmentTypeUseCase addPriceToAppointmentTypeUseCase;
 
     @GetMapping("")
     ResponseEntity<List<SearchClinicsOutput>> searchClinics(@RequestParam(required = false)
@@ -76,5 +77,21 @@ public class ClinicController {
                 .collect(Collectors.toMap(
                         entry -> entry.getKey().getId(),
                         entry -> entry.getValue().getAmount()));
+    }
+
+    @PostMapping("/addPrice")
+    @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
+    ResponseEntity<Map<Long, BigDecimal>> addPrices(@RequestBody AddPriceRequest addPriceRequest) {
+        AddPriceToAppointmentTypeUseCase.AddPriceCommand addPriceCommand = createAddPriceCommand(addPriceRequest);
+        addPriceToAppointmentTypeUseCase.addPrice(addPriceCommand);
+
+        return ResponseEntity.ok(mapResponse(getAppointmentPriceUseCase.getPrices()));
+    }
+
+    private AddPriceToAppointmentTypeUseCase.AddPriceCommand createAddPriceCommand(AddPriceRequest addPriceRequest) {
+        return new AddPriceToAppointmentTypeUseCase.AddPriceCommand(
+                addPriceRequest.getAppointmentTypeId(),
+                addPriceRequest.getPrice()
+        );
     }
 }
