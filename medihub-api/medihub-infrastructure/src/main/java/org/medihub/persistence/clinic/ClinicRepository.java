@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.Set;
 
@@ -20,4 +21,5 @@ public interface ClinicRepository extends JpaRepository<ClinicJpaEntity, Long> {
     Set<ClinicJpaEntity> findAllWithDoctorsByAppointmentTypeOnDate(
             @Param(value="date") Date date,
             @Param(value="appointmentType") AppointmentTypeJpaEntity appointmentType);
+
 }

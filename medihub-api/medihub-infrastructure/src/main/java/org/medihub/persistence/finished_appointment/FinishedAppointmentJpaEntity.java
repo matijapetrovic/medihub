@@ -28,10 +28,7 @@ public class FinishedAppointmentJpaEntity {
     @JoinColumn(name="appointment_id", referencedColumnName = "id")
     private AppointmentJpaEntity appointment;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<PrescriptionJpaEntity> prescriptions;
-
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="diagnosis_id", referencedColumnName = "id")
     private DiagnosisJpaEntity diagnosis;
 }
