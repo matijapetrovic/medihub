@@ -86,7 +86,8 @@ public class MedicalDoctorScheduleAdapterPort implements
                 return new MedicalDoctorVacationScheduleItem(
                         vacationItem.getId(),
                         vacationItem.getTime().toLocalTime(),
-                        type
+                        type,
+                        vacationItem.getEndDate()
                 );
         }
 
