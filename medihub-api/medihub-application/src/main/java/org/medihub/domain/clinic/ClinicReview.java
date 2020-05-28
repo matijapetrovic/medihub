@@ -2,7 +2,6 @@ package org.medihub.domain.clinic;
 
 import lombok.Getter;
 import org.medihub.domain.appointment.FinishedAppointment;
-import org.medihub.domain.patient.Patient;
 import org.medihub.domain.reviewing.Review;
 
 import java.math.BigDecimal;

@@ -21,7 +21,8 @@ public class GetDoctorsService implements GetDoctorsQuery {
                         medicalDoctor.getId(),
                         medicalDoctor.getFirstName(),
                         medicalDoctor.getLastName(),
-                        0.0,
+                        medicalDoctor.getRating().getRating(),
+                        medicalDoctor.getRating().getCount(),
                         medicalDoctor.getWorkingTime().getFrom().toString(),
                         medicalDoctor.getWorkingTime().getTo().toString()))
                 .collect(Collectors.toList());

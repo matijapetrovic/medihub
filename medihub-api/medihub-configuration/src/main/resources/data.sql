@@ -44,9 +44,9 @@ insert into appointment_type(name) values ('Pregeld uha');
 insert into appointment_type(name) values ('Pregled grla');
 insert into appointment_type(name) values ('Pregled nosa');
 
-insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, specialization) values (2, 2, '06:00:00', '14:00:00', 8, 3);
-insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, specialization) values (6, 1, '06:00:00', '14:00:00', 8, 1);
-insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, specialization) values (7, 2, '18:00:00', '01:00:00', 7, 2);
+insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count, specialization) values (2, 2, '06:00:00', '14:00:00', 8, 0.0, 0, 3);
+insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count,specialization) values (6, 1, '06:00:00', '14:00:00', 8, 0.0, 0, 1);
+insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count,specialization) values (7, 2, '18:00:00', '01:00:00', 7, 0.0, 0, 2);
 
 insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (1, 1, 500.0);
 insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (1, 2, 1500.0);
@@ -99,3 +99,9 @@ create trigger after_clinic_review_insert
     update clinic c set rating = (select avg(rating) from clinic_review  where clinic_id= c.id),
                         review_count = (select count(rating) from clinic_review where clinic_id=c.id)
     where id = NEW.clinic_id;
+
+create trigger after_doctor_review_insert
+    after insert on doctor_review for each row
+    update medical_doctor md set rating = (select avg(rating) from doctor_review where doctor_id= c.id),
+                        review_count = (select count(rating) from doctor_review where doctor_id=c.id)
+    where id = NEW.doctor_id;

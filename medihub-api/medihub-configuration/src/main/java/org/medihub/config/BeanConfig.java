@@ -20,6 +20,7 @@ import org.medihub.application.ports.incoming.drugs.AddDrugUseCase;
 import org.medihub.application.ports.incoming.medical_doctor.*;
 import org.medihub.application.ports.incoming.medical_record.GetMedicalRecordQuery;
 import org.medihub.application.ports.incoming.reviewing.AddClinicReviewUseCase;
+import org.medihub.application.ports.incoming.reviewing.AddDoctorReviewUseCase;
 import org.medihub.application.ports.incoming.scheduling.GetDoctorAvailableTimesQuery;
 import org.medihub.application.ports.incoming.scheduling.ScheduleAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase;
@@ -86,6 +87,7 @@ import org.medihub.application.ports.outgoing.predefined_appointment.AddPredefin
 import org.medihub.application.ports.outgoing.reviewing.LoadClinicReviewPort;
 import org.medihub.application.ports.outgoing.reviewing.SaveClinicReviewPort;
 import org.medihub.application.ports.outgoing.prescription.SavePrescriptionPort;
+import org.medihub.application.ports.outgoing.reviewing.SaveDoctorReviewPort;
 import org.medihub.application.ports.outgoing.scheduling.LoadDoctorDailySchedulePort;
 import org.medihub.application.services.*;
 import org.medihub.application.services.account.ChangePasswordService;
@@ -112,6 +114,7 @@ import org.medihub.application.services.drugs.AddDrugService;
 import org.medihub.application.services.medical_doctor.*;
 import org.medihub.application.services.medical_record.GetMedicalRecordService;
 import org.medihub.application.services.reviewing.AddClinicReviewService;
+import org.medihub.application.services.reviewing.AddDoctorReviewService;
 import org.medihub.application.services.scheduling.GetDoctorAvailableTimesService;
 import org.medihub.application.services.scheduling.ScheduleAppointmentService;
 import org.medihub.application.services.appointment_type.GetAppointmentTypeService;
@@ -130,6 +133,17 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class BeanConfig {
+
+    @Bean
+    public AddDoctorReviewUseCase addDoctorReviewUseCase(
+            GetAuthenticatedPort getAuthenticatedPort,
+            LoadFinishedAppointmentPort loadFinishedAppointmentPort,
+            SaveDoctorReviewPort saveDoctorReviewPort) {
+        return new AddDoctorReviewService(
+                getAuthenticatedPort,
+                loadFinishedAppointmentPort,
+                saveDoctorReviewPort);
+    }
 
     @Bean
     public GetAppointmentHistoryQuery getAppointmentHistoryQuery(

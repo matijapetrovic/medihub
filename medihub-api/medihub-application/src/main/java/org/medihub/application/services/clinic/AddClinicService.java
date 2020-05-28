@@ -5,7 +5,9 @@ import org.medihub.application.ports.incoming.clinic.AddClinicUseCase;
 import org.medihub.application.ports.outgoing.clinic.SaveClinicPort;
 import org.medihub.domain.account.Address;
 import org.medihub.domain.clinic.Clinic;
+import org.medihub.domain.reviewing.Rating;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 
 @RequiredArgsConstructor
@@ -23,7 +25,7 @@ public class AddClinicService implements AddClinicUseCase {
                         command.getCountry()),
                 command.getDescription(),
                 new HashMap<>(),
-                null);
+                new Rating(BigDecimal.ZERO, 0));
         return saveClinicPort.saveClinic(clinic);
     }
 }

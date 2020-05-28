@@ -3,6 +3,7 @@ package org.medihub.persistence.medical_doctor;
 import lombok.RequiredArgsConstructor;
 import org.medihub.domain.*;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
+import org.medihub.domain.reviewing.Rating;
 import org.medihub.persistence.account.AccountMapper;
 import org.medihub.persistence.appointment_type.AppointmentTypeMapper;
 import org.medihub.persistence.clinic.ClinicMapper;
@@ -26,7 +27,10 @@ public class MedicalDoctorMapper {
                 clinicMapper.mapToDomainEntity(medicalDoctorJpaEntity.getClinic()),
                 new WorkingTime(medicalDoctorJpaEntity.getFrom().toLocalTime(),
                         medicalDoctorJpaEntity.getTo().toLocalTime()),
-                appointmentTypeMapper.mapToDomainEntity(medicalDoctorJpaEntity.getSpecialization()));
+                appointmentTypeMapper.mapToDomainEntity(medicalDoctorJpaEntity.getSpecialization()),
+                new Rating(
+                        medicalDoctorJpaEntity.getRating(),
+                        medicalDoctorJpaEntity.getReviewCount()));
     }
 
     public MedicalDoctorJpaEntity mapToJpaEntity(MedicalDoctor medicalDoctor){
@@ -37,6 +41,8 @@ public class MedicalDoctorMapper {
                 Time.valueOf(medicalDoctor.getWorkingTime().getFrom()),
                 Time.valueOf(medicalDoctor.getWorkingTime().getTo()),
                 medicalDoctor.getWorkingTime().getWorkingHours(),
+                medicalDoctor.getRating().getRating(),
+                medicalDoctor.getRating().getCount(),
                 appointmentTypeMapper.mapToJpaEntity(medicalDoctor.getSpecialization()));
     }
 
