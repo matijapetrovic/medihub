@@ -12,7 +12,7 @@
             <td>{{ item.address }}</td>
             <td>{{ item.city }}</td>
             <td>{{ item.country }}</td>
-            <td>{{ item.rating }}</td>
+            <td>{{ item.rating }}({{ item.ratingCount}})</td>
             <td>{{ item.appointmentPrice }}</td>
             <td><v-btn @click="routeDoctors(item.id)">See doctors -></v-btn></td>
           </tr>

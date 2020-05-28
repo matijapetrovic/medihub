@@ -33,6 +33,11 @@ export default {
         path: '/medical-record',
         icon: 'mdi-clipboard-pulse-outline',
       },
+      {
+        text: 'Appointment History',
+        path: '/appointment-history',
+        icon: 'mdi-stethoscope',
+      },
     ],
   }),
 };
