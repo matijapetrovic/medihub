@@ -21,6 +21,7 @@ import org.medihub.application.ports.incoming.drugs.AddDrugUseCase;
 import org.medihub.application.ports.incoming.medical_doctor.*;
 import org.medihub.application.ports.incoming.medical_record.GetMedicalRecordQuery;
 import org.medihub.application.ports.incoming.reviewing.AddClinicReviewUseCase;
+import org.medihub.application.ports.incoming.reviewing.AddDoctorReviewUseCase;
 import org.medihub.application.ports.incoming.scheduling.GetDoctorAvailableTimesQuery;
 import org.medihub.application.ports.incoming.scheduling.ScheduleAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase;
@@ -82,8 +83,10 @@ import org.medihub.application.ports.outgoing.authentication.AuthenticationPort;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
 import org.medihub.application.ports.outgoing.predefined_appointment.AddPredefinedAppointmentPort;
 import org.medihub.application.ports.outgoing.reviewing.LoadClinicReviewPort;
+import org.medihub.application.ports.outgoing.reviewing.LoadDoctorReviewPort;
 import org.medihub.application.ports.outgoing.reviewing.SaveClinicReviewPort;
 import org.medihub.application.ports.outgoing.prescription.SavePrescriptionPort;
+import org.medihub.application.ports.outgoing.reviewing.SaveDoctorReviewPort;
 import org.medihub.application.ports.outgoing.scheduling.LoadDoctorDailySchedulePort;
 import org.medihub.application.services.*;
 import org.medihub.application.services.account.post.ChangePasswordService;
@@ -132,6 +135,7 @@ import org.medihub.application.services.medical_doctor.get.SearchDoctorsService;
 import org.medihub.application.services.patient.get.LoadPatientService;
 import org.medihub.application.services.patient.add.RegisterPatientService;
 import org.medihub.application.services.reviewing.AddClinicReviewService;
+import org.medihub.application.services.reviewing.AddDoctorReviewService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -139,16 +143,29 @@ import org.springframework.context.annotation.Configuration;
 public class BeanConfig {
 
     @Bean
+    public AddDoctorReviewUseCase addDoctorReviewUseCase(
+            GetAuthenticatedPort getAuthenticatedPort,
+            LoadFinishedAppointmentPort loadFinishedAppointmentPort,
+            SaveDoctorReviewPort saveDoctorReviewPort) {
+        return new AddDoctorReviewService(
+                getAuthenticatedPort,
+                loadFinishedAppointmentPort,
+                saveDoctorReviewPort);
+    }
+
+    @Bean
     public GetAppointmentHistoryQuery getAppointmentHistoryQuery(
             GetAuthenticatedPort getAuthenticatedPort,
             LoadPatientPort loadPatientPort,
             GetFinishedAppointmentsPort getFinishedAppointmentsPort,
-            LoadClinicReviewPort loadClinicReviewPort) {
+            LoadClinicReviewPort loadClinicReviewPort,
+            LoadDoctorReviewPort loadDoctorReviewPort) {
         return new GetAppointmentHistoryService(
                 getAuthenticatedPort,
                 loadPatientPort,
                 getFinishedAppointmentsPort,
-                loadClinicReviewPort);
+                loadClinicReviewPort,
+                loadDoctorReviewPort);
     }
 
     @Bean

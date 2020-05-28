@@ -1,11 +1,11 @@
-package org.medihub.domain.clinic;
+package org.medihub.domain.reviewing;
 
 import lombok.Value;
 
 import java.math.BigDecimal;
 
 @Value
-public class ClinicRating {
+public class Rating {
     BigDecimal rating;
     Integer count;
 }

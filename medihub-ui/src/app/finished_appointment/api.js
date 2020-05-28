@@ -7,4 +7,7 @@ export default {
   addClinicReview(payload) {
     return utils.apiClient.post('/api/review/clinic', payload);
   },
+  addDoctorReview(payload) {
+    return utils.apiClient.post('/api/review/doctor', payload);
+  },
 };

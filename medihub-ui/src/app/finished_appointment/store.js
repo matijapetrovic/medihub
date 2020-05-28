@@ -29,6 +29,18 @@ export default {
         })
         .catch((err) => {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
+          throw err;
+        });
+    },
+    addDoctorReview({ dispatch }, payload) {
+      return api.addDoctorReview(payload)
+        .then(() => {
+          const message = 'Doctor review added successfully.';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+          throw err;
         });
     },
   },

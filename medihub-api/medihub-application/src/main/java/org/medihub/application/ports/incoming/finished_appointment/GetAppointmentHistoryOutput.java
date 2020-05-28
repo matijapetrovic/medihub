@@ -13,4 +13,5 @@ public class GetAppointmentHistoryOutput {
     String date;
     String time;
     BigDecimal clinicRating;
+    BigDecimal doctorRating;
 }

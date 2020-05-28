@@ -15,7 +15,9 @@ import org.medihub.domain.account.Account;
 import org.medihub.domain.account.Authority;
 import org.medihub.domain.clinic.ClinicAdmin;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
+import org.medihub.domain.reviewing.Rating;
 
+import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -53,7 +55,8 @@ public class AddMedicalDoctorService implements AddMedicalDoctorUseCase {
                 clinicAdmin.getClinic(),
                 new WorkingTime(LocalTime.parse(command.getFrom()),
                                 LocalTime.parse(command.getTo())),
-                specialization);
+                specialization,
+                new Rating(BigDecimal.ZERO,0));
         saveDoctorPort.saveDoctor(entity);
     }
 }

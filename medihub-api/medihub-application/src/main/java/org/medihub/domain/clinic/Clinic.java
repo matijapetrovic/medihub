@@ -3,16 +3,12 @@ package org.medihub.domain.clinic;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.medihub.domain.MedicalStaff;
 import org.medihub.domain.Money;
 import org.medihub.domain.account.Address;
-import org.medihub.domain.appointment.Appointment;
 import org.medihub.domain.appointment.AppointmentType;
+import org.medihub.domain.reviewing.Rating;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 @AllArgsConstructor
 @Getter
@@ -23,7 +19,7 @@ public class Clinic {
     private Address address;
     private String description;
     private Map<AppointmentType, Money> appointmentPrices;
-    private ClinicRating rating;
+    private Rating rating;
 
     public Money getPrice(AppointmentType appointmentType) {
         return appointmentPrices.get(appointmentType);

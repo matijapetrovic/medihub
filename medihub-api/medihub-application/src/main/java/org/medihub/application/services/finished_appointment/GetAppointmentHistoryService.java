@@ -7,14 +7,15 @@ import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPor
 import org.medihub.application.ports.outgoing.finished_appointment.GetFinishedAppointmentsPort;
 import org.medihub.application.ports.outgoing.patient.LoadPatientPort;
 import org.medihub.application.ports.outgoing.reviewing.LoadClinicReviewPort;
+import org.medihub.application.ports.outgoing.reviewing.LoadDoctorReviewPort;
 import org.medihub.domain.account.Account;
 import org.medihub.domain.appointment.FinishedAppointment;
 import org.medihub.domain.clinic.ClinicReview;
+import org.medihub.domain.medical_doctor.MedicalDoctorReview;
 import org.medihub.domain.patient.Patient;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -23,6 +24,7 @@ public class GetAppointmentHistoryService implements GetAppointmentHistoryQuery 
     private final LoadPatientPort loadPatientPort;
     private final GetFinishedAppointmentsPort getFinishedAppointmentsPort;
     private final LoadClinicReviewPort loadClinicReviewPort;
+    private final LoadDoctorReviewPort loadDoctorReviewPort;
 
     @Override
     public List<GetAppointmentHistoryOutput> getAppointmentHistory() {
@@ -46,13 +48,19 @@ public class GetAppointmentHistoryService implements GetAppointmentHistoryQuery 
                             appointment.getAppointment().getDoctor().getClinic().getName(),
                             appointment.getAppointment().getDate().toString(),
                             appointment.getAppointment().getTime().toString(),
-                            getRating(appointment)
+                            getClinicRating(appointment),
+                            getDoctorRating(appointment)
                         ))
                 .collect(Collectors.toList());
     }
 
-    private BigDecimal getRating(FinishedAppointment appointment) {
+    private BigDecimal getClinicRating(FinishedAppointment appointment) {
         ClinicReview review = loadClinicReviewPort.loadByAppointmentId(appointment.getId());
+        return review != null ? review.getRating() : null;
+    }
+
+    private BigDecimal getDoctorRating(FinishedAppointment appointment) {
+        MedicalDoctorReview review = loadDoctorReviewPort.loadByAppointmentId(appointment.getId());
         return review != null ? review.getRating() : null;
     }
 }

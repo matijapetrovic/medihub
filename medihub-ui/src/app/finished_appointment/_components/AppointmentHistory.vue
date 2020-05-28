@@ -1,90 +1,97 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="items"
-    :items-per-page="5"
-    class="elevation-1"
-  >
-    <template v-slot:body="{ items }">
-        <tbody>
-          <tr v-for="(item,index) in items" :key="item.id">
-            <td>{{ item.name }}</td>
-            <td>{{ item.doctorFullName }}</td>
-            <td>{{ item.clinicName }}</td>
-            <td>{{ item.date }}</td>
-            <td>{{ item.time }}</td>
-            <td>
-              <v-rating
-                v-if="item.clinicRating"
-                :value="item.clinicRating"
-                readonly
-                half-increments
-              >
-              </v-rating>
-              <v-dialog
-                v-else
-                v-model="clinicDialog"
-                width="300"
-              >
-                <template v-slot:activator="{ on }">
-                  <v-btn
-                    @click="setItemToRate(item, index)"
-                    v-on="on"
-                  >
-                    Rate Now
-                  </v-btn>
-                </template>
-                <v-card
-                  class="elevation-16 mx-auto"
+  <div>
+    <v-data-table
+      :headers="headers"
+      :items="items"
+      :items-per-page="5"
+      class="elevation-1"
+    >
+      <template v-slot:body="{ items }">
+          <tbody>
+            <tr v-for="(item,index) in items" :key="item.id">
+              <td>{{ item.name }}</td>
+              <td>{{ item.doctorFullName }}</td>
+              <td>{{ item.clinicName }}</td>
+              <td>{{ item.date }}</td>
+              <td>{{ item.time }}</td>
+              <td>
+                <v-rating
+                  v-if="item.clinicRating"
+                  :value="item.clinicRating"
+                  readonly
+                  half-increments
                 >
-                  <v-card-title
-                    class="headline"
-                    primary-title
-                  >
-                    Rate {{ itemToRate.clinicName }}
-                  </v-card-title>
-                  <v-card-text>
-                    Please take a second to rate your experience at {{ itemToRate.clinicName }}
-                    <div class="text-center mt-12">
-                      <v-rating
-                        v-model="clinicRating"
-                        color="yellow darken-3"
-                        background-color="grey darken-1"
-                        empty-icon="$ratingFull"
-                        half-increments
-                        hover
-                      ></v-rating>
-                    </div>
-                  </v-card-text>
-                  <v-divider></v-divider>
-                  <v-card-actions class="justify-space-between">
-                    <v-btn text @click="closeDialog">No Thanks</v-btn>
-                    <v-btn
-                      color="primary"
-                      text
-                      @click="rateClinic()"
-                    >
-                      Rate Now
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
-            </td>
-          </tr>
-        </tbody>
-      </template>
-  </v-data-table>
+                </v-rating>
+                <v-btn
+                  v-else
+                  @click.stop="openClinicDialog(item, index)"
+                >
+                  Rate Now
+                </v-btn>
+              </td>
+              <td>
+                <v-rating
+                  v-if="item.doctorRating"
+                  :value="item.doctorRating"
+                  readonly
+                  half-increments
+                >
+                </v-rating>
+                <v-btn
+                  v-else
+                  @click.stop="openDoctorDialog(item, index)"
+                >
+                  Rate Now
+                </v-btn>
+              </td>
+            </tr>
+          </tbody>
+        </template>
+    </v-data-table>
+    <v-dialog
+      v-model="clinicDialog"
+      width="300"
+    >
+      <ReviewDialog
+        @closed="closeClinicDialog"
+        @rated="rateClinic($event)"
+      >
+        <template v-slot:title>
+          Rate {{ itemToRate.clinicName }}
+        </template>
+        Please take a second to rate your experience at {{ itemToRate.clinicName }}
+      </ReviewDialog>
+    </v-dialog>
+    <v-dialog
+      v-model="doctorDialog"
+      width="300"
+    >
+      <ReviewDialog
+        @closed="closeDoctorDialog"
+        @rated="rateDoctor($event)"
+      >
+        <template v-slot:title>
+          Rate {{ itemToRate.doctorFullName }}
+        </template>
+        Please take a second to rate your experience with {{ itemToRate.doctorFullName }}
+      </ReviewDialog>
+    </v-dialog>
+  </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import ReviewDialog from './ReviewDialog.vue';
 
 export default {
   name: 'AppointmentHistory',
+  components: {
+    ReviewDialog,
+  },
   data: () => ({
     itemToRate: {},
     clinicDialog: false,
-    clinicRating: null,
+    doctorDialog: false,
     headers: [
       {
         text: 'Appointment',
@@ -96,6 +103,7 @@ export default {
       { text: 'Date', value: 'date' },
       { text: 'Time', value: 'time' },
       { text: 'Clinic rating', value: 'clinicRating' },
+      { text: 'Doctor rating', value: 'doctorRating' },
     ],
   }),
   props: {
@@ -108,22 +116,42 @@ export default {
     ...mapState('finishedAppointment', ['finishedAppointments']),
   },
   methods: {
-    ...mapActions('finishedAppointment', ['addClinicReview']),
-    closeDialog() {
-      this.clinicRating = null;
+    ...mapActions('finishedAppointment', ['addClinicReview', 'addDoctorReview']),
+    closeClinicDialog() {
       this.clinicDialog = false;
+    },
+    openClinicDialog(item, idx) {
+      this.setItemToRate(item, idx);
+      this.clinicDialog = true;
+    },
+    closeDoctorDialog() {
+      this.doctorDialog = false;
+    },
+    openDoctorDialog(item, idx) {
+      this.setItemToRate(item, idx);
+      this.doctorDialog = true;
     },
     setItemToRate(item, idx) {
       this.itemToRate = { ...item, idx };
     },
-    rateClinic() {
+    rateClinic(rating) {
       this.addClinicReview({
         appointmentId: this.itemToRate.id,
-        rating: this.clinicRating,
+        rating,
       })
         .then(() => {
-          this.finishedAppointments[this.itemToRate.idx].clinicRating = this.clinicRating;
-          this.closeDialog();
+          this.finishedAppointments[this.itemToRate.idx].clinicRating = rating;
+          this.closeClinicDialog();
+        });
+    },
+    rateDoctor(rating) {
+      this.addDoctorReview({
+        appointmentId: this.itemToRate.id,
+        rating,
+      })
+        .then(() => {
+          this.finishedAppointments[this.itemToRate.idx].doctorRating = rating;
+          this.closeDoctorDialog();
         });
     },
   },

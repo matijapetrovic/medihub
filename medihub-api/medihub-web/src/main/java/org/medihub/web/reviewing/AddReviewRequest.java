@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Getter
 @Setter
-public class AddClinicReviewRequest {
+public class AddReviewRequest {
     private BigDecimal rating;
     private Long appointmentId;
 }
