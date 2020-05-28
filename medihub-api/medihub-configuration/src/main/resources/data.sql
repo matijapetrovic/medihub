@@ -96,6 +96,7 @@ insert into clinic_room_schedule_item (schedule_id, time) values (1, '01:00:00')
 insert into clinic_room_schedule_item (schedule_id, time) values (1, '23:00:00');
 
 insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Idemo niiis najjace je bilo najjace', 1, 1);
+insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Sad bas i nije heh', 1, 2);
 insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Sad bas i nije heh', 2, 2);
 
 create trigger after_clinic_review_insert
