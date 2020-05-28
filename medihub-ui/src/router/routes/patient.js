@@ -3,6 +3,7 @@ import PatientSearchClinics from '@/views/patient/PatientSearchClinics.vue';
 import PatientSearchDoctors from '@/views/patient/PatientSearchDoctors.vue';
 import PatientMedicalRecord from '@/views/patient/PatientMedicalRecord.vue';
 import PatientAppointmentHistory from '@/views/patient/PatientAppointmentHistory.vue';
+import PatientScheduledAppointments from '@/views/patient/PatientScheduledAppointments.vue';
 import PatientHome from '@/views/patient/PatientHome.vue';
 
 export default {
@@ -29,6 +30,10 @@ export default {
     {
       path: '/appointment-history',
       component: PatientAppointmentHistory,
+    },
+    {
+      path: '/scheduled-appointments',
+      component: PatientScheduledAppointments,
     },
     {
       path: '',

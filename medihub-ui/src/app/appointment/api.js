@@ -7,4 +7,7 @@ export default {
   addAppointment(appointment) {
     return utils.apiClient.post('api/appointment/add', appointment);
   },
+  fetchScheduledAppointments() {
+    return utils.apiClient.get('api/appointment');
+  },
 };
