@@ -3,6 +3,7 @@ package org.medihub.persistence.medical_doctor_schedule;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.outgoing.appointment.GetAppointmentPort;
 import org.medihub.application.ports.outgoing.doctor.AddAppointmentToMedicalDoctorSchedulePort;
+import org.medihub.application.ports.outgoing.doctor.DeleteAppointmentScheduleItemPort;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorSchedulePort;
 import org.medihub.application.ports.outgoing.leave_request.ApproveLeaveRequestPort;
 import org.medihub.application.ports.outgoing.scheduling.LoadDoctorDailySchedulePort;
@@ -23,11 +24,12 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class MedicalDoctorScheduleAdapter implements
+public class MedicalDoctorScheduleAdapterPort implements
         LoadDoctorDailySchedulePort,
         GetDoctorSchedulePort,
         AddAppointmentToMedicalDoctorSchedulePort,
-        ApproveLeaveRequestPort {
+        ApproveLeaveRequestPort,
+        DeleteAppointmentScheduleItemPort {
     private final MedicalDoctorScheduleRepository medicalDoctorScheduleRepository;
     private final MedicalDoctorScheduleItemRepository itemRepository;
     private final MedicalDoctorVacationScheduleItemRepository vacationRepository;
@@ -35,6 +37,7 @@ public class MedicalDoctorScheduleAdapter implements
     private final GetAppointmentPort getAppointmentPort;
     private final MedicalDoctorScheduleMapper medicalDoctorScheduleMapper;
     private final MedicalDoctorRepository medicalDoctorRepository;
+    private final MedicalDoctorAppointmentScheduleItemRepository medicalDoctorAppointmentScheduleItemRepository;
 
     public MedicalDoctorSchedule loadMedicalDoctorSchedule(Long doctorId) {
         Set<MedicalDoctorScheduleJpaEntity> schedules = medicalDoctorScheduleRepository
@@ -77,6 +80,7 @@ public class MedicalDoctorScheduleAdapter implements
                         type,
                         appointmentMapper.mapToDomainEntity(appointmentItem.getAppointment())
                     );
+            case LEAVE:
             case VACATION:
                 MedicalDoctorVacationScheduleJpaItem vacationItem = (MedicalDoctorVacationScheduleJpaItem) jpaItem;
                 return new MedicalDoctorVacationScheduleItem(
@@ -175,4 +179,8 @@ public class MedicalDoctorScheduleAdapter implements
                 MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.valueOf(leaveRequest.getType()).getOrdinal(), medicalDoctor);
     }
 
+    @Override
+    public void deleteAppointmentItem(Long id) {
+        medicalDoctorAppointmentScheduleItemRepository.deleteById(id);
+    }
 }
