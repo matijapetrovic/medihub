@@ -85,6 +85,7 @@ import org.medihub.application.ports.outgoing.authentication.AuthenticationPort;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
 import org.medihub.application.ports.outgoing.predefined_appointment.AddPredefinedAppointmentPort;
 import org.medihub.application.ports.outgoing.reviewing.LoadClinicReviewPort;
+import org.medihub.application.ports.outgoing.reviewing.LoadDoctorReviewPort;
 import org.medihub.application.ports.outgoing.reviewing.SaveClinicReviewPort;
 import org.medihub.application.ports.outgoing.prescription.SavePrescriptionPort;
 import org.medihub.application.ports.outgoing.reviewing.SaveDoctorReviewPort;
@@ -150,12 +151,14 @@ public class BeanConfig {
             GetAuthenticatedPort getAuthenticatedPort,
             LoadPatientPort loadPatientPort,
             GetFinishedAppointmentsPort getFinishedAppointmentsPort,
-            LoadClinicReviewPort loadClinicReviewPort) {
+            LoadClinicReviewPort loadClinicReviewPort,
+            LoadDoctorReviewPort loadDoctorReviewPort) {
         return new GetAppointmentHistoryService(
                 getAuthenticatedPort,
                 loadPatientPort,
                 getFinishedAppointmentsPort,
-                loadClinicReviewPort);
+                loadClinicReviewPort,
+                loadDoctorReviewPort);
     }
 
     @Bean

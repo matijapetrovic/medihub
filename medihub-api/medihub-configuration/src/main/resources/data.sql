@@ -102,6 +102,6 @@ create trigger after_clinic_review_insert
 
 create trigger after_doctor_review_insert
     after insert on doctor_review for each row
-    update medical_doctor md set rating = (select avg(rating) from doctor_review where doctor_id= c.id),
-                        review_count = (select count(rating) from doctor_review where doctor_id=c.id)
+    update medical_doctor md set rating = (select avg(rating) from doctor_review where doctor_id=md.id),
+                        review_count = (select count(rating) from doctor_review where doctor_id=md.id)
     where id = NEW.doctor_id;
