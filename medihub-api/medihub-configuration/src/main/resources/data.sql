@@ -73,13 +73,13 @@ insert into appointment_request (doctor, patient, price, date, time) values (1, 
 insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1500, '2020-03-10', '13:00:00');
 insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 6000, '2020-03-10', '14:00:00');
 
-insert into appointment (date, time, patient_id, doctor_id) values ('2020-10-10', '12:00:00', 1, 1);
-insert into appointment (date, time, patient_id, doctor_id) values ('2020-12-10', '13:00:00', 1, 1);
+insert into appointment (date, time, patient_id, doctor_id, clinic_room_id) values ('2020-10-10', '12:00:00', 1, 1, 1);
+insert into appointment (date, time, patient_id, doctor_id, clinic_room_id) values ('2020-12-10', '13:00:00', 1, 1, 1);
 
-insert into medical_doctor_schedule (doctor_id, date) values (2, '2020-05-12');
-insert into medical_doctor_schedule (doctor_id, date) values (2, '2020-05-18');
-insert into medical_doctor_schedule (doctor_id, date) values (2, '2020-05-22');
-insert into medical_doctor_schedule (doctor_id, date) values (2, '2020-05-29');
+insert into medical_doctor_schedule (doctor_id, date, available) values (2, '2020-05-12', true);
+insert into medical_doctor_schedule (doctor_id, date, available) values (2, '2020-05-18', true);
+insert into medical_doctor_schedule (doctor_id, date, available) values (2, '2020-05-22', true);
+insert into medical_doctor_schedule (doctor_id, date, available) values (2, '2020-05-29', true);
 
 insert into diagnosis (name) values ('Konjuktivitis');
 insert into diagnosis (name) values ('Prelom ruke');
