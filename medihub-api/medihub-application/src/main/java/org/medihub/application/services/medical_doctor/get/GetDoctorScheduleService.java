@@ -74,7 +74,8 @@ public class GetDoctorScheduleService implements GetDoctorScheduleQuery {
                 return new VacationScheduleItemOutput(
                         vacationItem.getId(),
                         vacationItem.getTime().toString(),
-                        vacationItem.getType().toString()
+                        vacationItem.getType().toString(),
+                        vacationItem.getEndDate().toString()
                 );
         }
 
