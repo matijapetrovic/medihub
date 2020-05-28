@@ -59,8 +59,8 @@ export default {
     },
     {
       path: '/clinic-rooms',
-      component: ClinicRoomsTable,}
-      ,
+      component: ClinicRoomsTable,
+    },
     {
       path: '/pricelist',
       component: PriceListTable,
