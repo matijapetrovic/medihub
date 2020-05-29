@@ -30,6 +30,15 @@ public class FinishedAppointmentAdapter implements
     }
 
     @Override
+    public List<FinishedAppointment> getAllFinishedAppointmentsForCurrentClinic(Long clinicId) {
+        return repository
+                .findAllByAppointment_Doctor_Clinic_Id(clinicId)
+                .stream()
+                .map(mapper::mapToDomainEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public FinishedAppointment loadFinishedAppointment(Long appointmentId) {
         FinishedAppointmentJpaEntity finishedAppointment =
                 repository.findById(appointmentId)

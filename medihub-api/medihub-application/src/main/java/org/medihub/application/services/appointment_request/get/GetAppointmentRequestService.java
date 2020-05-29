@@ -44,7 +44,9 @@ public class GetAppointmentRequestService implements GetAppointmentRequestUseCas
                                 appointmentRequest.getDoctor().getWorkingTime().getTo().toString(),
                                 appointmentRequest.getDoctor().getClinic().getName(),
                                 appointmentRequest.getAppointmentType().getName(),
-                                appointmentRequest.getAppointmentType().getId()
+                                appointmentRequest.getAppointmentType().getId(),
+                                appointmentRequest.getDoctor().getRating().getRating(),
+                                appointmentRequest.getDoctor().getRating().getCount()
                         ),
                         new PatientResponse(
                                 appointmentRequest.getPatient().getId(),

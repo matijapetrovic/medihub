@@ -159,13 +159,16 @@ public class BeanConfig {
             LoadPatientPort loadPatientPort,
             GetFinishedAppointmentsPort getFinishedAppointmentsPort,
             LoadClinicReviewPort loadClinicReviewPort,
-            LoadDoctorReviewPort loadDoctorReviewPort) {
+            LoadDoctorReviewPort loadDoctorReviewPort,
+            LoadClinicAdminPort loadClinicAdminPort
+            ) {
         return new GetAppointmentHistoryService(
                 getAuthenticatedPort,
                 loadPatientPort,
                 getFinishedAppointmentsPort,
                 loadClinicReviewPort,
-                loadDoctorReviewPort);
+                loadDoctorReviewPort,
+                loadClinicAdminPort);
     }
 
     @Bean

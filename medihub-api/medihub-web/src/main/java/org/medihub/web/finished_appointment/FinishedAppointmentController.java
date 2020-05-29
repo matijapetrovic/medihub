@@ -1,22 +1,16 @@
 package org.medihub.web.finished_appointment;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.incoming.finished_appointment.GetAppointmentHistoryOutput;
-import org.medihub.application.ports.incoming.finished_appointment.GetAppointmentHistoryQuery;
+import org.medihub.application.ports.incoming.finished_appointment.*;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import org.medihub.application.ports.incoming.finished_appointment.AddFinishedAppointmentUseCase;
+
 import org.medihub.application.ports.incoming.finished_appointment.AddFinishedAppointmentUseCase.AddFinishedAppointmentCommand;
-import org.medihub.application.ports.incoming.finished_appointment.FinishedAppointmentOutput;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @RequiredArgsConstructor
 @Component
@@ -32,8 +26,23 @@ public class FinishedAppointmentController {
         return ResponseEntity.ok(getAppointmentHistoryQuery.getAppointmentHistory());
     }
 
+    @PostMapping("/getForClinic")
+    @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
+    ResponseEntity<List<GetAppointmentDateCount>> getClinicAppointmentHistory (
+            @RequestBody FinishedAppointmentType finishedAppointmentType) {
+        GetAppointmentHistoryQuery.FinishedAppointmentQuery query = makeFinishedAppointmentQuery(finishedAppointmentType);
+        return ResponseEntity.ok(getAppointmentHistoryQuery.getClinicAppointmentHistory(query));
+    }
+
+    private GetAppointmentHistoryQuery.FinishedAppointmentQuery makeFinishedAppointmentQuery(
+            FinishedAppointmentType finishedAppointmentType) {
+        return new GetAppointmentHistoryQuery.FinishedAppointmentQuery(
+                finishedAppointmentType.getType(),
+                finishedAppointmentType.getDate());
+    }
+
     @PostMapping("/add")
-    ResponseEntity<FinishedAppointmentOutput> add(@RequestBody AddFinishedAppointmentRequest request) {
+    ResponseEntity<GetFinishedAppointmentOutput> add(@RequestBody AddFinishedAppointmentRequest request) {
         AddFinishedAppointmentCommand command = this.createCommand(request);
         return ResponseEntity.ok(addFinishedAppointmentUseCase.addFinishedAppointment(command));
     }
