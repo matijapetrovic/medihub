@@ -38,6 +38,11 @@ export default {
         path: '/appointment-history',
         icon: 'mdi-stethoscope',
       },
+      {
+        text: 'Scheduled Appointments',
+        path: '/scheduled-appointments',
+        icon: 'mdi-clock-time-eight-outline',
+      },
     ],
   }),
 };

@@ -79,7 +79,8 @@ insert into appointment_request (doctor, patient, price, date, time) values (1, 
 
 insert into clinic_room (name, number, clinic_id) values ('soba1', 1, 1);
 insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values ('2020-10-10', '12:00:00', 1, 1, 1);
-insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values ('2020-12-10', '13:00:00', 1, 1, 1);
+insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values ('2020-10-12', '13:00:00', 1, 1, 1);
+insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values ('2020-10-20', '07:00:00', 1, 1, 2);
 
 insert into medical_doctor_schedule (doctor_id, date, available) values (2, '2020-05-12', true);
 insert into medical_doctor_schedule (doctor_id, date, available) values (2, '2020-05-18', true);
@@ -96,7 +97,6 @@ insert into clinic_room_schedule_item (schedule_id, time) values (1, '01:00:00')
 insert into clinic_room_schedule_item (schedule_id, time) values (1, '23:00:00');
 
 insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Idemo niiis najjace je bilo najjace', 1, 1);
-insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Sad bas i nije heh', 1, 2);
 insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Sad bas i nije heh', 2, 2);
 
 create trigger after_clinic_review_insert
