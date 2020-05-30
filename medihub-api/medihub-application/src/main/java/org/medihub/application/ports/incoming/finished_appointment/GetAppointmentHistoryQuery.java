@@ -2,7 +2,6 @@ package org.medihub.application.ports.incoming.finished_appointment;
 
 import lombok.EqualsAndHashCode;
 import lombok.Value;
-import org.medihub.application.ports.incoming.clinic.AddClinicUseCase;
 import org.medihub.common.SelfValidating;
 
 import javax.validation.constraints.NotNull;

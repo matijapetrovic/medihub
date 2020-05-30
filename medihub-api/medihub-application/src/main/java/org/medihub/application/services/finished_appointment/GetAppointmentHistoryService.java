@@ -18,12 +18,7 @@ import org.medihub.domain.medical_doctor.MedicalDoctorReview;
 import org.medihub.domain.patient.Patient;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -48,93 +43,13 @@ public class GetAppointmentHistoryService implements GetAppointmentHistoryQuery 
 
     @Override
     public List<GetAppointmentDateCount> getClinicAppointmentHistory(FinishedAppointmentQuery finishedAppointmentQuery) {
+        FinishedAppointmentCounter counter = new FinishedAppointmentCounter(finishedAppointmentQuery.getType());
         Account account = getAuthenticatedPort.getAuthenticated();
         ClinicAdmin clinicAdmin = loadClinicAdminPort.loadClinicAdminByAccountId(account.getId());
 
         List<FinishedAppointment> finishedAppointments =
                 getFinishedAppointmentsPort.getAllFinishedAppointmentsForCurrentClinic(clinicAdmin.getClinic().getId());
-        return countAppearance(
-                filterByType(finishedAppointments, finishedAppointmentQuery),
-                finishedAppointmentQuery.getType());
-    }
-
-    private List<GetAppointmentDateCount> countAppearance(List<FinishedAppointment> finishedAppointments, String type) {
-        if(type.equals("day")) {
-            return  countAppearanceByTimes(finishedAppointments);
-        } else {
-            return countAppearanceByDate(finishedAppointments);
-        }
-    }
-
-    private List<GetAppointmentDateCount> countAppearanceByDate(List<FinishedAppointment> finishedAppointments) {
-        HashMap<LocalDate, GetAppointmentDateCount> countDict = new HashMap<>();
-        for(FinishedAppointment item: finishedAppointments) {
-            LocalDate date = item.getAppointment().getDate();
-            if (!countDict.containsKey(date)){
-                countDict.put(date, new GetAppointmentDateCount(date.toString(), "" , 1));
-            } else {
-                countDict.put(date, new GetAppointmentDateCount(date.toString(), "", countDict.get(date).getCount() + 1));
-            }
-        }
-        return new ArrayList<GetAppointmentDateCount>(countDict.values());
-    }
-
-    private List<GetAppointmentDateCount> countAppearanceByTimes(List<FinishedAppointment> finishedAppointments) {
-        HashMap<LocalTime, GetAppointmentDateCount> countDict = new HashMap<>();
-        for(FinishedAppointment item: finishedAppointments) {
-            LocalTime time = item.getAppointment().getTime();
-            if (!countDict.containsKey(time)){
-                countDict.put(time, new GetAppointmentDateCount("", time.toString() , 1));
-            } else {
-                countDict.put(time, new GetAppointmentDateCount("", time.toString(), countDict.get(time).getCount() + 1));
-            }
-        }
-        return new ArrayList<GetAppointmentDateCount>(countDict.values());
-    }
-
-    private List<FinishedAppointment> filterByType(
-            List<FinishedAppointment> finishedAppointments,
-            FinishedAppointmentQuery finishedAppointmentQuery)
-    {
-        if(finishedAppointmentQuery.getType().equals("year")) {
-            return filterByYear(finishedAppointments, finishedAppointmentQuery);
-        } else if(finishedAppointmentQuery.getType().equals("month")) {
-            return filterByMonth(finishedAppointments, finishedAppointmentQuery);
-        }else {
-            return filterByDay(finishedAppointments, finishedAppointmentQuery);
-        }
-    }
-
-    private List<FinishedAppointment> filterByYear(
-            List<FinishedAppointment> finishedAppointments,
-            FinishedAppointmentQuery finishedAppointmentQuery
-    ) {
-        return finishedAppointments
-                .stream()
-                .filter(item -> item.getAppointment().getDate().getYear() == finishedAppointmentQuery.getDate().getYear())
-                .collect(Collectors.toList());
-    }
-
-    private List<FinishedAppointment> filterByMonth(
-            List<FinishedAppointment> finishedAppointments,
-            FinishedAppointmentQuery finishedAppointmentQuery
-    ) {
-        return finishedAppointments
-                .stream()
-                .filter(item ->
-                        item.getAppointment().getDate().getYear() == finishedAppointmentQuery.getDate().getYear() &&
-                                item.getAppointment().getDate().getMonth() == finishedAppointmentQuery.getDate().getMonth())
-                .collect(Collectors.toList());
-    }
-
-    private List<FinishedAppointment> filterByDay(
-            List<FinishedAppointment> finishedAppointments,
-            FinishedAppointmentQuery finishedAppointmentQuery
-    ) {
-        return finishedAppointments
-                .stream()
-                .filter(item ->
-                        item.getAppointment().getDate().equals(finishedAppointmentQuery.getDate())).collect(Collectors.toList());
+        return counter.countAppearance(finishedAppointments, finishedAppointmentQuery);
     }
 
     private List<GetAppointmentHistoryOutput> mapToOutput(List<FinishedAppointment> appointments) {

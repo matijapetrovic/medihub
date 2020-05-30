@@ -4,6 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -14,4 +16,5 @@ public interface FinishedAppointmentRepository extends JpaRepository<FinishedApp
             "from FinishedAppointmentJpaEntity fa " +
             "where fa.appointment.doctor.clinic.id=:clinicId")
     List<FinishedAppointmentJpaEntity> findAllByAppointment_Doctor_Clinic_Id(@Param(value="clinicId") Long clinicId);
+
 }

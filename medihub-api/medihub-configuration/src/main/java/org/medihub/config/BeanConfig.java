@@ -6,6 +6,7 @@ import org.medihub.application.ports.incoming.drugs.GetDrugsQuery;
 import org.medihub.application.ports.incoming.finished_appointment.AddFinishedAppointmentUseCase;
 import org.medihub.application.ports.incoming.clinic.GetAppointmentPriceUseCase;
 import org.medihub.application.ports.incoming.finished_appointment.GetAppointmentHistoryQuery;
+import org.medihub.application.ports.incoming.finished_appointment.GetFinishedAppointmentProfitUseCase;
 import org.medihub.application.ports.incoming.leave_request.AddLeaveRequestUseCase;
 import org.medihub.application.ports.incoming.leave_request.ApproveLeaveRequestUseCase;
 import org.medihub.application.ports.incoming.leave_request.DeleteLeaveRequestUseCase;
@@ -102,6 +103,7 @@ import org.medihub.application.services.clinic_room.add.ScheduleClinicRoomServic
 import org.medihub.application.services.clinic_room.delete.DeleteClinicRoomService;
 import org.medihub.application.services.clinic_room.get.GetClinicRoomsService;
 import org.medihub.application.services.clinic_room.get.SearchClinicRoomsService;
+import org.medihub.application.services.finished_appointment.GetFinishedAppointmentProfitService;
 import org.medihub.application.services.leave_request.add.AddLeaveRequestService;
 import org.medihub.application.services.leave_request.add.ApproveLeaveRequestService;
 import org.medihub.application.services.leave_request.delete.DeleteLeaveRequestService;
@@ -592,5 +594,20 @@ public class BeanConfig {
                 getDrugByIdPort,
                 savePrescriptionPort,
                 deleteAppointmentScheduleItemPort);
+    }
+
+    @Bean
+    public GetFinishedAppointmentProfitUseCase getFinishedAppointmentProfitUseCase(
+            GetAuthenticatedPort getAuthenticatedPort,
+            GetFinishedAppointmentsPort getFinishedAppointmentsPort,
+            LoadClinicAdminPort loadClinicAdminPort,
+            LoadClinicPort loadClinicPort
+    ) {
+       return new GetFinishedAppointmentProfitService(
+               getAuthenticatedPort,
+               getFinishedAppointmentsPort,
+               loadClinicAdminPort,
+               loadClinicPort
+       );
     }
 }

@@ -1,6 +1,7 @@
 package org.medihub.web.finished_appointment;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.jni.Local;
 import org.medihub.application.ports.incoming.finished_appointment.*;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -8,9 +9,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.medihub.application.ports.incoming.finished_appointment.AddFinishedAppointmentUseCase.AddFinishedAppointmentCommand;
+import org.medihub.application.ports.incoming.finished_appointment.GetFinishedAppointmentProfitUseCase.GetFinishedAppointmentProfitCommand;
 
 @RequiredArgsConstructor
 @Component
@@ -19,6 +23,7 @@ import org.medihub.application.ports.incoming.finished_appointment.AddFinishedAp
 public class FinishedAppointmentController {
     private final GetAppointmentHistoryQuery getAppointmentHistoryQuery;
     private final AddFinishedAppointmentUseCase addFinishedAppointmentUseCase;
+    private final GetFinishedAppointmentProfitUseCase getFinishedAppointmentProfitUseCase;
 
     @GetMapping("")
     @PreAuthorize("hasRole('ROLE_PATIENT')")
@@ -31,7 +36,7 @@ public class FinishedAppointmentController {
     ResponseEntity<List<GetAppointmentDateCount>> getClinicAppointmentHistory (
             @RequestBody FinishedAppointmentType finishedAppointmentType) {
         GetAppointmentHistoryQuery.FinishedAppointmentQuery query = makeFinishedAppointmentQuery(finishedAppointmentType);
-        return ResponseEntity.ok(getAppointmentHistoryQuery.getClinicAppointmentHistory(query));
+        return ResponseEntity.ok(new ArrayList<>());
     }
 
     private GetAppointmentHistoryQuery.FinishedAppointmentQuery makeFinishedAppointmentQuery(
@@ -39,6 +44,22 @@ public class FinishedAppointmentController {
         return new GetAppointmentHistoryQuery.FinishedAppointmentQuery(
                 finishedAppointmentType.getType(),
                 finishedAppointmentType.getDate());
+    }
+
+    @PostMapping("/getProfit")
+    @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
+    ResponseEntity<FinishedAppointmentProfitResponse> getProfit(
+            @RequestBody GetProfitRequest getProfitRequest
+    ) {
+        GetFinishedAppointmentProfitCommand command = makeProfitCommand(getProfitRequest);
+        return ResponseEntity.ok(getFinishedAppointmentProfitUseCase.getProfit(command));
+    }
+
+    private GetFinishedAppointmentProfitCommand makeProfitCommand(GetProfitRequest getProfitRequest) {
+        return new GetFinishedAppointmentProfitCommand(
+                LocalDate.parse(getProfitRequest.getFrom()),
+                LocalDate.parse(getProfitRequest.getTo())
+        );
     }
 
     @PostMapping("/add")

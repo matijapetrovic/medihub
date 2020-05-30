@@ -7,6 +7,9 @@ export default {
   fetchFinishedAppointments() {
     return utils.apiClient.get('/api/finished_appointment');
   },
+  getProfit(payload) {
+    return utils.apiClient.post('/api/finished_appointment/getProfit', payload);
+  },
   addClinicReview(payload) {
     return utils.apiClient.post('/api/review/clinic', payload);
   },

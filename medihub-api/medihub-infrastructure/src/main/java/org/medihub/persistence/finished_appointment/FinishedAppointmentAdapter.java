@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class FinishedAppointmentAdapter implements
         GetFinishedAppointmentsPort,
         LoadFinishedAppointmentPort,
-        SaveFinishedAppointmentPort {
+        SaveFinishedAppointmentPort{
     private final FinishedAppointmentMapper mapper;
     private final FinishedAppointmentRepository repository;
 
