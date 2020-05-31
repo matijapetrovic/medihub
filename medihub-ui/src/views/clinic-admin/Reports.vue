@@ -2,9 +2,14 @@
   <v-container>
     <v-row>
       <v-col cols=8>
-        <v-subheader>
-          Clinic rating: <v-rating large readonly v-model="clinic.rating"></v-rating>
-        </v-subheader>
+        <v-row>
+          <v-subheader>
+            Clinic rating: <v-rating large readonly v-model="clinic.rating"></v-rating>
+          </v-subheader>
+          <v-avatar color="teal" size="48">
+            <span class="white--text headline">{{clinic.rating}}</span>
+          </v-avatar>
+        </v-row>
       </v-col>
       <v-col cols=2>
         <v-subheader>

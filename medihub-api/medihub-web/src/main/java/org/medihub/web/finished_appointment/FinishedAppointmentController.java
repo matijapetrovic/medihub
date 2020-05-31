@@ -1,7 +1,6 @@
 package org.medihub.web.finished_appointment;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.jni.Local;
 import org.medihub.application.ports.incoming.finished_appointment.*;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.medihub.application.ports.incoming.finished_appointment.AddFinishedAppointmentUseCase.AddFinishedAppointmentCommand;
@@ -36,7 +34,7 @@ public class FinishedAppointmentController {
     ResponseEntity<List<GetAppointmentDateCount>> getClinicAppointmentHistory (
             @RequestBody FinishedAppointmentType finishedAppointmentType) {
         GetAppointmentHistoryQuery.FinishedAppointmentQuery query = makeFinishedAppointmentQuery(finishedAppointmentType);
-        return ResponseEntity.ok(new ArrayList<>());
+        return ResponseEntity.ok(getAppointmentHistoryQuery.getClinicAppointmentHistory(query));
     }
 
     private GetAppointmentHistoryQuery.FinishedAppointmentQuery makeFinishedAppointmentQuery(

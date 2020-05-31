@@ -40,8 +40,7 @@ public class FinishedAppointmentCounter<T> {
                 countDict.put(time, new GetAppointmentDateCount(time.toString(), countDict.get(time).getCount() + 1));
             }
         }
-        return new ArrayList<GetAppointmentDateCount>(countDict.values());
-        //return sortByType(new ArrayList<GetAppointmentDateCount>(countDict.values()));
+        return sortByType(new ArrayList<GetAppointmentDateCount>(countDict.values()));
     }
 
     private List<GetAppointmentDateCount> countMonthlyAppearance(List<FinishedAppointment> finishedAppointments) {
@@ -54,8 +53,7 @@ public class FinishedAppointmentCounter<T> {
                 countDict.put(date, new GetAppointmentDateCount(date.toString(),countDict.get(date).getCount() + 1));
             }
         }
-        return new ArrayList<GetAppointmentDateCount>(countDict.values());
-        //return sortByType(new ArrayList<GetAppointmentDateCount>(countDict.values()));
+       return sortByType(new ArrayList<GetAppointmentDateCount>(countDict.values()));
     }
 
     private List<GetAppointmentDateCount> countAnnualAppearance(List<FinishedAppointment> finishedAppointments) {
@@ -68,8 +66,7 @@ public class FinishedAppointmentCounter<T> {
                 countDict.put(month, new GetAppointmentDateCount(month.toString(), countDict.get(month).getCount() + 1));
             }
         }
-        return new ArrayList<GetAppointmentDateCount>(countDict.values());
-        //return sortByType(new ArrayList<GetAppointmentDateCount>(countDict.values()));
+        return sortByType(new ArrayList<GetAppointmentDateCount>(countDict.values()));
     }
 
     private List<GetAppointmentDateCount> sortByType(List<GetAppointmentDateCount> finishedAppointments) {

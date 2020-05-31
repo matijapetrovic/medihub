@@ -34,7 +34,6 @@ public class GetAppointmentHistoryService implements GetAppointmentHistoryQuery 
     public List<GetAppointmentHistoryOutput> getAppointmentHistory() {
         Account account = getAuthenticatedPort.getAuthenticated();
         Patient patient = loadPatientPort.loadPatientByAccountId(account.getId());
-
         List<FinishedAppointment> finishedAppointments =
                 getFinishedAppointmentsPort.getFinishedAppointments(patient.getId());
 
