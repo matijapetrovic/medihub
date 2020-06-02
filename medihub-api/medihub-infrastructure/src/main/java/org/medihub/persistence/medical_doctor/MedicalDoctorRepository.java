@@ -3,8 +3,10 @@ package org.medihub.persistence.medical_doctor;
 import org.medihub.persistence.appointment_type.AppointmentTypeJpaEntity;
 import org.medihub.persistence.clinic.ClinicJpaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.util.List;
@@ -28,4 +30,11 @@ public interface MedicalDoctorRepository extends JpaRepository<MedicalDoctorJpaE
             @Param(value="clinic") ClinicJpaEntity clinic,
             @Param(value="date") Date date,
             @Param(value="appointmentType") AppointmentTypeJpaEntity appointmentType);
+
+    @Transactional
+    @Modifying
+    @Query("delete from MedicalDoctorJpaEntity d " +
+            "where d.id = :id and " +
+            "0 > (select count(mds) from MedicalDoctorScheduleJpaEntity mds where mds.doctor=d) ")
+    void deleteDoctor(@Param(value="id")Long id);
 }

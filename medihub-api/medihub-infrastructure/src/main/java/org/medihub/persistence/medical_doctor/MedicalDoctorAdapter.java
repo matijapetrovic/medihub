@@ -4,10 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.outgoing.doctor.*;
 import org.medihub.domain.WorkingTime;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
+import org.medihub.domain.medical_doctor.MedicalDoctorSchedule;
 import org.medihub.persistence.appointment_type.AppointmentTypeJpaEntity;
 import org.medihub.persistence.appointment_type.AppointmentTypeRepository;
 import org.medihub.persistence.clinic.ClinicJpaEntity;
 import org.medihub.persistence.clinic.ClinicRepository;
+import org.medihub.persistence.medical_doctor_schedule.MedicalDoctorScheduleRepository;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
@@ -25,7 +27,8 @@ public class MedicalDoctorAdapter implements
         GetAllDoctorsPort,
         SearchDoctorsPort,
         GetDoctorWorkingTimePort,
-        GetDoctorByAccountIdPort {
+        GetDoctorByAccountIdPort,
+        DeleteMedicalDoctorPort{
     private final MedicalDoctorMapper medicalDoctorMapper;
     private final MedicalDoctorRepository medicalDoctorRepository;
     private final ClinicRepository clinicRepository;
@@ -46,8 +49,12 @@ public class MedicalDoctorAdapter implements
     }
 
     @Override
-    public List<MedicalDoctor> getAllDoctors() {
-        return medicalDoctorMapper.mapToDomainList(medicalDoctorRepository.findAll());
+    public List<MedicalDoctor> getAllDoctors(Long clinicId) {
+        return medicalDoctorRepository
+                .findAllByClinicId(clinicId)
+                .stream()
+                .map(medicalDoctorMapper::mapToDomainEntity)
+                .collect(Collectors.toList());
     }
 
     public List<MedicalDoctor> getDoctorsForClinic(Long clinicId) {
@@ -96,5 +103,11 @@ public class MedicalDoctorAdapter implements
         return medicalDoctorMapper.mapToDomainEntity(doctor);
     }
 
+    @Override
+    public void deleteMedicalDoctor(Long id) {
+
+        medicalDoctorRepository.deleteDoctor(id);
+        
+    }
 }
 

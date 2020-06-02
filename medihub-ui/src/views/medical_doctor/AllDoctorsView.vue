@@ -86,14 +86,7 @@
           </v-dialog>
         </v-toolbar>
       </template>
-      <template v-slot:item.actions="{ item }">
-        <v-icon
-          small
-          class="mr-2"
-          @click="editItem(item)"
-        >
-          mdi-pencil
-        </v-icon>
+      <template v-slot:item.delete="{ item }">
         <v-icon
           small
           @click="deleteItem(item)"
@@ -130,6 +123,7 @@ export default {
       { text: 'Start of work', value: 'workingTimeStarts' },
       { text: 'End of work', value: 'workingTimeEnds' },
       { text: 'Clinic name', value: 'clinicName' },
+      { text: 'Delete doctor', value: 'delete' },
     ],
     editedIndex: -1,
     editedItem: {
@@ -175,7 +169,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('medicalDoctor', ['getAllDoctors']),
+    ...mapActions('medicalDoctor', ['getAllDoctors', 'deleteMedicalDoctor']),
     initialize() {
       this.getAllDoctors();
     },
@@ -187,7 +181,8 @@ export default {
 
     deleteItem(item) {
       const index = this.doctors.indexOf(item);
-      return () => window.confirm('Are you sure you want to delete this item?') && this.doctors.splice(index, 1);
+      this.doctors.splice(index, 1);
+      this.deleteMedicalDoctor(item.id);
     },
 
     close() {

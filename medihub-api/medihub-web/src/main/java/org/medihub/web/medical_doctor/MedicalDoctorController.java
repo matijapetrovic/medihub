@@ -1,6 +1,7 @@
 package org.medihub.web.medical_doctor;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.ForbiddenException;
 import org.medihub.application.ports.incoming.medical_doctor.*;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase.AddMedicalDoctorCommand;
 import org.medihub.application.ports.incoming.medical_doctor.schedule.GetDoctorScheduleOutput;
@@ -24,11 +25,12 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/medical-doctor", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MedicalDoctorController {
     private final AddMedicalDoctorUseCase AddMedicalDoctorUseCase;
-    private final GetAllDoctorsPort getAllDoctorsPort;
+    private final GetMedicalDoctorUseCase getMedicalDoctorUseCase;
     private final GetDoctorsQuery getDoctorsQuery;
     private final SearchDoctorsQuery searchDoctorsQuery;
     private final GetDoctorAvailableTimesQuery getDoctorAvailableTimesQuery;
     private final GetDoctorScheduleQuery getDoctorScheduleQuery;
+    private final DeleteMedicalDoctorUseCase deleteMedicalDoctorUseCase;
 
     @GetMapping("/{clinicId}")
     ResponseEntity<List<SearchDoctorsOutput>> getDoctors(@PathVariable Long clinicId) {
@@ -59,12 +61,18 @@ public class MedicalDoctorController {
         AddMedicalDoctorUseCase.addDoctor(command);
     }
 
-    @GetMapping("/getAll")
-    List<?> getAll(){
-        return getAllDoctors();
+    @PostMapping("/delete")
+    @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
+    void delete(@RequestBody Long id) throws ForbiddenException {
+        deleteMedicalDoctorUseCase.deleteMedicalDoctor(id);
     }
 
-    private AddMedicalDoctorCommand createCommand(MedicalDoctorRequest medicalDoctorRequest){
+    @GetMapping("/getAll")
+    List<?> getAll(){
+        return getMedicalDoctorUseCase.loadAll();
+    }
+
+    private AddMedicalDoctorCommand createCommand(MedicalDoctorRequest medicalDoctorRequest) {
         return new AddMedicalDoctorCommand(
                 medicalDoctorRequest.getEmail(),
                 medicalDoctorRequest.getPassword(),
@@ -78,25 +86,6 @@ public class MedicalDoctorController {
                 medicalDoctorRequest.getTo(),
                 medicalDoctorRequest.getAppointmentTypeId()
         );
-    }
-
-    private List<?> getAllDoctors() {
-        return getAllDoctorsPort.getAllDoctors()
-                .stream()
-                .map(doctor -> new MedicalDoctorResponse(
-                        doctor.getId(),
-                        doctor.getAccount().getEmail(),
-                        doctor.getAccount().getFirstName(),
-                        doctor.getAccount().getLastName(),
-                        doctor.getAccount().getPersonalInfo().getAddress(),
-                        doctor.getAccount().getPersonalInfo().getTelephoneNumber(),
-                        doctor.getWorkingTime().getFrom().toString(),
-                        doctor.getWorkingTime().getTo().toString(),
-                        doctor.getClinic().getName(),
-                        doctor.getSpecialization().getName(),
-                        doctor.getSpecialization().getId()
-                ))
-                .collect(Collectors.toList());
     }
 
     @GetMapping("/schedule")

@@ -4,7 +4,6 @@ import org.medihub.domain.medical_doctor.MedicalDoctor;
 
 import java.util.List;
 
-public interface GetMedicalDoctorUseCase {
-    List<MedicalDoctorResponse> loadAll();
+public interface DeleteMedicalDoctorUseCase {
+    List<MedicalDoctor> deleteMedicalDoctor(Long id);
 }
-

@@ -43,6 +43,17 @@ export default {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
+    deleteMedicalDoctor({ dispatch, commit }, payload) {
+      return api.deleteMedicalDoctor(payload)
+        .then((response) => {
+          commit('SET_DOCTORS', response.data);
+          const message = 'Doctor deleted successfully';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
     getAllDoctors({ commit }) {
       return api.getAllDoctors()
         .then((data) => {

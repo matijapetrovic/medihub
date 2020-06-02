@@ -107,6 +107,7 @@ import org.medihub.application.services.leave_request.add.ApproveLeaveRequestSer
 import org.medihub.application.services.leave_request.delete.DeleteLeaveRequestService;
 import org.medihub.application.services.leave_request.get.GetLeaveRequestService;
 import org.medihub.application.services.medical_doctor.add.AddAppointmentToMedicalDoctorService;
+import org.medihub.application.services.medical_doctor.delete.DeleteMedicalDoctorService;
 import org.medihub.application.services.medical_doctor.get.GetDoctorScheduleService;
 import org.medihub.application.services.clinic.get.GetAppointmentPriceService;
 import org.medihub.application.services.diagnosis.GetDiagnosisService;
@@ -230,6 +231,19 @@ public class BeanConfig {
     public GetDoctorsQuery getDoctorsQuery(
             GetDoctorsPort getDoctorsPort) {
         return new GetDoctorsService(getDoctorsPort);
+    }
+
+    @Bean DeleteMedicalDoctorUseCase deleteMedicalDoctorUseCase(
+            DeleteMedicalDoctorPort deleteMedicalDoctorPort,
+            GetDoctorsPort getDoctorsPort,
+            GetAuthenticatedPort getAuthenticatedPort,
+            LoadClinicAdminPort loadClinicAdminPort
+    ) {
+        return new DeleteMedicalDoctorService(
+                deleteMedicalDoctorPort,
+                getDoctorsPort,
+                getAuthenticatedPort,
+                loadClinicAdminPort);
     }
 
     @Bean
@@ -359,9 +373,14 @@ public class BeanConfig {
     }
 
     @Bean
-    public GetMedicalDoctorUseCase getMedicalDoctorUseCase(GetAllDoctorsPort doctorPort){
+    public GetMedicalDoctorUseCase getMedicalDoctorUseCase(
+            GetAllDoctorsPort doctorPort,
+            GetAuthenticatedPort getAuthenticatedPort,
+            LoadClinicAdminPort loadClinicAdminPort){
         return new GetMedicalDoctorService(
-                doctorPort
+                doctorPort,
+                getAuthenticatedPort,
+                loadClinicAdminPort
         );
     }
 
