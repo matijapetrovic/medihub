@@ -4,7 +4,7 @@ import org.medihub.domain.appointment.Appointment;
 
 import java.util.List;
 
-public interface GetAppointmentPort {
+public interface LoadAppointmentPort {
     Appointment getAppointmentById(Long id);
 
     List<Appointment> getAllByClinicId(Long clinicId);

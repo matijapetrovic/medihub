@@ -1,5 +1,6 @@
 package org.medihub.config;
 
+import org.medihub.application.ports.incoming.appointment.CancelAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment.GetAppointmentsQuery;
 import org.medihub.application.ports.incoming.clinic.*;
 import org.medihub.application.ports.incoming.diagnosis.GetDiagnosisQuery;
@@ -40,10 +41,7 @@ import org.medihub.application.ports.incoming.patient.RegisterPatientUseCase;
 import org.medihub.application.ports.outgoing.*;
 import org.medihub.application.ports.outgoing.account.LoadAccountPort;
 import org.medihub.application.ports.outgoing.account.SaveAccountPort;
-import org.medihub.application.ports.outgoing.appointment.GetAppointmentPort;
-import org.medihub.application.ports.outgoing.appointment.GetScheduledAppointmentsPort;
-import org.medihub.application.ports.outgoing.appointment.SaveAppointmentPort;
-import org.medihub.application.ports.outgoing.appointment.SaveAppointmentRequestPort;
+import org.medihub.application.ports.outgoing.appointment.*;
 import org.medihub.application.ports.outgoing.appointment_request.DeleteAppointmentRequestPort;
 import org.medihub.application.ports.outgoing.appointment_request.GetAppointmentRequestPort;
 import org.medihub.application.ports.outgoing.appointment_type.GetAppointmentTypesPort;
@@ -95,6 +93,7 @@ import org.medihub.application.services.account.post.ChangePasswordService;
 import org.medihub.application.services.account.get.GetAccountService;
 import org.medihub.application.services.account.get.GetProfileService;
 import org.medihub.application.services.account.post.UpdateProfileService;
+import org.medihub.application.services.appointment.CancelAppointmentService;
 import org.medihub.application.services.appointment.GetAppointmentsService;
 import org.medihub.application.services.clinic.add.AddPriceService;
 import org.medihub.application.services.clinic.get.GetCurrentClinicService;
@@ -144,6 +143,19 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class BeanConfig {
+
+    @Bean
+    public CancelAppointmentUseCase cancelAppointmentUseCase(
+            GetAuthenticatedPort getAuthenticatedPort,
+            LoadAppointmentPort loadAppointmentPort,
+            DeleteAppointmentPort deleteAppointmentPort,
+            DeleteAppointmentScheduleItemPort deleteAppointmentScheduleItemPort) {
+        return new CancelAppointmentService(
+                getAuthenticatedPort,
+                loadAppointmentPort,
+                deleteAppointmentPort,
+                deleteAppointmentScheduleItemPort);
+    }
 
     @Bean
     public GetAppointmentsQuery getAppointmentsQuery(
@@ -551,7 +563,7 @@ public class BeanConfig {
             LoadClinicAdminPort loadClinicAdminPort,
             GetClinicRoomsPort getClinicRoomsPort,
             GetDoctorsPort getDoctorsPort,
-            GetAppointmentPort getAppointmentPort
+            LoadAppointmentPort loadAppointmentPort
     ){
         return new GetCurrentClinicService(
                 loadClinicPort,
@@ -559,7 +571,7 @@ public class BeanConfig {
                 loadClinicAdminPort,
                 getClinicRoomsPort,
                 getDoctorsPort,
-                getAppointmentPort
+                loadAppointmentPort
         );
     }
 
@@ -589,13 +601,13 @@ public class BeanConfig {
     }
 
     @Bean
-    public AddFinishedAppointmentUseCase addFinishedAppointmentUseCase(GetAppointmentPort getAppointmentPort,
+    public AddFinishedAppointmentUseCase addFinishedAppointmentUseCase(LoadAppointmentPort loadAppointmentPort,
                                                                        GetDiagnosisByIdPort getDiagnosisByIdPort,
                                                                        SaveFinishedAppointmentPort saveFinishedAppointmentPort,
                                                                        GetDrugByIdPort getDrugByIdPort,
                                                                        SavePrescriptionPort savePrescriptionPort,
                                                                        DeleteAppointmentScheduleItemPort deleteAppointmentScheduleItemPort) {
-        return new AddFinishedAppointmentService(getAppointmentPort,
+        return new AddFinishedAppointmentService(loadAppointmentPort,
                 getDiagnosisByIdPort,
                 saveFinishedAppointmentPort,
                 getDrugByIdPort,

@@ -1,18 +1,15 @@
 package org.medihub.persistence.clinic_room_schedule;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.outgoing.appointment.GetAppointmentPort;
+import org.medihub.application.ports.outgoing.appointment.LoadAppointmentPort;
 import org.medihub.application.ports.outgoing.clinic_room.AddAppointmentToClinicRoomPort;
 import org.medihub.application.ports.outgoing.clinic_room_schedule.LoadClinicRoomSchedulePort;
 import org.medihub.application.ports.outgoing.clinic_room_schedule.ScheduleClinicRoomPort;
-import org.medihub.domain.appointment.Appointment;
 import org.medihub.domain.clinic_room.ClinicRoom;
 import org.medihub.domain.clinic_room.ClinicRoomSchedule;
 import org.medihub.domain.clinic_room.ClinicRoomScheduleItem;
-import org.medihub.domain.medical_doctor.MedicalDoctor;
 import org.medihub.domain.scheduling.DailySchedule;
 import org.medihub.persistence.clinic_room.ClinicRoomRepository;
-import org.medihub.persistence.medical_doctor_schedule.MedicalDoctorScheduleJpaEntity;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
@@ -32,7 +29,7 @@ public class ClinicRoomScheduleAdapter implements
     private final ClinicRoomScheduleJpaRepository clinicRoomScheduleJpaRepository;
     private final ClinicRoomScheduleItemRepository clinicRoomScheduleItemRepository;
     private final ClinicRoomScheduleMapper clinicRoomScheduleMapper;
-    private final GetAppointmentPort getAppointmentPort;
+    private final LoadAppointmentPort loadAppointmentPort;
     private final ClinicRoomRepository clinicRoomRepository;
 
 

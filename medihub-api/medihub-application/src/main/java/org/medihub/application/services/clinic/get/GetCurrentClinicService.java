@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.medihub.application.ports.incoming.clinic.GetCurrentClinicResponse;
 import org.medihub.application.ports.incoming.clinic.GetCurrentClinicUseCase;
 import org.medihub.application.ports.outgoing.LoadClinicAdminPort;
-import org.medihub.application.ports.outgoing.appointment.GetAppointmentPort;
+import org.medihub.application.ports.outgoing.appointment.LoadAppointmentPort;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
 import org.medihub.application.ports.outgoing.clinic.LoadClinicPort;
 import org.medihub.application.ports.outgoing.clinic_room.GetClinicRoomsPort;
@@ -20,7 +20,7 @@ public class GetCurrentClinicService implements GetCurrentClinicUseCase {
     private final LoadClinicAdminPort loadClinicAdminPort;
     private final GetClinicRoomsPort getClinicRoomsPort;
     private final GetDoctorsPort getDoctorsPort;
-    private final GetAppointmentPort getAppointmentPort;
+    private final LoadAppointmentPort loadAppointmentPort;
 
 
     @Override
@@ -42,7 +42,7 @@ public class GetCurrentClinicService implements GetCurrentClinicUseCase {
                 loadClinicAdminPort.loadClinicAdminsFromClinic(clinic.getId()),
                 getClinicRoomsPort.getClinicRooms(clinic.getId()),
                 getDoctorsPort.getDoctorsForClinic(clinic.getId()),
-                getAppointmentPort.getAllByClinicId(clinic.getId())
+                loadAppointmentPort.getAllByClinicId(clinic.getId())
         );
     }
 }

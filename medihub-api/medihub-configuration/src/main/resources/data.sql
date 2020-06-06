@@ -87,6 +87,8 @@ insert into medical_doctor_schedule (doctor_id, date, available) values (2, '202
 insert into medical_doctor_schedule (doctor_id, date, available) values (2, '2020-05-22', true);
 insert into medical_doctor_schedule (doctor_id, date, available) values (2, '2020-05-29', true);
 
+insert into medical_doctor_appointment_schedule_item (id, schedule_id, time, schedule_item_type, appointment_id) values (1, 1, '12:00:00', 1, 3);
+
 insert into diagnosis (name) values ('Konjuktivitis');
 insert into diagnosis (name) values ('Prelom ruke');
 insert into drug (name) value ('Aspirin');

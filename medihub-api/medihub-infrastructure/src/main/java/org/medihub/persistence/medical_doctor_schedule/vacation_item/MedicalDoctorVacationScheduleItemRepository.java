@@ -1,4 +1,4 @@
-package org.medihub.persistence.medical_doctor_schedule;
+package org.medihub.persistence.medical_doctor_schedule.vacation_item;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

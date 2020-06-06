@@ -1,8 +1,10 @@
-package org.medihub.persistence.medical_doctor_schedule;
+package org.medihub.persistence.medical_doctor_schedule.appointment_item;
 
 import lombok.*;
-import org.medihub.domain.appointment.Appointment;
+import org.hibernate.annotations.Cascade;
 import org.medihub.persistence.appointment.AppointmentJpaEntity;
+import org.medihub.persistence.medical_doctor_schedule.schedule_item.MedicalDoctorScheduleItemJpaEntity;
+import org.medihub.persistence.medical_doctor_schedule.MedicalDoctorScheduleJpaEntity;
 
 import javax.persistence.*;
 import java.sql.Time;
@@ -13,7 +15,7 @@ import java.sql.Time;
 @Table(name="medical_doctor_appointment_schedule_item")
 @Data
 @NoArgsConstructor
-public class MedicalDoctorAppointmentScheduleJpaItem extends  MedicalDoctorScheduleItemJpaEntity {
+public class MedicalDoctorAppointmentScheduleJpaItem extends MedicalDoctorScheduleItemJpaEntity {
 
     @OneToOne
     @JoinColumn(name="appointment_id", referencedColumnName = "id", nullable = false)

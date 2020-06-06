@@ -6,6 +6,8 @@ import org.medihub.domain.medical_doctor.MedicalDoctor;
 import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem;
 import org.medihub.persistence.appointment.AppointmentMapper;
 import org.medihub.persistence.medical_doctor.MedicalDoctorMapper;
+import org.medihub.persistence.medical_doctor_schedule.appointment_item.MedicalDoctorAppointmentScheduleJpaItem;
+import org.medihub.persistence.medical_doctor_schedule.vacation_item.MedicalDoctorVacationScheduleJpaItem;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;

@@ -14,6 +14,7 @@
               <td>{{ item.clinicName }}</td>
               <td>{{ item.date }}</td>
               <td>{{ item.time }}</td>
+              <td><v-btn @click="cancel(item.id)">Cancel</v-btn></td>
             </tr>
           </tbody>
         </template>
@@ -22,6 +23,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: 'ScheduledAppointments',
   data: () => ({
@@ -46,6 +49,10 @@ export default {
   computed: {
   },
   methods: {
+    ...mapActions('appointment', ['cancelScheduledAppointment']),
+    cancel(id) {
+      this.cancelScheduledAppointment(id);
+    },
   },
 };
 </script>

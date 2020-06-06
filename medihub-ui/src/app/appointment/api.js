@@ -10,4 +10,7 @@ export default {
   fetchScheduledAppointments() {
     return utils.apiClient.get('api/appointment');
   },
+  cancelScheduledAppointment(appointmentId) {
+    return utils.apiClient.post(`/api/appointment/${appointmentId}/cancel`);
+  },
 };
