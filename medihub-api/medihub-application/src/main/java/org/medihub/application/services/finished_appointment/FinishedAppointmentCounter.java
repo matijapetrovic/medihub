@@ -22,7 +22,7 @@ public class FinishedAppointmentCounter {
     public List<GetAppointmentDateCount> countAppearance(
             List<FinishedAppointment> finishedAppointments,
             FinishedAppointmentQuery finishedAppointmentQuery) {
-        //finishedAppointments = filterByType(finishedAppointments, finishedAppointmentQuery);
+        finishedAppointments = filterByType(finishedAppointments, finishedAppointmentQuery);
         if (finishedAppointmentQuery.getType().equals("day")) {
             return countDailyAppearance(finishedAppointments);
         } else if (finishedAppointmentQuery.getType().equals("month")) {

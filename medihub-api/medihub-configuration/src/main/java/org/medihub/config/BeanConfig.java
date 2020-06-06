@@ -1,5 +1,6 @@
 package org.medihub.config;
 
+import org.medihub.application.ports.incoming.appointment.GetAppointmentsQuery;
 import org.medihub.application.ports.incoming.clinic.*;
 import org.medihub.application.ports.incoming.diagnosis.GetDiagnosisQuery;
 import org.medihub.application.ports.incoming.drugs.GetDrugsQuery;
@@ -41,6 +42,7 @@ import org.medihub.application.ports.outgoing.*;
 import org.medihub.application.ports.outgoing.account.LoadAccountPort;
 import org.medihub.application.ports.outgoing.account.SaveAccountPort;
 import org.medihub.application.ports.outgoing.appointment.GetAppointmentPort;
+import org.medihub.application.ports.outgoing.appointment.GetScheduledAppointmentsPort;
 import org.medihub.application.ports.outgoing.appointment.SaveAppointmentPort;
 import org.medihub.application.ports.outgoing.appointment.SaveAppointmentRequestPort;
 import org.medihub.application.ports.outgoing.appointment_request.DeleteAppointmentRequestPort;
@@ -94,6 +96,7 @@ import org.medihub.application.services.account.post.ChangePasswordService;
 import org.medihub.application.services.account.get.GetAccountService;
 import org.medihub.application.services.account.get.GetProfileService;
 import org.medihub.application.services.account.post.UpdateProfileService;
+import org.medihub.application.services.appointment.GetAppointmentsService;
 import org.medihub.application.services.clinic.add.AddPriceService;
 import org.medihub.application.services.clinic.get.GetCurrentClinicService;
 import org.medihub.application.services.clinic.put.UpdateClinicService;
@@ -143,6 +146,15 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class BeanConfig {
+
+    @Bean
+    public GetAppointmentsQuery getAppointmentsQuery(
+        GetAuthenticatedPort getAuthenticatedPort,
+        LoadPatientPort loadPatientPort,
+        GetScheduledAppointmentsPort getScheduledAppointmentsPort) {
+        return new GetAppointmentsService(
+                getAuthenticatedPort, loadPatientPort, getScheduledAppointmentsPort);
+    }
 
     @Bean
     public AddDoctorReviewUseCase addDoctorReviewUseCase(
