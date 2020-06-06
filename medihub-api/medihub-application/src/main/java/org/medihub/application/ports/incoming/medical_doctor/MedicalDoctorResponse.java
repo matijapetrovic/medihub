@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,4 +23,6 @@ public class MedicalDoctorResponse {
     private String clinicName;
     private String specialization;
     private Long appointmentTypeId;
+    private BigDecimal rating;
+    private Integer count;
 }

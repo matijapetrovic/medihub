@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class FinishedAppointmentAdapter implements
         GetFinishedAppointmentsPort,
         LoadFinishedAppointmentPort,
-        SaveFinishedAppointmentPort {
+        SaveFinishedAppointmentPort{
     private final FinishedAppointmentMapper mapper;
     private final FinishedAppointmentRepository repository;
 
@@ -24,6 +24,15 @@ public class FinishedAppointmentAdapter implements
     public List<FinishedAppointment> getFinishedAppointments(Long patientId) {
         return repository
                 .findAllByAppointment_Patient_Id(patientId)
+                .stream()
+                .map(mapper::mapToDomainEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<FinishedAppointment> getAllFinishedAppointmentsForCurrentClinic(Long clinicId) {
+        return repository
+                .findAllByAppointment_Doctor_Clinic_Id(clinicId)
                 .stream()
                 .map(mapper::mapToDomainEntity)
                 .collect(Collectors.toList());

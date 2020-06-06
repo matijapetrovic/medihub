@@ -5,7 +5,7 @@ import org.medihub.domain.Diagnosis;
 import org.medihub.domain.appointment.Appointment;
 
 @Value
-public class FinishedAppointmentOutput {
+public class GetFinishedAppointmentOutput {
     Long id;
     String description;
     Long appointment;

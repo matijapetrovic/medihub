@@ -35,7 +35,7 @@ insert into medical_record_allergy_mapping (medical_record_id, allergy_name, all
 insert into medical_record_allergy_mapping (medical_record_id, allergy_name, allergy_level) values (1, 'Cats', 'SEVERE');
 insert into medical_record_allergy_mapping (medical_record_id, allergy_name, allergy_level) values (1, 'Dogs', 'MODERATE');
 
-insert into clinic (name, address, city, country, description, rating, review_count) values ('Klinika 1', 'asf', 'adgsdg', 'Serbia', 'asgadg', 0.0, 0);
+insert into clinic (name, address, city, country, description, rating, review_count) values ('Klinika 1', 'asf', 'adgsdg', 'Serbia', 'asgadg', 3.0, 0);
 insert into clinic (name, address, city, country, description, rating, review_count) values ('Klinika 2', 'asf', 'adgsdg', 'Serbia', 'asgadg', 0.0, 0);
 
 insert into clinic_admin(account, clinic) values (4, 1);
@@ -48,7 +48,7 @@ insert into appointment_type(name) values ('Pregeld uha');
 insert into appointment_type(name) values ('Pregled grla');
 insert into appointment_type(name) values ('Pregled nosa');
 
-insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count, specialization) values (2, 2, '06:00:00', '14:00:00', 8, 0.0, 0, 3);
+insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count, specialization) values (2, 1, '06:00:00', '14:00:00', 8, 0.0, 0, 3);
 insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count,specialization) values (6, 1, '06:00:00', '14:00:00', 8, 0.0, 0, 1);
 insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count,specialization) values (7, 2, '18:00:00', '01:00:00', 7, 0.0, 0, 2);
 
@@ -79,8 +79,8 @@ insert into appointment_request (doctor, patient, price, date, time) values (1, 
 
 insert into clinic_room (name, number, clinic_id) values ('soba1', 1, 1);
 insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values ('2020-10-10', '12:00:00', 1, 1, 1);
-insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values ('2020-10-12', '13:00:00', 1, 1, 1);
-insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values ('2020-10-20', '07:00:00', 1, 1, 2);
+insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values ('2020-12-10', '13:00:00', 1, 1, 1);
+insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values ('2020-09-10', '22:00:00', 2, 1, 2);
 
 insert into medical_doctor_schedule (doctor_id, date, available) values (2, '2020-05-12', true);
 insert into medical_doctor_schedule (doctor_id, date, available) values (2, '2020-05-18', true);

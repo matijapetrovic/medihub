@@ -65,6 +65,11 @@ export default {
         icon: 'mdi-book-open',
         path: '/pricelist',
       },
+      {
+        text: 'Reports',
+        icon: 'mdi-bookmark-check',
+        path: '/reports',
+      },
     ],
   }),
 };

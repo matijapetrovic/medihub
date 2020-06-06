@@ -7,4 +7,5 @@ import java.util.Set;
 
 public interface GetFinishedAppointmentsPort {
     List<FinishedAppointment> getFinishedAppointments(Long patientId);
+    List<FinishedAppointment> getAllFinishedAppointmentsForCurrentClinic(Long clinicId);
 }
