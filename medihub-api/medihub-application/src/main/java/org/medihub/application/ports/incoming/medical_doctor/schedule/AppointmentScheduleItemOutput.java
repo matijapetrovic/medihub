@@ -56,4 +56,3 @@ public class AppointmentScheduleItemOutput extends DailyScheduleItemOutput {
         );
     }
 }
-

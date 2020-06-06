@@ -19,26 +19,26 @@ public class GetDoctorScheduleService implements GetDoctorScheduleQuery {
     private final GetDoctorByAccountIdPort getDoctorByAccountIdPort;
 
     @Override
-    public GetDoctorScheduleOutput getDoctorSchedule() {
+    public GetScheduleOutput getDoctorSchedule() {
 
         Account account = getAuthenticatedPort.getAuthenticated();
         MedicalDoctor medicalDoctor = getDoctorByAccountIdPort.getDoctor(account.getId());
 
         MedicalDoctorSchedule medicalDoctorSchedule = getDoctorSchedulePort.getDoctorSchedule(medicalDoctor.getId());
-        GetDoctorScheduleOutput getDoctorScheduleOutput = createOutput(medicalDoctorSchedule);
+        GetScheduleOutput getScheduleOutput = createOutput(medicalDoctorSchedule);
 
-        return getDoctorScheduleOutput;
+        return getScheduleOutput;
     }
 
     @Override
-    public GetDoctorScheduleOutput getDoctorSchedule(Long id) {
+    public GetScheduleOutput getDoctorSchedule(Long id) {
         MedicalDoctorSchedule medicalDoctorSchedule = getDoctorSchedulePort.getDoctorSchedule(id);
-        GetDoctorScheduleOutput getDoctorScheduleOutput = createOutput(medicalDoctorSchedule);
+        GetScheduleOutput getScheduleOutput = createOutput(medicalDoctorSchedule);
 
-        return getDoctorScheduleOutput;
+        return getScheduleOutput;
     }
 
-    public GetDoctorScheduleOutput createOutput(MedicalDoctorSchedule medicalDoctorSchedule) {
+    public GetScheduleOutput createOutput(MedicalDoctorSchedule medicalDoctorSchedule) {
 
         Map<String, DailyScheduleOutput> dailySchedules = new HashMap<String, DailyScheduleOutput>();
 
@@ -54,7 +54,7 @@ public class GetDoctorScheduleService implements GetDoctorScheduleQuery {
             dailySchedules.put(date.toString(), dailyScheduleOutput);
         }
 
-        return new GetDoctorScheduleOutput(dailySchedules);
+        return new GetScheduleOutput(dailySchedules);
     }
 
     public DailyScheduleItemOutput getItem(MedicalDoctorScheduleItem item) {

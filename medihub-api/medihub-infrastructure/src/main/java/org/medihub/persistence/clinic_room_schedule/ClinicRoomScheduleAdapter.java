@@ -3,6 +3,7 @@ package org.medihub.persistence.clinic_room_schedule;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.outgoing.appointment.GetAppointmentPort;
 import org.medihub.application.ports.outgoing.clinic_room.AddAppointmentToClinicRoomPort;
+import org.medihub.application.ports.outgoing.clinic_room.GetClinicRoomSchedulePort;
 import org.medihub.application.ports.outgoing.clinic_room_schedule.LoadClinicRoomSchedulePort;
 import org.medihub.application.ports.outgoing.clinic_room_schedule.ScheduleClinicRoomPort;
 import org.medihub.domain.appointment.Appointment;
@@ -28,7 +29,8 @@ import java.util.stream.Collectors;
 public class ClinicRoomScheduleAdapter implements
         LoadClinicRoomSchedulePort,
         ScheduleClinicRoomPort,
-        AddAppointmentToClinicRoomPort {
+        AddAppointmentToClinicRoomPort,
+        GetClinicRoomSchedulePort {
     private final ClinicRoomScheduleJpaRepository clinicRoomScheduleJpaRepository;
     private final ClinicRoomScheduleItemRepository clinicRoomScheduleItemRepository;
     private final ClinicRoomScheduleMapper clinicRoomScheduleMapper;
@@ -50,6 +52,11 @@ public class ClinicRoomScheduleAdapter implements
 
         return new ClinicRoomSchedule(dailySchedules);
     }
+    @Override
+    public ClinicRoomSchedule getClinicRoomSchedule(Long clinicRomId) {
+        return loadClinicRoomSchedule(clinicRomId);
+    }
+
     @Override
     public void scheduleClinicRoom(Long id, LocalDate date, LocalTime time) {
         if(!isDateScheduled(Date.valueOf(date))){

@@ -128,6 +128,9 @@
             </v-btn>
           </div>
         </template>
+        <template v-slot:item.calendar="{ item }">
+          <v-btn small rounded @click="editItem(item)"> Working calendar</v-btn>
+        </template>
       </v-data-table>
     </v-form>
   </v-container>
@@ -163,6 +166,7 @@ export default {
       },
       { text: 'Number ', value: 'number' },
       { text: 'First free', value: 'firstFree', sortable: false },
+      { text: 'Available calendar', value: 'calendar', sortable: false },
       { text: 'Schedule room', value: 'scheduleRoom', sortable: false },
     ],
   }),
