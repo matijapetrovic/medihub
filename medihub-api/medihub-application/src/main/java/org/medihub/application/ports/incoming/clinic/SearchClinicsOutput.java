@@ -8,7 +8,8 @@ public class SearchClinicsOutput {
     Long id;
     String name;
     String description;
-    Double rating;
+    BigDecimal rating;
+    Integer ratingCount;
     String address;
     String city;
     String country;

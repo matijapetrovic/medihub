@@ -3,11 +3,9 @@ package org.medihub.web.clinic_room;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.ForbiddenException;
-import org.medihub.application.ports.incoming.clinic.SearchClinicsOutput;
 import org.medihub.application.ports.incoming.clinic_room.*;
 import org.medihub.application.ports.incoming.clinic_room.AddClinicRoomUseCase.AddClinicRoomCommand;
 import org.medihub.application.ports.incoming.clinic_room.DeleteClinicRoomUseCase.DeleteClinicCommand;
-import org.medihub.application.ports.outgoing.clinic_room.SearchClinicRoomsPort;
 import org.medihub.web.security.TokenUtil;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
@@ -33,10 +31,10 @@ public class ClinicRoomController {
     private final GetClinicRoomsQuery getClinicRoomsQuery;
     private final SearchClinicRoomsQuery searchClinicRoomsQuery;
     private final ScheduleClinicRoomUseCase scheduleClinicRoomUseCase;
+    private final UpdateClinicRoomUseCase updateClinicRoomUseCase;
 
-    //TODO: Pogledaj da li ce ti posle trebati ova metoda, jer imas ispod search clinics
-    //@GetMapping("")
-    //@PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
+    @GetMapping("")
+    @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
     ResponseEntity<List<GetClinicRoomsOutput>> get() {
         Long clinicId = getAuthenticatedClinicId();
         return ResponseEntity.ok(getClinicRoomsQuery.getClinicRooms(clinicId));
@@ -92,5 +90,25 @@ public class ClinicRoomController {
         String authToken = getToken();
         Claims claims = tokenUtil.getAllClaimsFromToken(authToken);
         return Long.valueOf((Integer) claims.get("clinicId"));
+    }
+
+    @PostMapping("/update")
+    @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
+    ResponseEntity<List<GetClinicRoomsOutput>> updateClinicRoom(
+            @RequestBody UpdateClinicRoomRequest updateClinicRoomRequest) {
+        Long clinicId = getAuthenticatedClinicId();
+        UpdateClinicRoomUseCase.UpdateClinicRoomCommand command = makeUpdateClinicRoomCommand(updateClinicRoomRequest);
+        updateClinicRoomUseCase.updateClinicRoom(command);
+
+        return ResponseEntity.ok(getClinicRoomsQuery.getClinicRooms(clinicId));
+    }
+
+    private UpdateClinicRoomUseCase.UpdateClinicRoomCommand makeUpdateClinicRoomCommand(
+            UpdateClinicRoomRequest updateClinicRoomRequest) {
+        return new UpdateClinicRoomUseCase.UpdateClinicRoomCommand(
+                updateClinicRoomRequest.getId(),
+                updateClinicRoomRequest.getName(),
+                updateClinicRoomRequest.getNumber()
+        );
     }
 }

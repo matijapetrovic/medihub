@@ -2,8 +2,10 @@ package org.medihub.application.ports.outgoing.finished_appointment;
 
 import org.medihub.domain.appointment.FinishedAppointment;
 
+import java.util.List;
 import java.util.Set;
 
 public interface GetFinishedAppointmentsPort {
-    Set<FinishedAppointment> getFinishedAppointments(Long patientId);
+    List<FinishedAppointment> getFinishedAppointments(Long patientId);
+    List<FinishedAppointment> getAllFinishedAppointmentsForCurrentClinic(Long clinicId);
 }

@@ -5,6 +5,7 @@ import org.medihub.domain.account.Address;
 import org.medihub.domain.clinic.Clinic;
 import org.medihub.domain.Money;
 import org.medihub.domain.appointment.AppointmentType;
+import org.medihub.domain.reviewing.Rating;
 import org.medihub.persistence.appointment_type.AppointmentTypeJpaEntity;
 import org.medihub.persistence.appointment_type.AppointmentTypeMapper;
 import org.springframework.stereotype.Component;
@@ -27,7 +28,10 @@ public class ClinicMapper {
                         clinic.getCity(),
                         clinic.getCountry()),
                 clinic.getDescription(),
-                mapAppointmentPricesToDomainEntities(clinic.getAppointmentTypePrices()));
+                mapAppointmentPricesToDomainEntities(clinic.getAppointmentTypePrices()),
+                new Rating(
+                        clinic.getRating(),
+                        clinic.getReviewCount()));
     }
 
     public ClinicJpaEntity mapToJpaEntity(Clinic clinic) {
@@ -38,6 +42,8 @@ public class ClinicMapper {
                 clinic.getAddress().getCity(),
                 clinic.getAddress().getCountry(),
                 clinic.getDescription(),
+                clinic.getRating().getRating(),
+                clinic.getRating().getCount(),
                 mapAppointmentPricesToJpaEntities(clinic.getAppointmentPrices()));
     }
 

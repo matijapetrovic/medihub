@@ -24,6 +24,11 @@ export default {
   data: () => ({
     navItems: [
       {
+        text: 'Clinic information',
+        icon: 'mdi-hospital-building',
+        path: '/clinicInfo',
+      },
+      {
         text: 'Doctors',
         path: '/medical-doctors',
         icon: 'mdi-doctor',
@@ -37,7 +42,7 @@ export default {
         icon: 'mdi-store-24-hour',
         children: [
           { text: 'Add', path: '/addClinicRoom', icon: 'add' },
-          { text: 'Search', path: '', icon: 'search' },
+          { text: 'Search', path: '/clinic-rooms', icon: 'search' },
         ],
       },
       {
@@ -54,6 +59,16 @@ export default {
         text: 'Leave requests',
         icon: 'mdi-arrow-left-bold-circle-outline',
         path: '/leave-request',
+      },
+      {
+        text: 'Pricelist',
+        icon: 'mdi-book-open',
+        path: '/pricelist',
+      },
+      {
+        text: 'Reports',
+        icon: 'mdi-bookmark-check',
+        path: '/reports',
       },
     ],
   }),

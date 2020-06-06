@@ -31,7 +31,7 @@
             <td>{{ item.address }}</td>
             <td>{{ item.city }}</td>
             <td>{{ item.country }}</td>
-            <td>{{ item.rating }}</td>
+            <td>{{ item.rating }}({{ item.ratingCount}})</td>
             <td>{{ item.appointmentPrice }}</td>
           </tr>
         </tbody>

@@ -13,6 +13,5 @@ public class FinishedAppointment {
     private Long id;
     private String description;
     private Appointment appointment;
-    private Set<Prescription> prescriptions;
     private Diagnosis diagnosis;
 }

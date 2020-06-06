@@ -33,11 +33,21 @@ export default {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
-    deleteClinicRoom({ commit, dispatch }, clinicRoom) {
-      return api.deleteClinicRoom(clinicRoom.id)
+    deleteClinicRoom({ dispatch }, id) {
+      return api.deleteClinicRoom(id)
         .then(() => {
-          commit('DELETE_CLINIC_ROOM', clinicRoom);
           const message = 'Clinic room deleted successfully';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
+    updateClinicRoom({ commit, dispatch }, payload) {
+      return api.updateClinicRoom(payload)
+        .then((response) => {
+          commit('SET_CLINIC_ROOMS', response.data);
+          const message = 'Clinic room updated successfully';
           dispatch('notifications/add', utils.successNotification(message), { root: true });
         })
         .catch((err) => {
@@ -58,6 +68,15 @@ export default {
         const message = 'Clinic room scheduled successfully';
         dispatch('notifications/add', utils.successNotification(message), { root: true });
       })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
+    fetchAllClinicRooms({ commit, dispatch }) {
+      return api.fetchAllClinicRooms()
+        .then((response) => {
+          commit('SET_CLINIC_ROOMS', response.data);
+        })
         .catch((err) => {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });

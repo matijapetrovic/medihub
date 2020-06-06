@@ -6,6 +6,10 @@ import AddPredefinedAppointmentForm from '@/app/predefined_appointment/_componen
 import SearchClinicRoomTable from '@/app/clinic_room/components/SearchClinicRoomTable.vue';
 import AppointmentRequest from '@/app/appointment_request/components/AppointmentRequests.vue';
 import LeaveRequests from '@/views/clinic-admin/LeaveRequests.vue';
+import ClinicRoomsTable from '@/views/clinic-admin/ClinicRoomsTable.vue';
+import ClinicInfo from '@/views/clinic/ClinicInformation.vue';
+import PriceListTable from '@/views/clinic/PriceListTable.vue';
+import Reports from '@/views/clinic-admin/Reports.vue';
 
 import ClinicAdminHome from '@/views/clinic-admin/ClinicAdminHome.vue';
 
@@ -18,6 +22,10 @@ export default {
     role: 'ROLE_CLINIC_ADMIN',
   },
   children: [
+    {
+      path: '/clinicInfo',
+      component: ClinicInfo,
+    },
     {
       path: '/addMedicalDoctor',
       component: AddMedicalDoctorForm,
@@ -49,6 +57,18 @@ export default {
     {
       path: '/leave-request',
       component: LeaveRequests,
+    },
+    {
+      path: '/clinic-rooms',
+      component: ClinicRoomsTable,
+    },
+    {
+      path: '/pricelist',
+      component: PriceListTable,
+    },
+    {
+      path: '/reports',
+      component: Reports,
     },
   ],
 };

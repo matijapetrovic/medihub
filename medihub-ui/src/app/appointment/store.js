@@ -4,6 +4,12 @@ import api from './api';
 export default {
   namespaced: true,
   state: {
+    scheduledAppointments: [],
+  },
+  mutations: {
+    SET_SCHEDULED_APPOINTMENTS(state, scheduledAppointments) {
+      state.scheduledAppointments = scheduledAppointments;
+    },
   },
   actions: {
     scheduleAppointment({ dispatch, rootState }, appointmentRequest) {
@@ -24,6 +30,15 @@ export default {
         .then(() => {
           const message = 'Appointment saved successfully';
           dispatch('notifications/add', utils.successNotification(message), { root: true });
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
+    fetchScheduledAppointments({ commit, dispatch }) {
+      return api.fetchScheduledAppointments()
+        .then((response) => {
+          commit('SET_SCHEDULED_APPOINTMENTS', response.data);
         })
         .catch((err) => {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });

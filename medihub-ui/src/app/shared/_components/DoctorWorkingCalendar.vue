@@ -1,4 +1,6 @@
-<template>
+<template
+  :doctorId="doctorId"
+>
   <v-row class="fill-height">
     <v-col>
       <v-sheet height="64">
@@ -107,6 +109,9 @@ import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'WorkingCalendar',
+  props: {
+    doctorId: Number,
+  },
   data: () => ({
     focus: '',
     type: 'month',
@@ -122,7 +127,6 @@ export default {
     selectedElement: null,
     selectedOpen: false,
     events: [],
-    names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
     today: null,
   }),
   computed: {
@@ -162,15 +166,18 @@ export default {
       });
     },
   },
-  mounted() {
-    this.$refs.calendar.checkChange();
-    this.getWorkindCalendarByDoctorId(this.doctorId)
-      .then(() => {
-        this.setUpEvents();
-      });
+  created() {
+    this.setCalendar();
   },
   methods: {
     ...mapActions('medicalDoctor', ['getWorkindCalendarByDoctorId']),
+    setCalendar() {
+      this.$refs.calendar.checkChange();
+      this.getWorkindCalendarByDoctorId(this.doctorId)
+        .then(() => {
+          this.setUpEvents();
+        });
+    },
     viewDay({ date }) {
       this.focus = date;
       this.type = 'day';
@@ -204,6 +211,7 @@ export default {
       nativeEvent.stopPropagation();
     },
     setUpEvents() {
+      console.log(this.workingCalendar);
       const events = [];
       Object.keys(this.workingCalendar.dailySchedules).forEach((key) => {
         const items = this.workingCalendar.dailySchedules[key].scheduleItems;
@@ -253,9 +261,6 @@ export default {
     },
     rnd(a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a;
-    },
-    props: {
-      doctorId: null,
     },
   },
 };

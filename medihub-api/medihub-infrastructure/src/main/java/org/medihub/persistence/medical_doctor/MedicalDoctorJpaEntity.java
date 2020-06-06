@@ -8,6 +8,7 @@ import org.medihub.persistence.appointment_type.AppointmentTypeJpaEntity;
 import org.medihub.persistence.clinic.ClinicJpaEntity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.sql.Time;
 
 @Entity
@@ -38,6 +39,12 @@ public class MedicalDoctorJpaEntity {
 
     @Column(name = "working_hours")
     private Long working_hours;
+
+    @Column(name="rating")
+    private BigDecimal rating;
+
+    @Column(name="review_count")
+    private Integer reviewCount;
 
     @ManyToOne
     @JoinColumn(name="specialization", referencedColumnName = "id", nullable = false)
