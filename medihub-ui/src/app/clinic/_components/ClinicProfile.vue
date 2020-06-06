@@ -4,6 +4,13 @@
     <v-container>
       <v-row>
         <v-col>
+          <ClinicMap
+            :coords="coords"
+          />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
           <v-card-title>{{ clinic.name }}</v-card-title>
           <v-card-text>
             <v-row
@@ -18,7 +25,7 @@
                 readonly
                 size="14"
               ></v-rating>
-              <div class="grey--text ml-4">{{ clinic.rating }} (413)</div>
+              <div class="grey--text ml-4">{{ clinic.rating }} ({{ clinic.ratingCount }})</div>
             </v-row>
             <div class="mt-4">{{ clinic.description }}</div>
           </v-card-text>
@@ -81,9 +88,18 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import axios from 'axios';
+import ClinicMap from './ClinicMap.vue';
 
 export default {
   name: 'ClinicProfile',
+  components: {
+    ClinicMap,
+  },
+  data: () => ({
+    coords: [45.264747, 19.836904],
+    apiKey: 'daf8ca4b-3c4e-4396-9bff-8c6b22f7e69a',
+  }),
   props: {
     clinic: {
       required: true,
@@ -105,12 +121,27 @@ export default {
 
       return `${formatTimeDigit(time[0])}:${formatTimeDigit(time[1])}`;
     },
+    geocodeAddress() {
+      return axios.get(`https://geocode-maps.yandex.ru/1.x/?apikey=${this.apiKey}&geocode=${this.formatAddress()}&format=json`);
+    },
+    formatAddress() {
+      return `${this.clinic.country} ${this.clinic.address} ${this.clinic.city}`.replace(' ', '+');
+    },
+    parseCoords(coords) {
+      const tokens = coords.split(' ');
+      return [+tokens[0], +tokens[1]];
+    },
   },
   computed: {
     ...mapState('predefinedAppointment', ['predefinedAppointments']),
   },
   mounted() {
     this.fetchPredefinedAppointments(this.clinic.id);
+    this.geocodeAddress()
+      .then((response) => {
+        this.coords = this.parseCoords(response.data.response.GeoObjectCollection
+          .featureMember[0].GeoObject.Point.pos);
+      });
   },
 };
 </script>
