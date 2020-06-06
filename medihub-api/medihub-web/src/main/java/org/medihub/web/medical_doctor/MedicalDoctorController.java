@@ -104,8 +104,8 @@ public class MedicalDoctorController {
         return ResponseEntity.ok(getDoctorScheduleQuery.getDoctorSchedule());
     }
 
-    @GetMapping("/schedule/{id}")
+    @GetMapping("/schedule/:{id}")
     ResponseEntity<GetDoctorScheduleOutput> getSchedulesByDoctorId(@PathVariable Long id) {
-        return ResponseEntity.ok(getDoctorScheduleQuery.getDoctorSchedule());
+        return ResponseEntity.ok(getDoctorScheduleQuery.getDoctorSchedule(id));
     }
 }
