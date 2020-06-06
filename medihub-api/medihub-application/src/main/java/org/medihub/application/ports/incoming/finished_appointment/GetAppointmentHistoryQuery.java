@@ -3,6 +3,7 @@ package org.medihub.application.ports.incoming.finished_appointment;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 import org.medihub.common.SelfValidating;
+import org.medihub.domain.appointment.FinishedAppointment;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -22,9 +23,9 @@ public interface GetAppointmentHistoryQuery {
 
         public FinishedAppointmentQuery(
                 String type,
-                String date) {
+                LocalDate date) {
             this.type = type;
-            this.date = LocalDate.parse(date);
+            this.date = date;
             this.validateSelf();
         }
     }

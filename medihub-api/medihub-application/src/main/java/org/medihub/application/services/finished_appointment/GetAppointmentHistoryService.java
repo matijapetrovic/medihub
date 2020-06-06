@@ -48,7 +48,7 @@ public class GetAppointmentHistoryService implements GetAppointmentHistoryQuery 
 
         List<FinishedAppointment> finishedAppointments =
                 getFinishedAppointmentsPort.getAllFinishedAppointmentsForCurrentClinic(clinicAdmin.getClinic().getId());
-        return counter.countAppearance(finishedAppointments, finishedAppointmentQuery);
+         return counter.countAppearance(finishedAppointments, finishedAppointmentQuery);
     }
 
     private List<GetAppointmentHistoryOutput> mapToOutput(List<FinishedAppointment> appointments) {

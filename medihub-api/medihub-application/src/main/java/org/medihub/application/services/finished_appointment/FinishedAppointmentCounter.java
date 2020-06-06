@@ -4,13 +4,15 @@ import org.medihub.application.ports.incoming.finished_appointment.GetAppointmen
 import org.medihub.domain.appointment.FinishedAppointment;
 import org.medihub.application.ports.incoming.finished_appointment.GetAppointmentHistoryQuery.FinishedAppointmentQuery;
 
+import java.text.DateFormatSymbols;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
+import java.time.YearMonth;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class FinishedAppointmentCounter<T> {
+public class FinishedAppointmentCounter {
     private String type;
 
     public FinishedAppointmentCounter(String type) {
@@ -40,7 +42,17 @@ public class FinishedAppointmentCounter<T> {
                 countDict.put(time, new GetAppointmentDateCount(time.toString(), countDict.get(time).getCount() + 1));
             }
         }
-        return sortByType(new ArrayList<GetAppointmentDateCount>(countDict.values()));
+        return sortByType(new ArrayList<GetAppointmentDateCount>(fillMapWithAllTimes(countDict).values()));
+    }
+
+    HashMap<LocalTime, GetAppointmentDateCount>  fillMapWithAllTimes(HashMap<LocalTime, GetAppointmentDateCount> map) {
+        for(int i=0; i < 24;i++) {
+            LocalTime time = LocalTime.of(i, 0);
+            if(!map.containsKey(time)) {
+                map.put(time, new GetAppointmentDateCount(time.toString(), 0));
+            }
+        }
+        return map;
     }
 
     private List<GetAppointmentDateCount> countMonthlyAppearance(List<FinishedAppointment> finishedAppointments) {
@@ -53,7 +65,23 @@ public class FinishedAppointmentCounter<T> {
                 countDict.put(date, new GetAppointmentDateCount(date.toString(),countDict.get(date).getCount() + 1));
             }
         }
-       return sortByType(new ArrayList<GetAppointmentDateCount>(countDict.values()));
+       return sortByType(new ArrayList<GetAppointmentDateCount>(fillMapWithAllDays(countDict).values()));
+    }
+
+    HashMap<LocalDate, GetAppointmentDateCount> fillMapWithAllDays(HashMap<LocalDate, GetAppointmentDateCount> map) {
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        YearMonth yearMonthObject = YearMonth.of(year, month);
+        int daysInMonth = yearMonthObject.lengthOfMonth();
+
+        for (int i = 1; i < daysInMonth;i++) {
+            LocalDate date = LocalDate.of(year, month, i);
+            if(!map.containsKey(date)) {
+                map.put(date, new GetAppointmentDateCount(date.toString(), 0));
+            }
+        }
+        return map;
     }
 
     private List<GetAppointmentDateCount> countAnnualAppearance(List<FinishedAppointment> finishedAppointments) {
@@ -66,19 +94,31 @@ public class FinishedAppointmentCounter<T> {
                 countDict.put(month, new GetAppointmentDateCount(month.toString(), countDict.get(month).getCount() + 1));
             }
         }
-        return sortByType(new ArrayList<GetAppointmentDateCount>(countDict.values()));
+        return sortByType(
+                new ArrayList<GetAppointmentDateCount>(fillMapWithAllMonths(countDict).values()));
+    }
+
+    HashMap<Month, GetAppointmentDateCount> fillMapWithAllMonths(HashMap<Month, GetAppointmentDateCount> map) {
+        String[] monthsArr = new DateFormatSymbols().getMonths();
+        String[] months = Arrays.copyOfRange(monthsArr, 0, monthsArr.length - 1);
+        for(String month : months) {
+            Month m = Month.valueOf(month.toUpperCase());
+            if(!map.containsKey(m)) {
+                map.put(m, new GetAppointmentDateCount(m.toString(), 0));
+            }
+        }
+        return map;
     }
 
     private List<GetAppointmentDateCount> sortByType(List<GetAppointmentDateCount> finishedAppointments) {
         if(this.type.equals("year")) {
-            Collections.sort(finishedAppointments, Comparator.comparing(GetAppointmentDateCount::getAnnualValue));
-        } else if(this.type.equals("month")) {
-            Collections.sort(finishedAppointments, Comparator.comparing(GetAppointmentDateCount::getMonthlyValue));
+            finishedAppointments.sort(GetAppointmentDateCount.SortByMonth);
         }else {
-            Collections.sort(finishedAppointments, Comparator.comparing(GetAppointmentDateCount::getDailyValue));
+            Collections.sort(finishedAppointments, Comparator.comparing(GetAppointmentDateCount::getDate));
         }
         return finishedAppointments;
     }
+
     private List<FinishedAppointment> filterByType(
             List<FinishedAppointment> finishedAppointments,
             FinishedAppointmentQuery finishedAppointmentQuery)
@@ -123,5 +163,4 @@ public class FinishedAppointmentCounter<T> {
                 .filter(item ->
                         item.getAppointment().getDate().equals(finishedAppointmentQuery.getDate())).collect(Collectors.toList());
     }
-
 }

@@ -29,21 +29,6 @@ public class FinishedAppointmentController {
         return ResponseEntity.ok(getAppointmentHistoryQuery.getAppointmentHistory());
     }
 
-    @PostMapping("/getForClinic")
-    @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    ResponseEntity<List<GetAppointmentDateCount>> getClinicAppointmentHistory (
-            @RequestBody FinishedAppointmentType finishedAppointmentType) {
-        GetAppointmentHistoryQuery.FinishedAppointmentQuery query = makeFinishedAppointmentQuery(finishedAppointmentType);
-        return ResponseEntity.ok(getAppointmentHistoryQuery.getClinicAppointmentHistory(query));
-    }
-
-    private GetAppointmentHistoryQuery.FinishedAppointmentQuery makeFinishedAppointmentQuery(
-            FinishedAppointmentType finishedAppointmentType) {
-        return new GetAppointmentHistoryQuery.FinishedAppointmentQuery(
-                finishedAppointmentType.getType(),
-                finishedAppointmentType.getDate());
-    }
-
     @PostMapping("/getProfit")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
     ResponseEntity<FinishedAppointmentProfitResponse> getProfit(

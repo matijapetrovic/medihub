@@ -240,7 +240,7 @@ export default {
       name: 'Number of appointments',
       data: [],
     }],
-    donutOptions: { labels: ['Profit in selected data range'] },
+    donutOptions: { labels: ['Profit in selected date range'] },
     donutSeries: [{
       name: ' ',
       data: [],
@@ -255,7 +255,7 @@ export default {
     }).then(() => {
       this.updateDonut();
     });
-    this.fetchClinicFinishedAppointments(this.request)
+    this.fetchReports(this.request)
       .then(() => {
         this.updateChart();
       });
@@ -263,21 +263,22 @@ export default {
   methods: {
     ...mapActions('clinic', ['getCurrentClinic']),
     ...mapActions('medicalDoctor', ['getAllDoctors']),
-    ...mapActions('finishedAppointment', ['fetchClinicFinishedAppointments', 'getProfit']),
+    ...mapActions('finishedAppointment', ['getProfit']),
+    ...mapActions('reports', ['fetchReports']),
     setTypeAndSendRequest(type) {
       this.type = type;
       this.request.type = type;
       this.request.date = this.date.toISOString().substr(0, 10);
-      this.fetchClinicFinishedAppointments(this.request)
+      this.fetchReports(this.request)
         .then(() => {
           this.updateChart();
         });
     },
     updateChart() {
       const arr = [];
-      this.finishedAppointments.forEach((element) => {
+      this.reports.forEach((element) => {
         arr.push({
-          x: this.type === 'day' ? element.time : element.date,
+          x: element.date,
           y: element.count,
         });
       });
@@ -333,13 +334,14 @@ export default {
       });
     },
     a() {
-      console.log(this.fetchClinicFinishedAppointments);
+      console.log(this.fetchReports);
     },
   },
   computed: {
     ...mapState('clinic', ['clinic']),
     ...mapState('medicalDoctor', ['doctors']),
     ...mapState('finishedAppointment', ['finishedAppointments', 'profit']),
+    ...mapState('reports', ['reports']),
     title() {
       switch (this.type) {
         case 'year':
