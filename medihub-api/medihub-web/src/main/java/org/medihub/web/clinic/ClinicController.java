@@ -31,6 +31,7 @@ public class ClinicController {
     private final GetClinicNamesQuery getClinicNamesQuery;
     private final GetAppointmentPriceUseCase getAppointmentPriceUseCase;
     private final AddPriceToAppointmentTypeUseCase addPriceToAppointmentTypeUseCase;
+    private final GetCurrentClinicUseCase getCurrentClinicUseCase;
 
     @GetMapping("")
     ResponseEntity<List<SearchClinicsOutput>> searchClinics(@RequestParam(required = false)
@@ -86,6 +87,12 @@ public class ClinicController {
         addPriceToAppointmentTypeUseCase.addPrice(addPriceCommand);
 
         return ResponseEntity.ok(mapResponse(getAppointmentPriceUseCase.getPrices()));
+    }
+
+    @GetMapping("/getCurrent")
+    @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
+    ResponseEntity<GetCurrentClinicResponse> getCurrent() {
+        return ResponseEntity.ok(getCurrentClinicUseCase.getCurrentClinic());
     }
 
     private AddPriceToAppointmentTypeUseCase.AddPriceCommand createAddPriceCommand(AddPriceRequest addPriceRequest) {

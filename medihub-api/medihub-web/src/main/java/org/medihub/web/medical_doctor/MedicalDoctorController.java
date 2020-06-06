@@ -94,7 +94,9 @@ public class MedicalDoctorController {
                         doctor.getWorkingTime().getTo().toString(),
                         doctor.getClinic().getName(),
                         doctor.getSpecialization().getName(),
-                        doctor.getSpecialization().getId()
+                        doctor.getSpecialization().getId(),
+                        doctor.getRating().getRating(),
+                        doctor.getRating().getCount()
                 ))
                 .collect(Collectors.toList());
     }
