@@ -29,6 +29,7 @@ public class ClinicController {
     private final AddClinicUseCase addClinicUseCase;
     private final SearchClinicsQuery searchClinicsQuery;
     private final GetClinicNamesQuery getClinicNamesQuery;
+    private final GetClinicProfileQuery getClinicProfileQuery;
     private final GetAppointmentPriceUseCase getAppointmentPriceUseCase;
     private final AddPriceToAppointmentTypeUseCase addPriceToAppointmentTypeUseCase;
     private final GetCurrentClinicUseCase getCurrentClinicUseCase;
@@ -39,6 +40,11 @@ public class ClinicController {
                                                                     LocalDate date,
                                                             @RequestParam(required = false) Long appointmentTypeId)  {
         return ResponseEntity.ok(searchClinicsQuery.searchClinics(date, appointmentTypeId));
+    }
+
+    @GetMapping("/{clinicId}")
+    ResponseEntity<GetClinicProfileOutput> getClinicProfile(@PathVariable Long clinicId) {
+        return ResponseEntity.ok(getClinicProfileQuery.getClinicProfile(clinicId));
     }
 
     @PostMapping("")

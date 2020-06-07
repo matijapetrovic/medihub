@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.medihub.domain.clinic_room.ClinicRoom;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
+import org.medihub.domain.patient.Patient;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -20,4 +21,14 @@ public class PredefinedAppointment {
     private ClinicRoom clinicRoom;
     private AppointmentType appointmentType;
     private BigDecimal price;
+
+    public Appointment schedule(Patient patient) {
+        return new Appointment(
+                null,
+                date,
+                start,
+                patient,
+                doctor,
+                clinicRoom);
+    }
 }
