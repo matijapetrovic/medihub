@@ -39,6 +39,7 @@ import org.medihub.application.ports.incoming.account.profile.GetProfileQuery;
 import org.medihub.application.ports.incoming.account.profile.UpdateProfileUseCase;
 import org.medihub.application.ports.incoming.patient.LoadPatientUseCase;
 import org.medihub.application.ports.incoming.patient.RegisterPatientUseCase;
+import org.medihub.application.ports.incoming.scheduling.SchedulePredefinedAppointmentUseCase;
 import org.medihub.application.ports.outgoing.*;
 import org.medihub.application.ports.outgoing.account.LoadAccountPort;
 import org.medihub.application.ports.outgoing.account.SaveAccountPort;
@@ -86,8 +87,13 @@ import org.medihub.application.ports.outgoing.patient.SaveRegistrationRequestPor
 import org.medihub.application.ports.outgoing.authentication.AuthenticationPort;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
 import org.medihub.application.ports.outgoing.predefined_appointment.AddPredefinedAppointmentPort;
+import org.medihub.application.ports.outgoing.predefined_appointment.DeletePredefinedAppointmentPort;
 import org.medihub.application.ports.outgoing.predefined_appointment.GetPredefinedAppointmentsPort;
+import org.medihub.application.ports.outgoing.predefined_appointment.LoadPredefinedAppointmentPort;
+import org.medihub.application.ports.outgoing.scheduling.LoadClinicRoomDailySchedulePort;
 import org.medihub.application.ports.outgoing.scheduling.LoadDoctorDailySchedulePort;
+import org.medihub.application.ports.outgoing.scheduling.SaveClinicRoomDailySchedulePort;
+import org.medihub.application.ports.outgoing.scheduling.SaveDoctorDailySchedulePort;
 import org.medihub.application.services.*;
 import org.medihub.application.ports.outgoing.reviewing.LoadClinicReviewPort;
 import org.medihub.application.ports.outgoing.reviewing.LoadDoctorReviewPort;
@@ -130,6 +136,7 @@ import org.medihub.application.services.diagnosis.AddDiagnosisService;
 import org.medihub.application.services.drugs.AddDrugService;
 import org.medihub.application.services.medical_record.GetMedicalRecordService;
 import org.medihub.application.services.predefined_appointment.GetPredefinedAppointmentsService;
+import org.medihub.application.services.scheduling.add.SchedulePredefinedAppointmentService;
 import org.medihub.application.services.scheduling.get.GetDoctorAvailableTimesService;
 import org.medihub.application.services.scheduling.add.ScheduleAppointmentService;
 import org.medihub.application.services.appointment_type.get.GetAppointmentTypeService;
@@ -150,6 +157,29 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class BeanConfig {
+
+    @Bean
+    public SchedulePredefinedAppointmentUseCase schedulePredefinedAppointmentUseCase(
+            GetAuthenticatedPort getAuthenticatedPort,
+            LoadPatientPort loadPatientPort,
+            LoadPredefinedAppointmentPort loadPredefinedAppointmentPort,
+            SaveAppointmentPort saveAppointmentPort,
+            LoadDoctorDailySchedulePort loadDoctorDailySchedulePort,
+            SaveDoctorDailySchedulePort saveDoctorDailySchedulePort,
+            LoadClinicRoomDailySchedulePort loadClinicRoomDailySchedulePort,
+            SaveClinicRoomDailySchedulePort saveClinicRoomDailySchedulePort,
+            DeletePredefinedAppointmentPort deletePredefinedAppointmentPort) {
+        return new SchedulePredefinedAppointmentService(
+                getAuthenticatedPort,
+                loadPatientPort,
+                loadPredefinedAppointmentPort,
+                saveAppointmentPort,
+                loadDoctorDailySchedulePort,
+                saveDoctorDailySchedulePort,
+                loadClinicRoomDailySchedulePort,
+                saveClinicRoomDailySchedulePort,
+                deletePredefinedAppointmentPort);
+    }
 
     @Bean
     public GetPredefinedAppointmentsQuery getPredefinedAppointmentsQuery(

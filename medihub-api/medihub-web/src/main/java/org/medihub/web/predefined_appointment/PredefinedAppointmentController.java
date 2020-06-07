@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.predefined_appointment.AddPredefinedAppointmentUseCase;
 import org.medihub.application.ports.incoming.predefined_appointment.AddPredefinedAppointmentUseCase.AddPredefinedAppointmentCommand;
 import org.medihub.application.ports.incoming.predefined_appointment.GetPredefinedAppointmentsQuery;
+import org.medihub.application.ports.incoming.scheduling.SchedulePredefinedAppointmentUseCase;
 import org.medihub.domain.appointment.PredefinedAppointment;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import java.util.List;
 public class PredefinedAppointmentController {
     private final AddPredefinedAppointmentUseCase addPredefinedAppointmentUseCase;
     private final GetPredefinedAppointmentsQuery getPredefinedAppointmentsQuery;
+    private final SchedulePredefinedAppointmentUseCase schedulePredefinedAppointmentUseCase;
 
     @GetMapping("")
     ResponseEntity<List<PredefinedAppointment>> get(@RequestParam Long clinicId) {
@@ -32,6 +34,12 @@ public class PredefinedAppointmentController {
     void add(@RequestBody PredefinedAppointmentRequest request) {
         AddPredefinedAppointmentCommand command = createCommand(request);
         addPredefinedAppointmentUseCase.addPredefinedAppointment(command);
+    }
+
+    @PostMapping("/{appointmentId}/schedule")
+    @PreAuthorize("hasRole('ROLE_PATIENT')")
+    void schedule(@PathVariable Long appointmentId) {
+        schedulePredefinedAppointmentUseCase.schedulePredefinedAppointment(appointmentId);
     }
 
     private AddPredefinedAppointmentCommand createCommand(PredefinedAppointmentRequest request) {
