@@ -21,5 +21,4 @@ public interface ClinicRepository extends JpaRepository<ClinicJpaEntity, Long> {
     Set<ClinicJpaEntity> findAllWithDoctorsByAppointmentTypeOnDate(
             @Param(value="date") Date date,
             @Param(value="appointmentType") AppointmentTypeJpaEntity appointmentType);
-
 }

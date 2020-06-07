@@ -35,8 +35,8 @@ insert into medical_record_allergy_mapping (medical_record_id, allergy_name, all
 insert into medical_record_allergy_mapping (medical_record_id, allergy_name, allergy_level) values (1, 'Cats', 'SEVERE');
 insert into medical_record_allergy_mapping (medical_record_id, allergy_name, allergy_level) values (1, 'Dogs', 'MODERATE');
 
-insert into clinic (name, address, city, country, description, rating, review_count) values ('Klinika 1', 'asf', 'adgsdg', 'Serbia', 'asgadg', 3.0, 0);
-insert into clinic (name, address, city, country, description, rating, review_count) values ('Klinika 2', 'asf', 'adgsdg', 'Serbia', 'asgadg', 0.0, 0);
+insert into clinic (name, address, city, country, description, rating, review_count) values ('Klinika 1', 'Ulica Zmaj Jovina 20', 'Novi Sad', 'Serbia', 'asgadg', 3.0, 0);
+insert into clinic (name, address, city, country, description, rating, review_count) values ('Klinika 2', 'Ulica kneza Mihaila', 'Beograd', 'Serbia', 'asgadg', 0.0, 0);
 
 insert into clinic_room (id, name, number, clinic_id) values (1, 'soba1', 1, 1);
 insert into clinic_room (id, name, number, clinic_id) values (2, 'soba2', 2, 1);
@@ -62,6 +62,7 @@ insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) valu
 insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (1, 1, 500.0);
 insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (1, 2, 1500.0);
 insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (1, 3, 2000.0);
+insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (2, 2, 2000.0);
 
 insert into clinic_room_schedule (id, clinic_room_id, date) values (1, 1, '2020-10-10');
 insert into clinic_room_schedule (id, clinic_room_id, date) values (2, 2, '2020-12-10');
