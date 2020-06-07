@@ -35,19 +35,16 @@ insert into medical_record_allergy_mapping (medical_record_id, allergy_name, all
 insert into medical_record_allergy_mapping (medical_record_id, allergy_name, allergy_level) values (1, 'Cats', 'SEVERE');
 insert into medical_record_allergy_mapping (medical_record_id, allergy_name, allergy_level) values (1, 'Dogs', 'MODERATE');
 
-insert into clinic (name, address, city, country, description, rating, review_count) values ('Klinika 1', 'asf', 'adgsdg', 'Serbia', 'asgadg', 3.0, 0);
-insert into clinic (name, address, city, country, description, rating, review_count) values ('Klinika 2', 'asf', 'adgsdg', 'Serbia', 'asgadg', 0.0, 0);
+insert into clinic (name, address, city, country, description, rating, review_count) values ('Klinika 1', 'Ulica Zmaj Jovina 20', 'Novi Sad', 'Serbia', 'asgadg', 3.0, 0);
+insert into clinic (name, address, city, country, description, rating, review_count) values ('Klinika 2', 'Ulica kneza Mihaila', 'Beograd', 'Serbia', 'asgadg', 0.0, 0);
 
-insert into clinic_room (id, name, number, clinic_id) values (1, 'soba1', 1, 1);
-insert into clinic_room (id, name, number, clinic_id) values (2, 'soba2', 2, 1);
-insert into clinic_room (id, name, number, clinic_id) values (3, 'soba3', 3, 1);
+insert into clinic_room (name, number, clinic_id) values ('soba1', 1, 1);
+insert into clinic_room (name, number, clinic_id) values ('soba2', 2, 1);
+insert into clinic_room (name, number, clinic_id) values ('soba3', 3, 1);
+insert into clinic_room (name, number, clinic_id) values ('soba4', 4, 1);
 
 insert into clinic_admin(account, clinic) values (4, 1);
 
-insert into appointment_type(name) values ('type1');
-insert into appointment_type(name) values ('type2');
-insert into appointment_type(name) values ('type3');
-insert into appointment_type(name) values ('type4');
 insert into appointment_type(name) values ('Pregeld uha');
 insert into appointment_type(name) values ('Pregled grla');
 insert into appointment_type(name) values ('Pregled nosa');

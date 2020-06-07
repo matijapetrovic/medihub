@@ -27,8 +27,8 @@ public interface ClinicRoomRepository extends JpaRepository<ClinicRoomJpaEntity,
             "left join ClinicRoomScheduleItemJpaEntity crsi on crsi.schedule=crs " +
             "where (cr.name like concat('%', :name, '%') or :name is null ) "+
             "and (cr.number=:number or :number is null ) " +
-            "and (crs.date=:date or :date is null or crs.date is null)"+
-            "and (crsi.time!=:time or :time is null or crsi.time is null)"+
+            "and (crs.date=:date or :date is null or crs.date is null) " +
+            "and (crsi.time<>:time or :time is null or crsi.time is null) " +
             "and cr.clinic.id=:clinic_id")
     List<ClinicRoomJpaEntity> findAllWithNameOrNumberOnDate(
             @Param(value="name")String name,

@@ -83,7 +83,7 @@ export default {
   },
   methods: {
     ...mapActions('leaveRequest', ['getAllLeaveRequests', 'deleteLeaveRequest', 'approveLeaveRequest']),
-    ...mapState('medicalDoctor', ['workingCalendar']),
+    ...mapActions('medicalDoctor', ['workingCalendar']),
     setItems() {
       this.leaveRequests.forEach((item) => this.items.push({
         id: item.id,
