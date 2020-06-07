@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.sql.Date;
+import java.util.Optional;
 import java.util.Set;
 
 public interface ClinicRoomScheduleJpaRepository  extends JpaRepository<ClinicRoomScheduleJpaEntity, Long> {
@@ -14,5 +15,6 @@ public interface ClinicRoomScheduleJpaRepository  extends JpaRepository<ClinicRo
             "from ClinicRoomScheduleJpaEntity crs where crs.date=:date")
     ClinicRoomScheduleJpaEntity findByDate(@Param(value="date") Date date);
 
+    Optional<ClinicRoomScheduleJpaEntity> findByDateAndClinicRoom_Id(Date date, Long ClinicRoomId);
     boolean existsByDate(Date date);
 }
