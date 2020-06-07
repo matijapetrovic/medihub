@@ -212,7 +212,7 @@ export default {
       day: 'Day',
     },
     request: {
-      type: 'month',
+      type: 'day',
       date: new Date().toISOString().substr(0, 10),
     },
     headers: [
@@ -266,9 +266,15 @@ export default {
     ...mapActions('finishedAppointment', ['getProfit']),
     ...mapActions('reports', ['fetchReports']),
     setTypeAndSendRequest(type) {
+      this.setType(type);
+      this.sendRequest();
+    },
+    setType(type) {
       this.type = type;
       this.request.type = type;
       this.request.date = this.date.toISOString().substr(0, 10);
+    },
+    sendRequest() {
       this.fetchReports(this.request)
         .then(() => {
           this.updateChart();
@@ -317,6 +323,8 @@ export default {
       } else if (this.type === 'month') {
         this.date = new Date(this.date.setMonth(this.date.getMonth() - 1));
       }
+      this.request.date = this.date.toISOString().substr(0, 10);
+      this.sendRequest();
     },
     next() {
       if (this.type === 'day') {
@@ -324,6 +332,8 @@ export default {
       } else if (this.type === 'month') {
         this.date = new Date(this.date.setMonth(this.date.getMonth() + 1));
       }
+      this.request.date = this.date.toISOString().substr(0, 10);
+      this.sendRequest();
     },
     getPrice() {
       this.getProfit({
@@ -332,9 +342,6 @@ export default {
       }).then(() => {
         this.updateDonut();
       });
-    },
-    a() {
-      console.log(this.fetchReports);
     },
   },
   computed: {
