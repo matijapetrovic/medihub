@@ -1,36 +1,52 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="items"
-    :items-per-page="5"
-    @item-expanded="getAvailableTimes"
-    item-key="id"
-    show-expand
-    single-expand
-    class="elevation-1"
-  >
-  <template
-    v-slot:expanded-item="{ headers, item }">
-    <td
-      :colspan="headers.length"
+  <div>
+    <v-data-table
+      :headers="headers"
+      :items="items"
+      :items-per-page="5"
+      @item-expanded="getAvailableTimes"
+      item-key="id"
+      show-expand
+      single-expand
+      class="elevation-1"
     >
-      <tr
-        v-for="time in item.availableTimes"
-        :key="time"
+    <template
+      v-slot:expanded-item="{ headers, item }">
+      <td
+        :colspan="headers.length"
       >
-        <td>{{ time }}</td>
-        <td><v-btn @click="schedule(item.id, time)">Schedule Appointment</v-btn></td>
-      </tr>
-    </td>
-  </template>
-  </v-data-table>
+        <tr
+          v-for="time in item.availableTimes"
+          :key="time"
+        >
+          <td>{{ time }}</td>
+          <td><v-btn @click="schedule(item.id, time)">Schedule Appointment</v-btn></td>
+        </tr>
+      </td>
+    </template>
+    </v-data-table>
+    <v-dialog
+      v-model="dialog"
+      max-width="500"
+    >
+      <ScheduleAppointmentDialog
+        :appointment="appointment"
+        @cancelled="closeConfirmScheduleDialog"
+        @scheduled="schedule"
+      />
+    </v-dialog>
+  </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import ScheduleAppointmentDialog from '@/app/appointment/_components/ScheduleAppointmentDialog.vue';
 
 export default {
   name: 'DoctorSearchTable',
+  components: {
+    ScheduleAppointmentDialog,
+  },
   data: () => ({
     headers: [
       {

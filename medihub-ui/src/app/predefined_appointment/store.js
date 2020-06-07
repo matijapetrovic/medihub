@@ -10,6 +10,11 @@ export default {
     SET_PREDEFINED_APPOINTMENTS(state, predefinedAppointments) {
       state.predefinedAppointments = predefinedAppointments;
     },
+    REMOVE_PREDEFINED_APPOINTMENT(state, appointmentId) {
+      const idx = state.predefinedAppointments
+        .findIndex((appointment) => appointment.id === appointmentId);
+      state.predefinedAppointments.splice(idx, 1);
+    },
   },
   actions: {
     addPredefinedAppointment({ dispatch }, payload) {
@@ -26,6 +31,17 @@ export default {
       return api.fetchPredefinedAppointments(clinicId)
         .then((response) => {
           commit('SET_PREDEFINED_APPOINTMENTS', response.data);
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
+    schedulePredefinedAppointment({ commit, dispatch }, appointmentId) {
+      return api.schedulePredefinedAppointment(appointmentId)
+        .then(() => {
+          const message = 'Appointment scheduled successfully';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
+          commit('REMOVE_PREDEFINED_APPOINTMENT', appointmentId);
         })
         .catch((err) => {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });

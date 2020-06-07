@@ -7,4 +7,7 @@ export default {
   fetchPredefinedAppointments(clinicId) {
     return utils.apiClient.get(`api/predefined-appointment/?clinicId=${clinicId}`);
   },
+  schedulePredefinedAppointment(appointmentId) {
+    return utils.apiClient.post(`api/predefined-appointment/${appointmentId}/schedule`);
+  },
 };
