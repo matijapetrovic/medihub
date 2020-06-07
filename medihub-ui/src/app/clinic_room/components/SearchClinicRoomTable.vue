@@ -155,13 +155,9 @@ export default {
     WorkingCalendar,
   },
   data: () => ({
-    radioGroupValue: 'dateTime',
     appointmentId: null,
     params: null,
     id: null,
-    checkbox: true,
-    radioGroup: 1,
-    switch1: true,
     doctor: null,
     time: null,
     dialog: false,
@@ -170,8 +166,6 @@ export default {
     date: new Date().toISOString().substr(0, 10),
     menu: null,
     today: new Date().toISOString().substr(0, 10),
-    originalDate: new Date().toISOString().substr(0, 10),
-    originalTime: new Date().toISOString().substr(0, 10),
     headers: [
       {
         text: 'Name',
@@ -194,6 +188,7 @@ export default {
     ...mapActions('doctor', ['fetchAvailableTimesWithoutState']),
 
     search() {
+      this.clinicRooms.length = 0;
       this.fetchClinicRooms({
         name: this.name,
         number: this.number,
@@ -208,10 +203,9 @@ export default {
       this.fetchClinicRooms({
         name: null,
         number: null,
-        date: this.originalDate,
-        time: this.originalTime,
+        date: this.params.date,
+        time: this.params.time,
       });
-      this.radioGroupValue = 'dateTime';
       this.date = this.params.date;
       this.time = this.params.time;
     },
@@ -226,26 +220,23 @@ export default {
       this.params = JSON.parse(this.$route.params.param);
       this.mapParams();
       this.search();
-      console.log(this.clinicRooms);
       if (this.clinicRoomsEmpty()) {
         this.noResultsSearch();
       }
     },
-    noResultsSearch() {
-      this.fetchAvailableTimesWithoutState({ doctorId: this.doctor.id, date: this.date });
-      this.getAllDoctors();
-      this.doctors.length = 0;
-    },
     mapParams() {
       this.appointmentId = this.params.id;
       this.date = this.params.date;
-      this.originalDate = this.params.date;
-      this.originalTime = this.params.time;
       this.time = this.params.time;
       this.doctor = this.params.doctor;
       this.date = this.params.date;
       this.doctors.length = 0;
       this.doctors.push(this.doctor);
+    },
+    noResultsSearch() {
+      this.fetchAvailableTimesWithoutState({ doctorId: this.doctor.id, date: this.date });
+      this.getAllDoctors();
+      this.doctors.length = 0;
     },
     setDoctorParams() {
       this.fetchAvailableTimesWithoutState({ doctorId: this.doctor.id, date: this.date });

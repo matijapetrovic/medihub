@@ -71,5 +71,4 @@ public class ClinicRoomAdapter implements
                 .map(clinicRoomMapper::mapToDomainEntity)
                 .collect(Collectors.toList());
     }
-
 }
