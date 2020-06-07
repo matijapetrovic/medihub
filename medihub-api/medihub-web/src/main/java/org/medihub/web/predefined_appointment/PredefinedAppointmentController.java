@@ -3,6 +3,7 @@ package org.medihub.web.predefined_appointment;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.predefined_appointment.AddPredefinedAppointmentUseCase;
 import org.medihub.application.ports.incoming.predefined_appointment.AddPredefinedAppointmentUseCase.AddPredefinedAppointmentCommand;
+import org.medihub.application.ports.incoming.predefined_appointment.GetPredefinedAppointmentsOutput;
 import org.medihub.application.ports.incoming.predefined_appointment.GetPredefinedAppointmentsQuery;
 import org.medihub.application.ports.incoming.scheduling.SchedulePredefinedAppointmentUseCase;
 import org.medihub.domain.appointment.PredefinedAppointment;
@@ -25,7 +26,7 @@ public class PredefinedAppointmentController {
     private final SchedulePredefinedAppointmentUseCase schedulePredefinedAppointmentUseCase;
 
     @GetMapping("")
-    ResponseEntity<List<PredefinedAppointment>> get(@RequestParam Long clinicId) {
+    ResponseEntity<List<GetPredefinedAppointmentsOutput>> get(@RequestParam Long clinicId) {
         return ResponseEntity.ok(getPredefinedAppointmentsQuery.getPredefinedAppointments(clinicId));
     }
 

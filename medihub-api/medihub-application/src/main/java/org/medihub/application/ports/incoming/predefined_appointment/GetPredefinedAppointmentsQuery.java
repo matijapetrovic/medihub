@@ -5,5 +5,5 @@ import org.medihub.domain.appointment.PredefinedAppointment;
 import java.util.List;
 
 public interface GetPredefinedAppointmentsQuery {
-    List<PredefinedAppointment> getPredefinedAppointments(Long clinicId);
+    List<GetPredefinedAppointmentsOutput> getPredefinedAppointments(Long clinicId);
 }
