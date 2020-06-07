@@ -12,6 +12,7 @@
   <div class="text-center">
     <v-dialog
       v-model="dialog"
+      persistent
       width="500"
     >
       <v-card>
@@ -28,8 +29,20 @@
         </v-card-title>
 
         <v-card-text>
-         <br/>
-         <div class="areaTitle">Patient</div>
+         <div
+          style="margin: 10px 0px 0px 0px"
+          class="areaTitle">
+            Patient
+            <v-btn
+              x-small
+              rounded
+              color="purple lighten-3"
+              class="white--text"
+              style="margin: 0px 0px 0px 5px"
+              @click="showMedicalRecordDialog">
+              Medical record
+            </v-btn>
+         </div>
           <v-container>
             <v-row>
               <v-text-field
@@ -141,13 +154,18 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <recordDialog ref="medicalRecord"></recordDialog>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import MedicalRecordDialog from '@/app/medical_record/_components/MedicalRecordDialog.vue';
 
 export default {
+  components: {
+    recordDialog: MedicalRecordDialog,
+  },
   data() {
     return {
       dialog: false,
@@ -202,6 +220,9 @@ export default {
             this.$emit('appointmentFinished', this.model.itemId),
           );
       }
+    },
+    showMedicalRecordDialog() {
+      this.$refs.medicalRecord.show(this.model.appointment.patient.id);
     },
     validate() {
       return this.$refs.form.validate();

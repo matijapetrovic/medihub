@@ -3,6 +3,10 @@ package org.medihub.domain.medical_record;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Value;
+import org.medihub.application.ports.incoming.medical_record.BloodTypeOutput;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Value
 public class PatientDetails {
@@ -43,12 +47,22 @@ public class PatientDetails {
 
     @AllArgsConstructor
     @NoArgsConstructor
-    static class BloodGroup {
+    public static class BloodGroup {
         BloodType type;
         Boolean rhPositive;
 
         public String getBloodTypeString() {
             return type != null ? type.toString() : null;
+        }
+
+        public static List<BloodTypeOutput> getBloodTypes() {
+            List<BloodTypeOutput> output = new ArrayList<BloodTypeOutput>();
+
+            for(BloodType type : BloodType.values()){
+                output.add(new BloodTypeOutput(type.toString(), type.ordinal()));
+            }
+
+            return output;
         }
 
         private enum BloodType {
