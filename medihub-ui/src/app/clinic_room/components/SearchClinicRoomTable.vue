@@ -133,18 +133,32 @@
         </template>
       </v-data-table>
     </v-form>
+    <v-dialog v-model="dialog" max-width="500px">
+      <v-card>
+        <v-card-title>
+          Working calendar
+        </v-card-title>
+        <v-card-text>
+          <WorkingCalendar :clinicRoomId="id"></WorkingCalendar>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
 <script>
+import WorkingCalendar from '@/app/shared/_components/ClinicRoomCalendar.vue';
 import { mapState, mapActions } from 'vuex';
 
 export default {
+  components: {
+    WorkingCalendar,
+  },
   data: () => ({
     radioGroupValue: 'dateTime',
     appointmentId: null,
     params: null,
-    selectedDoctorEmail: 'a',
+    id: null,
     checkbox: true,
     radioGroup: 1,
     switch1: true,
@@ -156,7 +170,8 @@ export default {
     date: new Date().toISOString().substr(0, 10),
     menu: null,
     today: new Date().toISOString().substr(0, 10),
-    a: 'null',
+    originalDate: new Date().toISOString().substr(0, 10),
+    originalTime: new Date().toISOString().substr(0, 10),
     headers: [
       {
         text: 'Name',
@@ -190,7 +205,12 @@ export default {
       }
     },
     reset() {
-      this.fetchClinicRooms();
+      this.fetchClinicRooms({
+        name: null,
+        number: null,
+        date: this.originalDate,
+        time: this.originalTime,
+      });
       this.radioGroupValue = 'dateTime';
       this.date = this.params.date;
       this.time = this.params.time;
@@ -206,6 +226,7 @@ export default {
       this.params = JSON.parse(this.$route.params.param);
       this.mapParams();
       this.search();
+      console.log(this.clinicRooms);
       if (this.clinicRoomsEmpty()) {
         this.noResultsSearch();
       }
@@ -218,6 +239,8 @@ export default {
     mapParams() {
       this.appointmentId = this.params.id;
       this.date = this.params.date;
+      this.originalDate = this.params.date;
+      this.originalTime = this.params.time;
       this.time = this.params.time;
       this.doctor = this.params.doctor;
       this.date = this.params.date;
@@ -242,6 +265,10 @@ export default {
         doctor: this.doctor,
         clinicRoom: item,
       })}`);
+    },
+    editItem(item) {
+      this.id = item.id;
+      this.dialog = true;
     },
   },
   computed: {
