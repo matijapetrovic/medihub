@@ -20,6 +20,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -44,13 +45,16 @@ public class ClinicRoomScheduleAdapter implements
         Set<ClinicRoomScheduleJpaEntity> schedules =
                 clinicRoomScheduleJpaRepository.findAllByClinicRoom_Id(clinicRoomId);
 
-        Map<LocalDate, DailySchedule<ClinicRoomScheduleItem>> dailySchedules =
-                schedules
-                        .stream()
-                        .collect(Collectors.toMap(
-                                schedule -> schedule.getDate().toLocalDate(),
-                                schedule -> loadClinicRoomDailySchedule(schedule.getId())
-                        ));
+        Map<LocalDate, DailySchedule<ClinicRoomScheduleItem>> dailySchedules = new HashMap<>();
+        for (ClinicRoomScheduleJpaEntity schedule: schedules) {
+            if(!dailySchedules.containsKey(schedule.getDate().toLocalDate())) {
+                dailySchedules.put(schedule.getDate().toLocalDate(), loadClinicRoomDailySchedule(schedule.getId()));}
+            else {
+                DailySchedule<ClinicRoomScheduleItem> dailySchedule = dailySchedules.get(schedule.getDate().toLocalDate());
+                dailySchedule.addAllToSchedules(loadClinicRoomDailySchedule(schedule.getId()).getScheduleItems());
+                dailySchedules.put(schedule.getDate().toLocalDate(), dailySchedule);
+            }
+        }
 
         return new ClinicRoomSchedule(dailySchedules);
     }
@@ -99,14 +103,28 @@ public class ClinicRoomScheduleAdapter implements
             ClinicRoom clinicRoom,
             LocalDate date,
             LocalTime time) {
-        ClinicRoomScheduleJpaEntity schedule = new ClinicRoomScheduleJpaEntity(
-                null,
-                clinicRoomRepository.getOne(clinicRoom.getId()),
-                Date.valueOf(date));
+        ClinicRoomScheduleJpaEntity schedule = getClinicRoomScheduleEntity(clinicRoom, date);
         ClinicRoomScheduleItemJpaEntity item = new ClinicRoomScheduleItemJpaEntity(null, schedule, Time.valueOf(time));
 
         clinicRoomScheduleJpaRepository.save(schedule);
-        clinicRoomScheduleItemRepository.save(item);
+        if(!isItemPresentForTime(Time.valueOf(time)))
+            clinicRoomScheduleItemRepository.save(item);
+    }
+
+    private ClinicRoomScheduleJpaEntity getClinicRoomScheduleEntity(ClinicRoom clinicRoom, LocalDate date) {
+        Optional<ClinicRoomScheduleJpaEntity> schedule = clinicRoomScheduleJpaRepository.
+                findByDateAndClinicRoom_Id( Date.valueOf(date), clinicRoom.getId());
+        if(schedule.isPresent()) {
+            return schedule.get();
+        }
+        return new ClinicRoomScheduleJpaEntity(
+                null,
+                clinicRoomRepository.getOne(clinicRoom.getId()),
+                Date.valueOf(date));
+    }
+
+    private boolean isItemPresentForTime(Time time) {
+        return clinicRoomScheduleItemRepository.findByTime(time).isPresent();
     }
 
     @Override

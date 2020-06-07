@@ -65,14 +65,14 @@ insert into clinic_room_schedule (id, clinic_room_id, date) values (1, 1, '2020-
 insert into clinic_room_schedule (id, clinic_room_id, date) values (2, 2, '2020-12-10');
 insert into clinic_room_schedule (id, clinic_room_id, date) values (3, 3, '2020-12-10');
 
-insert into clinic_room_schedule_item (schedule_id, time) values (1, '00:00:00');
-insert into clinic_room_schedule_item (schedule_id, time) values (1, '01:00:00');
-insert into clinic_room_schedule_item (schedule_id, time) values (1, '23:00:00');
-insert into clinic_room_schedule_item (schedule_id, time) values (2, '00:00:00');
-insert into clinic_room_schedule_item (schedule_id, time) values (2, '01:00:00');
-insert into clinic_room_schedule_item (schedule_id, time) values (2, '23:00:00');
-insert into clinic_room_schedule_item (schedule_id, time) values (3, '01:00:00');
-insert into clinic_room_schedule_item (schedule_id, time) values (3, '23:00:00');
+-- insert into clinic_room_schedule_item (schedule_id, time) values (1, '00:00:00');
+-- insert into clinic_room_schedule_item (schedule_id, time) values (1, '01:00:00');
+-- insert into clinic_room_schedule_item (schedule_id, time) values (1, '23:00:00');
+-- insert into clinic_room_schedule_item (schedule_id, time) values (2, '00:00:00');
+-- insert into clinic_room_schedule_item (schedule_id, time) values (2, '01:00:00');
+-- insert into clinic_room_schedule_item (schedule_id, time) values (2, '23:00:00');
+-- insert into clinic_room_schedule_item (schedule_id, time) values (3, '01:00:00');
+-- insert into clinic_room_schedule_item (schedule_id, time) values (3, '23:00:00');
 
 insert into medical_doctor_schedule (doctor_id, date, available) values (2, '2020-10-10', true);
 insert into medical_doctor_schedule (doctor_id, date, available) values (2, '2020-10-11', true);
@@ -80,15 +80,15 @@ insert into medical_doctor_schedule (doctor_id, date, available) values (2, '202
 insert into medical_doctor_schedule (doctor_id, date, available) values (2, '2020-04-29', true);
 insert into medical_doctor_schedule (doctor_id, date, available) values (2, '2020-03-29', true);
 
-insert into medical_doctor_appointment_schedule_item (id, appointment_id, schedule_id, time, schedule_item_type) values (1, 1, 1, '20:00:00', 1);
+-- insert into medical_doctor_appointment_schedule_item (id, appointment_id, schedule_id, time, schedule_item_type) values (1, 1, 1, '20:00:00', 1);
 
 insert into appointment (patient_id, doctor_id, clinic_room_id) values (1, 2, 1);
 
-insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 500, '2020-10-10', '01:00:00');
-insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1000, '2020-10-10', '00:00:00');
-insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 2500, '2020-10-10', '23:00:00');
-insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1500, '2020-03-10', '13:00:00');
-insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 6000, '2020-03-10', '14:00:00');
+-- insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 500, '2020-10-10', '01:00:00');
+-- insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1000, '2020-10-10', '00:00:00');
+-- insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 2500, '2020-10-10', '23:00:00');
+-- insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1500, '2020-03-10', '13:00:00');
+-- insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 6000, '2020-03-10', '14:00:00');
 
 insert into diagnosis (name) values ('Konjuktivitis');
 insert into diagnosis (name) values ('Prelom ruke');
