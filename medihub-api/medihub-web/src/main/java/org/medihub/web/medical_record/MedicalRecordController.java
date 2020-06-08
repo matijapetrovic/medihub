@@ -2,17 +2,12 @@ package org.medihub.web.medical_record;
 
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.incoming.medical_record.BloodTypeOutput;
-import org.medihub.application.ports.incoming.medical_record.GetBloodTypesQuery;
-import org.medihub.application.ports.incoming.medical_record.GetMedicalRecordOutput;
-import org.medihub.application.ports.incoming.medical_record.GetMedicalRecordQuery;
+import org.medihub.application.ports.incoming.medical_record.*;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,6 +18,8 @@ import java.util.List;
 public class MedicalRecordController {
     private final GetMedicalRecordQuery getMedicalRecordQuery;
     private final GetBloodTypesQuery getBloodTypesQuery;
+    private final GetPatientMedicalRecordQuery getPatientMedicalRecordQuery;
+    private final ChangeMedicalRecordUseCase changeMedicalRecordUseCase;
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_PATIENT')")
@@ -31,5 +28,30 @@ public class MedicalRecordController {
     }
 
     @GetMapping("/blood_types")
-    ResponseEntity<List<BloodTypeOutput>> getBloodTypes() { return ResponseEntity.ok(getBloodTypesQuery.getBloodTypes());}
+    ResponseEntity<List<String>> getBloodTypes() { return ResponseEntity.ok(getBloodTypesQuery.getBloodTypes());}
+
+    @GetMapping("/{id}")
+    ResponseEntity<GetMedicalRecordOutput> getPatientMedicalRecord(@PathVariable Long id) {
+        GetMedicalRecordOutput getMedicalRecordOutput = getPatientMedicalRecordQuery.getPatientMedicalRecord(id);
+        return ResponseEntity.ok(getMedicalRecordOutput);
+    }
+
+    @PostMapping("/change")
+    void changeMedicalRecord(@RequestBody ChangeMedicalReportRequest request) {
+        ChangeMedicalRecordUseCase.ChangeMedicalRecordCommand command = createCommand(request);
+        changeMedicalRecordUseCase.changeMedicalRecord(command);
+    }
+
+    private ChangeMedicalRecordUseCase.ChangeMedicalRecordCommand createCommand(
+            ChangeMedicalReportRequest getMedicalRecordOutput) {
+        return new ChangeMedicalRecordUseCase.ChangeMedicalRecordCommand(
+                getMedicalRecordOutput.getId(),
+                getMedicalRecordOutput.getHeight(),
+                getMedicalRecordOutput.getWeight(),
+                getMedicalRecordOutput.getBloodType(),
+                getMedicalRecordOutput.getRhPositive(),
+                getMedicalRecordOutput.getLeftDioptry(),
+                getMedicalRecordOutput.getRightDioptry()
+        );
+    }
 }

@@ -46,14 +46,14 @@
           <v-container>
             <v-row>
               <v-text-field
-                filled
+                outlined
                 label="First name:"
                 v-model="firstName"
                 :disabled="true"
               ></v-text-field>
               <v-spacer></v-spacer>
               <v-text-field
-                filled
+                outlined
                 label="Last name:"
                 v-model="lastName"
                 :disabled="true"
@@ -64,14 +64,14 @@
           <v-container>
             <v-row>
               <v-text-field
-                filled
+                outlined
                 label="Name:"
                 v-model="clinicRoom"
                 :disabled="true"
               ></v-text-field>
               <v-spacer></v-spacer>
               <v-text-field
-                filled
+                outlined
                 label="Number:"
                 v-model="number"
                 :disabled="true"
@@ -154,7 +154,8 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <recordDialog ref="medicalRecord"></recordDialog>
+    <recordDialog ref="medicalRecord">
+    </recordDialog>
   </div>
 </template>
 
@@ -197,6 +198,7 @@ export default {
       this.clinicRoom = model.appointment.clinicRoom.name;
       this.number = model.appointment.clinicRoom.number;
       this.dialog = true;
+      this.$refs.medicalRecord.initialize(this.model.appointment.patient.id);
     },
     close() {
       this.$refs.form.reset();
@@ -222,7 +224,7 @@ export default {
       }
     },
     showMedicalRecordDialog() {
-      this.$refs.medicalRecord.show(this.model.appointment.patient.id);
+      this.$refs.medicalRecord.show();
     },
     validate() {
       return this.$refs.form.validate();

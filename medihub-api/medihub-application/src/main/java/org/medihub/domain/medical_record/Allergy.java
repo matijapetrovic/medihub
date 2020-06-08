@@ -14,7 +14,7 @@ public class Allergy {
             String name,
             String level) {
         this.name = name;
-        this.level = Level.valueOf(level);
+        this.level = Level.valueOf(level.toUpperCase());
     }
 
     public String getLevelLabel() {
