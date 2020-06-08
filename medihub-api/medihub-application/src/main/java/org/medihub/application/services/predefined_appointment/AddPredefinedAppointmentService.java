@@ -7,10 +7,10 @@ import org.medihub.application.ports.outgoing.appointment_type.GetAppointmentTyp
 import org.medihub.application.ports.outgoing.clinic_room.GetClinicRoomsPort;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorsPort;
 import org.medihub.application.ports.outgoing.predefined_appointment.AddPredefinedAppointmentPort;
-import org.medihub.application.ports.outgoing.scheduling.LoadClinicRoomDailySchedulePort;
-import org.medihub.application.ports.outgoing.scheduling.LoadDoctorDailySchedulePort;
-import org.medihub.application.ports.outgoing.scheduling.SaveClinicRoomDailySchedulePort;
-import org.medihub.application.ports.outgoing.scheduling.SaveDoctorDailySchedulePort;
+import org.medihub.application.ports.outgoing.scheduling.daily_schedule.LoadClinicRoomDailySchedulePort;
+import org.medihub.application.ports.outgoing.scheduling.daily_schedule.LoadDoctorDailySchedulePort;
+import org.medihub.application.ports.outgoing.scheduling.daily_schedule.SaveClinicRoomDailySchedulePort;
+import org.medihub.application.ports.outgoing.scheduling.daily_schedule.SaveDoctorDailySchedulePort;
 import org.medihub.domain.appointment.PredefinedAppointment;
 import org.medihub.domain.clinic_room.ClinicRoomScheduleItem;
 import org.medihub.domain.medical_doctor.MedicalDoctorPredefinedAppointmentScheduleItem;

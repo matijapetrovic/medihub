@@ -83,6 +83,7 @@ import org.medihub.application.ports.outgoing.leave_request.AddLeaveRequestPort;
 import org.medihub.application.ports.outgoing.leave_request.ApproveLeaveRequestPort;
 import org.medihub.application.ports.outgoing.leave_request.DeleteLeaveRequestPort;
 import org.medihub.application.ports.outgoing.leave_request.GetLeaveRequestPort;
+import org.medihub.application.ports.outgoing.mail.SendEmailPort;
 import org.medihub.application.ports.outgoing.medical_record.LoadMedicalRecordByIdPort;
 import org.medihub.application.ports.outgoing.medical_record.LoadMedicalRecordPort;
 import org.medihub.application.ports.outgoing.medical_record.SaveMedicalRecordPort;
@@ -95,10 +96,13 @@ import org.medihub.application.ports.outgoing.predefined_appointment.AddPredefin
 import org.medihub.application.ports.outgoing.predefined_appointment.DeletePredefinedAppointmentPort;
 import org.medihub.application.ports.outgoing.predefined_appointment.GetPredefinedAppointmentsPort;
 import org.medihub.application.ports.outgoing.predefined_appointment.LoadPredefinedAppointmentPort;
-import org.medihub.application.ports.outgoing.scheduling.LoadClinicRoomDailySchedulePort;
-import org.medihub.application.ports.outgoing.scheduling.LoadDoctorDailySchedulePort;
-import org.medihub.application.ports.outgoing.scheduling.SaveClinicRoomDailySchedulePort;
-import org.medihub.application.ports.outgoing.scheduling.SaveDoctorDailySchedulePort;
+import org.medihub.application.ports.outgoing.scheduling.daily_schedule.LoadClinicRoomDailySchedulePort;
+import org.medihub.application.ports.outgoing.scheduling.daily_schedule.LoadDoctorDailySchedulePort;
+import org.medihub.application.ports.outgoing.scheduling.daily_schedule.SaveClinicRoomDailySchedulePort;
+import org.medihub.application.ports.outgoing.scheduling.daily_schedule.SaveDoctorDailySchedulePort;
+import org.medihub.application.ports.outgoing.scheduling.schedule_item.DeleteMedicalDoctorScheduleItemPort;
+import org.medihub.application.ports.outgoing.scheduling.schedule_item.LoadMedicalDoctorScheduleItemPort;
+import org.medihub.application.ports.outgoing.scheduling.schedule_item.SaveMedicalDoctorScheduleItemPort;
 import org.medihub.application.services.*;
 import org.medihub.application.ports.outgoing.reviewing.LoadClinicReviewPort;
 import org.medihub.application.ports.outgoing.reviewing.LoadDoctorReviewPort;
@@ -173,13 +177,21 @@ public class BeanConfig {
             LoadPatientPort loadPatientPort,
             LoadPredefinedAppointmentPort loadPredefinedAppointmentPort,
             SaveAppointmentPort saveAppointmentPort,
-            DeletePredefinedAppointmentPort deletePredefinedAppointmentPort) {
+            LoadMedicalDoctorScheduleItemPort loadMedicalDoctorScheduleItemPort,
+            SaveMedicalDoctorScheduleItemPort saveMedicalDoctorScheduleItemPort,
+            DeleteMedicalDoctorScheduleItemPort deleteMedicalDoctorScheduleItemPort,
+            DeletePredefinedAppointmentPort deletePredefinedAppointmentPort,
+            SendEmailPort sendEmailPort) {
         return new SchedulePredefinedAppointmentService(
                 getAuthenticatedPort,
                 loadPatientPort,
                 loadPredefinedAppointmentPort,
                 saveAppointmentPort,
-                deletePredefinedAppointmentPort);
+                loadMedicalDoctorScheduleItemPort,
+                deleteMedicalDoctorScheduleItemPort,
+                saveMedicalDoctorScheduleItemPort,
+                deletePredefinedAppointmentPort,
+                sendEmailPort);
     }
 
     @Bean
@@ -318,7 +330,7 @@ public class BeanConfig {
     }
 
     @Bean
-    UpdateClinicUseCase updateClinicUseCase(
+    public UpdateClinicUseCase updateClinicUseCase(
             GetAuthenticatedPort getAuthenticatedPort,
             LoadClinicAdminPort loadClinicAdminPort,
             LoadClinicPort loadClinicPort,
