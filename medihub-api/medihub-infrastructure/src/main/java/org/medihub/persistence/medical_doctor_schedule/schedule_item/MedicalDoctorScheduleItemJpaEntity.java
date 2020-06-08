@@ -1,6 +1,7 @@
-package org.medihub.persistence.medical_doctor_schedule;
+package org.medihub.persistence.medical_doctor_schedule.schedule_item;
 
 import lombok.*;
+
 import org.medihub.persistence.medical_doctor.MedicalDoctorJpaEntity;
 
 import javax.persistence.*;

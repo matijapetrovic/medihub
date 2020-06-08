@@ -1,6 +1,7 @@
 package org.medihub.web.exceptions;
 
 import org.medihub.application.exceptions.ForbiddenException;
+import org.medihub.application.exceptions.NotAvailableException;
 import org.medihub.web.security.authentication.UnauthorizedException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -46,6 +47,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleForbidden(
             ForbiddenException ex) {
         ApiError apiError = new ApiError(HttpStatus.FORBIDDEN, "Forbidden", ex);
+        return buildResponse(apiError);
+    }
+
+    @ExceptionHandler(NotAvailableException.class)
+    protected ResponseEntity<Object> handleForbidden(
+            NotAvailableException ex) {
+        ApiError apiError = new ApiError(HttpStatus.FORBIDDEN, ex.getMessage(), ex);
         return buildResponse(apiError);
     }
 

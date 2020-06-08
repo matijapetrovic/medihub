@@ -1,11 +1,7 @@
-package org.medihub.persistence.medical_doctor_schedule;
+package org.medihub.persistence.medical_doctor_schedule.schedule_item;
 
-import org.medihub.persistence.medical_doctor.MedicalDoctorJpaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Set;
 
