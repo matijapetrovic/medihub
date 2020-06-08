@@ -6,6 +6,7 @@ import org.medihub.application.exceptions.ForbiddenException;
 import org.medihub.application.ports.incoming.clinic_room.*;
 import org.medihub.application.ports.incoming.clinic_room.AddClinicRoomUseCase.AddClinicRoomCommand;
 import org.medihub.application.ports.incoming.clinic_room.DeleteClinicRoomUseCase.DeleteClinicCommand;
+import org.medihub.application.ports.incoming.medical_doctor.schedule.GetScheduleOutput;
 import org.medihub.web.security.TokenUtil;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
@@ -32,6 +33,7 @@ public class ClinicRoomController {
     private final SearchClinicRoomsQuery searchClinicRoomsQuery;
     private final ScheduleClinicRoomUseCase scheduleClinicRoomUseCase;
     private final UpdateClinicRoomUseCase updateClinicRoomUseCase;
+    private final GetClinicRoomScheduleQuery getClinicRoomScheduleQuery;
 
     @GetMapping("")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
@@ -110,5 +112,10 @@ public class ClinicRoomController {
                 updateClinicRoomRequest.getName(),
                 updateClinicRoomRequest.getNumber()
         );
+    }
+
+    @GetMapping("/schedule/:{id}")
+    ResponseEntity<GetScheduleOutput> getSchedulesByDoctorId(@PathVariable Long id) {
+        return ResponseEntity.ok(getClinicRoomScheduleQuery.getClinicRoomSchedule(id));
     }
 }

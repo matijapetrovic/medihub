@@ -131,7 +131,7 @@ import AppointmentDialog from '@/app/medical_doctor/components/AppointmentDialog
 export default {
   name: 'WorkingCalendar',
   props: {
-    doctorId: Number,
+    clinicRoomId: Number,
   },
   data: () => ({
     focus: '',
@@ -155,7 +155,7 @@ export default {
     AppointmentDialog,
   },
   computed: {
-    ...mapState('medicalDoctor', ['workingCalendar']),
+    ...mapState('clinicRooms', ['workingCalendar']),
     title() {
       const { start, end } = this;
       if (!start || !end) {
@@ -189,14 +189,13 @@ export default {
   },
   mounted() {
     this.$refs.calendar.checkChange();
-    this.getWorkindCalendarByDoctorId(this.doctorId)
+    this.getWorkindCalendarByClinicRoomId(this.clinicRoomId)
       .then(() => {
         this.setUpEvents();
-        console.log(this.doctorId);
       });
   },
   methods: {
-    ...mapActions('medicalDoctor', ['getWorkindCalendar', 'getWorkindCalendarByDoctorId']),
+    ...mapActions('clinicRooms', ['getWorkindCalendarByClinicRoomId']),
     viewDay({ date }) {
       this.focus = date;
       this.type = 'day';
@@ -240,34 +239,16 @@ export default {
       this.events = events;
     },
     getEvent(item, date) {
-      let fullName = '';
-      switch (item.type) {
-        case 'APPOINTMENT':
-          fullName = `${item.appointment.patient.firstName} ${item.appointment.patient.lastName}`;
-          return {
-            name: item.type,
-            type: item.type,
-            start: `${date} ${item.time}`,
-            end: `${date} ${this.incrementTime(item.time)}`,
-            color: this.getColorByName(item.type),
-            details: `Patient: ${fullName} \nClinic room: ${item.appointment.clinicRoom.name}`,
-            itemId: item.id,
-            itemDate: date,
-            appointment: item.appointment,
-          };
-        case 'LEAVE':
-        case 'VACATION':
-          return {
-            name: item.type,
-            type: item.type,
-            start: `${date} ${item.time}`,
-            end: `${item.endDate}`,
-            color: this.getColorByName(item.type),
-            details: `This is ${item.type}`,
-          };
-        default:
-          return null;
-      }
+      return {
+        name: item.type,
+        type: item.type,
+        start: `${date} ${item.time}`,
+        end: `${date} ${this.incrementTime(item.time)}`,
+        color: 'blue',
+        details: '',
+        itemId: item.id,
+        itemDate: date,
+      };
     },
     incrementTime(timeStr) {
       const parts = timeStr.split(':');
@@ -282,15 +263,6 @@ export default {
         firstPart = `0${firstPart}`;
       }
       return `${firstPart}:${parts[1]}`;
-    },
-    getColorByName(name) {
-      switch (name) {
-        case 'APPOINTMENT': return 'blue';
-        case 'OPERATION': return 'orange';
-        case 'VACATION': return 'green';
-        case 'LEAVE': return 'deep-purple';
-        default: return 'grey darken-1';
-      }
     },
     openAppointmentModal() {
       this.$refs.dialog.show(this.selectedEvent);

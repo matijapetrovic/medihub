@@ -114,7 +114,8 @@ import org.medihub.application.services.clinic.GetClinicProfileService;
 import org.medihub.application.services.clinic.add.AddPriceService;
 import org.medihub.application.services.clinic.get.GetCurrentClinicService;
 import org.medihub.application.services.clinic.put.UpdateClinicService;
-import org.medihub.application.services.clinic_room.UpdateClinicRoomService;
+import org.medihub.application.services.clinic_room.get.GetClinicRoomScheduleService;
+import org.medihub.application.services.clinic_room.update.UpdateClinicRoomService;
 import org.medihub.application.services.clinic_room.add.AddClinicRoomService;
 import org.medihub.application.services.clinic_room.add.ScheduleClinicRoomService;
 import org.medihub.application.services.clinic_room.delete.DeleteClinicRoomService;
@@ -281,6 +282,13 @@ public class BeanConfig {
     public GetClinicRoomsQuery getClinicRoomsQuery(
             GetClinicRoomsPort getClinicRoomsPort) {
         return new GetClinicRoomsService(getClinicRoomsPort);
+    }
+
+    @Bean
+    public GetClinicRoomScheduleQuery getClinicRoomScheduleQuery(
+            GetClinicRoomSchedulePort getClinicRoomSchedulePort
+    ) {
+        return new GetClinicRoomScheduleService(getClinicRoomSchedulePort);
     }
 
     @Bean

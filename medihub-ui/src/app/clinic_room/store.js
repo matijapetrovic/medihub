@@ -6,6 +6,7 @@ export default {
   state: {
     clinicRooms: [],
     params: null,
+    workingCalendar: null,
   },
   mutations: {
     SET_CLINIC_ROOMS(state, clinicRooms) {
@@ -20,6 +21,9 @@ export default {
     },
     GET_SEARCH_PARAMS(state) {
       return state.params;
+    },
+    SET_WORKING_CALENDAR(state, workingCalendar) {
+      state.workingCalendar = workingCalendar;
     },
   },
   actions: {
@@ -58,6 +62,15 @@ export default {
       return api.fetchClinicRooms(payload)
         .then((response) => {
           commit('SET_CLINIC_ROOMS', response.data);
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
+    getWorkindCalendarByClinicRoomId({ commit, dispatch }, id) {
+      return api.getWorkindCalendarByClinicRoomId(id)
+        .then((response) => {
+          commit('SET_WORKING_CALENDAR', response.data);
         })
         .catch((err) => {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });

@@ -128,23 +128,36 @@
             </v-btn>
           </div>
         </template>
+        <template v-slot:item.calendar="{ item }">
+          <v-btn small rounded @click="editItem(item)"> Working calendar</v-btn>
+        </template>
       </v-data-table>
     </v-form>
+    <v-dialog v-model="dialog" max-width="500px">
+      <v-card>
+        <v-card-title>
+          Working calendar
+        </v-card-title>
+        <v-card-text>
+          <WorkingCalendar :clinicRoomId="id"></WorkingCalendar>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
 <script>
+import WorkingCalendar from '@/app/shared/_components/ClinicRoomCalendar.vue';
 import { mapState, mapActions } from 'vuex';
 
 export default {
+  components: {
+    WorkingCalendar,
+  },
   data: () => ({
-    radioGroupValue: 'dateTime',
     appointmentId: null,
     params: null,
-    selectedDoctorEmail: 'a',
-    checkbox: true,
-    radioGroup: 1,
-    switch1: true,
+    id: null,
     doctor: null,
     time: null,
     dialog: false,
@@ -153,7 +166,6 @@ export default {
     date: new Date().toISOString().substr(0, 10),
     menu: null,
     today: new Date().toISOString().substr(0, 10),
-    a: 'null',
     headers: [
       {
         text: 'Name',
@@ -163,6 +175,7 @@ export default {
       },
       { text: 'Number ', value: 'number' },
       { text: 'First free', value: 'firstFree', sortable: false },
+      { text: 'Available calendar', value: 'calendar', sortable: false },
       { text: 'Schedule room', value: 'scheduleRoom', sortable: false },
     ],
   }),
@@ -175,6 +188,7 @@ export default {
     ...mapActions('doctor', ['fetchAvailableTimesWithoutState']),
 
     search() {
+      this.clinicRooms.length = 0;
       this.fetchClinicRooms({
         name: this.name,
         number: this.number,
@@ -186,8 +200,12 @@ export default {
       }
     },
     reset() {
-      this.fetchClinicRooms();
-      this.radioGroupValue = 'dateTime';
+      this.fetchClinicRooms({
+        name: null,
+        number: null,
+        date: this.params.date,
+        time: this.params.time,
+      });
       this.date = this.params.date;
       this.time = this.params.time;
     },
@@ -206,11 +224,6 @@ export default {
         this.noResultsSearch();
       }
     },
-    noResultsSearch() {
-      this.fetchAvailableTimesWithoutState({ doctorId: this.doctor.id, date: this.date });
-      this.getAllDoctors();
-      this.doctors.length = 0;
-    },
     mapParams() {
       this.appointmentId = this.params.id;
       this.date = this.params.date;
@@ -219,6 +232,11 @@ export default {
       this.date = this.params.date;
       this.doctors.length = 0;
       this.doctors.push(this.doctor);
+    },
+    noResultsSearch() {
+      this.fetchAvailableTimesWithoutState({ doctorId: this.doctor.id, date: this.date });
+      this.getAllDoctors();
+      this.doctors.length = 0;
     },
     setDoctorParams() {
       this.fetchAvailableTimesWithoutState({ doctorId: this.doctor.id, date: this.date });
@@ -238,6 +256,10 @@ export default {
         doctor: this.doctor,
         clinicRoom: item,
       })}`);
+    },
+    editItem(item) {
+      this.id = item.id;
+      this.dialog = true;
     },
   },
   computed: {

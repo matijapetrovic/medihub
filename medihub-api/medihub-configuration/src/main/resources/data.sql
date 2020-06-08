@@ -38,15 +38,13 @@ insert into medical_record_allergy_mapping (medical_record_id, allergy_name, all
 insert into clinic (name, address, city, country, description, rating, review_count) values ('Klinika 1', 'Ulica Zmaj Jovina 20', 'Novi Sad', 'Serbia', 'asgadg', 3.0, 0);
 insert into clinic (name, address, city, country, description, rating, review_count) values ('Klinika 2', 'Ulica kneza Mihaila', 'Beograd', 'Serbia', 'asgadg', 0.0, 0);
 
-insert into clinic_room (id, name, number, clinic_id) values (1, 'soba1', 1, 1);
-insert into clinic_room (id, name, number, clinic_id) values (2, 'soba2', 2, 1);
+insert into clinic_room (name, number, clinic_id) values ('soba1', 1, 1);
+insert into clinic_room (name, number, clinic_id) values ('soba2', 2, 1);
+insert into clinic_room (name, number, clinic_id) values ('soba3', 3, 1);
+insert into clinic_room (name, number, clinic_id) values ('soba4', 4, 1);
 
 insert into clinic_admin(account, clinic) values (4, 1);
 
-insert into appointment_type(name) values ('type1');
-insert into appointment_type(name) values ('type2');
-insert into appointment_type(name) values ('type3');
-insert into appointment_type(name) values ('type4');
 insert into appointment_type(name) values ('Pregeld uha');
 insert into appointment_type(name) values ('Pregled grla');
 insert into appointment_type(name) values ('Pregled nosa');
@@ -62,31 +60,34 @@ insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) valu
 insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (1, 1, 500.0);
 insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (1, 2, 1500.0);
 insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (1, 3, 2000.0);
-insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (2, 2, 2000.0);
 
 insert into clinic_room_schedule (id, clinic_room_id, date) values (1, 1, '2020-10-10');
 insert into clinic_room_schedule (id, clinic_room_id, date) values (2, 2, '2020-12-10');
+insert into clinic_room_schedule (id, clinic_room_id, date) values (3, 3, '2020-12-10');
+
+-- insert into clinic_room_schedule_item (schedule_id, time) values (1, '00:00:00');
+-- insert into clinic_room_schedule_item (schedule_id, time) values (1, '01:00:00');
+-- insert into clinic_room_schedule_item (schedule_id, time) values (1, '23:00:00');
+-- insert into clinic_room_schedule_item (schedule_id, time) values (2, '00:00:00');
+-- insert into clinic_room_schedule_item (schedule_id, time) values (2, '01:00:00');
+-- insert into clinic_room_schedule_item (schedule_id, time) values (2, '23:00:00');
+-- insert into clinic_room_schedule_item (schedule_id, time) values (3, '01:00:00');
+-- insert into clinic_room_schedule_item (schedule_id, time) values (3, '23:00:00');
 
 insert into medical_doctor_appointment_schedule_item (id, appointment_id, doctor_id, start_time, schedule_item_type) values (1, 1, 1, CURRENT_TIMESTAMP, 1);
 
 insert into appointment (patient_id, doctor_id, clinic_room_id) values (1, 2, 1);
 
-insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 500, '2020-10-10', '01:00:00');
-insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1000, '2020-10-10', '00:00:00');
-insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 2500, '2020-10-10', '23:00:00');
-insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1500, '2020-03-10', '13:00:00');
-insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 6000, '2020-03-10', '14:00:00');
-
-insert into clinic_room (name, number, clinic_id) values ('soba1', 1, 1);
+-- insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 500, '2020-10-10', '01:00:00');
+-- insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1000, '2020-10-10', '00:00:00');
+-- insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 2500, '2020-10-10', '23:00:00');
+-- insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1500, '2020-03-10', '13:00:00');
+-- insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 6000, '2020-03-10', '14:00:00');
 
 insert into diagnosis (name) values ('Konjuktivitis');
 insert into diagnosis (name) values ('Prelom ruke');
 insert into drug (name) value ('Aspirin');
 insert into drug (name) value ('Andol');
-
-insert into clinic_room_schedule_item (schedule_id, time) values (1, '00:00:00');
-insert into clinic_room_schedule_item (schedule_id, time) values (1, '01:00:00');
-insert into clinic_room_schedule_item (schedule_id, time) values (1, '23:00:00');
 
 insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Idemo niiis najjace je bilo najjace', 1, 1);
 insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Sad bas i nije heh', 2, 2);
