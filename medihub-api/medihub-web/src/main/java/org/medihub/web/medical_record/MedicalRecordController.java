@@ -51,7 +51,8 @@ public class MedicalRecordController {
                 getMedicalRecordOutput.getBloodType(),
                 getMedicalRecordOutput.getRhPositive(),
                 getMedicalRecordOutput.getLeftDioptry(),
-                getMedicalRecordOutput.getRightDioptry()
+                getMedicalRecordOutput.getRightDioptry(),
+                getMedicalRecordOutput.getAllergies()
         );
     }
 }

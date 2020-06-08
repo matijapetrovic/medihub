@@ -17,6 +17,13 @@ public class Allergy {
         this.level = Level.valueOf(level.toUpperCase());
     }
 
+    public Allergy(
+            String name,
+            Level level) {
+        this.name = name;
+        this.level = level;
+    }
+
     public String getLevelLabel() {
         return level.label;
     }
@@ -25,7 +32,7 @@ public class Allergy {
         return level.ordinal;
     }
 
-    private enum Level {
+    public enum Level {
         MILD(0, "Mild"), MODERATE(1, "Moderate"), SEVERE(2, "Severe");
 
         private int ordinal;

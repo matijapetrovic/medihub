@@ -27,5 +27,7 @@ public interface ChangeMedicalRecordUseCase {
         Double leftDioptry;
         @NotNull
         Double rightDioptry;
+        @NotNull
+        List<AllergyDTO> allergies;
     }
 }

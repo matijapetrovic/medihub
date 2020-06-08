@@ -58,5 +58,8 @@ export default {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
+    printMessage({ dispatch }, message) {
+      dispatch('notifications/add', utils.errorNotification(message), { root: true });
+    },
   },
 };

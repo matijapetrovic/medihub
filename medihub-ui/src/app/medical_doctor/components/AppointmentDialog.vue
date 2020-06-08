@@ -30,7 +30,7 @@
 
         <v-card-text>
          <div
-          style="margin: 10px 0px 0px 0px"
+          style="margin: 25px 0px 0px 0px"
           class="areaTitle">
             Patient
             <v-btn
@@ -48,12 +48,14 @@
               <v-text-field
                 outlined
                 label="First name:"
+                dense
                 v-model="firstName"
                 :disabled="true"
               ></v-text-field>
               <v-spacer></v-spacer>
               <v-text-field
                 outlined
+                dense
                 label="Last name:"
                 v-model="lastName"
                 :disabled="true"
@@ -65,6 +67,7 @@
             <v-row>
               <v-text-field
                 outlined
+                dense
                 label="Name:"
                 v-model="clinicRoom"
                 :disabled="true"
@@ -72,6 +75,7 @@
               <v-spacer></v-spacer>
               <v-text-field
                 outlined
+                dense
                 label="Number:"
                 v-model="number"
                 :disabled="true"
@@ -85,6 +89,7 @@
                 <v-select
                   class="select"
                   outlined
+                  dense
                   v-model="tempDiagnosis"
                   :items="diagnosis"
                   item-text="name"
@@ -96,6 +101,7 @@
                 <v-select
                   class="select"
                   outlined
+                  dense
                   v-model="tempDrugs"
                   :items="drugs"
                   item-text="name"
@@ -120,6 +126,7 @@
               </v-row>
               <v-row>
                 <v-textarea
+                  dense
                   label="Description"
                   v-model="description"
                   color="teal"
@@ -145,6 +152,8 @@
           <v-btn
             color="success"
             rounded
+            dense
+            small
             width="150"
             @click="submit"
           >

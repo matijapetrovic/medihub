@@ -10,6 +10,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
+@Setter
 public class MedicalRecord {
     private Long id;
     private Patient patient;

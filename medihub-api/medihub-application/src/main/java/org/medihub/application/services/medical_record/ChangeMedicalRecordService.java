@@ -10,6 +10,7 @@ import org.medihub.domain.medical_record.Allergy;
 import org.medihub.domain.medical_record.MedicalRecord;
 import org.medihub.domain.medical_record.PatientDetails;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -34,6 +35,15 @@ public class ChangeMedicalRecordService implements ChangeMedicalRecordUseCase {
                 PatientDetails.BloodGroup.BloodType.valueOf(command.getBloodType()));
         medicalRecord.getPatientDetails().getDioptry().setLeft(command.getLeftDioptry());
         medicalRecord.getPatientDetails().getDioptry().setRight(command.getRightDioptry());
+
+        Set<Allergy> allergies = new HashSet<>();
+
+        for(AllergyDTO aDto : command.getAllergies()) {
+            allergies.add(new Allergy(aDto.getName(),
+                                      Allergy.Level.values()[aDto.getLevel() - 1]));
+        }
+
+        medicalRecord.setAllergies(allergies);
     }
 
     private GetMedicalRecordOutput mapToOutput(MedicalRecord medicalRecord) {
