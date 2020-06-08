@@ -69,8 +69,6 @@ insert into clinic_room_schedule (id, clinic_room_id, date) values (2, 2, '2020-
 
 insert into medical_doctor_appointment_schedule_item (id, appointment_id, doctor_id, start_time, schedule_item_type) values (1, 1, 1, CURRENT_TIMESTAMP, 1);
 
-insert into appointment (patient_id, doctor_id, clinic_room_id) values (1, 2, 1);
-
 insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 500, '2020-10-10', '01:00:00');
 insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1000, '2020-10-10', '00:00:00');
 insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 2500, '2020-10-10', '23:00:00');
