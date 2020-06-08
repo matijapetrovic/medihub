@@ -3,9 +3,12 @@ package org.medihub.persistence.medical_doctor_schedule;
 import lombok.*;
 import org.medihub.domain.appointment.Appointment;
 import org.medihub.persistence.appointment.AppointmentJpaEntity;
+import org.medihub.persistence.medical_doctor.MedicalDoctorJpaEntity;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -21,11 +24,11 @@ public class MedicalDoctorAppointmentScheduleJpaItem extends  MedicalDoctorSched
 
     public MedicalDoctorAppointmentScheduleJpaItem(
             Long id,
-            MedicalDoctorScheduleJpaEntity schedule,
-            Time time,
+            MedicalDoctorJpaEntity doctor,
+            Timestamp timestamp,
             Integer type,
-            AppointmentJpaEntity appointment) {
-        super(id, schedule, time, type);
+        AppointmentJpaEntity appointment) {
+        super(id, doctor, timestamp, type);
         this.appointment = appointment;
     }
 }

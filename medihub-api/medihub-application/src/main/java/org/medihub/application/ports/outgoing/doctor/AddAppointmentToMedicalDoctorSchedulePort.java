@@ -7,8 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public interface AddAppointmentToMedicalDoctorSchedulePort {
-    void addAppointmentToSchedule(MedicalDoctor doctor,
-                                  LocalDate date,
+    void addAppointmentToSchedule(LocalDate date,
                                   LocalTime time,
-                                  Long appointmentId);
+                                  Appointment appointment);
 }

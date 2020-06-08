@@ -6,5 +6,5 @@ import java.sql.Date;
 import java.util.Optional;
 
 public interface MedicalDoctorVacationScheduleItemRepository extends JpaRepository<MedicalDoctorVacationScheduleJpaItem, Long> {
-    Optional<MedicalDoctorVacationScheduleJpaItem> findByAndEndDateAndAndScheduleId(Date date, Long ScheduleId);
+    Optional<MedicalDoctorVacationScheduleJpaItem> findByEndDateAndDoctorId(Date date, Long ScheduleId);
 }

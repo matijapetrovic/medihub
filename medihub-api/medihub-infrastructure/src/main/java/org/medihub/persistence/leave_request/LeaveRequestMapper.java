@@ -17,8 +17,9 @@ public class LeaveRequestMapper {
 
     public LeaveRequestJpaEntity mapToJpaEntity(LeaveRequest leaveRequest) {
         return new LeaveRequestJpaEntity(
-            leaveRequest.getId(),
-                leaveRequest.getDates().stream().map(date -> Date.valueOf(date)).collect(Collectors.toList()),
+                leaveRequest.getId(),
+                Date.valueOf(leaveRequest.getStart()),
+                Date.valueOf(leaveRequest.getEnd()),
                 medicalDoctorMapper.mapToJpaEntity(leaveRequest.getMedicalDoctor()),
                 MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.valueOf(leaveRequest.getType().toUpperCase()).getOrdinal()
         );
@@ -27,7 +28,8 @@ public class LeaveRequestMapper {
     public LeaveRequest mapToDomainEntity(LeaveRequestJpaEntity leaveRequest) {
         return new LeaveRequest(
                 leaveRequest.getId(),
-                leaveRequest.getDates().stream().map(date -> date.toString()).collect(Collectors.toList()),
+                leaveRequest.getStartDate().toLocalDate(),
+                leaveRequest.getEndDate().toLocalDate(),
                 MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.valueOf(leaveRequest.getType()).get().toString(),
                 medicalDoctorMapper.mapToDomainEntity(leaveRequest.getDoctor())
         );
