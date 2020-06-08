@@ -3,8 +3,6 @@ package org.medihub.domain.medical_doctor;
 import lombok.Getter;
 import lombok.Setter;
 import org.medihub.domain.appointment.Appointment;
-import org.medihub.domain.clinic_room.ClinicRoom;
-import org.medihub.domain.patient.Patient;
 
 import java.time.LocalTime;
 

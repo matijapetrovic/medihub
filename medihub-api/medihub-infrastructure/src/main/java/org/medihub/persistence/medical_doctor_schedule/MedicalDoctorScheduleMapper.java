@@ -1,26 +1,27 @@
 package org.medihub.persistence.medical_doctor_schedule;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.domain.appointment.Appointment;
-import org.medihub.domain.medical_doctor.MedicalDoctor;
-import org.medihub.domain.medical_doctor.MedicalDoctorAppointmentScheduleItem;
-import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem;
-import org.medihub.domain.medical_doctor.MedicalDoctorVacationScheduleItem;
+import org.medihub.domain.medical_doctor.*;
 import org.medihub.domain.scheduling.DailySchedule;
 import org.medihub.persistence.appointment.AppointmentMapper;
 import org.medihub.persistence.medical_doctor.MedicalDoctorMapper;
+import org.medihub.persistence.medical_doctor_schedule.appointment_schedule_item.MedicalDoctorAppointmentScheduleJpaItem;
+import org.medihub.persistence.medical_doctor_schedule.predefined_appointment_schedule_item.MedicalDoctorPredefinedAppointmentScheduleJpaItem;
+import org.medihub.persistence.medical_doctor_schedule.schedule_item.MedicalDoctorScheduleItemJpaEntity;
+import org.medihub.persistence.medical_doctor_schedule.vacation_schedule_item.MedicalDoctorVacationScheduleJpaItem;
+import org.medihub.persistence.predefined_appointment.PredefinedAppointmentMapper;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 @RequiredArgsConstructor
 @Component
 public class MedicalDoctorScheduleMapper {
     private final MedicalDoctorMapper medicalDoctorMapper;
     private final AppointmentMapper appointmentMapper;
+    private final PredefinedAppointmentMapper predefinedAppointmentMapper;
 
     public MedicalDoctorScheduleJpaEntity mapToScheduleJpaEntity(
             DailySchedule<MedicalDoctorScheduleItem> dailySchedule,
@@ -79,6 +80,16 @@ public class MedicalDoctorScheduleMapper {
                         Time.valueOf(vacationScheduleItem.getTime()),
                         MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.VACATION.getOrdinal(),
                         Date.valueOf(vacationScheduleItem.getEndDate()));
+            case PREDEFINED_APPOINTMENT:
+                MedicalDoctorPredefinedAppointmentScheduleItem predefinedAppointmentScheduleItem =
+                        (MedicalDoctorPredefinedAppointmentScheduleItem) scheduleItem;
+                return new MedicalDoctorPredefinedAppointmentScheduleJpaItem(
+                        predefinedAppointmentScheduleItem.getId(),
+                        doctorSchedule,
+                        Time.valueOf(predefinedAppointmentScheduleItem.getTime()),
+                        MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.PREDEFINED_APPOINTMENT.getOrdinal(),
+                        predefinedAppointmentMapper.mapToJpaEntity(predefinedAppointmentScheduleItem.getPredefinedAppointment())
+                );
         }
 
         return null;

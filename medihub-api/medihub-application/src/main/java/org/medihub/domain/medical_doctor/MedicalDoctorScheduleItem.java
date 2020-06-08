@@ -17,7 +17,7 @@ public abstract class MedicalDoctorScheduleItem extends DailyScheduleItem {
     }
 
     public enum MedicalDoctorScheduleItemType {
-        APPOINTMENT(1), OPERATION(2), VACATION(3), LEAVE(4);
+        APPOINTMENT(1), OPERATION(2), VACATION(3), LEAVE(4), PREDEFINED_APPOINTMENT(5);
         @Getter
         private int ordinal;
         MedicalDoctorScheduleItemType(int ordinal) {
