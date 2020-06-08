@@ -3,10 +3,8 @@ package org.medihub.persistence.clinic_room_schedule;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.medihub.persistence.medical_doctor_schedule.MedicalDoctorScheduleJpaEntity;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.sql.Time;
 
 @Entity

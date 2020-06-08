@@ -23,8 +23,9 @@ public class PredefinedAppointmentAdapter implements
     private final PredefinedAppointmentMapper predefinedAppointmentMapper;
 
     @Override
-    public void addPredefinedAppointment(PredefinedAppointment predefinedAppointment) {
-        predefinedAppointmentRepository.save(predefinedAppointmentMapper.mapToJpaEntity(predefinedAppointment));
+    public PredefinedAppointment addPredefinedAppointment(PredefinedAppointment predefinedAppointment) {
+        return predefinedAppointmentMapper.mapToDomainEntity(
+                predefinedAppointmentRepository.save(predefinedAppointmentMapper.mapToJpaEntity(predefinedAppointment)));
     }
 
     @Override

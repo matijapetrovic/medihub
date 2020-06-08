@@ -12,7 +12,10 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -73,8 +76,10 @@ public class MedicalDoctorAdapter implements
                 .findById(appointmentTypeId)
                 .orElseThrow(EntityNotFoundException::new);
 
+        Timestamp timestamp = Timestamp.valueOf(LocalDateTime.of(date, LocalTime.MIDNIGHT));
+
         return medicalDoctorRepository
-                .findAllByClinicAndSpecializationAvailableOnDate(clinic, Date.valueOf(date), appointmentType)
+                .findAllByClinicAndSpecializationAvailableOnDate(clinic, timestamp, appointmentType)
                 .stream()
                 .map(medicalDoctorMapper::mapToDomainEntity)
                 .collect(Collectors.toList());

@@ -39,10 +39,8 @@ public class AddAppointmentService implements AddAppointmentUseCase {
                 LocalTime.parse(addAppointmentCommand.getTime())
         );
         addAppointmentToMedicalDoctorSchedulePort.addAppointmentToSchedule(
-                getDoctorsPort.getMedicalDoctorById(addAppointmentCommand.getDoctorId()),
                 LocalDate.parse(addAppointmentCommand.getDate()),
                 LocalTime.parse(addAppointmentCommand.getTime()),
-                appointment.getId());
-
+                appointment);
     }
 }
