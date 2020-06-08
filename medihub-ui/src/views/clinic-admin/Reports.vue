@@ -156,6 +156,7 @@
                 v-if="profit"
                 class="ma-2"
                 x-large
+                dark
                 color="blue">
                   Profit: {{profit.profit}}$
                 </v-chip>
@@ -181,7 +182,6 @@
         </template>
       </v-data-table>
     </v-card>
-    <v-btn @click="a()"></v-btn>
   </v-container>
 </template>
 
@@ -303,7 +303,7 @@ export default {
       if (this.profit.longTermProfit === 0) {
         arr.push(1);
       } else {
-        const profitPercentage = this.profit.longTermProfit / this.profit.profit;
+        const profitPercentage = this.profit.profit / this.profit.longTermProfit;
         arr.push(profitPercentage, 1 - profitPercentage);
       }
       this.donutSeries = arr;

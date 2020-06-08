@@ -55,7 +55,7 @@ insert into medical_doctor (account_id, clinic, working_time_from, working_time_
 
 insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values ('2020-10-10', '12:00:00', 1, 1, 1);
 insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values ('2020-10-12', '13:00:00', 1, 1, 1);
-insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values ('2020-10-20', '07:00:00', 1, 1, 2);
+insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values ('2019-12-12', '07:00:00', 1, 1, 2);
 
 insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (1, 1, 500.0);
 insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (1, 2, 1500.0);
@@ -76,7 +76,7 @@ insert into clinic_room_schedule (id, clinic_room_id, date) values (3, 3, '2020-
 
 insert into medical_doctor_appointment_schedule_item (id, appointment_id, doctor_id, start_time, schedule_item_type) values (1, 1, 1, CURRENT_TIMESTAMP, 1);
 
-insert into appointment (patient_id, doctor_id, clinic_room_id) values (1, 2, 1);
+insert into appointment (patient_id, doctor_id, clinic_room_id, date, time) values (1, 2, 1, '2020-10-10', '20:00:00');
 
 -- insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 500, '2020-10-10', '01:00:00');
 -- insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1000, '2020-10-10', '00:00:00');
@@ -91,6 +91,7 @@ insert into drug (name) value ('Andol');
 
 insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Idemo niiis najjace je bilo najjace', 1, 1);
 insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Sad bas i nije heh', 2, 2);
+insert into finished_appointment (description, appointment_id, diagnosis_id) values ('aaa', 3, 2);
 
 create trigger after_clinic_review_insert
     after insert on clinic_review for each row
