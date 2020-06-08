@@ -13,6 +13,9 @@ import org.medihub.application.ports.incoming.leave_request.ApproveLeaveRequestU
 import org.medihub.application.ports.incoming.leave_request.DeleteLeaveRequestUseCase;
 import org.medihub.application.ports.incoming.leave_request.GetLeaveRequestUseCase;
 import org.medihub.application.ports.incoming.medical_doctor.schedule.GetDoctorScheduleQuery;
+import org.medihub.application.ports.incoming.medical_record.ChangeMedicalRecordUseCase;
+import org.medihub.application.ports.incoming.medical_record.GetBloodTypesQuery;
+import org.medihub.application.ports.incoming.medical_record.GetPatientMedicalRecordQuery;
 import org.medihub.application.ports.incoming.predefined_appointment.AddPredefinedAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment.AddAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment_request.DeleteAppointmentRequestUseCase;
@@ -80,7 +83,9 @@ import org.medihub.application.ports.outgoing.leave_request.AddLeaveRequestPort;
 import org.medihub.application.ports.outgoing.leave_request.ApproveLeaveRequestPort;
 import org.medihub.application.ports.outgoing.leave_request.DeleteLeaveRequestPort;
 import org.medihub.application.ports.outgoing.leave_request.GetLeaveRequestPort;
+import org.medihub.application.ports.outgoing.medical_record.LoadMedicalRecordByIdPort;
 import org.medihub.application.ports.outgoing.medical_record.LoadMedicalRecordPort;
+import org.medihub.application.ports.outgoing.medical_record.SaveMedicalRecordPort;
 import org.medihub.application.ports.outgoing.patient.GetPatientsPort;
 import org.medihub.application.ports.outgoing.patient.LoadPatientPort;
 import org.medihub.application.ports.outgoing.patient.SaveRegistrationRequestPort;
@@ -127,6 +132,9 @@ import org.medihub.application.services.diagnosis.GetDiagnosisService;
 import org.medihub.application.services.drugs.GetDrugsService;
 import org.medihub.application.services.finished_appointment.AddFinishedAppointmentService;
 import org.medihub.application.services.finished_appointment.GetAppointmentHistoryService;
+import org.medihub.application.services.medical_record.ChangeMedicalRecordService;
+import org.medihub.application.services.medical_record.GetBloodTypesService;
+import org.medihub.application.services.medical_record.GetPatientMedicalRecordService;
 import org.medihub.application.services.predefined_appointment.AddPredefinedAppointmentService;
 import org.medihub.application.services.appointment.AddAppointmentService;
 import org.medihub.application.services.appointment_request.delete.DeleteAppointmentRequestService;
@@ -662,5 +670,21 @@ public class BeanConfig {
                loadClinicAdminPort,
                loadClinicPort
        );
+    }
+
+    @Bean
+    public GetBloodTypesQuery getBloodTypesQuery() {
+        return new GetBloodTypesService();
+    }
+
+    @Bean
+    public GetPatientMedicalRecordQuery getPatientMedicalRecordQuery(LoadMedicalRecordPort loadMedicalRecordPort) {
+        return new GetPatientMedicalRecordService(loadMedicalRecordPort);
+    }
+
+    @Bean
+    public ChangeMedicalRecordUseCase changeMedicalRecordUseCase(LoadMedicalRecordByIdPort loadMedicalRecordByIdPort,
+                                                                 SaveMedicalRecordPort saveMedicalRecordPort) {
+        return new ChangeMedicalRecordService(loadMedicalRecordByIdPort, saveMedicalRecordPort);
     }
 }
