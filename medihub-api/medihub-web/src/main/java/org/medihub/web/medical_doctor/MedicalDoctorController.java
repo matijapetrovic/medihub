@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/medical-doctor", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MedicalDoctorController {
     private final AddMedicalDoctorUseCase AddMedicalDoctorUseCase;
-    private final GetAllDoctorsPort getAllDoctorsPort;
+    private final GetMedicalDoctorUseCase getMedicalDoctorUseCase;
     private final GetDoctorsQuery getDoctorsQuery;
     private final SearchDoctorsQuery searchDoctorsQuery;
     private final GetDoctorAvailableTimesQuery getDoctorAvailableTimesQuery;
@@ -61,7 +61,7 @@ public class MedicalDoctorController {
 
     @GetMapping("/getAll")
     List<?> getAll(){
-        return getAllDoctors();
+        return getMedicalDoctorUseCase.loadAll();
     }
 
     private AddMedicalDoctorCommand createCommand(MedicalDoctorRequest medicalDoctorRequest){
@@ -78,27 +78,6 @@ public class MedicalDoctorController {
                 medicalDoctorRequest.getTo(),
                 medicalDoctorRequest.getAppointmentTypeId()
         );
-    }
-
-    private List<?> getAllDoctors() {
-        return getAllDoctorsPort.getAllDoctors()
-                .stream()
-                .map(doctor -> new MedicalDoctorResponse(
-                        doctor.getId(),
-                        doctor.getAccount().getEmail(),
-                        doctor.getAccount().getFirstName(),
-                        doctor.getAccount().getLastName(),
-                        doctor.getAccount().getPersonalInfo().getAddress(),
-                        doctor.getAccount().getPersonalInfo().getTelephoneNumber(),
-                        doctor.getWorkingTime().getFrom().toString(),
-                        doctor.getWorkingTime().getTo().toString(),
-                        doctor.getClinic().getName(),
-                        doctor.getSpecialization().getName(),
-                        doctor.getSpecialization().getId(),
-                        doctor.getRating().getRating(),
-                        doctor.getRating().getCount()
-                ))
-                .collect(Collectors.toList());
     }
 
     @GetMapping("/schedule")

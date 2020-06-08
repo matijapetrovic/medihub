@@ -424,9 +424,14 @@ public class BeanConfig {
     }
 
     @Bean
-    public GetMedicalDoctorUseCase getMedicalDoctorUseCase(GetAllDoctorsPort doctorPort){
+    public GetMedicalDoctorUseCase getMedicalDoctorUseCase(
+            GetDoctorsPort getDoctorsPort,
+            GetAuthenticatedPort getAuthenticatedPort,
+            LoadClinicAdminPort loadClinicAdminPort){
         return new GetMedicalDoctorService(
-                doctorPort
+                getDoctorsPort,
+                getAuthenticatedPort,
+                loadClinicAdminPort
         );
     }
 
