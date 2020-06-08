@@ -3,7 +3,7 @@ package org.medihub.application.services.scheduling.get;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.scheduling.GetDoctorAvailableTimesQuery;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorWorkingTimePort;
-import org.medihub.application.ports.outgoing.scheduling.LoadDoctorDailySchedulePort;
+import org.medihub.application.ports.outgoing.scheduling.daily_schedule.LoadDoctorDailySchedulePort;
 import org.medihub.domain.WorkingTime;
 import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem;
 import org.medihub.domain.scheduling.DailySchedule;
