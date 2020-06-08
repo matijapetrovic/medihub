@@ -5,6 +5,7 @@ import org.medihub.domain.appointment.FinishedAppointment;
 import org.medihub.application.ports.incoming.finished_appointment.GetAppointmentHistoryQuery.FinishedAppointmentQuery;
 
 import java.text.DateFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
@@ -14,9 +15,11 @@ import java.util.stream.Collectors;
 
 public class FinishedAppointmentCounter {
     private String type;
+    private LocalDate date;
 
-    public FinishedAppointmentCounter(String type) {
+    public FinishedAppointmentCounter(String type, LocalDate date) {
         this.type = type;
+        this.date = date;
     }
 
     public List<GetAppointmentDateCount> countAppearance(
@@ -71,7 +74,7 @@ public class FinishedAppointmentCounter {
     HashMap<LocalDate, GetAppointmentDateCount> fillMapWithAllDays(HashMap<LocalDate, GetAppointmentDateCount> map) {
         Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
+        int month = this.date.getMonth().getValue();
         YearMonth yearMonthObject = YearMonth.of(year, month);
         int daysInMonth = yearMonthObject.lengthOfMonth();
 
