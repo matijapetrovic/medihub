@@ -11,13 +11,13 @@ import java.time.LocalTime;
 @Getter
 @Setter
 public class MedicalDoctorAppointmentScheduleItem extends MedicalDoctorScheduleItem {
-
     private Appointment appointment;
 
-    public MedicalDoctorAppointmentScheduleItem(Long id,
-                                                LocalTime time,
-                                                MedicalDoctorScheduleItemType type,
-                                                Appointment appointment) {
+    public MedicalDoctorAppointmentScheduleItem(
+            Long id,
+            LocalTime time,
+            MedicalDoctorScheduleItemType type,
+            Appointment appointment) {
         super(id, time, type);
         this.appointment = appointment;
     }
