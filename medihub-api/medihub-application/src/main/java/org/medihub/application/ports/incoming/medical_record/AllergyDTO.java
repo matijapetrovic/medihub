@@ -1,8 +1,11 @@
 package org.medihub.application.ports.incoming.medical_record;
 
-import lombok.Value;
+import lombok.*;
 
-@Value
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class AllergyDTO {
     String name;
     Integer level;
