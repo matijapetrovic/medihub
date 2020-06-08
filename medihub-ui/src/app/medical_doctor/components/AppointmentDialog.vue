@@ -12,6 +12,7 @@
   <div class="text-center">
     <v-dialog
       v-model="dialog"
+      persistent
       width="500"
     >
       <v-card>
@@ -28,19 +29,33 @@
         </v-card-title>
 
         <v-card-text>
-         <br/>
-         <div class="areaTitle">Patient</div>
+         <div
+          style="margin: 25px 0px 0px 0px"
+          class="areaTitle">
+            Patient
+            <v-btn
+              x-small
+              rounded
+              color="purple lighten-3"
+              class="white--text"
+              style="margin: 0px 0px 0px 5px"
+              @click="showMedicalRecordDialog">
+              Medical record
+            </v-btn>
+         </div>
           <v-container>
             <v-row>
               <v-text-field
-                filled
+                outlined
                 label="First name:"
+                dense
                 v-model="firstName"
                 :disabled="true"
               ></v-text-field>
               <v-spacer></v-spacer>
               <v-text-field
-                filled
+                outlined
+                dense
                 label="Last name:"
                 v-model="lastName"
                 :disabled="true"
@@ -51,14 +66,16 @@
           <v-container>
             <v-row>
               <v-text-field
-                filled
+                outlined
+                dense
                 label="Name:"
                 v-model="clinicRoom"
                 :disabled="true"
               ></v-text-field>
               <v-spacer></v-spacer>
               <v-text-field
-                filled
+                outlined
+                dense
                 label="Number:"
                 v-model="number"
                 :disabled="true"
@@ -72,6 +89,7 @@
                 <v-select
                   class="select"
                   outlined
+                  dense
                   v-model="tempDiagnosis"
                   :items="diagnosis"
                   item-text="name"
@@ -83,6 +101,7 @@
                 <v-select
                   class="select"
                   outlined
+                  dense
                   v-model="tempDrugs"
                   :items="drugs"
                   item-text="name"
@@ -107,6 +126,7 @@
               </v-row>
               <v-row>
                 <v-textarea
+                  dense
                   label="Description"
                   v-model="description"
                   color="teal"
@@ -132,6 +152,8 @@
           <v-btn
             color="success"
             rounded
+            dense
+            small
             width="150"
             @click="submit"
           >
@@ -141,13 +163,19 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <recordDialog ref="medicalRecord">
+    </recordDialog>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import MedicalRecordDialog from '@/app/medical_record/_components/MedicalRecordDialog.vue';
 
 export default {
+  components: {
+    recordDialog: MedicalRecordDialog,
+  },
   data() {
     return {
       dialog: false,
@@ -179,6 +207,7 @@ export default {
       this.clinicRoom = model.appointment.clinicRoom.name;
       this.number = model.appointment.clinicRoom.number;
       this.dialog = true;
+      this.$refs.medicalRecord.initialize(this.model.appointment.patient.id);
     },
     close() {
       this.$refs.form.reset();
@@ -202,6 +231,9 @@ export default {
             this.$emit('appointmentFinished', this.model.itemId),
           );
       }
+    },
+    showMedicalRecordDialog() {
+      this.$refs.medicalRecord.show();
     },
     validate() {
       return this.$refs.form.validate();

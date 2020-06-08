@@ -1,6 +1,5 @@
 package org.medihub.persistence.clinic_room;
 
-import org.medihub.persistence.appointment_type.AppointmentTypeJpaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -8,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,8 +25,8 @@ public interface ClinicRoomRepository extends JpaRepository<ClinicRoomJpaEntity,
             "left join ClinicRoomScheduleItemJpaEntity crsi on crsi.schedule=crs " +
             "where (cr.name like concat('%', :name, '%') or :name is null ) "+
             "and (cr.number=:number or :number is null ) " +
-            "and (crs.date=:date or :date is null or crs.date is null)"+
-            "and (crsi.time!=:time or :time is null or crsi.time is null)"+
+            "and (crs.date=:date or :date is null or crs.date is null) " +
+            "and (crsi.time<>:time or :time is null or crsi.time is null) " +
             "and cr.clinic.id=:clinic_id")
     List<ClinicRoomJpaEntity> findAllWithNameOrNumberOnDate(
             @Param(value="name")String name,

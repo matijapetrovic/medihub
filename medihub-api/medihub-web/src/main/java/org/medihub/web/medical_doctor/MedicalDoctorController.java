@@ -3,7 +3,7 @@ package org.medihub.web.medical_doctor;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.medical_doctor.*;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase.AddMedicalDoctorCommand;
-import org.medihub.application.ports.incoming.medical_doctor.schedule.GetDoctorScheduleOutput;
+import org.medihub.application.ports.incoming.medical_doctor.schedule.GetScheduleOutput;
 import org.medihub.application.ports.incoming.medical_doctor.schedule.GetDoctorScheduleQuery;
 import org.medihub.application.ports.incoming.scheduling.GetDoctorAvailableTimesQuery;
 import org.medihub.application.ports.outgoing.doctor.GetAllDoctorsPort;
@@ -102,12 +102,12 @@ public class MedicalDoctorController {
     }
 
     @GetMapping("/schedule")
-    ResponseEntity<GetDoctorScheduleOutput> getSchedules() {
+    ResponseEntity<GetScheduleOutput> getSchedules() {
         return ResponseEntity.ok(getDoctorScheduleQuery.getDoctorSchedule());
     }
 
     @GetMapping("/schedule/:{id}")
-    ResponseEntity<GetDoctorScheduleOutput> getSchedulesByDoctorId(@PathVariable Long id) {
+    ResponseEntity<GetScheduleOutput> getSchedulesByDoctorId(@PathVariable Long id) {
         return ResponseEntity.ok(getDoctorScheduleQuery.getDoctorSchedule(id));
     }
 }
