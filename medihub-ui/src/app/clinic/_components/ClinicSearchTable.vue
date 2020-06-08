@@ -34,6 +34,7 @@
     >
       <ClinicProfile
         :clinic="clinic"
+        :coords="coords"
       />
     </v-dialog>
   </div>
@@ -41,6 +42,8 @@
 
 <script>
 import ClinicProfile from '@/app/clinic/_components/profile/ClinicProfile.vue';
+import { mapActions } from 'vuex';
+import axios from 'axios';
 
 export default {
   name: 'ClinicSearchTable',
@@ -61,8 +64,10 @@ export default {
       { text: 'Rating', value: 'rating' },
       { text: 'Price', value: 'appointmentPrice' },
     ],
+    apiKey: 'daf8ca4b-3c4e-4396-9bff-8c6b22f7e69a',
     dialog: false,
     clinic: {},
+    coords: [],
   }),
   props: {
     items: {
@@ -71,9 +76,26 @@ export default {
     },
   },
   methods: {
+    ...mapActions('predefinedAppointment', ['fetchPredefinedAppointments']),
     openClinicProfile(clinic) {
       this.clinic = clinic;
+      this.fetchPredefinedAppointments(this.clinic.id);
+      this.geocodeAddress()
+        .then((response) => {
+          this.coords = this.parseCoords(response.data.response.GeoObjectCollection
+            .featureMember[0].GeoObject.Point.pos);
+        });
       this.dialog = true;
+    },
+    geocodeAddress() {
+      return axios.get(`https://geocode-maps.yandex.ru/1.x/?apikey=${this.apiKey}&geocode=${this.formatAddress()}&format=json`);
+    },
+    formatAddress() {
+      return `${this.clinic.country} ${this.clinic.address} ${this.clinic.city}`.replace(' ', '+');
+    },
+    parseCoords(coords) {
+      const tokens = coords.split(' ');
+      return [+tokens[0], +tokens[1]];
     },
   },
 };
