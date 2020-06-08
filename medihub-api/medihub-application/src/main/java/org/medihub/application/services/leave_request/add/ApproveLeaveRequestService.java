@@ -13,14 +13,12 @@ import org.medihub.domain.LeaveRequest;
 public class ApproveLeaveRequestService implements ApproveLeaveRequestUseCase {
     private final ApproveLeaveRequestPort approveLeaveRequestPort;
     private final GetLeaveRequestPort getLeaveRequestPort;
-    private final GetDoctorsPort getDoctorsPort;
     private final DeleteLeaveRequestPort deleteLeaveRequestPort;
 
     @Override
     public void approveLeaveRequest(Long id, Long medicalDoctorId) {
         approveLeaveRequestPort.approveLeaveRequest(
-                getLeaveRequestPort.getById(id),
-                getDoctorsPort.getMedicalDoctorById(medicalDoctorId));
+                getLeaveRequestPort.getById(id));
         deleteLeaveRequestPort.delete(id);
     }
 }

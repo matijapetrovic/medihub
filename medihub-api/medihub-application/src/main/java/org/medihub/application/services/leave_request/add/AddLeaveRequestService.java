@@ -21,7 +21,8 @@ public class AddLeaveRequestService implements AddLeaveRequestUseCase {
         addLeaveRequestPort.addLeave(
                 new LeaveRequest(
                         null,
-                        addLeaveCommand.getDates(),
+                        addLeaveCommand.getDates().get(0),
+                        addLeaveCommand.getDates().get(1),
                         MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.valueOf(addLeaveCommand.getType()).get().toString(),
                         getDoctorByAccountIdPort.getDoctor(authenticated.getId())
                         )
