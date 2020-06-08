@@ -20,9 +20,11 @@ public class LeaveRequestJpaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ElementCollection
-    @Column(name="dates")
-    private List<Date> dates;
+    @Column(name="start_date")
+    private Date startDate;
+
+    @Column(name="end_date")
+    private Date endDate;
 
     @ManyToOne
     @JoinColumn(name="doctor_id", referencedColumnName = "id")

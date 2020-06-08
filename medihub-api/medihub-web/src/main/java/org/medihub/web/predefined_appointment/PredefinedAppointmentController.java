@@ -1,12 +1,12 @@
 package org.medihub.web.predefined_appointment;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.NotAvailableException;
 import org.medihub.application.ports.incoming.predefined_appointment.AddPredefinedAppointmentUseCase;
 import org.medihub.application.ports.incoming.predefined_appointment.AddPredefinedAppointmentUseCase.AddPredefinedAppointmentCommand;
 import org.medihub.application.ports.incoming.predefined_appointment.GetPredefinedAppointmentsOutput;
 import org.medihub.application.ports.incoming.predefined_appointment.GetPredefinedAppointmentsQuery;
 import org.medihub.application.ports.incoming.scheduling.SchedulePredefinedAppointmentUseCase;
-import org.medihub.domain.appointment.PredefinedAppointment;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,14 +32,14 @@ public class PredefinedAppointmentController {
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    void add(@RequestBody PredefinedAppointmentRequest request) {
+    void add(@RequestBody PredefinedAppointmentRequest request) throws NotAvailableException {
         AddPredefinedAppointmentCommand command = createCommand(request);
         addPredefinedAppointmentUseCase.addPredefinedAppointment(command);
     }
 
     @PostMapping("/{appointmentId}/schedule")
     @PreAuthorize("hasRole('ROLE_PATIENT')")
-    void schedule(@PathVariable Long appointmentId) {
+    void schedule(@PathVariable Long appointmentId) throws NotAvailableException {
         schedulePredefinedAppointmentUseCase.schedulePredefinedAppointment(appointmentId);
     }
 

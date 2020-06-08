@@ -1,9 +1,12 @@
-package org.medihub.persistence.medical_doctor_schedule;
+package org.medihub.persistence.medical_doctor_schedule.schedule_item;
 
 import lombok.*;
 
+import org.medihub.persistence.medical_doctor.MedicalDoctorJpaEntity;
+
 import javax.persistence.*;
-import java.sql.Time;
+import java.sql.Timestamp;
+
 
 import static javax.persistence.InheritanceType.TABLE_PER_CLASS;
 
@@ -16,15 +19,15 @@ import static javax.persistence.InheritanceType.TABLE_PER_CLASS;
 public abstract class MedicalDoctorScheduleItemJpaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
-    @Column(name="id", unique=true, nullable=false)
     Long id;
 
     @ManyToOne
-    @JoinColumn(name="schedule_id", referencedColumnName = "id", nullable = false)
-    MedicalDoctorScheduleJpaEntity schedule;
+    @JoinColumn(name="doctor_id", referencedColumnName = "id", nullable = false)
+    MedicalDoctorJpaEntity doctor;
 
-    @Column(name="time")
-    Time time;
+    @Column(name="start_time")
+    Timestamp startTime;
+
     @Column(name="schedule_item_type")
     Integer type;
 }

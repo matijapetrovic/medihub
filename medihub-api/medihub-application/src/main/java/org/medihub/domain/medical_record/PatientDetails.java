@@ -1,10 +1,13 @@
 package org.medihub.domain.medical_record;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.Value;
+import lombok.*;
 
-@Value
+import java.util.ArrayList;
+import java.util.List;
+
+@AllArgsConstructor
+@Getter
+@Setter
 public class PatientDetails {
     Integer height;
     Integer weight;
@@ -43,7 +46,9 @@ public class PatientDetails {
 
     @AllArgsConstructor
     @NoArgsConstructor
-    static class BloodGroup {
+    @Getter
+    @Setter
+    public static class BloodGroup {
         BloodType type;
         Boolean rhPositive;
 
@@ -51,7 +56,17 @@ public class PatientDetails {
             return type != null ? type.toString() : null;
         }
 
-        private enum BloodType {
+        public static List<String> getBloodTypes() {
+            List<String> output = new ArrayList<String>();
+
+            for(BloodType type : BloodType.values()){
+                output.add(type.toString());
+            }
+
+            return output;
+        }
+
+        public enum BloodType {
             A, B, AB, O;
         }
     }
@@ -59,7 +74,9 @@ public class PatientDetails {
 
     @AllArgsConstructor
     @NoArgsConstructor
-    static class Dioptry {
+    @Getter
+    @Setter
+    public static class Dioptry {
         Double left;
         Double right;
     }

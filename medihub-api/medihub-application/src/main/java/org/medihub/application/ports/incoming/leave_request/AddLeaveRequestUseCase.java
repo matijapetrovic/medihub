@@ -6,6 +6,7 @@ import org.medihub.common.SelfValidating;
 import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface AddLeaveRequestUseCase {
@@ -15,12 +16,12 @@ public interface AddLeaveRequestUseCase {
     @EqualsAndHashCode(callSuper = false)
     class AddLeaveCommand extends SelfValidating<AddLeaveRequestUseCase.AddLeaveCommand> {
         @NotNull
-        List<String> dates;
+        List<LocalDate> dates;
         @NotNull
         Integer type;
 
         public AddLeaveCommand(
-                List<String> dates,
+                List<LocalDate> dates,
                 String type){
             this.dates = dates;
             this.type = getType(type);
