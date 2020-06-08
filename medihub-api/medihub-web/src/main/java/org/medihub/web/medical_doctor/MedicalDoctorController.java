@@ -7,6 +7,7 @@ import org.medihub.application.ports.incoming.medical_doctor.schedule.GetSchedul
 import org.medihub.application.ports.incoming.medical_doctor.schedule.GetDoctorScheduleQuery;
 import org.medihub.application.ports.incoming.scheduling.GetDoctorAvailableTimesQuery;
 import org.medihub.application.ports.outgoing.doctor.GetAllDoctorsPort;
+import org.medihub.domain.medical_doctor.MedicalDoctor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -61,7 +62,7 @@ public class MedicalDoctorController {
 
     @GetMapping("/getAll")
     List<?> getAll(){
-        return getMedicalDoctorUseCase.loadAll();
+        return getAllDoctors(getMedicalDoctorUseCase.loadAll());
     }
 
     private AddMedicalDoctorCommand createCommand(MedicalDoctorRequest medicalDoctorRequest){
@@ -78,6 +79,27 @@ public class MedicalDoctorController {
                 medicalDoctorRequest.getTo(),
                 medicalDoctorRequest.getAppointmentTypeId()
         );
+    }
+
+    private List<?> getAllDoctors(List<MedicalDoctor> doctors) {
+        return doctors
+                .stream()
+                .map(doctor -> new MedicalDoctorResponse(
+                        doctor.getId(),
+                        doctor.getAccount().getEmail(),
+                        doctor.getAccount().getFirstName(),
+                        doctor.getAccount().getLastName(),
+                        doctor.getAccount().getPersonalInfo().getAddress(),
+                        doctor.getAccount().getPersonalInfo().getTelephoneNumber(),
+                        doctor.getWorkingTime().getFrom().toString(),
+                        doctor.getWorkingTime().getTo().toString(),
+                        doctor.getClinic().getName(),
+                        doctor.getSpecialization().getName(),
+                        doctor.getSpecialization().getId(),
+                        doctor.getRating().getRating(),
+                        doctor.getRating().getCount()
+                ))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/schedule")
