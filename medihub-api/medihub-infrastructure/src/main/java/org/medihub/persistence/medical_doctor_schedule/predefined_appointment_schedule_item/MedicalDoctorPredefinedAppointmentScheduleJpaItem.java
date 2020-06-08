@@ -1,12 +1,12 @@
 package org.medihub.persistence.medical_doctor_schedule.predefined_appointment_schedule_item;
 
 import lombok.Getter;
+import org.medihub.persistence.medical_doctor.MedicalDoctorJpaEntity;
 import org.medihub.persistence.medical_doctor_schedule.schedule_item.MedicalDoctorScheduleItemJpaEntity;
-import org.medihub.persistence.medical_doctor_schedule.MedicalDoctorScheduleJpaEntity;
 import org.medihub.persistence.predefined_appointment.PredefinedAppointmentJpaEntity;
 
 import javax.persistence.*;
-import java.sql.Time;
+import java.sql.Timestamp;
 
 @Getter
 @Entity
@@ -23,11 +23,11 @@ public class MedicalDoctorPredefinedAppointmentScheduleJpaItem  extends MedicalD
 
     public MedicalDoctorPredefinedAppointmentScheduleJpaItem(
             Long id,
-            MedicalDoctorScheduleJpaEntity schedule,
-            Time time,
+            MedicalDoctorJpaEntity doctor,
+            Timestamp time,
             Integer type,
             PredefinedAppointmentJpaEntity predefinedAppointment) {
-        super(id, schedule, time, type);
+        super(id, doctor, time, type);
         this.predefinedAppointment = predefinedAppointment;
     }
 

@@ -43,7 +43,7 @@ public class AddPredefinedAppointmentService implements AddPredefinedAppointment
                         getAppointmentTypesPort.getById(command.getAppointmentTypeId()),
                         command.getPrice()
                 );
-        addPredefinedAppointmentPort.addPredefinedAppointment(predefinedAppointment);
+        predefinedAppointment = addPredefinedAppointmentPort.addPredefinedAppointment(predefinedAppointment);
         addPredefinedAppointmentToDoctorSchedule(predefinedAppointment);
         addPredefinedAppointmentToRoomSchedule(predefinedAppointment);
     }
@@ -74,7 +74,7 @@ public class AddPredefinedAppointmentService implements AddPredefinedAppointment
         return new MedicalDoctorPredefinedAppointmentScheduleItem(
                 null,
                 predefinedAppointment.getStart(),
-                MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.APPOINTMENT,
+                MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.PREDEFINED_APPOINTMENT,
                 predefinedAppointment);
     }
 

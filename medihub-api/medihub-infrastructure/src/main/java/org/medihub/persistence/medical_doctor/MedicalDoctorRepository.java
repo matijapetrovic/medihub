@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -20,12 +21,11 @@ public interface MedicalDoctorRepository extends JpaRepository<MedicalDoctorJpaE
 
     @Query("select d from MedicalDoctorJpaEntity d " +
             "where d.specialization = :appointmentType and d.clinic = :clinic " +
-            "and d.working_hours > (select count(mdsi) " +
-            "from MedicalDoctorJpaEntity dd inner join MedicalDoctorScheduleJpaEntity mds on dd=mds.doctor " +
-            "inner join MedicalDoctorScheduleItemJpaEntity mdsi on mdsi.schedule = mds " +
-            "where mds.date=:date and dd=d)")
+            "and d.working_hours > (select count(mdsi)" +
+            "from MedicalDoctorJpaEntity dd inner join  MedicalDoctorScheduleItemJpaEntity mdsi on mdsi.doctor = dd " +
+            "where mdsi.startTime=:timestamp and dd=d)")
     Set<MedicalDoctorJpaEntity> findAllByClinicAndSpecializationAvailableOnDate(
             @Param(value="clinic") ClinicJpaEntity clinic,
-            @Param(value="date") Date date,
+            @Param(value="timestamp") Timestamp timestamp,
             @Param(value="appointmentType") AppointmentTypeJpaEntity appointmentType);
 }

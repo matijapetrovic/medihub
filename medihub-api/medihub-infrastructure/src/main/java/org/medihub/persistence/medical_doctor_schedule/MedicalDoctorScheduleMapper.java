@@ -2,6 +2,7 @@ package org.medihub.persistence.medical_doctor_schedule;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.domain.medical_doctor.*;
+import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType;
 import org.medihub.domain.scheduling.DailySchedule;
 import org.medihub.persistence.appointment.AppointmentMapper;
 import org.medihub.persistence.medical_doctor.MedicalDoctorMapper;
@@ -12,9 +13,12 @@ import org.medihub.persistence.medical_doctor_schedule.vacation_schedule_item.Me
 import org.medihub.persistence.predefined_appointment.PredefinedAppointmentMapper;
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
-import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
@@ -23,42 +27,32 @@ public class MedicalDoctorScheduleMapper {
     private final AppointmentMapper appointmentMapper;
     private final PredefinedAppointmentMapper predefinedAppointmentMapper;
 
-    public MedicalDoctorScheduleJpaEntity mapToScheduleJpaEntity(
+    public Set<MedicalDoctorScheduleItemJpaEntity> mapToScheduleJpaEntity(
             DailySchedule<MedicalDoctorScheduleItem> dailySchedule,
             MedicalDoctor doctor,
-            LocalDate date,
-            boolean available){
-        return new MedicalDoctorScheduleJpaEntity(
-                dailySchedule.getId(),
-                medicalDoctorMapper.mapToJpaEntity(doctor),
-                Date.valueOf(date),
-                available
-        );
+            LocalDate date){
+        return dailySchedule
+                .getScheduleItems()
+                .stream()
+                .map(scheduleItem -> mapToScheduleItemJpaEntity(scheduleItem, doctor, date))
+                .collect(Collectors.toSet());
     }
 
-    public MedicalDoctorVacationScheduleJpaItem mapToJpaVacationItem(
-            MedicalDoctorScheduleJpaEntity schedule,
-            Time time,
-            Integer type,
-            Date endDate
-    ) {
-        return new MedicalDoctorVacationScheduleJpaItem(
-                null,
-                new MedicalDoctorScheduleJpaEntity(
-                        schedule.getId(),
-                        schedule.getDoctor(),
-                        schedule.getDate(),
-                        schedule.isAvailable()),
-                time,
-                type,
-                endDate
+    public DailySchedule<MedicalDoctorScheduleItem> mapToScheduleDomainEntity(
+            Set<MedicalDoctorScheduleItemJpaEntity> scheduleItemJpaEntities) {
+        Set<MedicalDoctorScheduleItem> scheduleItems =
+                scheduleItemJpaEntities
+                        .stream()
+                        .map(this::mapToScheduleItemDomainEntity)
+                        .collect(Collectors.toSet());
 
-        );
+        return new DailySchedule<>(null, scheduleItems);
     }
 
     public MedicalDoctorScheduleItemJpaEntity mapToScheduleItemJpaEntity(
-            MedicalDoctorScheduleJpaEntity doctorSchedule,
-            MedicalDoctorScheduleItem scheduleItem) {
+            MedicalDoctorScheduleItem scheduleItem,
+            MedicalDoctor doctor,
+            LocalDate date) {
         switch(scheduleItem.getType()) {
             case OPERATION:
             case APPOINTMENT:
@@ -66,9 +60,9 @@ public class MedicalDoctorScheduleMapper {
                         (MedicalDoctorAppointmentScheduleItem) scheduleItem;
                 return new MedicalDoctorAppointmentScheduleJpaItem(
                         appointmentScheduleItem.getId(),
-                        doctorSchedule,
-                        Time.valueOf(appointmentScheduleItem.getTime()),
-                        MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.APPOINTMENT.getOrdinal(),
+                        medicalDoctorMapper.mapToJpaEntity(doctor),
+                        Timestamp.valueOf(LocalDateTime.of(date, scheduleItem.getTime())),
+                        MedicalDoctorScheduleItemType.APPOINTMENT.getOrdinal(),
                         appointmentMapper.mapToJpaEntity(appointmentScheduleItem.getAppointment()));
             case LEAVE:
             case VACATION:
@@ -76,19 +70,57 @@ public class MedicalDoctorScheduleMapper {
                         (MedicalDoctorVacationScheduleItem) scheduleItem;
                 return new MedicalDoctorVacationScheduleJpaItem(
                         vacationScheduleItem.getId(),
-                        doctorSchedule,
-                        Time.valueOf(vacationScheduleItem.getTime()),
-                        MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.VACATION.getOrdinal(),
-                        Date.valueOf(vacationScheduleItem.getEndDate()));
+                        medicalDoctorMapper.mapToJpaEntity(doctor),
+                        Timestamp.valueOf(LocalDateTime.of(date, scheduleItem.getTime())),
+                        MedicalDoctorScheduleItemType.VACATION.getOrdinal(),
+                        Timestamp.valueOf(LocalDateTime.of(vacationScheduleItem.getEndDate(), LocalTime.MIDNIGHT)));
             case PREDEFINED_APPOINTMENT:
                 MedicalDoctorPredefinedAppointmentScheduleItem predefinedAppointmentScheduleItem =
                         (MedicalDoctorPredefinedAppointmentScheduleItem) scheduleItem;
                 return new MedicalDoctorPredefinedAppointmentScheduleJpaItem(
                         predefinedAppointmentScheduleItem.getId(),
-                        doctorSchedule,
-                        Time.valueOf(predefinedAppointmentScheduleItem.getTime()),
+                        medicalDoctorMapper.mapToJpaEntity(doctor),
+                        Timestamp.valueOf(LocalDateTime.of(date, scheduleItem.getTime())),
                         MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.PREDEFINED_APPOINTMENT.getOrdinal(),
                         predefinedAppointmentMapper.mapToJpaEntity(predefinedAppointmentScheduleItem.getPredefinedAppointment())
+                );
+        }
+
+        return null;
+    }
+
+    public MedicalDoctorScheduleItem mapToScheduleItemDomainEntity(
+            MedicalDoctorScheduleItemJpaEntity scheduleItem) {
+        MedicalDoctorScheduleItemType type =
+                MedicalDoctorScheduleItemType.valueOf(scheduleItem.getType())
+                .orElseThrow();
+        switch(type) {
+            case OPERATION:
+            case APPOINTMENT:
+                MedicalDoctorAppointmentScheduleJpaItem appointmentScheduleItem =
+                        (MedicalDoctorAppointmentScheduleJpaItem) scheduleItem;
+                return new MedicalDoctorAppointmentScheduleItem(
+                        appointmentScheduleItem.getId(),
+                        appointmentScheduleItem.getStartTime().toLocalDateTime().toLocalTime(),
+                        MedicalDoctorScheduleItemType.APPOINTMENT,
+                        appointmentMapper.mapToDomainEntity(appointmentScheduleItem.getAppointment()));
+            case LEAVE:
+            case VACATION:
+                MedicalDoctorVacationScheduleJpaItem vacationScheduleItem
+                        = (MedicalDoctorVacationScheduleJpaItem) scheduleItem;
+                return new MedicalDoctorVacationScheduleItem(
+                        vacationScheduleItem.getId(),
+                        vacationScheduleItem.getStartTime().toLocalDateTime().toLocalTime(),
+                        MedicalDoctorScheduleItemType.VACATION,
+                        vacationScheduleItem.getEndDate().toLocalDateTime().toLocalDate());
+            case PREDEFINED_APPOINTMENT:
+                MedicalDoctorPredefinedAppointmentScheduleJpaItem predefinedAppointmentScheduleItem =
+                        (MedicalDoctorPredefinedAppointmentScheduleJpaItem) scheduleItem;
+                return new MedicalDoctorPredefinedAppointmentScheduleItem(
+                    predefinedAppointmentScheduleItem.getId(),
+                    predefinedAppointmentScheduleItem.getStartTime().toLocalDateTime().toLocalTime(),
+                    MedicalDoctorScheduleItemType.PREDEFINED_APPOINTMENT,
+                    predefinedAppointmentMapper.mapToDomainEntity(predefinedAppointmentScheduleItem.getPredefinedAppointment())
                 );
         }
 

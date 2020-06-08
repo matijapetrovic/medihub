@@ -2,11 +2,11 @@ package org.medihub.persistence.medical_doctor_schedule.appointment_schedule_ite
 
 import lombok.*;
 import org.medihub.persistence.appointment.AppointmentJpaEntity;
+import org.medihub.persistence.medical_doctor.MedicalDoctorJpaEntity;
 import org.medihub.persistence.medical_doctor_schedule.schedule_item.MedicalDoctorScheduleItemJpaEntity;
-import org.medihub.persistence.medical_doctor_schedule.MedicalDoctorScheduleJpaEntity;
 
 import javax.persistence.*;
-import java.sql.Time;
+import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -22,11 +22,11 @@ public class MedicalDoctorAppointmentScheduleJpaItem extends MedicalDoctorSchedu
 
     public MedicalDoctorAppointmentScheduleJpaItem(
             Long id,
-            MedicalDoctorScheduleJpaEntity schedule,
-            Time time,
+            MedicalDoctorJpaEntity doctor,
+            Timestamp timestamp,
             Integer type,
-            AppointmentJpaEntity appointment) {
-        super(id, schedule, time, type);
+        AppointmentJpaEntity appointment) {
+        super(id, doctor, timestamp, type);
         this.appointment = appointment;
     }
 }

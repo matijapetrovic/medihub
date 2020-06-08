@@ -1,21 +1,20 @@
 package org.medihub.persistence.medical_doctor_schedule.vacation_schedule_item;
 
 import lombok.Getter;
+import org.medihub.persistence.medical_doctor.MedicalDoctorJpaEntity;
 import org.medihub.persistence.medical_doctor_schedule.schedule_item.MedicalDoctorScheduleItemJpaEntity;
-import org.medihub.persistence.medical_doctor_schedule.MedicalDoctorScheduleJpaEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.sql.Date;
-import java.sql.Time;
+import java.sql.Timestamp;
 
 @Getter
 @Entity
 @Table(name="medical_doctor_vacation_schedule_item")
 public class MedicalDoctorVacationScheduleJpaItem extends MedicalDoctorScheduleItemJpaEntity {
     @Column(name="end_date")
-    Date endDate;
+    Timestamp endDate;
 
     public MedicalDoctorVacationScheduleJpaItem() {
         super();
@@ -23,11 +22,11 @@ public class MedicalDoctorVacationScheduleJpaItem extends MedicalDoctorScheduleI
 
     public MedicalDoctorVacationScheduleJpaItem(
             Long id,
-            MedicalDoctorScheduleJpaEntity schedule,
-            Time time,
+            MedicalDoctorJpaEntity doctor,
+            Timestamp timestamp,
             Integer type,
-            Date endDate) {
-        super(id, schedule, time, type);
+            Timestamp endDate) {
+        super(id, doctor, timestamp, type);
         this.endDate = endDate;
     }
 }

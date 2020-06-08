@@ -520,10 +520,8 @@ public class BeanConfig {
 
     @Bean
     public AddAppointmentToMedicalDoctorScheduleUseCase getAddAppointmentToMedicalDoctorScheduleUseCase(
-            AddAppointmentToMedicalDoctorSchedulePort addAppointmentToMedicalDoctorSchedulePort,
-            GetDoctorsPort getDoctorsPort
-    ){
-        return new AddAppointmentToMedicalDoctorService(addAppointmentToMedicalDoctorSchedulePort, getDoctorsPort);
+            AddAppointmentToMedicalDoctorSchedulePort addAppointmentToMedicalDoctorSchedulePort) {
+        return new AddAppointmentToMedicalDoctorService(addAppointmentToMedicalDoctorSchedulePort);
     }
 
     @Bean
@@ -580,12 +578,10 @@ public class BeanConfig {
     public ApproveLeaveRequestUseCase approveLeaveRequestUseCase(
             ApproveLeaveRequestPort approveLeaveRequestPort,
             GetLeaveRequestPort getLeaveRequestPort,
-            GetDoctorsPort getDoctorsPort,
             DeleteLeaveRequestPort deleteLeaveRequestPort) {
         return new ApproveLeaveRequestService(
                 approveLeaveRequestPort,
                 getLeaveRequestPort,
-                getDoctorsPort,
                 deleteLeaveRequestPort);
     }
 
