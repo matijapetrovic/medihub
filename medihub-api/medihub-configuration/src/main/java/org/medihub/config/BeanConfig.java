@@ -26,6 +26,8 @@ import org.medihub.application.ports.incoming.drugs.AddDrugUseCase;
 import org.medihub.application.ports.incoming.medical_doctor.*;
 import org.medihub.application.ports.incoming.medical_record.GetMedicalRecordQuery;
 import org.medihub.application.ports.incoming.predefined_appointment.GetPredefinedAppointmentsQuery;
+import org.medihub.application.ports.incoming.prescription.AcceptPrescriptionUseCase;
+import org.medihub.application.ports.incoming.prescription.GetPrescriptionsQuery;
 import org.medihub.application.ports.incoming.reviewing.AddClinicReviewUseCase;
 import org.medihub.application.ports.incoming.reviewing.AddDoctorReviewUseCase;
 import org.medihub.application.ports.incoming.scheduling.GetDoctorAvailableTimesQuery;
@@ -84,6 +86,7 @@ import org.medihub.application.ports.outgoing.leave_request.AddLeaveRequestPort;
 import org.medihub.application.ports.outgoing.leave_request.ApproveLeaveRequestPort;
 import org.medihub.application.ports.outgoing.leave_request.DeleteLeaveRequestPort;
 import org.medihub.application.ports.outgoing.leave_request.GetLeaveRequestPort;
+import org.medihub.application.ports.outgoing.medical_nurse.GetMedicalNurseByAccountIdPort;
 import org.medihub.application.ports.outgoing.mail.SendEmailPort;
 import org.medihub.application.ports.outgoing.medical_record.LoadMedicalRecordByIdPort;
 import org.medihub.application.ports.outgoing.medical_record.LoadMedicalRecordPort;
@@ -97,6 +100,8 @@ import org.medihub.application.ports.outgoing.predefined_appointment.AddPredefin
 import org.medihub.application.ports.outgoing.predefined_appointment.DeletePredefinedAppointmentPort;
 import org.medihub.application.ports.outgoing.predefined_appointment.GetPredefinedAppointmentsPort;
 import org.medihub.application.ports.outgoing.predefined_appointment.LoadPredefinedAppointmentPort;
+import org.medihub.application.ports.outgoing.prescription.GetPrescriptionPort;
+import org.medihub.application.ports.outgoing.prescription.GetPrescriptionsPort;
 import org.medihub.application.ports.outgoing.scheduling.daily_schedule.LoadClinicRoomDailySchedulePort;
 import org.medihub.application.ports.outgoing.scheduling.daily_schedule.LoadDoctorDailySchedulePort;
 import org.medihub.application.ports.outgoing.scheduling.daily_schedule.SaveClinicRoomDailySchedulePort;
@@ -150,6 +155,8 @@ import org.medihub.application.services.diagnosis.AddDiagnosisService;
 import org.medihub.application.services.drugs.AddDrugService;
 import org.medihub.application.services.medical_record.GetMedicalRecordService;
 import org.medihub.application.services.predefined_appointment.GetPredefinedAppointmentsService;
+import org.medihub.application.services.prescription.AcceptPrescriptionService;
+import org.medihub.application.services.prescription.GetPrescriptionsService;
 import org.medihub.application.services.scheduling.add.ScheduleDoctorsAppointmentService;
 import org.medihub.application.services.scheduling.add.SchedulePredefinedAppointmentService;
 import org.medihub.application.services.scheduling.get.GetDoctorAvailableTimesService;
@@ -726,5 +733,23 @@ public class BeanConfig {
     public ChangeMedicalRecordUseCase changeMedicalRecordUseCase(LoadMedicalRecordByIdPort loadMedicalRecordByIdPort,
                                                                  SaveMedicalRecordPort saveMedicalRecordPort) {
         return new ChangeMedicalRecordService(loadMedicalRecordByIdPort, saveMedicalRecordPort);
+    }
+
+    @Bean
+    public GetPrescriptionsQuery getPrescriptionsQuery(GetPrescriptionsPort getPrescriptionsPort,
+                                                       GetAuthenticatedPort getAuthenticatedPort,
+                                                       GetMedicalNurseByAccountIdPort getMedicalNurseByAccountIdPort) {
+        return new GetPrescriptionsService(getPrescriptionsPort, getAuthenticatedPort, getMedicalNurseByAccountIdPort);
+    }
+
+    @Bean
+    public AcceptPrescriptionUseCase acceptPrescriptionUseCase(GetAuthenticatedPort getAuthenticatedPort,
+                                                               GetMedicalNurseByAccountIdPort getMedicalNurseByAccountIdPort,
+                                                               GetPrescriptionPort getPrescriptionPort,
+                                                               SavePrescriptionPort savePrescriptionPort) {
+        return new AcceptPrescriptionService(getAuthenticatedPort,
+                getMedicalNurseByAccountIdPort,
+                getPrescriptionPort,
+                savePrescriptionPort);
     }
 }
