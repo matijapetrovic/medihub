@@ -33,7 +33,7 @@ public class AppointmentRequestController {
 
     @PostMapping("/addForDoctor")
     @PreAuthorize("hasRole('ROLE_DOCTOR')")
-    void scheduleForDoctor(@RequestParam AddDoctorsAppointmentRequest addDoctorsAppointmentRequest) {
+    void scheduleForDoctor(@RequestBody AddDoctorsAppointmentRequest addDoctorsAppointmentRequest) {
         ScheduleDoctorsAppointmentCommand command = createDoctorsCommand(addDoctorsAppointmentRequest);
         scheduleDoctorsAppointmentUseCase.scheduleAppointment(command);
     }

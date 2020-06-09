@@ -25,7 +25,7 @@ public class ScheduleDoctorsAppointmentService implements ScheduleDoctorsAppoint
     @Override
     public void scheduleAppointment(ScheduleDoctorsAppointmentCommand command) {
         Account authenticated = getAuthenticatedPort.getAuthenticated();
-        Patient patient = loadPatientPort.loadPatientByAccountId(command.getPatientId());
+        Patient patient = loadPatientPort.loadPatient(command.getPatientId());
         MedicalDoctor medicalDoctor = loadDoctorPort.loadDoctor(authenticated.getId());
         Money price = medicalDoctor.getClinic().getPrice(medicalDoctor.getSpecialization());
         ensurePatientIsAvailable(patient, command.getDate(), command.getTime());
