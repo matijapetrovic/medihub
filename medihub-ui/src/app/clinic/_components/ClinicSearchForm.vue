@@ -7,7 +7,6 @@
           :items="appointmentTypes"
           item-text="name"
           label="Appointment Type"
-          :rules="[requiredRule]"
           return-object
           ref="form"
         ></v-select>
@@ -43,17 +42,12 @@
           </v-date-picker>
         </v-menu>
       </v-col>
-    </v-row>
-    <v-row
-      align="center"
-      justify="center"
-      class="text-center"
-    >
-      <v-col>
+      <v-col md="2">
         <v-btn
           :disabled="!appointmentType || !date"
           color="primary"
           @click="search"
+          class="mt-4"
           >Search
         </v-btn>
       </v-col>
@@ -62,26 +56,31 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'ClinicSearchForm',
   data: () => ({
     appointmentType: null,
-    date: new Date().toISOString().substr(0, 10),
+    date: null,
     menu: null,
     today: new Date().toISOString().substr(0, 10),
   }),
+  props: {
+    appointmentTypes: {
+      required: true,
+      type: Array,
+    },
+    searchParams: {
+      type: Object,
+    },
+  },
   methods: {
-    ...mapActions('appointmentType', ['fetchAppointmentTypes']),
-    ...mapActions('clinic', ['fetchClinics', 'setSearchParams']),
     search() {
       if (this.validate()) {
-        this.setSearchParams({
-          appointmentTypeId: this.appointmentType.id,
+        this.$emit('searched', {
+          appointmentType: this.appointmentType,
           date: this.date,
         });
-        this.fetchClinics();
       }
     },
     validate() {
@@ -89,13 +88,13 @@ export default {
     },
   },
   computed: {
-    ...mapState('appointmentType', ['appointmentTypes']),
     requiredRule() {
       return (value) => !!value || 'Required';
     },
   },
   mounted() {
-    this.fetchAppointmentTypes();
+    this.date = this.searchParams.date;
+    this.appointmentType = this.searchParams.appointmentType;
   },
 };
 </script>

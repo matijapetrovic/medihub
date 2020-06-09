@@ -1,93 +1,70 @@
 <template>
   <div>
-    <v-card
-    >
-      <v-container>
-        <v-row>
-          <v-col>
-            <ClinicMap
-              :coords="coords"
-            />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <v-card-title>{{ clinic.name }}</v-card-title>
-            <v-card-text>
-              <v-row
-                align="center"
-                class="mx-0"
-              >
-                <v-rating
-                  :value="clinic.rating"
-                  color="amber"
-                  dense
-                  half-increments
-                  readonly
-                  size="14"
-                ></v-rating>
-                <div class="grey--text ml-4">{{ clinic.rating }} ({{ clinic.ratingCount }})</div>
-              </v-row>
-              <div class="mt-4">{{ clinic.description }}</div>
-            </v-card-text>
-          </v-col>
-          <v-divider vertical></v-divider>
-          <v-col>
-            <v-card-title>
-              Predefined appointments
-            </v-card-title>
-            <v-list
-              v-if="predefinedAppointments.length"
-              two-line
-              class="appointment-list">
-              <v-list-item-group>
-                <template v-for="(item, index) in predefinedAppointments">
-                  <div
-                    :key="index"
-                  >
-                    <v-list-item
-                      @click="openConfirmScheduleDialog(item)"
-                    >
-                      <v-list-item-content>
-                        <v-list-item-title v-text="item.name"></v-list-item-title>
-                        <v-list-item-subtitle class="text--primary" v-text="item.doctor">
-                        </v-list-item-subtitle>
-                        <v-list-item-subtitle v-text="item.room"></v-list-item-subtitle>
-                      </v-list-item-content>
-                      <v-spacer></v-spacer>
-                      <v-list-item-action>
-                        <v-list-item-title v-text="item.date"></v-list-item-title>
-                        <v-list-item-subtitle class="text--primary" v-text="item.time">
-                        </v-list-item-subtitle>
-                        <v-list-item-subtitle>{{ item.price }}&euro;</v-list-item-subtitle>
-                      </v-list-item-action>
-                    </v-list-item>
-                    <v-divider
-                      v-if="index + 1 < predefinedAppointments.length"
-                    ></v-divider>
-                  </div>
-                </template>
-              </v-list-item-group>
-            </v-list>
-            <p
-              v-else
-            >
-              There are currently no predefined appointments.
-            </p>
-          </v-col>
-        </v-row>
-      </v-container>
-      <v-divider class="mx-4"></v-divider>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn
-          light
-          @click="seeDoctors"
+    <v-row>
+      <v-col>
+        <ClinicMap
+          :coords="coords"
+        />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col md="4">
+        <v-rating
+          :value="clinic.rating"
+          color="amber"
+          dense
+          half-increments
+          readonly
+          class="float-left"
         >
-          See available doctors
-        </v-btn>
-      </v-card-actions>
-    </v-card>
+        </v-rating>
+        <span class="grey--text ml-4">{{ clinic.rating }} ({{ clinic.ratingCount }})</span>
+        <div class="mt-4">{{ clinic.description }}</div>
+      </v-col>
+      <v-col md="8">
+        <h3>
+          Predefined appointments
+        </h3>
+        <v-list
+          v-if="predefinedAppointments.length"
+          two-line
+          class="appointment-list">
+          <v-list-item-group>
+            <template v-for="(item, index) in predefinedAppointments">
+              <div
+                :key="index"
+              >
+                <v-list-item
+                  @click="openConfirmScheduleDialog(item)"
+                >
+                  <v-list-item-content>
+                    <v-list-item-title v-text="item.name"></v-list-item-title>
+                    <v-list-item-subtitle class="text--primary" v-text="item.doctor">
+                    </v-list-item-subtitle>
+                    <v-list-item-subtitle v-text="item.room"></v-list-item-subtitle>
+                  </v-list-item-content>
+                  <v-spacer></v-spacer>
+                  <v-list-item-action>
+                    <v-list-item-title v-text="item.date"></v-list-item-title>
+                    <v-list-item-subtitle class="text--primary" v-text="item.time">
+                    </v-list-item-subtitle>
+                    <v-list-item-subtitle>{{ item.price }}&euro;</v-list-item-subtitle>
+                  </v-list-item-action>
+                </v-list-item>
+                <v-divider
+                  v-if="index + 1 < predefinedAppointments.length"
+                ></v-divider>
+              </div>
+            </template>
+          </v-list-item-group>
+        </v-list>
+        <p
+          v-else
+        >
+          There are currently no predefined appointments.
+        </p>
+      </v-col>
+    </v-row>
     <v-dialog
       v-model="dialog"
       max-width="500"
@@ -153,7 +130,7 @@ export default {
 
 <style scoped>
 .appointment-list {
-  height: 200px;
+  max-height: 300px;
   overflow-y: auto;
 }
 .appointment-list::-webkit-scrollbar

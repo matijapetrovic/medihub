@@ -1,7 +1,11 @@
 <template>
   <div>
     <h1>Search Clinics</h1>
-    <ClinicSearchForm/>
+    <ClinicSearchForm
+      :search-params="searchParams"
+      :appointment-types="appointmentTypes"
+      @searched="onSearched($event)"
+    />
     <ClinicSearchTable
       :items="clinics"
       v-if="clinics.length"
@@ -22,10 +26,21 @@ export default {
     ClinicSearchForm,
   },
   methods: {
-    ...mapActions('clinic', ['fetchClinics']),
+    ...mapActions('doctor', ['setDoctorSearchParams']),
+    ...mapActions('clinic', ['fetchClinics', 'setClinicSearchParams']),
+    ...mapActions('appointmentType', ['fetchAppointmentTypes']),
+    onSearched(searchParams) {
+      this.setClinicSearchParams(searchParams);
+      this.setDoctorSearchParams(searchParams);
+      this.fetchClinics();
+    },
   },
   computed: {
-    ...mapState('clinic', ['clinics']),
+    ...mapState('clinic', ['clinics', 'searchParams']),
+    ...mapState('appointmentType', ['appointmentTypes']),
+  },
+  mounted() {
+    this.fetchAppointmentTypes();
   },
 };
 </script>

@@ -6,6 +6,7 @@ export default {
   state: {
     doctors: [],
     availableTimes: [],
+    searchParams: {},
   },
   mutations: {
     SET_DOCTORS(state, doctors) {
@@ -18,13 +19,16 @@ export default {
     SET_STATE_AVAILABLE_TIMES(state, availableTimes) {
       state.availableTimes = availableTimes.times;
     },
+    SET_SEARCH_PARAMS(state, params) {
+      state.searchParams = params;
+    },
   },
   actions: {
-    fetchDoctors({ commit, dispatch, rootState }, clinicId) {
+    fetchDoctors({ commit, dispatch, state }, clinicId) {
       return api.fetchDoctors(
         clinicId,
-        rootState.clinic.searchParams.date,
-        rootState.clinic.searchParams.appointmentTypeId,
+        state.searchParams.date,
+        state.searchParams.appointmentType.id,
       ).then((response) => {
         commit('SET_DOCTORS', response.data.map((doctor) => ({
           availableTimes: [],
@@ -53,6 +57,9 @@ export default {
       }).catch((err) => {
         dispatch('notifications/add', utils.errorNotification(err), { root: true });
       });
+    },
+    setDoctorSearchParams({ commit }, params) {
+      commit('SET_SEARCH_PARAMS', params);
     },
   },
 };

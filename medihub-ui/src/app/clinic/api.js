@@ -22,4 +22,7 @@ export default {
   addPrice(credentials) {
     return utils.apiClient.post('api/clinic/addPrice', credentials);
   },
+  fetchClinicProfile(clinicId) {
+    return utils.apiClient.get(`api/clinic/${clinicId}`);
+  },
 };
