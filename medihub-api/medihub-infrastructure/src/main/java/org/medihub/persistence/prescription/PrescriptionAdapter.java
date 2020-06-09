@@ -1,6 +1,7 @@
 package org.medihub.persistence.prescription;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.ports.outgoing.prescription.GetPrescriptionPort;
 import org.medihub.application.ports.outgoing.prescription.GetPrescriptionsPort;
 import org.medihub.application.ports.outgoing.prescription.SavePrescriptionPort;
 import org.medihub.domain.Prescription;
@@ -12,7 +13,8 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class PrescriptionAdapter implements SavePrescriptionPort,
-        GetPrescriptionsPort {
+        GetPrescriptionsPort,
+        GetPrescriptionPort {
     private final PrescriptionRepository prescriptionRepository;
     private final PrescriptionMapper prescriptionMapper;
 
@@ -27,5 +29,10 @@ public class PrescriptionAdapter implements SavePrescriptionPort,
                 .stream()
                 .map(prescriptionMapper::mapToDomainEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Prescription getPrescription(Long id) {
+        return prescriptionMapper.mapToDomainEntity(prescriptionRepository.getOne(id));
     }
 }

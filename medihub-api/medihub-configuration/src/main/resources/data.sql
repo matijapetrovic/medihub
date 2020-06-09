@@ -55,6 +55,8 @@ insert into medical_doctor (account_id, clinic, working_time_from, working_time_
 insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count,specialization) values (6, 1, '06:00:00', '14:00:00', 8, 0.0, 0, 1);
 insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count,specialization) values (7, 2, '18:00:00', '01:00:00', 7, 0.0, 0, 2);
 
+insert into medical_nurse (account_id, clinic, working_time_from, working_time_to) values (3, 1, '06:00:00', '14:00:00');
+
 insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values ('2020-10-10', '12:00:00', 1, 1, 1);
 insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values ('2020-10-12', '13:00:00', 1, 1, 1);
 insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values ('2020-10-20', '07:00:00', 1, 1, 2);
@@ -90,6 +92,9 @@ insert into clinic_room_schedule_item (schedule_id, time) values (1, '23:00:00')
 
 insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Idemo niiis najjace je bilo najjace', 1, 1);
 insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Sad bas i nije heh', 2, 2);
+
+insert into prescriptions (drug_id, medical_nurse_id, finished_appointment_id) values (1, null, 1);
+insert into prescriptions (drug_id, medical_nurse_id, finished_appointment_id) values (2, null, 1);
 
 create trigger after_clinic_review_insert
     after insert on clinic_review for each row

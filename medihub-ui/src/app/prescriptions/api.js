@@ -1,9 +1,10 @@
 import utils from '@/utils';
 
 export default {
-  actions: {
-    getPrescriptions() {
-      return utils.apiCliend.get('api/prescription');
-    },
+  getPrescriptions() {
+    return utils.apiClient.get('api/prescription');
+  },
+  acceptPrescription(id) {
+    return utils.apiClient.post('api/prescription/accept', id);
   },
 };
