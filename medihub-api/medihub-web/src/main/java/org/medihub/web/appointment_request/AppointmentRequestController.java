@@ -5,6 +5,8 @@ import org.medihub.application.ports.incoming.appointment_request.DeleteAppointm
 import org.medihub.application.ports.incoming.appointment_request.GetAppointmentRequestUseCase;
 import org.medihub.application.ports.incoming.scheduling.ScheduleAppointmentUseCase;
 import org.medihub.application.ports.incoming.scheduling.ScheduleAppointmentUseCase.ScheduleAppointmentCommand;
+import org.medihub.application.ports.incoming.scheduling.ScheduleDoctorsAppointmentUseCase;
+import org.medihub.application.ports.incoming.scheduling.ScheduleDoctorsAppointmentUseCase.ScheduleDoctorsAppointmentCommand;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
@@ -18,6 +20,7 @@ import java.util.List;
 @RequestMapping(value = "/appointment-request", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AppointmentRequestController {
     private final ScheduleAppointmentUseCase scheduleAppointmentUseCase;
+    private final ScheduleDoctorsAppointmentUseCase scheduleDoctorsAppointmentUseCase;
     private final GetAppointmentRequestUseCase getAppointmentRequestUseCase;
     private final DeleteAppointmentRequestUseCase deleteAppointmentRequestUseCase;
 
@@ -26,6 +29,13 @@ public class AppointmentRequestController {
     void schedule(@RequestBody ScheduleAppointmentRequest request) {
         ScheduleAppointmentCommand command = createCommand(request);
         scheduleAppointmentUseCase.scheduleAppointment(command);
+    }
+
+    @PostMapping("/addForDoctor")
+    @PreAuthorize("hasRole('ROLE_DOCTOR')")
+    void scheduleForDoctor(@RequestBody AddDoctorsAppointmentRequest addDoctorsAppointmentRequest) {
+        ScheduleDoctorsAppointmentCommand command = createDoctorsCommand(addDoctorsAppointmentRequest);
+        scheduleDoctorsAppointmentUseCase.scheduleAppointment(command);
     }
 
     @GetMapping("")
@@ -44,6 +54,13 @@ public class AppointmentRequestController {
     private ScheduleAppointmentCommand createCommand(ScheduleAppointmentRequest request) {
         return new ScheduleAppointmentCommand(
                 request.getDoctorId(),
+                request.getDate(),
+                request.getTime());
+    }
+
+    private ScheduleDoctorsAppointmentCommand createDoctorsCommand(AddDoctorsAppointmentRequest request) {
+        return new ScheduleDoctorsAppointmentCommand(
+                request.getPatientId(),
                 request.getDate(),
                 request.getTime());
     }
