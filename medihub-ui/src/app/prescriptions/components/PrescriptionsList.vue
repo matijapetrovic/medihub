@@ -5,6 +5,11 @@
     :items-per-page="5"
     class="elevation-1"
   >
+    <template v-slot:top>
+      <v-toolbar flat color="white">
+        <v-toolbar-title>Prescriptions</v-toolbar-title>
+      </v-toolbar>
+    </template>
     <template v-slot:item.validation="{ item }">
         <v-btn
           style="margin-right: 15px"
@@ -26,8 +31,13 @@ export default {
   data: () => ({
     headers: [
       {
-        text: 'Drug',
+        text: 'Diagnosis',
         align: 'start',
+        sortable: true,
+        value: 'diagnosis',
+      },
+      {
+        text: 'Drug',
         sortable: true,
         value: 'drug',
       },

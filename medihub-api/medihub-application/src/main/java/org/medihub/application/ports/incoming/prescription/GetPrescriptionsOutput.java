@@ -6,4 +6,5 @@ import lombok.Value;
 public class GetPrescriptionsOutput {
     Long id;
     String drug;
+    String diagnosis;
 }

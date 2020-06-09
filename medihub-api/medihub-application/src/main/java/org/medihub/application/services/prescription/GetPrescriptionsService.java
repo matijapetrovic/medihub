@@ -31,7 +31,9 @@ public class GetPrescriptionsService implements GetPrescriptionsQuery {
     private List<GetPrescriptionsOutput> mapToOutput(List<Prescription> prescriptions) {
         return prescriptions
                 .stream()
-                .map(entry -> new GetPrescriptionsOutput(entry.getId(), entry.getDrug().getName()))
+                .map(entry -> new GetPrescriptionsOutput(entry.getId(),
+                        entry.getDrug().getName(),
+                        entry.getFinishedAppointment().getDiagnosis().getName()))
                 .collect(Collectors.toList());
     }
 }
