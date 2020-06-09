@@ -6,7 +6,7 @@ export default {
   state: {
     clinicNames: [],
     clinics: [],
-    searchParams: null,
+    searchParams: {},
     clinic: {},
     prices: null,
   },
@@ -68,10 +68,13 @@ export default {
         });
     },
     fetchClinics({ commit, dispatch, state }) {
-      return api.fetchClinics(state.searchParams.appointmentTypeId, state.searchParams.date)
-        .then((response) => {
-          commit('SET_CLINICS', response.data);
-        })
+      return api.fetchClinics({
+        appointmentTypeId: state.searchParams.appointmentType
+          ? state.searchParams.appointmentType.id : null,
+        date: state.searchParams.date ? state.searchParams.date : null,
+      }).then((response) => {
+        commit('SET_CLINICS', response.data);
+      })
         .catch((err) => {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
@@ -96,8 +99,17 @@ export default {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
-    setSearchParams({ commit }, params) {
+    setClinicSearchParams({ commit }, params) {
       commit('SET_SEARCH_PARAMS', params);
+    },
+    fetchClinicProfile({ commit, dispatch }, clinicId) {
+      return api.fetchClinicProfile(clinicId)
+        .then((response) => {
+          commit('SET_CURRENT_CLINIC', response.data);
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
     },
   },
 };

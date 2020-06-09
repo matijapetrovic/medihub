@@ -34,7 +34,7 @@ public class PredefinedAppointmentJpaEntity {
     private Time start;
 
     @Column(name = "duration")
-    private double duration;
+    private Double duration;
 
     @Column(name = "price")
     private BigDecimal price;

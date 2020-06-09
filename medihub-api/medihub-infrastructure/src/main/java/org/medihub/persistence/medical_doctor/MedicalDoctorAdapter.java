@@ -72,14 +72,17 @@ public class MedicalDoctorAdapter implements
                 .findById(clinicId)
                 .orElseThrow(EntityNotFoundException::new);
 
-        AppointmentTypeJpaEntity appointmentType = appointmentTypeRepository
-                .findById(appointmentTypeId)
-                .orElseThrow(EntityNotFoundException::new);
+        var appointmentType =
+                (appointmentTypeId == null ? null :
+                        appointmentTypeRepository
+                                .findById(appointmentTypeId)
+                                .orElseThrow(EntityNotFoundException::new));
 
-        Timestamp timestamp = Timestamp.valueOf(LocalDateTime.of(date, LocalTime.MIDNIGHT));
+        Timestamp dateStart = (date == null ? null : Timestamp.valueOf(LocalDateTime.of(date, LocalTime.MIDNIGHT)));
+        Timestamp dateEnd = (date == null ? null :Timestamp.valueOf(LocalDateTime.of(date.plusDays(1), LocalTime.MIDNIGHT)));
 
         return medicalDoctorRepository
-                .findAllByClinicAndSpecializationAvailableOnDate(clinic, timestamp, appointmentType)
+                .findAllByClinicAndSpecializationAvailableOnDate(clinic, dateStart, dateEnd, appointmentType)
                 .stream()
                 .map(medicalDoctorMapper::mapToDomainEntity)
                 .collect(Collectors.toList());

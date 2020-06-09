@@ -1,6 +1,7 @@
 package org.medihub.application.services.scheduling.add;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.scheduling.SchedulePredefinedAppointmentUseCase;
 import org.medihub.application.ports.outgoing.appointment.SaveAppointmentPort;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
@@ -34,7 +35,7 @@ public class SchedulePredefinedAppointmentService implements SchedulePredefinedA
     private final SendEmailPort sendEmailPort;
 
     @Override
-    public void schedulePredefinedAppointment(@NotNull Long appointmentId) {
+    public void schedulePredefinedAppointment(@NotNull Long appointmentId) throws NotFoundException {
         Patient patient = getAuthenticatedPatient();
         PredefinedAppointment predefinedAppointment = loadPredefinedAppointment(appointmentId);
         Appointment appointment = scheduleAppointment(predefinedAppointment, patient);
@@ -48,7 +49,7 @@ public class SchedulePredefinedAppointmentService implements SchedulePredefinedA
         return loadPatientPort.loadPatientByAccountId(account.getId());
     }
 
-    private PredefinedAppointment loadPredefinedAppointment(Long appointmentId) {
+    private PredefinedAppointment loadPredefinedAppointment(Long appointmentId) throws NotFoundException {
         return loadPredefinedAppointmentPort.loadPredefinedAppointment(appointmentId);
     }
 

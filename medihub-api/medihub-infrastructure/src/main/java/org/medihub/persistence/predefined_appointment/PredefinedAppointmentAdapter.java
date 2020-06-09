@@ -1,6 +1,7 @@
 package org.medihub.persistence.predefined_appointment;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.outgoing.predefined_appointment.AddPredefinedAppointmentPort;
 import org.medihub.application.ports.outgoing.predefined_appointment.DeletePredefinedAppointmentPort;
 import org.medihub.application.ports.outgoing.predefined_appointment.GetPredefinedAppointmentsPort;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -38,15 +40,16 @@ public class PredefinedAppointmentAdapter implements
 
     @Override
     public void deletePredefinedAppointment(Long appointmentId) {
-        predefinedAppointmentRepository.deleteById(appointmentId);
+        predefinedAppointmentRepository
+                .deleteById(appointmentId);
     }
 
     @Override
-    public PredefinedAppointment loadPredefinedAppointment(Long appointmentId) {
-        PredefinedAppointmentJpaEntity predefinedAppointment =
-                predefinedAppointmentRepository.findById(appointmentId)
-                .orElseThrow(EntityNotFoundException::new);
-
-        return predefinedAppointmentMapper.mapToDomainEntity(predefinedAppointment);
+    public PredefinedAppointment loadPredefinedAppointment(Long appointmentId) throws NotFoundException {
+        Optional<PredefinedAppointmentJpaEntity> predefinedAppointment =
+                predefinedAppointmentRepository.findById(appointmentId);
+        if (predefinedAppointment.isEmpty())
+            throw new NotFoundException(String.format("Predefined appointment %d not found.", appointmentId));
+        return predefinedAppointmentMapper.mapToDomainEntity(predefinedAppointment.get());
     }
 }
