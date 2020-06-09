@@ -743,6 +743,7 @@ public class BeanConfig {
         return new ChangeAppointmentTypeService(getAppointmentTypePort, saveAppointmentTypePort);
     }
 
+    @Bean
     public GetPrescriptionsQuery getPrescriptionsQuery(GetPrescriptionsPort getPrescriptionsPort,
                                                        GetAuthenticatedPort getAuthenticatedPort,
                                                        GetMedicalNurseByAccountIdPort getMedicalNurseByAccountIdPort) {
