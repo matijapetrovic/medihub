@@ -1,4 +1,4 @@
-package org.medihub.application.services.clinic_room;
+package org.medihub.application.services.clinic_room.update;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.clinic_room.UpdateClinicRoomUseCase;

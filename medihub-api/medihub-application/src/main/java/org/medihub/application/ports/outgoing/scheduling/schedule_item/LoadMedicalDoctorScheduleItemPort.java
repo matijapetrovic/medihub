@@ -1,0 +1,7 @@
+package org.medihub.application.ports.outgoing.scheduling.schedule_item;
+
+import org.medihub.domain.medical_doctor.MedicalDoctorPredefinedAppointmentScheduleItem;
+
+public interface LoadMedicalDoctorScheduleItemPort {
+    MedicalDoctorPredefinedAppointmentScheduleItem loadPredefinedAppointmentScheduleItemByPredefinedAppointmentId(Long predefinedAppointmentId);
+}

@@ -1,4 +1,4 @@
-package org.medihub.application.ports.outgoing.scheduling;
+package org.medihub.application.ports.outgoing.scheduling.daily_schedule;
 
 import org.medihub.domain.clinic_room.ClinicRoom;
 import org.medihub.domain.clinic_room.ClinicRoomScheduleItem;

@@ -42,7 +42,7 @@ public class GetAppointmentHistoryService implements GetAppointmentHistoryQuery 
 
     @Override
     public List<GetAppointmentDateCount> getClinicAppointmentHistory(FinishedAppointmentQuery finishedAppointmentQuery) {
-        FinishedAppointmentCounter counter = new FinishedAppointmentCounter(finishedAppointmentQuery.getType());
+        FinishedAppointmentCounter counter = new FinishedAppointmentCounter(finishedAppointmentQuery.getType(), finishedAppointmentQuery.getDate());
         Account account = getAuthenticatedPort.getAuthenticated();
         ClinicAdmin clinicAdmin = loadClinicAdminPort.loadClinicAdminByAccountId(account.getId());
 

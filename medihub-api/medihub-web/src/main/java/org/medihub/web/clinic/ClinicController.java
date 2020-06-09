@@ -88,7 +88,8 @@ public class ClinicController {
 
     @PostMapping("/addPrice")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    ResponseEntity<Map<Long, BigDecimal>> addPrices(@RequestBody AddPriceRequest addPriceRequest) {
+    ResponseEntity<Map<Long, BigDecimal>> addPrices(@
+                                                            RequestBody AddPriceRequest addPriceRequest) {
         AddPriceToAppointmentTypeUseCase.AddPriceCommand addPriceCommand = createAddPriceCommand(addPriceRequest);
         addPriceToAppointmentTypeUseCase.addPrice(addPriceCommand);
 

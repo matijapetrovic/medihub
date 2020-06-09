@@ -103,7 +103,6 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import axios from 'axios';
 import ScheduleAppointmentDialog from '@/app/appointment/_components/ScheduleAppointmentDialog.vue';
 import ClinicMap from './ClinicMap.vue';
 
@@ -114,8 +113,6 @@ export default {
     ScheduleAppointmentDialog,
   },
   data: () => ({
-    coords: [45.264747, 19.836904],
-    apiKey: 'daf8ca4b-3c4e-4396-9bff-8c6b22f7e69a',
     appointment: {},
     dialog: false,
   }),
@@ -124,9 +121,13 @@ export default {
       required: true,
       type: Object,
     },
+    coords: {
+      required: true,
+      type: Array,
+    },
   },
   methods: {
-    ...mapActions('predefinedAppointment', ['fetchPredefinedAppointments', 'schedulePredefinedAppointment']),
+    ...mapActions('predefinedAppointment', ['schedulePredefinedAppointment']),
     openConfirmScheduleDialog(appointment) {
       this.appointment = appointment;
       this.dialog = true;
@@ -137,16 +138,6 @@ export default {
     seeDoctors() {
       this.$router.push(`/search-doctors/${this.clinic.id}`);
     },
-    geocodeAddress() {
-      return axios.get(`https://geocode-maps.yandex.ru/1.x/?apikey=${this.apiKey}&geocode=${this.formatAddress()}&format=json`);
-    },
-    formatAddress() {
-      return `${this.clinic.country} ${this.clinic.address} ${this.clinic.city}`.replace(' ', '+');
-    },
-    parseCoords(coords) {
-      const tokens = coords.split(' ');
-      return [+tokens[0], +tokens[1]];
-    },
     schedule() {
       this.schedulePredefinedAppointment(this.appointment.id)
         .then(() => {
@@ -156,14 +147,6 @@ export default {
   },
   computed: {
     ...mapState('predefinedAppointment', ['predefinedAppointments']),
-  },
-  mounted() {
-    this.fetchPredefinedAppointments(this.clinic.id);
-    this.geocodeAddress()
-      .then((response) => {
-        this.coords = this.parseCoords(response.data.response.GeoObjectCollection
-          .featureMember[0].GeoObject.Point.pos);
-      });
   },
 };
 </script>

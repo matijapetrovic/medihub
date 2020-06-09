@@ -6,6 +6,6 @@ import org.medihub.application.ports.incoming.medical_doctor.schedule.DailySched
 import java.util.Map;
 
 @Value
-public class GetDoctorScheduleOutput {
+public class GetScheduleOutput {
     Map<String, DailyScheduleOutput> dailySchedules;
 }

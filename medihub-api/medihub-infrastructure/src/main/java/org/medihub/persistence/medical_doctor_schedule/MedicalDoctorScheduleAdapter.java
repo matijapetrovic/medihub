@@ -5,8 +5,11 @@ import org.medihub.application.ports.outgoing.doctor.AddAppointmentToMedicalDoct
 import org.medihub.application.ports.outgoing.doctor.DeleteAppointmentScheduleItemPort;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorSchedulePort;
 import org.medihub.application.ports.outgoing.leave_request.ApproveLeaveRequestPort;
-import org.medihub.application.ports.outgoing.scheduling.LoadDoctorDailySchedulePort;
-import org.medihub.application.ports.outgoing.scheduling.SaveDoctorDailySchedulePort;
+import org.medihub.application.ports.outgoing.scheduling.daily_schedule.LoadDoctorDailySchedulePort;
+import org.medihub.application.ports.outgoing.scheduling.daily_schedule.SaveDoctorDailySchedulePort;
+import org.medihub.application.ports.outgoing.scheduling.schedule_item.DeleteMedicalDoctorScheduleItemPort;
+import org.medihub.application.ports.outgoing.scheduling.schedule_item.LoadMedicalDoctorScheduleItemPort;
+import org.medihub.application.ports.outgoing.scheduling.schedule_item.SaveMedicalDoctorScheduleItemPort;
 import org.medihub.domain.LeaveRequest;
 import org.medihub.domain.appointment.Appointment;
 import org.medihub.domain.medical_doctor.*;
@@ -18,6 +21,8 @@ import org.medihub.persistence.medical_doctor.MedicalDoctorMapper;
 import org.medihub.persistence.medical_doctor.MedicalDoctorRepository;
 import org.medihub.persistence.medical_doctor_schedule.appointment_schedule_item.MedicalDoctorAppointmentScheduleItemRepository;
 import org.medihub.persistence.medical_doctor_schedule.appointment_schedule_item.MedicalDoctorAppointmentScheduleJpaItem;
+import org.medihub.persistence.medical_doctor_schedule.predefined_appointment_schedule_item.MedicalDoctorPredefinedAppointmentScheduleItemRepository;
+import org.medihub.persistence.medical_doctor_schedule.predefined_appointment_schedule_item.MedicalDoctorPredefinedAppointmentScheduleJpaItem;
 import org.medihub.persistence.medical_doctor_schedule.schedule_item.MedicalDoctorScheduleItemJpaEntity;
 import org.medihub.persistence.medical_doctor_schedule.schedule_item.MedicalDoctorScheduleItemRepository;
 import org.medihub.persistence.medical_doctor_schedule.vacation_schedule_item.MedicalDoctorVacationScheduleItemRepository;
@@ -39,7 +44,10 @@ public class MedicalDoctorScheduleAdapter implements
         GetDoctorSchedulePort,
         AddAppointmentToMedicalDoctorSchedulePort,
         ApproveLeaveRequestPort,
-        DeleteAppointmentScheduleItemPort {
+        DeleteAppointmentScheduleItemPort,
+        SaveMedicalDoctorScheduleItemPort,
+        LoadMedicalDoctorScheduleItemPort,
+        DeleteMedicalDoctorScheduleItemPort {
     private final AppointmentMapper appointmentMapper;
     private final MedicalDoctorMapper doctorMapper;
     private final MedicalDoctorScheduleMapper medicalDoctorScheduleMapper;
@@ -48,6 +56,7 @@ public class MedicalDoctorScheduleAdapter implements
     private final MedicalDoctorScheduleItemRepository scheduleItemRepository;
     private final MedicalDoctorAppointmentScheduleItemRepository appointmentScheduleItemRepository;
     private final MedicalDoctorVacationScheduleItemRepository vacationScheduleItemRepository;
+    private final MedicalDoctorPredefinedAppointmentScheduleItemRepository predefinedAppointmentScheduleItemRepository;
 
     @Override
     public DailySchedule<MedicalDoctorScheduleItem> loadDailySchedule(Long doctorId, LocalDate date) {
@@ -128,5 +137,32 @@ public class MedicalDoctorScheduleAdapter implements
                         doctor,
                         date);
         scheduleItemRepository.saveAll(doctorDailySchedule);
+    }
+
+    @Override
+    public void deleteMedicalDoctorScheduleItem(Long scheduleItemId) {
+        scheduleItemRepository.deleteById(scheduleItemId);
+    }
+
+    @Override
+    public MedicalDoctorPredefinedAppointmentScheduleItem loadPredefinedAppointmentScheduleItemByPredefinedAppointmentId(
+            Long predefinedAppointmentId) {
+        MedicalDoctorPredefinedAppointmentScheduleJpaItem scheduleItem =
+                predefinedAppointmentScheduleItemRepository.findByPredefinedAppointmentId(predefinedAppointmentId)
+                .orElseThrow(EntityNotFoundException::new);
+        return (MedicalDoctorPredefinedAppointmentScheduleItem) medicalDoctorScheduleMapper
+                .mapToScheduleItemDomainEntity(scheduleItem);
+    }
+
+    @Override
+    public void saveMedicalDoctorScheduleItem(
+            MedicalDoctorScheduleItem scheduleItem,
+            MedicalDoctor doctor,
+            LocalDate date) {
+        scheduleItemRepository.save(
+                medicalDoctorScheduleMapper.mapToScheduleItemJpaEntity(
+                    scheduleItem,
+                    doctor,
+                    date));
     }
 }

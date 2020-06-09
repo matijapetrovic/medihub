@@ -3,10 +3,11 @@ package org.medihub.web.medical_doctor;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.medical_doctor.*;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase.AddMedicalDoctorCommand;
-import org.medihub.application.ports.incoming.medical_doctor.schedule.GetDoctorScheduleOutput;
+import org.medihub.application.ports.incoming.medical_doctor.schedule.GetScheduleOutput;
 import org.medihub.application.ports.incoming.medical_doctor.schedule.GetDoctorScheduleQuery;
 import org.medihub.application.ports.incoming.scheduling.GetDoctorAvailableTimesQuery;
 import org.medihub.application.ports.outgoing.doctor.GetAllDoctorsPort;
+import org.medihub.domain.medical_doctor.MedicalDoctor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/medical-doctor", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MedicalDoctorController {
     private final AddMedicalDoctorUseCase AddMedicalDoctorUseCase;
-    private final GetAllDoctorsPort getAllDoctorsPort;
+    private final GetMedicalDoctorUseCase getMedicalDoctorUseCase;
     private final GetDoctorsQuery getDoctorsQuery;
     private final SearchDoctorsQuery searchDoctorsQuery;
     private final GetDoctorAvailableTimesQuery getDoctorAvailableTimesQuery;
@@ -61,7 +62,7 @@ public class MedicalDoctorController {
 
     @GetMapping("/getAll")
     List<?> getAll(){
-        return getAllDoctors();
+        return getAllDoctors(getMedicalDoctorUseCase.loadAll());
     }
 
     private AddMedicalDoctorCommand createCommand(MedicalDoctorRequest medicalDoctorRequest){
@@ -80,8 +81,8 @@ public class MedicalDoctorController {
         );
     }
 
-    private List<?> getAllDoctors() {
-        return getAllDoctorsPort.getAllDoctors()
+    private List<?> getAllDoctors(List<MedicalDoctor> doctors) {
+        return doctors
                 .stream()
                 .map(doctor -> new MedicalDoctorResponse(
                         doctor.getId(),
@@ -102,12 +103,12 @@ public class MedicalDoctorController {
     }
 
     @GetMapping("/schedule")
-    ResponseEntity<GetDoctorScheduleOutput> getSchedules() {
+    ResponseEntity<GetScheduleOutput> getSchedules() {
         return ResponseEntity.ok(getDoctorScheduleQuery.getDoctorSchedule());
     }
 
     @GetMapping("/schedule/:{id}")
-    ResponseEntity<GetDoctorScheduleOutput> getSchedulesByDoctorId(@PathVariable Long id) {
+    ResponseEntity<GetScheduleOutput> getSchedulesByDoctorId(@PathVariable Long id) {
         return ResponseEntity.ok(getDoctorScheduleQuery.getDoctorSchedule(id));
     }
 }
