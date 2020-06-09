@@ -68,10 +68,13 @@ export default {
         });
     },
     fetchClinics({ commit, dispatch, state }) {
-      return api.fetchClinics(state.searchParams.appointmentType.id, state.searchParams.date)
-        .then((response) => {
-          commit('SET_CLINICS', response.data);
-        })
+      return api.fetchClinics({
+        appointmentTypeId: state.searchParams.appointmentType
+          ? state.searchParams.appointmentType.id : null,
+        date: state.searchParams.date ? state.searchParams.date : null,
+      }).then((response) => {
+        commit('SET_CLINICS', response.data);
+      })
         .catch((err) => {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });

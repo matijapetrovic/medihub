@@ -15,7 +15,7 @@ export default {
     scheduleAppointment({ dispatch, rootState }, appointmentRequest) {
       return api.scheduleAppointment({
         ...appointmentRequest,
-        date: rootState.clinic.searchParams.date,
+        date: rootState.doctor.searchParams.date,
       })
         .then(() => {
           const message = 'Appointment schedule request sent.';

@@ -25,11 +25,12 @@ export default {
   },
   actions: {
     fetchDoctors({ commit, dispatch, state }, clinicId) {
-      return api.fetchDoctors(
+      return api.fetchDoctors({
         clinicId,
-        state.searchParams.date,
-        state.searchParams.appointmentType.id,
-      ).then((response) => {
+        date: state.searchParams.date ? state.searchParams.date : null,
+        appointmentTypeId: state.searchParams.appointmentType
+          ? state.searchParams.appointmentType.id : null,
+      }).then((response) => {
         commit('SET_DOCTORS', response.data.map((doctor) => ({
           availableTimes: [],
           ...doctor,

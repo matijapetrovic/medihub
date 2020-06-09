@@ -9,6 +9,7 @@
     <v-divider class="my-5"></v-divider>
     <h2>Doctors</h2>
     <ClinicSearchForm
+      :search-params="searchParams"
       :appointment-types="appointmentTypes"
       @searched="onSearched($event)"
     />
@@ -39,13 +40,14 @@ export default {
   }),
   computed: {
     ...mapState('clinic', ['clinic']),
-    ...mapState('doctor', ['doctors']),
+    ...mapState('doctor', ['doctors', 'searchParams']),
     ...mapState('appointmentType', ['appointmentTypes']),
   },
   methods: {
     ...mapActions('predefinedAppointment', ['fetchPredefinedAppointments']),
     ...mapActions('clinic', ['fetchClinicProfile']),
-    ...mapActions('doctor', ['fetchDoctors']),
+    ...mapActions('doctor', ['fetchDoctors', 'setDoctorSearchParams']),
+    ...mapActions('appointmentType', ['fetchAppointmentTypes']),
     geocodeAddress() {
       return axios.get(`https://geocode-maps.yandex.ru/1.x/?apikey=${this.apiKey}&geocode=${this.formatAddress()}&format=json`);
     },
@@ -59,8 +61,13 @@ export default {
     goBack() {
       this.$router.push('/search-clinics');
     },
+    onSearched(searchParams) {
+      this.setDoctorSearchParams(searchParams);
+      this.fetchDoctors(this.$route.params.clinic_id);
+    },
   },
   mounted() {
+    this.fetchAppointmentTypes();
     this.fetchClinicProfile(this.$route.params.clinic_id)
       .then(() => {
         this.geocodeAddress()

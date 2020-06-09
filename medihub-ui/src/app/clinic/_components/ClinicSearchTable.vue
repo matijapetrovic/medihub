@@ -22,7 +22,7 @@
             <td>{{ item.city }}</td>
             <td>{{ item.country }}</td>
             <td>{{ item.rating }}({{ item.ratingCount}})</td>
-            <td>{{ item.appointmentPrice }}</td>
+            <td>{{ item.appointmentPrice ? item.appointmentPrice : 'N/A' }}</td>
           </tr>
         </tbody>
       </template>

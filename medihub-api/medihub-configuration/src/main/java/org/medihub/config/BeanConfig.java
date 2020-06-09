@@ -273,8 +273,9 @@ public class BeanConfig {
 
     @Bean
     public SearchDoctorsQuery searchDoctorsQuery(
-        SearchDoctorsPort searchDoctorsPort) {
-        return new SearchDoctorsService(searchDoctorsPort);
+        SearchDoctorsPort searchDoctorsPort,
+        LoadDoctorDailySchedulePort loadDoctorDailySchedulePort) {
+        return new SearchDoctorsService(searchDoctorsPort, loadDoctorDailySchedulePort);
     }
 
     @Bean

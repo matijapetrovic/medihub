@@ -31,7 +31,7 @@ public class MedicalDoctorController {
     private final GetDoctorScheduleQuery getDoctorScheduleQuery;
 
     @GetMapping("/{clinicId}")
-    ResponseEntity<List<SearchDoctorsOutput>> getDoctors(@PathVariable Long clinicId) {
+    ResponseEntity<List<GetDoctorsOutput>> getDoctors(@PathVariable Long clinicId) {
         return ResponseEntity.ok(getDoctorsQuery.getDoctorsForClinic(clinicId));
     }
 
@@ -45,10 +45,11 @@ public class MedicalDoctorController {
 
     @GetMapping("")
     ResponseEntity<List<SearchDoctorsOutput>> searchDoctors(@RequestParam Long clinicId,
-                                                            @RequestParam
+                                                            @RequestParam(required = false)
                                                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                                                                     LocalDate date,
-                                                            @RequestParam Long appointmentTypeId) {
+                                                            @RequestParam(required = false)
+                                                                    Long appointmentTypeId) {
         return ResponseEntity.ok(searchDoctorsQuery.searchDoctors(clinicId, date, appointmentTypeId));
     }
 

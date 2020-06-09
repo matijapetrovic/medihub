@@ -9,6 +9,7 @@
           label="Appointment Type"
           return-object
           ref="form"
+          clearable
         ></v-select>
       </v-col>
       <v-col>
@@ -44,7 +45,6 @@
       </v-col>
       <v-col md="2">
         <v-btn
-          :disabled="!appointmentType || !date"
           color="primary"
           @click="search"
           class="mt-4"
@@ -93,8 +93,10 @@ export default {
     },
   },
   mounted() {
-    this.date = this.searchParams.date;
-    this.appointmentType = this.searchParams.appointmentType;
+    if (this.searchParams) {
+      this.date = this.searchParams.date;
+      this.appointmentType = this.searchParams.appointmentType;
+    }
   },
 };
 </script>
