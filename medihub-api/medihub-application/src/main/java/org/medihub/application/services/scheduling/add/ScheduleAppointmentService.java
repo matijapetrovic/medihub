@@ -5,6 +5,7 @@ import org.medihub.application.ports.incoming.scheduling.ScheduleAppointmentUseC
 import org.medihub.application.ports.outgoing.appointment.SaveAppointmentRequestPort;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
 import org.medihub.application.ports.outgoing.doctor.LoadDoctorPort;
+import org.medihub.application.ports.outgoing.mail.SendEmailPort;
 import org.medihub.application.ports.outgoing.patient.LoadPatientPort;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
 import org.medihub.domain.Money;
@@ -13,6 +14,7 @@ import org.medihub.domain.appointment.AppointmentRequest;
 import org.medihub.domain.account.Account;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @RequiredArgsConstructor
@@ -21,6 +23,7 @@ public class ScheduleAppointmentService implements ScheduleAppointmentUseCase {
     private final LoadPatientPort loadPatientPort;
     private final SaveAppointmentRequestPort saveAppointmentRequestPort;
     private final GetAuthenticatedPort getAuthenticatedPort;
+    private final SendEmailPort sendEmailPort;
 
     @Override
     public void scheduleAppointment(ScheduleAppointmentCommand command) {
@@ -38,9 +41,20 @@ public class ScheduleAppointmentService implements ScheduleAppointmentUseCase {
                         command.getDate(),
                         command.getTime());
         saveAppointmentRequestPort.saveAppointmentRequest(request);
+        notifyClinicAdmin(request);
     }
 
     private void ensureDoctorIsAvailable(MedicalDoctor doctor, LocalDate date, LocalTime time) {
         // check if time slot provided by date is available
+    }
+
+    private void notifyClinicAdmin(AppointmentRequest request) {
+        String to = "medihub.mail@gmail.com";
+        String subject = "Appointment request notification";
+        String text = String.format("Patient %s has request an appointment with %s at %s",
+                request.getPatient().getFullName(),
+                request.getDoctor().getFullName(),
+                LocalDateTime.of(request.getDate(), request.getTime()));
+        sendEmailPort.sendEmail(to, subject, text);
     }
 }

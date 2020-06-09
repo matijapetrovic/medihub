@@ -114,7 +114,7 @@ import org.medihub.application.services.account.get.GetAccountService;
 import org.medihub.application.services.account.get.GetProfileService;
 import org.medihub.application.services.account.post.UpdateProfileService;
 import org.medihub.application.services.appointment.GetAppointmentsService;
-import org.medihub.application.services.clinic.GetClinicProfileService;
+import org.medihub.application.services.clinic.get.GetClinicProfileService;
 import org.medihub.application.services.clinic.add.AddPriceService;
 import org.medihub.application.services.clinic.get.GetCurrentClinicService;
 import org.medihub.application.services.clinic.put.UpdateClinicService;
@@ -282,12 +282,14 @@ public class BeanConfig {
             LoadDoctorPort loadDoctorPort,
             LoadPatientPort loadPatientPort,
             SaveAppointmentRequestPort saveAppointmentRequestPort,
-            GetAuthenticatedPort getAuthenticatedPort) {
+            GetAuthenticatedPort getAuthenticatedPort,
+            SendEmailPort sendEmailPort) {
         return new ScheduleAppointmentService(
                 loadDoctorPort,
                 loadPatientPort,
                 saveAppointmentRequestPort,
-                getAuthenticatedPort);
+                getAuthenticatedPort,
+                sendEmailPort);
     }
 
     @Bean
