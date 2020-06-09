@@ -1,4 +1,4 @@
-package org.medihub.application.services.clinic;
+package org.medihub.application.services.clinic.get;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.clinic.GetClinicProfileOutput;

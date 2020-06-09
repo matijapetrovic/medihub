@@ -1,3 +1,15 @@
+create trigger after_clinic_review_insert
+    after insert on clinic_review for each row
+    update clinic c set rating = (select avg(rating) from clinic_review  where clinic_id= c.id),
+                        review_count = (select count(rating) from clinic_review where clinic_id=c.id)
+    where id = NEW.clinic_id;
+
+create trigger after_doctor_review_insert
+    after insert on doctor_review for each row
+    update medical_doctor md set rating = (select avg(rating) from doctor_review where doctor_id=md.id),
+                                 review_count = (select count(rating) from doctor_review where doctor_id=md.id)
+    where id = NEW.doctor_id;
+
 insert into authority (id, name) values (1, 'ROLE_PATIENT');
 insert into authority (id, name) values (2, 'ROLE_DOCTOR');
 insert into authority (id, name) values (3, 'ROLE_NURSE');
@@ -35,7 +47,7 @@ insert into medical_record_allergy_mapping (medical_record_id, allergy_name, all
 insert into medical_record_allergy_mapping (medical_record_id, allergy_name, allergy_level) values (1, 'Cats', 'SEVERE');
 insert into medical_record_allergy_mapping (medical_record_id, allergy_name, allergy_level) values (1, 'Dogs', 'MODERATE');
 
-insert into clinic (name, address, city, country, description, rating, review_count) values ('Klinika 1', 'Ulica Zmaj Jovina 20', 'Novi Sad', 'Serbia', 'asgadg', 3.0, 0);
+insert into clinic (name, address, city, country, description, rating, review_count) values ('Klinika 1', 'Ulica Zmaj Jovina 20', 'Novi Sad', 'Serbia', 'asgadg', 0.0, 0);
 insert into clinic (name, address, city, country, description, rating, review_count) values ('Klinika 2', 'Ulica kneza Mihaila', 'Beograd', 'Serbia', 'asgadg', 0.0, 0);
 
 insert into clinic_room (name, number, clinic_id) values ('soba1', 1, 1);
@@ -53,6 +65,8 @@ insert into medical_doctor (account_id, clinic, working_time_from, working_time_
 insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count,specialization) values (6, 1, '06:00:00', '14:00:00', 8, 0.0, 0, 1);
 insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count,specialization) values (7, 2, '18:00:00', '01:00:00', 7, 0.0, 0, 2);
 
+insert into medical_nurse (account_id, clinic, working_time_from, working_time_to) values (3, 1, '06:00:00', '14:00:00');
+
 insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values ('2020-10-10', '12:00:00', 1, 1, 1);
 insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values ('2020-10-12', '13:00:00', 1, 1, 1);
 insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values ('2019-12-12', '07:00:00', 1, 1, 2);
@@ -60,6 +74,7 @@ insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) valu
 insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (1, 1, 500.0);
 insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (1, 2, 1500.0);
 insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (1, 3, 2000.0);
+insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (2, 2, 3000.0);
 
 insert into clinic_room_schedule (id, clinic_room_id, date) values (1, 1, '2020-10-10');
 insert into clinic_room_schedule (id, clinic_room_id, date) values (2, 2, '2020-12-10');
@@ -74,7 +89,7 @@ insert into clinic_room_schedule (id, clinic_room_id, date) values (3, 3, '2020-
 -- insert into clinic_room_schedule_item (schedule_id, time) values (3, '01:00:00');
 -- insert into clinic_room_schedule_item (schedule_id, time) values (3, '23:00:00');
 
-insert into medical_doctor_appointment_schedule_item (id, appointment_id, doctor_id, start_time, schedule_item_type) values (1, 1, 1, CURRENT_TIMESTAMP, 1);
+insert into medical_doctor_appointment_schedule_item (id, appointment_id, doctor_id, start_time, schedule_item_type) values (10, 1, 1, CURRENT_TIMESTAMP, 1);
 
 
 insert into appointment (patient_id, doctor_id, clinic_room_id, date, time) values (1, 2, 1, '2020-10-10', '20:00:00');
@@ -94,14 +109,9 @@ insert into finished_appointment (description, appointment_id, diagnosis_id) val
 insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Sad bas i nije heh', 2, 2);
 insert into finished_appointment (description, appointment_id, diagnosis_id) values ('aaa', 3, 2);
 
-create trigger after_clinic_review_insert
-    after insert on clinic_review for each row
-    update clinic c set rating = (select avg(rating) from clinic_review  where clinic_id= c.id),
-                        review_count = (select count(rating) from clinic_review where clinic_id=c.id)
-    where id = NEW.clinic_id;
+insert into predefined_appointment (doctor_id, date, time, duration, price, clinic_room_id, appointment_type_id) values (1, '2020-05-06' , '15:00:00', 3.0, 500.0, 1, 1);
+insert into medical_doctor_predefined_appointment_schedule_item (id, doctor_id, start_time, schedule_item_type, predefined_appointment_id) values (5,1, '2020-05-06 15:00:00', 5, 1);
 
-create trigger after_doctor_review_insert
-    after insert on doctor_review for each row
-    update medical_doctor md set rating = (select avg(rating) from doctor_review where doctor_id=md.id),
-                        review_count = (select count(rating) from doctor_review where doctor_id=md.id)
-    where id = NEW.doctor_id;
+insert into prescriptions (drug_id, medical_nurse_id, finished_appointment_id) values (1, null, 1);
+insert into prescriptions (drug_id, medical_nurse_id, finished_appointment_id) values (2, null, 1);
+

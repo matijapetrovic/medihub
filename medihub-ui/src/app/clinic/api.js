@@ -7,8 +7,8 @@ export default {
   getClinicNames() {
     return utils.apiClient.get('api/clinic/names');
   },
-  fetchClinics(appointmentTypeId, date) {
-    return utils.apiClient.get(`/api/clinic?date=${date}&appointmentTypeId=${appointmentTypeId}`);
+  fetchClinics(searchParams) {
+    return utils.apiClient.get('/api/clinic', { params: searchParams });
   },
   getCurrentClinic() {
     return utils.apiClient.get('/api/clinic/getCurrent');
@@ -21,5 +21,8 @@ export default {
   },
   addPrice(credentials) {
     return utils.apiClient.post('api/clinic/addPrice', credentials);
+  },
+  fetchClinicProfile(clinicId) {
+    return utils.apiClient.get(`api/clinic/${clinicId}`);
   },
 };
