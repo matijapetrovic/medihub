@@ -1,10 +1,7 @@
 package org.medihub.web.appointment_type;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase;
-import org.medihub.application.ports.incoming.appointment_type.DeleteAppointmentTypeUseCase;
-import org.medihub.application.ports.incoming.appointment_type.GetAppointmentTypesOutput;
-import org.medihub.application.ports.incoming.appointment_type.GetAppointmentTypesQuery;
+import org.medihub.application.ports.incoming.appointment_type.*;
 import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase.AddAppointmentTypeCommand;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +18,7 @@ public class AppointmentTypeController {
     private final AddAppointmentTypeUseCase addAppointmentTypeUseCase;
     private final GetAppointmentTypesQuery getAppointmentTypesQuery;
     private final DeleteAppointmentTypeUseCase deleteAppointmentTypeUseCase;
+    private final ChangeAppointmentTypeUseCase changeAppointmentTypeUseCase;
 
     @PostMapping("/add")
     private void add(@RequestBody AppointmentTypeRequest appointmentTypeRequest){
@@ -41,5 +39,15 @@ public class AppointmentTypeController {
     @PostMapping("/delete")
     private void delete(@RequestBody Long id) {
         deleteAppointmentTypeUseCase.delete(id);
+    }
+
+    @PostMapping("/change")
+    private void change(@RequestBody ChangeAppointmentTypeRequest request) {
+        ChangeAppointmentTypeUseCase.ChangeAppointmentTypeCommand command = createChangeCommand(request);
+        changeAppointmentTypeUseCase.changeAppointmentType(command);
+    }
+
+    private ChangeAppointmentTypeUseCase.ChangeAppointmentTypeCommand createChangeCommand(ChangeAppointmentTypeRequest request) {
+        return new ChangeAppointmentTypeUseCase.ChangeAppointmentTypeCommand(request.getId(), request.getName());
     }
 }

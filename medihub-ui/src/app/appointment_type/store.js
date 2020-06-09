@@ -22,6 +22,10 @@ export default {
       const index = state.appointmentTypes.indexOf(item);
       state.appointmentTypes.splice(index, 1);
     },
+    CHANGE_APPOINTMENT_TYPE(state, item) {
+      const at = state.appointmentTypes.find((element) => element.id === item.id);
+      at.name = item.name;
+    },
   },
   actions: {
     addAppointmentType({ dispatch }, payload) {
@@ -48,6 +52,15 @@ export default {
         .then((response) => {
           commit('SET_LAST_REMOVED', response.data);
           commit('REMOVE_APPOINTMENT_TYPE', item);
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
+    changeAppointmentType({ commit, dispatch }, item) {
+      return api.changeAppointmentType(item)
+        .then(() => {
+          commit('CHANGE_APPOINTMENT_TYPE', item);
         })
         .catch((err) => {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });

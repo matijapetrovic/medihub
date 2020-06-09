@@ -1,6 +1,7 @@
 package org.medihub.config;
 
 import org.medihub.application.ports.incoming.appointment.GetAppointmentsQuery;
+import org.medihub.application.ports.incoming.appointment_type.ChangeAppointmentTypeUseCase;
 import org.medihub.application.ports.incoming.clinic.*;
 import org.medihub.application.ports.incoming.diagnosis.GetDiagnosisQuery;
 import org.medihub.application.ports.incoming.drugs.GetDrugsQuery;
@@ -53,10 +54,7 @@ import org.medihub.application.ports.outgoing.appointment.SaveAppointmentPort;
 import org.medihub.application.ports.outgoing.appointment.SaveAppointmentRequestPort;
 import org.medihub.application.ports.outgoing.appointment_request.DeleteAppointmentRequestPort;
 import org.medihub.application.ports.outgoing.appointment_request.GetAppointmentRequestPort;
-import org.medihub.application.ports.outgoing.appointment_type.GetAppointmentTypesPort;
-import org.medihub.application.ports.outgoing.appointment_type.LoadAppointmentTypePort;
-import org.medihub.application.ports.outgoing.appointment_type.DeleteAppointmentTypePort;
-import org.medihub.application.ports.outgoing.appointment_type.SaveAppointmentTypePort;
+import org.medihub.application.ports.outgoing.appointment_type.*;
 import org.medihub.application.ports.outgoing.clinic.*;
 import org.medihub.application.ports.outgoing.clinic_room.*;
 import org.medihub.application.ports.outgoing.clinic_room_schedule.LoadClinicRoomSchedulePort;
@@ -115,6 +113,7 @@ import org.medihub.application.services.account.get.GetAccountService;
 import org.medihub.application.services.account.get.GetProfileService;
 import org.medihub.application.services.account.post.UpdateProfileService;
 import org.medihub.application.services.appointment.GetAppointmentsService;
+import org.medihub.application.services.appointment_type.change.ChangeAppointmentTypeService;
 import org.medihub.application.services.clinic.GetClinicProfileService;
 import org.medihub.application.services.clinic.add.AddPriceService;
 import org.medihub.application.services.clinic.get.GetCurrentClinicService;
@@ -726,5 +725,11 @@ public class BeanConfig {
     public ChangeMedicalRecordUseCase changeMedicalRecordUseCase(LoadMedicalRecordByIdPort loadMedicalRecordByIdPort,
                                                                  SaveMedicalRecordPort saveMedicalRecordPort) {
         return new ChangeMedicalRecordService(loadMedicalRecordByIdPort, saveMedicalRecordPort);
+    }
+
+    @Bean
+    public ChangeAppointmentTypeUseCase changeAppointmentTypeUseCase(GetAppointmentTypePort getAppointmentTypePort,
+                                                                     SaveAppointmentTypePort saveAppointmentTypePort) {
+        return new ChangeAppointmentTypeService(getAppointmentTypePort, saveAppointmentTypePort);
     }
 }
