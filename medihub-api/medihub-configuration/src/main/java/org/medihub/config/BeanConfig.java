@@ -42,6 +42,7 @@ import org.medihub.application.ports.incoming.account.profile.GetProfileQuery;
 import org.medihub.application.ports.incoming.account.profile.UpdateProfileUseCase;
 import org.medihub.application.ports.incoming.patient.LoadPatientUseCase;
 import org.medihub.application.ports.incoming.patient.RegisterPatientUseCase;
+import org.medihub.application.ports.incoming.scheduling.ScheduleDoctorsAppointmentUseCase;
 import org.medihub.application.ports.incoming.scheduling.SchedulePredefinedAppointmentUseCase;
 import org.medihub.application.ports.outgoing.*;
 import org.medihub.application.ports.outgoing.account.LoadAccountPort;
@@ -149,6 +150,7 @@ import org.medihub.application.services.diagnosis.AddDiagnosisService;
 import org.medihub.application.services.drugs.AddDrugService;
 import org.medihub.application.services.medical_record.GetMedicalRecordService;
 import org.medihub.application.services.predefined_appointment.GetPredefinedAppointmentsService;
+import org.medihub.application.services.scheduling.add.ScheduleDoctorsAppointmentService;
 import org.medihub.application.services.scheduling.add.SchedulePredefinedAppointmentService;
 import org.medihub.application.services.scheduling.get.GetDoctorAvailableTimesService;
 import org.medihub.application.services.scheduling.add.ScheduleAppointmentService;
@@ -284,6 +286,19 @@ public class BeanConfig {
             SaveAppointmentRequestPort saveAppointmentRequestPort,
             GetAuthenticatedPort getAuthenticatedPort) {
         return new ScheduleAppointmentService(
+                loadDoctorPort,
+                loadPatientPort,
+                saveAppointmentRequestPort,
+                getAuthenticatedPort);
+    }
+
+    @Bean
+    public ScheduleDoctorsAppointmentUseCase scheduleDoctorsAppointmentUseCase(
+            LoadDoctorPort loadDoctorPort,
+            LoadPatientPort loadPatientPort,
+            SaveAppointmentRequestPort saveAppointmentRequestPort,
+            GetAuthenticatedPort getAuthenticatedPort) {
+        return new ScheduleDoctorsAppointmentService(
                 loadDoctorPort,
                 loadPatientPort,
                 saveAppointmentRequestPort,

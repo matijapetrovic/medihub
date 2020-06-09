@@ -25,6 +25,19 @@ export default {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
+    scheduleDoctorsAppointment({ dispatch, rootState }, appointmentRequest) {
+      return api.scheduleAppointment({
+        ...appointmentRequest,
+        date: rootState.clinic.searchParams.date,
+      })
+        .then(() => {
+          const message = 'Appointment schedule request sent.';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
     addAppointment({ dispatch }, payload) {
       return api.addAppointment(payload)
         .then(() => {

@@ -155,7 +155,7 @@
             dense
             small
             width="150"
-            @click="submit"
+            @click="openRequestDialog"
           >
             Finish
           </v-btn>
@@ -165,6 +165,37 @@
     </v-dialog>
     <recordDialog ref="medicalRecord">
     </recordDialog>
+    <v-dialog
+      v-model="requestDialog"
+      max-width="290"
+    >
+      <v-card max-width="800px">
+        <v-card-title class="headline">Do you want to schedule another appointment?</v-card-title>
+        <v-card-text>
+          Doctor's name: {{this.doctorName}} <br>
+          Patient's name: {{this.firstName}} {{this.lastName}} <br>
+          Date: {{this.date}} <br>
+          Time: {{this.time}} <br>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="red darken-1"
+            text
+            @click="requestDialog = false"
+          >
+            No
+          </v-btn>
+          <v-btn
+            color="green darken-1"
+            text
+            @click="requestDialog = false"
+          >
+            Yes
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -178,6 +209,7 @@ export default {
   },
   data() {
     return {
+      requestDialog: false,
       dialog: false,
       model: null,
       firstName: '',
@@ -187,6 +219,11 @@ export default {
       description: '',
       tempDiagnosis: null,
       tempDrugs: [],
+      doctorId: null,
+      doctorName: null,
+      patientId: null,
+      date: null,
+      time: null,
     };
   },
   computed: {
@@ -200,8 +237,14 @@ export default {
     ...mapActions('diagnosis', ['getDiagnosis']),
     ...mapActions('drugs', ['getDrugs']),
     ...mapActions('medicalDoctor', ['finishAppointment']),
+    ...mapActions('appointmentRequest', ['scheduleDoctorsAppointment']),
     show(model) {
       this.model = model;
+      this.doctorId = model.appointment.doctor.id;
+      this.doctorName = model.appointment.doctor.firstName;
+      this.patientId = model.appointment.patient.id;
+      this.date = model.appointment.date;
+      this.time = model.appointment.time;
       this.firstName = model.appointment.patient.firstName;
       this.lastName = model.appointment.patient.lastName;
       this.clinicRoom = model.appointment.clinicRoom.name;
@@ -212,6 +255,17 @@ export default {
     close() {
       this.$refs.form.reset();
       this.dialog = false;
+    },
+    openRequestDialog() {
+      this.requestDialog = true;
+    },
+    sendRequest() { 
+      
+      this.submitAndCloseDialog();
+    },
+    submitAndCloseDialog() {
+      this.submit();
+      this.requestDialog = false;
     },
     submit() {
       if (this.validate()) {
