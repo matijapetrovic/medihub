@@ -7,6 +7,7 @@ import org.medihub.application.ports.incoming.medical_doctor.schedule.GetSchedul
 import org.medihub.application.ports.incoming.medical_doctor.schedule.GetDoctorScheduleQuery;
 import org.medihub.application.ports.incoming.scheduling.GetDoctorAvailableTimesQuery;
 import org.medihub.application.ports.outgoing.doctor.GetAllDoctorsPort;
+import org.medihub.domain.medical_doctor.MedicalDoctor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/medical-doctor", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MedicalDoctorController {
     private final AddMedicalDoctorUseCase AddMedicalDoctorUseCase;
-    private final GetAllDoctorsPort getAllDoctorsPort;
+    private final GetMedicalDoctorUseCase getMedicalDoctorUseCase;
     private final GetDoctorsQuery getDoctorsQuery;
     private final SearchDoctorsQuery searchDoctorsQuery;
     private final GetDoctorAvailableTimesQuery getDoctorAvailableTimesQuery;
@@ -62,7 +63,7 @@ public class MedicalDoctorController {
 
     @GetMapping("/getAll")
     List<?> getAll(){
-        return getAllDoctors();
+        return getAllDoctors(getMedicalDoctorUseCase.loadAll());
     }
 
     private AddMedicalDoctorCommand createCommand(MedicalDoctorRequest medicalDoctorRequest){
@@ -81,8 +82,8 @@ public class MedicalDoctorController {
         );
     }
 
-    private List<?> getAllDoctors() {
-        return getAllDoctorsPort.getAllDoctors()
+    private List<?> getAllDoctors(List<MedicalDoctor> doctors) {
+        return doctors
                 .stream()
                 .map(doctor -> new MedicalDoctorResponse(
                         doctor.getId(),

@@ -45,7 +45,7 @@ public class ScheduleAppointmentService implements ScheduleAppointmentUseCase {
     }
 
     private void ensureDoctorIsAvailable(MedicalDoctor doctor, LocalDate date, LocalTime time) {
-        // check if time slot provided by date is available
+        //TODO check if time slot provided by date is available
     }
 
     private void notifyClinicAdmin(AppointmentRequest request) {

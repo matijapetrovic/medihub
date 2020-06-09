@@ -4,6 +4,9 @@ export default {
   scheduleAppointment(appointmentRequest) {
     return utils.apiClient.post('api/appointment-request', appointmentRequest);
   },
+  scheduleDoctorsAppointment(appointmentRequest) {
+    return utils.apiClient.post('api/appointment-request/addForDoctor', appointmentRequest);
+  },
   addAppointment(appointment) {
     return utils.apiClient.post('api/appointment/add', appointment);
   },
