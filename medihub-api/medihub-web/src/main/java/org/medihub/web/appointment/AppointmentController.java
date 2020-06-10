@@ -25,13 +25,13 @@ public class AppointmentController {
 
     @GetMapping("")
     @PreAuthorize("hasRole('ROLE_PATIENT')")
-    ResponseEntity<List<GetAppointmentsOutput>> get() {
+    public ResponseEntity<List<GetAppointmentsOutput>> get() {
         return ResponseEntity.ok(getAppointmentsQuery.getAppointments());
     }
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    void add(@RequestBody AddAppointmentRequest request) throws NotFoundException, NotAvailableException {
+    public void add(@RequestBody AddAppointmentRequest request) throws NotFoundException, NotAvailableException {
         AddAppointmentCommand command = createCommand(request);
         addAppointmentUseCase.addAppointment(command);
     }

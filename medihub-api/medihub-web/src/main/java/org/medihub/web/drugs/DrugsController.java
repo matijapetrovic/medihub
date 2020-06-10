@@ -24,12 +24,12 @@ public class DrugsController {
     final private GetDrugsQuery getDrugsQuery;
 
     @GetMapping("")
-    ResponseEntity<List<GetDrugsOutput>> getDrugs() {
+    public ResponseEntity<List<GetDrugsOutput>> getDrugs() {
         return ResponseEntity.ok(getDrugsQuery.getDrugs());
     }
 
     @PostMapping("/add")
-    Drug add(@RequestBody String name) {
+    public Drug add(@RequestBody String name) {
         return addDrugUseCase.addDrug(name);
     }
 }

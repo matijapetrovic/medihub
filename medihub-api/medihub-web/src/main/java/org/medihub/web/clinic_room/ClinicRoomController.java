@@ -39,14 +39,14 @@ public class ClinicRoomController {
 
     @GetMapping("")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    ResponseEntity<List<GetClinicRoomsOutput>> get() {
+    public ResponseEntity<List<GetClinicRoomsOutput>> get() {
         Long clinicId = getAuthenticatedClinicId();
         return ResponseEntity.ok(getClinicRoomsQuery.getClinicRooms(clinicId));
     }
 
     @GetMapping("/search")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    ResponseEntity<List<SearchClinicRoomsOutput>> searchClinics(
+    public ResponseEntity<List<SearchClinicRoomsOutput>> searchClinics(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Integer number,
             @RequestParam(required = false)
@@ -59,7 +59,7 @@ public class ClinicRoomController {
 
     @GetMapping("/schedule")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    void scheduleClinicRoom(@RequestBody ScheduleClinicRoomRequest request) throws NotFoundException, NotAvailableException {
+    public void scheduleClinicRoom(@RequestBody ScheduleClinicRoomRequest request) throws NotFoundException, NotAvailableException {
         ScheduleClinicRoomUseCase.ScheduleClinicRoomCommand command =
                 new ScheduleClinicRoomUseCase.ScheduleClinicRoomCommand(
                     request.getId(),
@@ -71,7 +71,7 @@ public class ClinicRoomController {
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    void add(@RequestBody ClinicRoomRequest request) {
+    public void add(@RequestBody ClinicRoomRequest request) {
         Long clinicId = getAuthenticatedClinicId();
         AddClinicRoomCommand command = new AddClinicRoomCommand(clinicId, request.getName(), request.getNumber());
         addClinicRoomUseCase.addClinicRoom(command);
@@ -79,7 +79,7 @@ public class ClinicRoomController {
 
     @PostMapping("/delete")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    void delete(@RequestBody Long id) throws ForbiddenException {
+    public void delete(@RequestBody Long id) throws ForbiddenException {
         Long clinicId = getAuthenticatedClinicId();
         DeleteClinicCommand command = new DeleteClinicCommand(clinicId, id);
         deleteClinicRoomUseCase.deleteClinicRoom(command);
@@ -98,7 +98,7 @@ public class ClinicRoomController {
 
     @PostMapping("/update")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    ResponseEntity<List<GetClinicRoomsOutput>> updateClinicRoom(
+    public ResponseEntity<List<GetClinicRoomsOutput>> updateClinicRoom(
             @RequestBody UpdateClinicRoomRequest updateClinicRoomRequest) {
         Long clinicId = getAuthenticatedClinicId();
         UpdateClinicRoomUseCase.UpdateClinicRoomCommand command = makeUpdateClinicRoomCommand(updateClinicRoomRequest);
@@ -117,7 +117,7 @@ public class ClinicRoomController {
     }
 
     @GetMapping("/schedule/:{id}")
-    ResponseEntity<GetScheduleOutput> getSchedulesByDoctorId(@PathVariable Long id) {
+    public ResponseEntity<GetScheduleOutput> getSchedulesByDoctorId(@PathVariable Long id) {
         return ResponseEntity.ok(getClinicRoomScheduleQuery.getClinicRoomSchedule(id));
     }
 }

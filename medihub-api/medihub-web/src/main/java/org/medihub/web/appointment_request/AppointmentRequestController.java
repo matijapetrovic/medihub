@@ -26,27 +26,27 @@ public class AppointmentRequestController {
 
     @PostMapping("")
     @PreAuthorize("hasRole('ROLE_PATIENT')")
-    void schedule(@RequestBody ScheduleAppointmentRequest request) {
+    public void schedule(@RequestBody ScheduleAppointmentRequest request) {
         ScheduleAppointmentCommand command = createCommand(request);
         scheduleAppointmentUseCase.scheduleAppointment(command);
     }
 
     @PostMapping("/addForDoctor")
     @PreAuthorize("hasRole('ROLE_DOCTOR')")
-    void scheduleForDoctor(@RequestBody AddDoctorsAppointmentRequest addDoctorsAppointmentRequest) {
+    public void scheduleForDoctor(@RequestBody AddDoctorsAppointmentRequest addDoctorsAppointmentRequest) {
         ScheduleDoctorsAppointmentCommand command = createDoctorsCommand(addDoctorsAppointmentRequest);
         scheduleDoctorsAppointmentUseCase.scheduleAppointment(command);
     }
 
     @GetMapping("")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    List<?> getAll() {
+    public List<?> getAll() {
         return getAppointmentRequestUseCase.getAll();
     }
 
     @PostMapping("/delete")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    List<?> delete(@RequestBody Long id) {
+    public List<?> delete(@RequestBody Long id) {
         deleteAppointmentRequestUseCase.deleteAppointmentRequest(id);
         return getAppointmentRequestUseCase.getAll();
     }
