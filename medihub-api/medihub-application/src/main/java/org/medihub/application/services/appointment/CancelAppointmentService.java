@@ -10,6 +10,7 @@ import org.medihub.application.ports.outgoing.doctor.DeleteAppointmentScheduleIt
 import org.medihub.domain.account.Account;
 import org.medihub.domain.appointment.Appointment;
 
+import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 
 @RequiredArgsConstructor
@@ -20,6 +21,7 @@ public class CancelAppointmentService implements CancelAppointmentUseCase {
     private final DeleteAppointmentScheduleItemPort deleteAppointmentScheduleItemPort;
 
     @Override
+    @Transactional
     public void cancelAppointment(@NotNull Long appointmentId) throws ForbiddenException {
         Appointment appointment = loadAppointmentPort.getAppointmentById(appointmentId);
         Account account = getAuthenticatedPort.getAuthenticated();
