@@ -1,9 +1,11 @@
 package org.medihub.persistence.medical_doctor;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.ports.incoming.medical_doctor.GetPreviousPatientsQuery;
 import org.medihub.application.ports.outgoing.doctor.*;
 import org.medihub.domain.WorkingTime;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
+import org.medihub.domain.patient.Patient;
 import org.medihub.persistence.appointment_type.AppointmentTypeJpaEntity;
 import org.medihub.persistence.appointment_type.AppointmentTypeRepository;
 import org.medihub.persistence.clinic.ClinicJpaEntity;
@@ -103,6 +105,5 @@ public class MedicalDoctorAdapter implements
                 .findByAccountId(accountId);
         return medicalDoctorMapper.mapToDomainEntity(doctor);
     }
-
 }
 

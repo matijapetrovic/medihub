@@ -8,6 +8,7 @@ export default {
     doctors: [],
     workingCalendar: null,
     newRecordItem: null,
+    previousPatients: [],
   },
   mutations: {
     SET_NAME(state, name) {
@@ -30,6 +31,9 @@ export default {
       state.workingCalendar
         .dailySchedules[update.date]
         .scheduleItems.splice(index, 1);
+    },
+    SET_PREVIOUS_PATIENTS(state, previousPatients) {
+      state.previousPatients = previousPatients;
     },
   },
   actions: {
@@ -75,6 +79,15 @@ export default {
           commit('UPDATE_WORKING_CALENDAR', calendarUpdate);
           const message = 'Appointment finished successfully';
           dispatch('notifications/add', utils.successNotification(message), { root: true });
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
+    getPreviousPatients({ commit, dispatch }) {
+      return api.getPreviousPatients()
+        .then((response) => {
+          commit('SET_PREVIOUS_PATIENTS', response.data);
         })
         .catch((err) => {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });

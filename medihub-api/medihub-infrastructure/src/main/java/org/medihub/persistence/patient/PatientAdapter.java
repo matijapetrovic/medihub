@@ -1,6 +1,7 @@
 package org.medihub.persistence.patient;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.ports.outgoing.doctor.GetPreviousPatientsPort;
 import org.medihub.application.ports.outgoing.patient.GetPatientsPort;
 import org.medihub.application.ports.outgoing.patient.LoadPatientPort;
 import org.medihub.domain.patient.Patient;
@@ -8,10 +9,11 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class PatientAdapter implements GetPatientsPort, LoadPatientPort {
+public class PatientAdapter implements GetPatientsPort, LoadPatientPort, GetPreviousPatientsPort {
     private final PatientMapper patientMapper;
         private final PatientRepository patientRepository;
 
@@ -41,5 +43,13 @@ public class PatientAdapter implements GetPatientsPort, LoadPatientPort {
                 .orElseThrow(EntityNotFoundException::new);
 
         return patientMapper.mapToDomainEntity(patient);
+    }
+
+    @Override
+    public List<Patient> getPreviousPatients(Long doctorId) {
+        return patientRepository.getPreviousPatients(doctorId)
+                .stream()
+                .map(patientMapper::mapToDomainEntity)
+                .collect(Collectors.toList());
     }
 }
