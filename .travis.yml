@@ -4,7 +4,7 @@ jdk: openjdk14
 services:
 - mysql
 script:
-- cd medihub-api && mvn install -DskipTests=false -Dmaven.javadoc.skip=true -B -V
+- cd medihub-api && mvn install -DskipTests=false -Dmaven.javadoc.skip=true -B -V && mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=matijapetrovic_medihub
 branches:
   only:
   - master
@@ -16,3 +16,9 @@ deploy:
   on:
     repo: matijapetrovic/medihub
     branch: master
+
+addons:
+  sonarcloud:
+    organization: "matijapetrovic"
+    token:
+      secure: "Ts4n/fi9XH0rNQbvc5pAZo2/WsdCFHZ2B5omqSHzZ7SnGiOL2eBPJwC4JUDWgWvgiL+Dz1AkUqKonI+RGLOaU6AHyISV1Kofx3EwuuLihJBfKlzcil5G9g4A98wtI3NqwTHN+4Pbv1jIJaXDzuA1QCvgepNNP2E0z11hXVfXRnkN+nAVHpQRJ507YWTBSFCg7nmhKEZuVuotgoGNzm63QVCQXynsANlvqHMqqw09v5/LP+rIBxomj7PZEbGcTpbCdQXYfijzF5/qauultjyBJzhno1FfrSP3J4I8/crLsiOnSZAV8V8zJEkp0+MvZ02yZf2Pifxq8vxjtlXRnvO0y01uDpJUoNlOiYsY6keWJdV2sMkZICRnDpe9TdbFnvbrIOWIaGOIAan/hD5uOw7kf4UZZV/vSCSS5eV3kdbDDIpDhmHP5f2c/rAnuPBFL7vLVvVGUZW2thzHqFfDfBMYJNHI5FZ2NZWlfuA++rkmsqqKftwvdauPkbVH6m8DGClCFlZTHaRmO65EFPtjuKwMY9IHT5YiodqUm4jPLD6nqX7mc8eiIl2WgfAmH2IMlmY4NP+keriSsUXbq4NIqIW2PMNY8cK65r8oQSi6ezydY1Ma11DJylTcnmhn2gqg3Ibes9S292/K/snhaCHIfsAkghZWpqFD9J4SuuD7z4fS6vY="
