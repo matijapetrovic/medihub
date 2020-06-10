@@ -12,6 +12,7 @@ import org.medihub.domain.appointment.Appointment;
 
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 @RequiredArgsConstructor
 public class CancelAppointmentService implements CancelAppointmentUseCase {
@@ -25,14 +26,17 @@ public class CancelAppointmentService implements CancelAppointmentUseCase {
     public void cancelAppointment(@NotNull Long appointmentId) throws ForbiddenException {
         Appointment appointment = loadAppointmentPort.getAppointmentById(appointmentId);
         Account account = getAuthenticatedPort.getAuthenticated();
-        ensurePatientCanAccessAppointment(appointment, account);
+        ensurePatientCanCancelAppointment(appointment, account);
 
         deleteAppointmentScheduleItemPort.deleteAppointmentItemByAppointmentId(appointmentId);
         deleteAppointmentPort.deleteAppointment(appointmentId);
     }
 
-    private void ensurePatientCanAccessAppointment(Appointment appointment, Account account) throws ForbiddenException {
+    private void ensurePatientCanCancelAppointment(Appointment appointment, Account account) throws ForbiddenException {
         if (!appointment.getPatient().getAccount().getId().equals(account.getId()))
-            throw new ForbiddenException();
+            throw new ForbiddenException("Patient cannot access this appointment");
+
+        if (LocalDate.now().plusDays(1).isAfter(appointment.getDate()))
+            throw new ForbiddenException("Patient can only cancel appointment 24h before start");
     }
 }
