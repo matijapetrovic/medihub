@@ -1,13 +1,26 @@
+create trigger after_clinic_review_update
+    after update on clinic_review for each row
+    update clinic c set rating = (select ifnull(avg(rating), 0.0) from clinic_review  where clinic_id= c.id and rating is not null),
+                        review_count = (select count(rating) from clinic_review where clinic_id=c.id and rating is not null)
+    where id = NEW.clinic_id;
+
 create trigger after_clinic_review_insert
     after insert on clinic_review for each row
-    update clinic c set rating = (select avg(rating) from clinic_review  where clinic_id= c.id),
-                        review_count = (select count(rating) from clinic_review where clinic_id=c.id)
+    update clinic c set rating = (select ifnull(avg(rating), 0.0) from clinic_review  where clinic_id= c.id and rating is not null),
+                        review_count = (select count(rating) from clinic_review where clinic_id=c.id and rating is not null)
     where id = NEW.clinic_id;
+
+
+create trigger after_doctor_review_update
+    after update on doctor_review for each row
+    update medical_doctor md set rating = (select ifnull(avg(rating), 0.0)from doctor_review where doctor_id=md.id and rating is not null),
+                                 review_count = (select count(rating) from doctor_review where doctor_id=md.id and rating is not null)
+    where id = NEW.doctor_id;
 
 create trigger after_doctor_review_insert
     after insert on doctor_review for each row
-    update medical_doctor md set rating = (select avg(rating) from doctor_review where doctor_id=md.id),
-                                 review_count = (select count(rating) from doctor_review where doctor_id=md.id)
+    update medical_doctor md set rating = (select ifnull(avg(rating), 0.0) from doctor_review where doctor_id=md.id and rating is not null),
+                                 review_count = (select count(rating) from doctor_review where doctor_id=md.id and rating is not null)
     where id = NEW.doctor_id;
 
 insert into authority (id, name) values (1, 'ROLE_PATIENT');
@@ -68,7 +81,7 @@ insert into medical_doctor (account_id, clinic, working_time_from, working_time_
 insert into medical_nurse (account_id, clinic, working_time_from, working_time_to) values (3, 1, '06:00:00', '14:00:00');
 
 insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values ('2020-10-10', '12:00:00', 1, 1, 1);
-insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values ('2020-10-12', '13:00:00', 1, 1, 1);
+insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values ('2020-10-12', '13:00:00', 1, 1, 3);
 insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values ('2019-12-12', '07:00:00', 1, 1, 2);
 
 insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (1, 1, 500.0);
@@ -115,3 +128,8 @@ insert into medical_doctor_predefined_appointment_schedule_item (id, doctor_id, 
 insert into prescriptions (drug_id, medical_nurse_id, finished_appointment_id) values (1, null, 1);
 insert into prescriptions (drug_id, medical_nurse_id, finished_appointment_id) values (2, null, 1);
 
+insert into clinic_review (clinic_id, patient_id, rating, can_review) values (1, 1, null, true);
+insert into clinic_review (clinic_id, patient_id, rating, can_review) values (2, 1, 3.0, true);
+
+insert into doctor_review (doctor_id, patient_id, rating, can_review) values (1, 1, null, true);
+insert into doctor_review (doctor_id, patient_id, rating, can_review) values (3, 1, 4.5, false);

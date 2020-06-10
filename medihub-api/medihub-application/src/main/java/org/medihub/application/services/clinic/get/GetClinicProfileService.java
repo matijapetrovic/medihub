@@ -27,6 +27,8 @@ public class GetClinicProfileService implements GetClinicProfileQuery {
                 clinic.getDescription(),
                 clinic.getAddress().getAddressLine(),
                 clinic.getAddress().getCity(),
-                clinic.getAddress().getCountry());
+                clinic.getAddress().getCountry(),
+                clinic.getRating().getRating(),
+                clinic.getRating().getCount());
     }
 }
