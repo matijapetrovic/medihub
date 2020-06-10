@@ -1,4 +1,5 @@
 import Patient from '@/views/patient/Patient.vue';
+import PatientReviews from '@/views/patient/PatientReviews.vue';
 import PatientSearchClinics from '@/views/patient/PatientSearchClinics.vue';
 import PatientSearchDoctors from '@/views/patient/PatientSearchDoctors.vue';
 import PatientMedicalRecord from '@/views/patient/PatientMedicalRecord.vue';
@@ -43,6 +44,10 @@ export default {
     {
       path: '/clinic/:clinic_id',
       component: PatientClinicProfile,
+    },
+    {
+      path: '/reviews',
+      component: PatientReviews,
     },
   ],
 };

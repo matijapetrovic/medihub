@@ -22,14 +22,14 @@ public class AppointmentJpaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "date")
+    @Column(name = "date", nullable = false)
     private Date date;
 
-    @Column(name="time")
+    @Column(name="time", nullable = false)
     private Time time;
 
     @ManyToOne
-    @JoinColumn(name="patient_id", referencedColumnName = "id")
+    @JoinColumn(name="patient_id", referencedColumnName = "id", nullable = false)
     private PatientJpaEntity patient;
 
     @ManyToOne
@@ -37,6 +37,6 @@ public class AppointmentJpaEntity {
     private MedicalDoctorJpaEntity doctor;
 
     @ManyToOne
-    @JoinColumn(name="clinic_room_id", referencedColumnName = "id")
+    @JoinColumn(name="clinic_room_id", referencedColumnName = "id", nullable = false)
     private ClinicRoomJpaEntity clinicRoom;
 }

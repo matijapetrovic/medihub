@@ -20,6 +20,7 @@ import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem;
 import org.medihub.domain.patient.Patient;
 
 import javax.validation.constraints.NotNull;
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
@@ -35,6 +36,7 @@ public class SchedulePredefinedAppointmentService implements SchedulePredefinedA
     private final SendEmailPort sendEmailPort;
 
     @Override
+    @Transactional
     public void schedulePredefinedAppointment(@NotNull Long appointmentId) throws NotFoundException {
         Patient patient = getAuthenticatedPatient();
         PredefinedAppointment predefinedAppointment = loadPredefinedAppointment(appointmentId);
@@ -57,7 +59,7 @@ public class SchedulePredefinedAppointmentService implements SchedulePredefinedA
         return saveAppointmentPort.saveAppointment(predefinedAppointment.schedule(patient));
     }
 
-    private void updateDoctorSchedule(PredefinedAppointment predefinedAppointment, Appointment appointment) {
+    private void updateDoctorSchedule(PredefinedAppointment predefinedAppointment, Appointment appointment) throws NotFoundException {
         MedicalDoctorScheduleItem scheduleItem =
                 loadMedicalDoctorScheduleItemPort.loadPredefinedAppointmentScheduleItemByPredefinedAppointmentId(
                         predefinedAppointment.getId());
@@ -77,7 +79,7 @@ public class SchedulePredefinedAppointmentService implements SchedulePredefinedA
                 appointment);
     }
 
-    private void deletePredefinedAppointment(PredefinedAppointment predefinedAppointment) {
+    private void deletePredefinedAppointment(PredefinedAppointment predefinedAppointment) throws NotFoundException {
         deletePredefinedAppointmentPort.deletePredefinedAppointment(predefinedAppointment.getId());
     }
 

@@ -1,6 +1,7 @@
 package org.medihub.persistence.medical_doctor_schedule;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.outgoing.doctor.AddAppointmentToMedicalDoctorSchedulePort;
 import org.medihub.application.ports.outgoing.doctor.DeleteAppointmentScheduleItemPort;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorSchedulePort;
@@ -140,8 +141,12 @@ public class MedicalDoctorScheduleAdapter implements
     }
 
     @Override
-    public void deleteMedicalDoctorScheduleItem(Long scheduleItemId) {
-        scheduleItemRepository.deleteById(scheduleItemId);
+    public void deleteMedicalDoctorScheduleItem(Long scheduleItemId) throws NotFoundException {
+        try {
+            scheduleItemRepository.deleteById(scheduleItemId);
+        } catch (Exception ex) {
+            throw new NotFoundException(String.format("Medical doctor schedule item %d not found.", scheduleItemId));
+        }
     }
 
     @Override

@@ -1,19 +1,22 @@
 package org.medihub.persistence.doctor_review;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.ports.outgoing.reviewing.GetDoctorReviewsPort;
 import org.medihub.application.ports.outgoing.reviewing.LoadDoctorReviewPort;
 import org.medihub.application.ports.outgoing.reviewing.SaveDoctorReviewPort;
 import org.medihub.domain.medical_doctor.MedicalDoctorReview;
 import org.medihub.persistence.clinic_review.ClinicReviewJpaEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
 public class DoctorReviewAdapter implements
         SaveDoctorReviewPort,
-        LoadDoctorReviewPort {
+        LoadDoctorReviewPort,
+        GetDoctorReviewsPort {
     private final DoctorReviewMapper mapper;
     private final DoctorReviewRepository repository;
 
@@ -23,13 +26,18 @@ public class DoctorReviewAdapter implements
     }
 
     @Override
-    public MedicalDoctorReview loadByAppointmentId(Long appointmentId) {
+    public MedicalDoctorReview loadByPatientIdAndDoctorId(Long patientId, Long doctorId) {
         Optional<DoctorReviewJpaEntity> doctorReview =
-                repository.findByAppointment_Id(appointmentId);
+                repository.findByPatientIdAndDoctorId(patientId, doctorId);
 
         if (doctorReview.isEmpty())
             return null;
 
         return mapper.mapToDomainEntity(doctorReview.get());
+    }
+
+    @Override
+    public List<MedicalDoctorReview> getDoctorReviewsForReview(Long patientId) {
+        return mapper.mapToDomainEntityList(repository.findAllByPatientIdAndCanReviewTrue(patientId));
     }
 }
