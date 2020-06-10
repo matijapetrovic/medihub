@@ -3,6 +3,8 @@ package org.medihub.web.clinic_room;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.ForbiddenException;
+import org.medihub.application.exceptions.NotAvailableException;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.clinic_room.*;
 import org.medihub.application.ports.incoming.clinic_room.AddClinicRoomUseCase.AddClinicRoomCommand;
 import org.medihub.application.ports.incoming.clinic_room.DeleteClinicRoomUseCase.DeleteClinicCommand;
@@ -57,7 +59,7 @@ public class ClinicRoomController {
 
     @GetMapping("/schedule")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    void scheduleClinicRoom(@RequestBody ScheduleClinicRoomRequest request) {
+    void scheduleClinicRoom(@RequestBody ScheduleClinicRoomRequest request) throws NotFoundException, NotAvailableException {
         ScheduleClinicRoomUseCase.ScheduleClinicRoomCommand command =
                 new ScheduleClinicRoomUseCase.ScheduleClinicRoomCommand(
                     request.getId(),

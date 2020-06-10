@@ -1,6 +1,8 @@
 package org.medihub.web.appointment;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.NotAvailableException;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.appointment.AddAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment.AddAppointmentUseCase.AddAppointmentCommand;
 import org.medihub.application.ports.incoming.appointment.GetAppointmentsOutput;
@@ -29,7 +31,7 @@ public class AppointmentController {
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    void add(@RequestBody AddAppointmentRequest request) {
+    void add(@RequestBody AddAppointmentRequest request) throws NotFoundException, NotAvailableException {
         AddAppointmentCommand command = createCommand(request);
         addAppointmentUseCase.addAppointment(command);
     }

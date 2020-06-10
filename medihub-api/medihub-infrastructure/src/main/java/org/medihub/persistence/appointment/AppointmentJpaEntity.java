@@ -10,6 +10,7 @@ import org.medihub.persistence.patient.PatientJpaEntity;
 import javax.persistence.*;
 import java.sql.Time;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name="appointment")
@@ -22,11 +23,8 @@ public class AppointmentJpaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "date", nullable = false)
-    private Date date;
-
-    @Column(name="time", nullable = false)
-    private Time time;
+    @Column(name="start_time")
+    private Timestamp startTime;
 
     @ManyToOne
     @JoinColumn(name="patient_id", referencedColumnName = "id", nullable = false)
