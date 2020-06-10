@@ -145,7 +145,7 @@ export default {
     selectedElement: null,
     selectedOpen: false,
     events: [],
-    names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
+    names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'C  ference', 'Party'],
     today: null,
   }),
   components: {

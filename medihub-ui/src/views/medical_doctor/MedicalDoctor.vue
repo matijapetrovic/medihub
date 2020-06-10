@@ -38,6 +38,10 @@ export default {
         path: '/leave-request/add',
         icon: 'mdi-calendar-range',
       },
+      {
+        text: 'Patient info',
+        path: '/patient-info',
+      },
     ],
   }),
 };

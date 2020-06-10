@@ -5,6 +5,8 @@ import org.medihub.application.ports.incoming.appointment.AddAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment.AddAppointmentUseCase.AddAppointmentCommand;
 import org.medihub.application.ports.incoming.appointment.GetAppointmentsOutput;
 import org.medihub.application.ports.incoming.appointment.GetAppointmentsQuery;
+import org.medihub.application.ports.incoming.appointment.GetCurrentAppointmentUseCase;
+import org.medihub.domain.appointment.Appointment;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,6 +22,7 @@ import java.util.List;
 public class AppointmentController {
     private final AddAppointmentUseCase addAppointmentUseCase;
     private final GetAppointmentsQuery getAppointmentsQuery;
+    private final GetCurrentAppointmentUseCase getCurrentAppointmentUseCase;
 
     @GetMapping("")
     @PreAuthorize("hasRole('ROLE_PATIENT')")
@@ -32,6 +35,14 @@ public class AppointmentController {
     void add(@RequestBody AddAppointmentRequest request) {
         AddAppointmentCommand command = createCommand(request);
         addAppointmentUseCase.addAppointment(command);
+    }
+
+    @GetMapping("/getCurrent/{doctorId}/{patientId}")
+    @PreAuthorize("hasRole('ROLE_DOCTOR')")
+    ResponseEntity<Appointment> getCurrent(
+            @PathVariable Long doctorId,
+            @PathVariable Long patientId) {
+        return ResponseEntity.ok(getCurrentAppointmentUseCase.getCurrentAppointment(doctorId, patientId));
     }
 
     private AddAppointmentCommand createCommand(AddAppointmentRequest addAppointmentRequest) {

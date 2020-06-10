@@ -53,7 +53,7 @@ insert into medical_doctor (account_id, clinic, working_time_from, working_time_
 insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count,specialization) values (6, 1, '06:00:00', '14:00:00', 8, 0.0, 0, 1);
 insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count,specialization) values (7, 2, '18:00:00', '01:00:00', 7, 0.0, 0, 2);
 
-insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values ('2020-10-10', '12:00:00', 1, 1, 1);
+insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values (CURRENT_DATE , CURRENT_TIME , 1, 1, 1);
 insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values ('2020-10-12', '13:00:00', 1, 1, 1);
 insert into appointment (date, time, clinic_room_id, patient_id, doctor_id) values ('2019-12-12', '07:00:00', 1, 1, 2);
 
@@ -75,6 +75,8 @@ insert into clinic_room_schedule (id, clinic_room_id, date) values (3, 3, '2020-
 -- insert into clinic_room_schedule_item (schedule_id, time) values (3, '23:00:00');
 
 insert into medical_doctor_appointment_schedule_item (id, appointment_id, doctor_id, start_time, schedule_item_type) values (1, 1, 1, CURRENT_TIMESTAMP, 1);
+insert into medical_doctor_appointment_schedule_item (id, appointment_id, doctor_id, start_time, schedule_item_type) values (2, 2, 1, CURRENT_TIMESTAMP, 1);
+insert into medical_doctor_appointment_schedule_item (id, appointment_id, doctor_id, start_time, schedule_item_type) values (3, 3, 1, CURRENT_TIMESTAMP, 1);
 
 
 insert into appointment (patient_id, doctor_id, clinic_room_id, date, time) values (1, 2, 1, '2020-10-10', '20:00:00');

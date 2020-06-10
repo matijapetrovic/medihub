@@ -9,6 +9,9 @@ import java.util.Optional;
 
 public interface AppointmentRepository extends JpaRepository<AppointmentJpaEntity, Long> {
     Optional<AppointmentJpaEntity> findById(Long id);
+    List<AppointmentJpaEntity> findAllByDoctorIdAndPatientId(Long doctorId, Long patientId);
+
+
     List<AppointmentJpaEntity> findAllByDoctorClinicId(Long clinicId);
 
     @Query("select app from AppointmentJpaEntity app where app.patient.id=:patient_id and app not in " +

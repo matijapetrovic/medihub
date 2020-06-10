@@ -8,6 +8,8 @@ export default {
     doctors: [],
     workingCalendar: null,
     newRecordItem: null,
+    permission: null,
+    scheduleItem: null,
   },
   mutations: {
     SET_NAME(state, name) {
@@ -22,6 +24,9 @@ export default {
     SET_NEW_RECORD_ITEM(state, newRecordItem) {
       state.newRecordItem = newRecordItem;
     },
+    SET_SCHEDULE_APPOINTMENT_ITEM(state, scheduleItem) {
+      state.scheduleItem = scheduleItem;
+    },
     UPDATE_WORKING_CALENDAR(state, update) {
       const index = state.workingCalendar
         .dailySchedules[update.date]
@@ -31,8 +36,23 @@ export default {
         .dailySchedules[update.date]
         .scheduleItems.splice(index, 1);
     },
+    SET_PERMISSION(state, permission) {
+      state.permission = permission;
+    },
   },
   actions: {
+    hasMedicalRecordPermission({ commit }, payload) {
+      return api.hasMedicalRecordPermission(payload)
+        .then((data) => {
+          commit('SET_PERMISSION', data.data);
+        });
+    },
+    getAppointmentScheduleItem({ commit }, id) {
+      return api.getAppointmentScheduleItem(id)
+        .then((data) => {
+          commit('SET_SCHEDULE_APPOINTMENT_ITEM', data.data);
+        });
+    },
     addMedicalDoctor({ dispatch }, payload) {
       return api.addMedicalDoctor(payload)
         .then(() => {
@@ -67,12 +87,14 @@ export default {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
-    finishAppointment({ commit, dispatch }, appointment) {
+    finishAppointment({ commit, dispatch, state }, appointment) {
       return api.finishAppointment(appointment)
         .then((response) => {
           commit('SET_NEW_RECORD_ITEM', response.data);
           const calendarUpdate = { date: appointment.itemDate, id: appointment.itemId };
-          commit('UPDATE_WORKING_CALENDAR', calendarUpdate);
+          if (state.workingCalendar !== null) {
+            commit('UPDATE_WORKING_CALENDAR', calendarUpdate);
+          }
           const message = 'Appointment finished successfully';
           dispatch('notifications/add', utils.successNotification(message), { root: true });
         })

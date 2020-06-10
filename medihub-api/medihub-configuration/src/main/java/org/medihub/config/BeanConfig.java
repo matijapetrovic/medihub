@@ -1,6 +1,7 @@
 package org.medihub.config;
 
 import org.medihub.application.ports.incoming.appointment.GetAppointmentsQuery;
+import org.medihub.application.ports.incoming.appointment.GetCurrentAppointmentUseCase;
 import org.medihub.application.ports.incoming.clinic.*;
 import org.medihub.application.ports.incoming.diagnosis.GetDiagnosisQuery;
 import org.medihub.application.ports.incoming.drugs.GetDrugsQuery;
@@ -8,6 +9,7 @@ import org.medihub.application.ports.incoming.finished_appointment.AddFinishedAp
 import org.medihub.application.ports.incoming.clinic.GetAppointmentPriceUseCase;
 import org.medihub.application.ports.incoming.finished_appointment.GetAppointmentHistoryQuery;
 import org.medihub.application.ports.incoming.finished_appointment.GetFinishedAppointmentProfitUseCase;
+import org.medihub.application.ports.incoming.finished_appointment.GetFinishedAppointmentsForDoctorAndPatient;
 import org.medihub.application.ports.incoming.leave_request.AddLeaveRequestUseCase;
 import org.medihub.application.ports.incoming.leave_request.ApproveLeaveRequestUseCase;
 import org.medihub.application.ports.incoming.leave_request.DeleteLeaveRequestUseCase;
@@ -28,8 +30,7 @@ import org.medihub.application.ports.incoming.medical_record.GetMedicalRecordQue
 import org.medihub.application.ports.incoming.predefined_appointment.GetPredefinedAppointmentsQuery;
 import org.medihub.application.ports.incoming.reviewing.AddClinicReviewUseCase;
 import org.medihub.application.ports.incoming.reviewing.AddDoctorReviewUseCase;
-import org.medihub.application.ports.incoming.scheduling.GetDoctorAvailableTimesQuery;
-import org.medihub.application.ports.incoming.scheduling.ScheduleAppointmentUseCase;
+import org.medihub.application.ports.incoming.scheduling.*;
 import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase;
 import org.medihub.application.ports.incoming.appointment_type.GetAppointmentTypesQuery;
 import org.medihub.application.ports.incoming.appointment_type.DeleteAppointmentTypeUseCase;
@@ -42,15 +43,10 @@ import org.medihub.application.ports.incoming.account.profile.GetProfileQuery;
 import org.medihub.application.ports.incoming.account.profile.UpdateProfileUseCase;
 import org.medihub.application.ports.incoming.patient.LoadPatientUseCase;
 import org.medihub.application.ports.incoming.patient.RegisterPatientUseCase;
-import org.medihub.application.ports.incoming.scheduling.ScheduleDoctorsAppointmentUseCase;
-import org.medihub.application.ports.incoming.scheduling.SchedulePredefinedAppointmentUseCase;
 import org.medihub.application.ports.outgoing.*;
 import org.medihub.application.ports.outgoing.account.LoadAccountPort;
 import org.medihub.application.ports.outgoing.account.SaveAccountPort;
-import org.medihub.application.ports.outgoing.appointment.GetAppointmentPort;
-import org.medihub.application.ports.outgoing.appointment.GetScheduledAppointmentsPort;
-import org.medihub.application.ports.outgoing.appointment.SaveAppointmentPort;
-import org.medihub.application.ports.outgoing.appointment.SaveAppointmentRequestPort;
+import org.medihub.application.ports.outgoing.appointment.*;
 import org.medihub.application.ports.outgoing.appointment_request.DeleteAppointmentRequestPort;
 import org.medihub.application.ports.outgoing.appointment_request.GetAppointmentRequestPort;
 import org.medihub.application.ports.outgoing.appointment_type.GetAppointmentTypesPort;
@@ -102,6 +98,7 @@ import org.medihub.application.ports.outgoing.scheduling.daily_schedule.LoadDoct
 import org.medihub.application.ports.outgoing.scheduling.daily_schedule.SaveClinicRoomDailySchedulePort;
 import org.medihub.application.ports.outgoing.scheduling.daily_schedule.SaveDoctorDailySchedulePort;
 import org.medihub.application.ports.outgoing.scheduling.schedule_item.DeleteMedicalDoctorScheduleItemPort;
+import org.medihub.application.ports.outgoing.scheduling.schedule_item.LoadMedicalDoctorAppointmentScheduleItemByAppointmentIdPort;
 import org.medihub.application.ports.outgoing.scheduling.schedule_item.LoadMedicalDoctorScheduleItemPort;
 import org.medihub.application.ports.outgoing.scheduling.schedule_item.SaveMedicalDoctorScheduleItemPort;
 import org.medihub.application.services.*;
@@ -115,6 +112,7 @@ import org.medihub.application.services.account.get.GetAccountService;
 import org.medihub.application.services.account.get.GetProfileService;
 import org.medihub.application.services.account.post.UpdateProfileService;
 import org.medihub.application.services.appointment.GetAppointmentsService;
+import org.medihub.application.services.appointment.GetCurrentAppointmentService;
 import org.medihub.application.services.clinic.GetClinicProfileService;
 import org.medihub.application.services.clinic.add.AddPriceService;
 import org.medihub.application.services.clinic.get.GetCurrentClinicService;
@@ -131,6 +129,7 @@ import org.medihub.application.services.leave_request.add.AddLeaveRequestService
 import org.medihub.application.services.leave_request.add.ApproveLeaveRequestService;
 import org.medihub.application.services.leave_request.delete.DeleteLeaveRequestService;
 import org.medihub.application.services.leave_request.get.GetLeaveRequestService;
+import org.medihub.application.services.medical_doctor.get.MedicalRecordPermissionUseCaseService;
 import org.medihub.application.services.medical_doctor.add.AddAppointmentToMedicalDoctorService;
 import org.medihub.application.services.medical_doctor.get.GetDoctorScheduleService;
 import org.medihub.application.services.clinic.get.GetAppointmentPriceService;
@@ -167,6 +166,7 @@ import org.medihub.application.services.patient.get.LoadPatientService;
 import org.medihub.application.services.patient.add.RegisterPatientService;
 import org.medihub.application.services.reviewing.AddClinicReviewService;
 import org.medihub.application.services.reviewing.AddDoctorReviewService;
+import org.medihub.application.services.scheduling.get.GetMedicalDoctorAppointmentScheduleItemService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -458,8 +458,27 @@ public class BeanConfig {
     }
 
     @Bean
+    public CheckMedicalRecordPermissionUseCase geCheckMedicalRecordPermissionUseCase(
+            GetCurrentAppointmentPort getCurrentAppointmentPort,
+            GetFinishedAppointmentsForDoctorAndPatient getFinishedAppointmentsForDoctorAndPatient
+
+    ) {
+        return new MedicalRecordPermissionUseCaseService(
+                getCurrentAppointmentPort,
+                getFinishedAppointmentsForDoctorAndPatient
+        );
+    }
+
+    @Bean
     public AddAppointmentTypeUseCase getAddAppointmentTypeUseCase(SaveAppointmentTypePort saveAppointmentTypePort){
         return new AddAppointmentTypeService(saveAppointmentTypePort);
+    }
+
+    @Bean
+    public GetCurrentAppointmentUseCase getCurrentAppointmentUseCase(
+            GetCurrentAppointmentPort getCurrentAppointmentPort
+    ) {
+        return new GetCurrentAppointmentService(getCurrentAppointmentPort);
     }
 
     @Bean
@@ -721,5 +740,14 @@ public class BeanConfig {
     public ChangeMedicalRecordUseCase changeMedicalRecordUseCase(LoadMedicalRecordByIdPort loadMedicalRecordByIdPort,
                                                                  SaveMedicalRecordPort saveMedicalRecordPort) {
         return new ChangeMedicalRecordService(loadMedicalRecordByIdPort, saveMedicalRecordPort);
+    }
+
+    @Bean
+    public GetAppointmentScheduleItemByAppointmentIdUseCase getAppointmentScheduleItemByDateUseCase(
+            LoadMedicalDoctorAppointmentScheduleItemByAppointmentIdPort loadMedicalDoctorAppointmentScheduleItemByAppointmentIdPort
+    ) {
+        return new GetMedicalDoctorAppointmentScheduleItemService(
+                loadMedicalDoctorAppointmentScheduleItemByAppointmentIdPort
+        );
     }
 }

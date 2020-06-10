@@ -84,6 +84,9 @@
       <template v-slot:no-data>
         <v-btn color="primary" @click="initialize">Reset</v-btn>
       </template>
+      <template v-slot:item.info="{ }">
+        <v-btn color="gray" rounded small @click="initialize">See iformation</v-btn>
+      </template>
     </v-data-table>
       </v-col>
     </v-row>
@@ -106,6 +109,7 @@ export default {
       { text: 'Email', value: 'email' },
       { text: 'Address', value: 'addressLine' },
       { text: 'Insurance number', value: 'insuranceNumber' },
+      { text: 'Patient information', value: 'info' },
     ],
     editedIndex: -1,
     editedItem: {

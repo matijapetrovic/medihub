@@ -5,8 +5,10 @@ import org.medihub.application.ports.incoming.medical_doctor.*;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase.AddMedicalDoctorCommand;
 import org.medihub.application.ports.incoming.medical_doctor.schedule.GetScheduleOutput;
 import org.medihub.application.ports.incoming.medical_doctor.schedule.GetDoctorScheduleQuery;
+import org.medihub.application.ports.incoming.scheduling.GetAppointmentScheduleItemByAppointmentIdUseCase;
 import org.medihub.application.ports.incoming.scheduling.GetDoctorAvailableTimesQuery;
 import org.medihub.application.ports.outgoing.doctor.GetAllDoctorsPort;
+import org.medihub.domain.medical_doctor.MedicalDoctorAppointmentScheduleItem;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,10 +31,19 @@ public class MedicalDoctorController {
     private final SearchDoctorsQuery searchDoctorsQuery;
     private final GetDoctorAvailableTimesQuery getDoctorAvailableTimesQuery;
     private final GetDoctorScheduleQuery getDoctorScheduleQuery;
+    private final CheckMedicalRecordPermissionUseCase checkMedicalRecordPermissionUseCase;
+    private final GetAppointmentScheduleItemByAppointmentIdUseCase getAppointmentScheduleItemByAppointmentIdUseCase;
 
     @GetMapping("/{clinicId}")
     ResponseEntity<List<SearchDoctorsOutput>> getDoctors(@PathVariable Long clinicId) {
         return ResponseEntity.ok(getDoctorsQuery.getDoctorsForClinic(clinicId));
+    }
+
+    @GetMapping("/getScheduleItem/{id}")
+    ResponseEntity<MedicalDoctorAppointmentScheduleItem> getAppointmentScheduleItem(
+            @PathVariable Long id) {
+        return ResponseEntity.ok(
+                getAppointmentScheduleItemByAppointmentIdUseCase.getItem(id));
     }
 
     @GetMapping("/{doctorId}/available_times/{date}")
@@ -109,5 +120,14 @@ public class MedicalDoctorController {
     @GetMapping("/schedule/:{id}")
     ResponseEntity<GetScheduleOutput> getSchedulesByDoctorId(@PathVariable Long id) {
         return ResponseEntity.ok(getDoctorScheduleQuery.getDoctorSchedule(id));
+    }
+
+    @GetMapping("/medical-record-permission/{doctorId}/{patientId}")
+    ResponseEntity<Boolean> medicalRecordPermission(
+            @PathVariable Long doctorId,
+            @PathVariable Long patientId) {
+        return ResponseEntity.ok(
+                checkMedicalRecordPermissionUseCase
+                        .doctorHasPermission(doctorId, patientId));
     }
 }

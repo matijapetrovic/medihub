@@ -2,6 +2,7 @@ import MedicalDoctor from '@/views/medical_doctor/MedicalDoctor.vue';
 import AllPatientsView from '@/views/patient/AllPatientsView.vue';
 import WorkingCalendar from '@/views/medical_doctor/WorkingCalendar.vue';
 import MedicalDoctorHome from '@/views/medical_doctor/MedicalDoctorHome.vue';
+import PatientInfoPage from '@/views/medical_doctor/PatientInfoPage.vue';
 import AddLeaveRequestForm from '@/app/leave_request/components/AddLeaveRequestForm.vue';
 
 export default {
@@ -28,6 +29,10 @@ export default {
     {
       path: '/leave-request/add',
       component: AddLeaveRequestForm,
+    },
+    {
+      path: '/patient-info',
+      component: PatientInfoPage,
     },
   ],
 };

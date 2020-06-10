@@ -155,7 +155,7 @@
             small
             width="150"
             @click="openRequestDialog"
-            :disabled="formFilled()"
+            :disabled="!requireParamsValid"
           >
             Finish
           </v-btn>
@@ -243,7 +243,13 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="submitAndCloseDialog()">No</v-btn>
-          <v-btn color="blue darken-1" text @click="sendRequest()">Yes</v-btn>
+          <v-btn
+          :disabled="isTimeSelected"
+          color="blue darken-1"
+          text @click="sendRequest()"
+          >
+          Yes
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -255,6 +261,7 @@ import { mapActions, mapState } from 'vuex';
 import MedicalRecordDialog from '@/app/medical_record/_components/MedicalRecordDialog.vue';
 
 export default {
+  name: 'AppointmentDialog',
   components: {
     recordDialog: MedicalRecordDialog,
   },
@@ -290,6 +297,15 @@ export default {
     requiredRule() {
       return (value) => !!value || 'Required';
     },
+    isTimeSelected() {
+      return this.time === null;
+    },
+    requireParamsValid() {
+      if (this.diagnosis === null || this.drugs === [] || this.description === '') {
+        return false;
+      }
+      return true;
+    },
   },
   methods: {
     ...mapActions('diagnosis', ['getDiagnosis']),
@@ -299,18 +315,18 @@ export default {
     ...mapActions('doctor', ['fetchAvailableTimesWithoutState']),
     show(model) {
       this.model = model;
+      this.date = model.appointment.date;
       this.doctorId = model.appointment.doctor.id;
       this.doctorName = model.appointment.doctor.firstName;
       this.doctorSurname = model.appointment.doctor.secondName;
       this.doctorFullName = this.doctorName.concat(' ').concat(this.doctorSurname);
       this.patientId = model.appointment.patient.id;
-      this.date = model.appointment.date;
-      this.time = model.appointment.time;
       this.firstName = model.appointment.patient.firstName;
       this.lastName = model.appointment.patient.lastName;
       this.patientFullName = this.firstName.concat(' ').concat(this.lastName);
       this.clinicRoom = model.appointment.clinicRoom.name;
       this.number = model.appointment.clinicRoom.number;
+      this.date = model.appointment.date;
       this.dialog = true;
       this.$refs.medicalRecord.initialize(this.model.appointment.patient.id);
     },
@@ -335,6 +351,7 @@ export default {
         time: this.time,
       });
       this.submitAndCloseDialog();
+      this.close();
     },
     setTimeSubmitAndCloseDialog() {
       this.$refs.menu.save(this.date);
@@ -343,6 +360,7 @@ export default {
     submitAndCloseDialog() {
       this.submit();
       this.requestDialog = false;
+      this.close();
     },
     submit() {
       if (this.validate()) {
@@ -360,6 +378,7 @@ export default {
         })
           .then(
             this.$emit('appointmentFinished', this.model.itemId),
+            this.$emit('disableFinishApppointment', true),
           );
       }
     },
@@ -368,9 +387,6 @@ export default {
     },
     validate() {
       return this.$refs.form.validate();
-    },
-    formFilled() {
-      return this.tempDiagnosis === null && this.description === '';
     },
   },
   mounted() {
