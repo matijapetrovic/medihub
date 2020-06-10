@@ -41,7 +41,13 @@ public class PredefinedAppointmentController {
     @PostMapping("/{appointmentId}/schedule")
     @PreAuthorize("hasRole('ROLE_PATIENT')")
     void schedule(@PathVariable Long appointmentId) throws NotAvailableException, NotFoundException {
-        schedulePredefinedAppointmentUseCase.schedulePredefinedAppointment(appointmentId);
+        try {
+            schedulePredefinedAppointmentUseCase.schedulePredefinedAppointment(appointmentId);
+        } catch (NotAvailableException | NotFoundException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new NotFoundException("samo jako");
+    }
     }
 
     private AddPredefinedAppointmentCommand createCommand(PredefinedAppointmentRequest request) {

@@ -107,6 +107,7 @@ import org.medihub.application.ports.outgoing.scheduling.daily_schedule.SaveDoct
 import org.medihub.application.ports.outgoing.scheduling.schedule_item.DeleteMedicalDoctorScheduleItemPort;
 import org.medihub.application.ports.outgoing.scheduling.schedule_item.LoadMedicalDoctorScheduleItemPort;
 import org.medihub.application.ports.outgoing.scheduling.schedule_item.SaveMedicalDoctorScheduleItemPort;
+import org.medihub.application.ports.outgoing.transactions.TransactionsPort;
 import org.medihub.application.services.*;
 import org.medihub.application.ports.outgoing.reviewing.LoadClinicReviewPort;
 import org.medihub.application.ports.outgoing.reviewing.LoadDoctorReviewPort;

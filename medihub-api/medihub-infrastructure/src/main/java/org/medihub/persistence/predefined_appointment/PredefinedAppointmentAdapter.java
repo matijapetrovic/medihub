@@ -39,9 +39,13 @@ public class PredefinedAppointmentAdapter implements
     }
 
     @Override
-    public void deletePredefinedAppointment(Long appointmentId) {
-        predefinedAppointmentRepository
-                .deleteById(appointmentId);
+    public void deletePredefinedAppointment(Long appointmentId) throws NotFoundException {
+        try {
+            predefinedAppointmentRepository
+                    .deleteById(appointmentId);
+        } catch (Exception ex) {
+            throw new NotFoundException(String.format("Predefined appointment %d not found.", appointmentId));
+        }
     }
 
     @Override
