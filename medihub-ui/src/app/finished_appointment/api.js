@@ -16,4 +16,10 @@ export default {
   addDoctorReview(payload) {
     return utils.apiClient.post('/api/review/doctor', payload);
   },
+  getFinishedAppointments(patientId) {
+    return utils.apiClient.get(`/api/finished_appointment/${patientId}`);
+  },
+  changeFinishedAppointment(changeItem) {
+    return utils.apiClient.post('/api/finished_appointment/change', changeItem);
+  },
 };

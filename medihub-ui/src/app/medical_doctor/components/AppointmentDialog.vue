@@ -301,7 +301,7 @@ export default {
       return this.time === null;
     },
     requireParamsValid() {
-      if (this.diagnosis === null || this.drugs === [] || this.description === '') {
+      if (!this.tempDiagnosis || this.tempDrugs.length === 0 || this.description === '') {
         return false;
       }
       return true;

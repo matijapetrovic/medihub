@@ -52,7 +52,6 @@ public class AppointmentScheduleItemOutput extends DailyScheduleItemOutput {
                 new ClinicRoomOutput(appointment.getClinicRoom().getId(),
                         appointment.getClinicRoom().getName(),
                         appointment.getClinicRoom().getNumber())
-
         );
     }
 }

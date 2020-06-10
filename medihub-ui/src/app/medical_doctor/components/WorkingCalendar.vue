@@ -245,6 +245,17 @@ export default {
     getEvent(item, date) {
       let fullName = '';
       switch (item.type) {
+        case 'PREDEFINED_APPOINTMENT':
+          return {
+            name: item.type,
+            type: item.type,
+            start: `${date} ${item.time}`,
+            end: `${date} ${this.incrementTime(item.time)}`,
+            color: this.getColorByName(item.type),
+            itemId: item.id,
+            itemDate: date,
+            appointment: item.appointment,
+          };
         case 'APPOINTMENT':
           fullName = `${item.appointment.patient.firstName} ${item.appointment.patient.lastName}`;
           return {

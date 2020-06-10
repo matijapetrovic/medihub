@@ -84,8 +84,10 @@
       <template v-slot:no-data>
         <v-btn color="primary" @click="initialize">Reset</v-btn>
       </template>
-      <template v-slot:item.info="{ }">
-        <v-btn color="gray" rounded small @click="initialize">See iformation</v-btn>
+      <template v-slot:item.info="{ item }">
+        <v-btn color="gray" rounded small @click="redirectToPatientPage(item.id)">
+          See iformation
+      </v-btn>
       </template>
     </v-data-table>
       </v-col>
@@ -129,7 +131,7 @@ export default {
   }),
 
   computed: {
-    ...mapState('patient', ['patients']),
+    ...mapState('patient', ['patients', 'patientId']),
     formTitle() {
       return this.editedIndex === -1 ? 'New Item' : 'Edit Item';
     },
@@ -146,11 +148,14 @@ export default {
   },
 
   methods: {
-    ...mapActions('patient', ['getAllPatients']),
+    ...mapActions('patient', ['getAllPatients', 'setPatientId']),
     initialize() {
       this.getAllPatients();
     },
-
+    redirectToPatientPage(patientId) {
+      this.setPatientId(patientId);
+      this.$router.push(`/patient-info/${patientId}`);
+    },
     editItem(item) {
       this.editedIndex = this.patients.indexOf(item);
       this.editedItem = Object.assign(...item);

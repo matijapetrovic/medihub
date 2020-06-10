@@ -9,12 +9,11 @@ import org.medihub.domain.appointment.Appointment;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.sql.Timestamp;
+import java.util.Optional;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import static org.aspectj.bridge.Version.getTime;
 
 @Component
 @RequiredArgsConstructor
@@ -54,16 +53,14 @@ public class AppointmentAdapter implements
     @Override
     public Appointment getCurrentAppointment(Long doctorId, Long patientId) {
         LocalDateTime now = LocalDateTime.now();
-        List<Appointment> appointments = appointmentMapper.mapToDomainList(
-                appointmentRepository.findAllByDoctorIdAndPatientId(doctorId, patientId));
-        Appointment appointment = null;
-        for (Appointment a: appointments) {
-            if(a.getDate().equals(now.toLocalDate())
-                    && a.getTime().isBefore(now.toLocalTime().plusHours(1L))
-                    && a.getTime().plusHours(1L).isAfter(now.toLocalTime().plusHours(1L))) {
-                appointment = a;
-            }
-        }
-        return appointment;
+        Timestamp end = Timestamp.valueOf(now);
+        Timestamp start = Timestamp.valueOf(now.minusHours(1));
+
+        Optional<AppointmentJpaEntity> appointmentJpaEntity =
+                appointmentRepository.findCurrentAppointment(patientId, doctorId, start, end);
+        if (appointmentJpaEntity.isEmpty())
+            return null;
+
+        return appointmentMapper.mapToDomainEntity(appointmentJpaEntity.get());
     }
 }

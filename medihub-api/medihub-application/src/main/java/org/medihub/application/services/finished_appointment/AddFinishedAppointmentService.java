@@ -51,7 +51,10 @@ public class AddFinishedAppointmentService implements AddFinishedAppointmentUseC
                 finishedAppointment.getId(),
                 finishedAppointment.getDescription(),
                 finishedAppointment.getAppointment().getId(),
-                finishedAppointment.getDiagnosis().getId()
+                finishedAppointment.getDiagnosis().getId(),
+                finishedAppointment.getAppointment().getDate().toString(),
+                finishedAppointment.getAppointment().getTime().toString(),
+                finishedAppointment.getDiagnosis().getName()
         );
     }
 }

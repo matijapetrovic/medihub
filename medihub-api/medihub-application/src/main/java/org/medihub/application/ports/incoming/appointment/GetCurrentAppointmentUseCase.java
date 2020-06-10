@@ -3,5 +3,5 @@ package org.medihub.application.ports.incoming.appointment;
 import org.medihub.domain.appointment.Appointment;
 
 public interface GetCurrentAppointmentUseCase {
-    Appointment getCurrentAppointment(Long doctorId, Long patientId);
+    Appointment getCurrentAppointment(Long patientId);
 }

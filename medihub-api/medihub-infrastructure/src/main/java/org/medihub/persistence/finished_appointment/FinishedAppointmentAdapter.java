@@ -5,6 +5,7 @@ import org.medihub.application.ports.incoming.finished_appointment.GetFinishedAp
 import org.medihub.application.ports.outgoing.finished_appointment.GetFinishedAppointmentsPort;
 import org.medihub.application.ports.outgoing.finished_appointment.LoadFinishedAppointmentPort;
 import org.medihub.application.ports.outgoing.finished_appointment.SaveFinishedAppointmentPort;
+import org.medihub.application.ports.outgoing.finished_appointment.*;
 import org.medihub.domain.appointment.FinishedAppointment;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +19,9 @@ public class FinishedAppointmentAdapter implements
         GetFinishedAppointmentsPort,
         LoadFinishedAppointmentPort,
         SaveFinishedAppointmentPort,
-        GetFinishedAppointmentsForDoctorAndPatient {
+        GetFinishedAppointmentsForDoctorAndPatient,
+        GetPatientsFinishedAppointmentsPort,
+        GetFinishedAppointmentPort {
     private final FinishedAppointmentMapper mapper;
     private final FinishedAppointmentRepository repository;
 
@@ -56,6 +59,19 @@ public class FinishedAppointmentAdapter implements
 
     @Override
     public List<FinishedAppointment> getAppointmentsWhereDoctorExaminesPatient(Long doctorId, Long patientId) {
-        return mapper.mapToJpaDomainList(repository.findAllByAppointment_Doctor_IdAndAppointmentPatient_Id(doctorId, patientId));
+        return mapper.mapToJpaDomainList(repository.findAllByAppointmentDoctor_IdAndAppointmentPatient_Id(doctorId, patientId));
+    }
+
+    @Override
+    public List<FinishedAppointment> getPatientsFinishedAppointments(Long patientId) {
+        return repository.findAllByAppointment_Patient_Id(patientId)
+                .stream()
+                .map(mapper::mapToDomainEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public FinishedAppointment getFinishedAppointment(Long id) {
+        return mapper.mapToDomainEntity(repository.getOne(id));
     }
 }

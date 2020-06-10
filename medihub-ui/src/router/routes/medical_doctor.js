@@ -4,6 +4,8 @@ import WorkingCalendar from '@/views/medical_doctor/WorkingCalendar.vue';
 import MedicalDoctorHome from '@/views/medical_doctor/MedicalDoctorHome.vue';
 import PatientInfoPage from '@/views/medical_doctor/PatientInfoPage.vue';
 import AddLeaveRequestForm from '@/app/leave_request/components/AddLeaveRequestForm.vue';
+import PreviousPatients from '@/views/medical_doctor/PreviousPatients.vue';
+import PatientsFinishedAppointments from '@/app/finished_appointment/_components/PatientFinishedAppointments.vue';
 
 export default {
   path: '/medical-doctor',
@@ -31,8 +33,16 @@ export default {
       component: AddLeaveRequestForm,
     },
     {
-      path: '/patient-info',
+      path: '/patient-info/:id',
       component: PatientInfoPage,
+    },
+    {
+      path: '/previous-patients',
+      component: PreviousPatients,
+    },
+    {
+      path: '/patients-finished-appointments/:param',
+      component: PatientsFinishedAppointments,
     },
   ],
 };

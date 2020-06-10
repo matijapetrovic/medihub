@@ -37,6 +37,8 @@ export default {
         return '/clinic-admin';
       case 'ROLE_CLINIC_CENTER_ADMIN':
         return '/clinic-center-admin';
+      case 'ROLE_NURSE':
+        return '/medical-nurse';
       default:
         return '';
     }

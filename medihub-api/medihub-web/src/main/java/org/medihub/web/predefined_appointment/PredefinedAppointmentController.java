@@ -2,6 +2,7 @@ package org.medihub.web.predefined_appointment;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.NotAvailableException;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.predefined_appointment.AddPredefinedAppointmentUseCase;
 import org.medihub.application.ports.incoming.predefined_appointment.AddPredefinedAppointmentUseCase.AddPredefinedAppointmentCommand;
 import org.medihub.application.ports.incoming.predefined_appointment.GetPredefinedAppointmentsOutput;
@@ -39,7 +40,7 @@ public class PredefinedAppointmentController {
 
     @PostMapping("/{appointmentId}/schedule")
     @PreAuthorize("hasRole('ROLE_PATIENT')")
-    void schedule(@PathVariable Long appointmentId) throws NotAvailableException {
+    void schedule(@PathVariable Long appointmentId) throws NotAvailableException, NotFoundException {
         schedulePredefinedAppointmentUseCase.schedulePredefinedAppointment(appointmentId);
     }
 

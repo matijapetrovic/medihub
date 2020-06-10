@@ -39,8 +39,9 @@ export default {
         icon: 'mdi-calendar-range',
       },
       {
-        text: 'Patient info',
-        path: '/patient-info',
+        text: 'Previous Patients',
+        path: '/previous-patients',
+        icon: 'mdi-account-edit-outline',
       },
     ],
   }),

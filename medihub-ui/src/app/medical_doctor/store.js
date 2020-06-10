@@ -10,6 +10,7 @@ export default {
     newRecordItem: null,
     permission: null,
     scheduleItem: null,
+    previousPatients: [],
   },
   mutations: {
     SET_NAME(state, name) {
@@ -38,6 +39,9 @@ export default {
     },
     SET_PERMISSION(state, permission) {
       state.permission = permission;
+    },
+    SET_PREVIOUS_PATIENTS(state, previousPatients) {
+      state.previousPatients = previousPatients;
     },
   },
   actions: {
@@ -92,7 +96,7 @@ export default {
         .then((response) => {
           commit('SET_NEW_RECORD_ITEM', response.data);
           const calendarUpdate = { date: appointment.itemDate, id: appointment.itemId };
-          if (state.workingCalendar !== null) {
+          if (state.workingCalendar) {
             commit('UPDATE_WORKING_CALENDAR', calendarUpdate);
           }
           const message = 'Appointment finished successfully';
@@ -101,6 +105,18 @@ export default {
         .catch((err) => {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
+    },
+    getPreviousPatients({ commit, dispatch }) {
+      return api.getPreviousPatients()
+        .then((response) => {
+          commit('SET_PREVIOUS_PATIENTS', response.data);
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
+    setStateForPatientPage({ commit }, data) {
+      commit('SET_PAGE_DATA', data);
     },
   },
   getters: {

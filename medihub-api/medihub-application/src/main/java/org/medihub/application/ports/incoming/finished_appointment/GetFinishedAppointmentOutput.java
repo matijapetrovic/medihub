@@ -10,4 +10,7 @@ public class GetFinishedAppointmentOutput {
     String description;
     Long appointment;
     Long diagnosis;
+    String date;
+    String time;
+    String diagnosisStr;
 }

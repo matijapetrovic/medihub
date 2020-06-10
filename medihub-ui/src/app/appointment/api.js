@@ -13,7 +13,7 @@ export default {
   fetchScheduledAppointments() {
     return utils.apiClient.get('api/appointment');
   },
-  getCurrentAppointment(credentials) {
-    return utils.apiClient.get(`api/appointment/getCurrent/${credentials.doctorId}/${credentials.patientId}`);
+  getCurrentAppointment(patientId) {
+    return utils.apiClient.get(`api/appointment/getCurrent/${patientId}`);
   },
 };

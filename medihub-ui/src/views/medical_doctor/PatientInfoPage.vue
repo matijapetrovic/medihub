@@ -73,6 +73,15 @@
           Show appointment
         </v-btn>
         <v-spacer></v-spacer>
+        <v-btn
+        rounded
+        fab
+        @click="routeBack()"
+        >
+          <v-icon>
+            mdi-keyboard-backspace
+          </v-icon>
+        </v-btn>
       </v-card-actions>
     </v-card>
     <appointment-dialog
@@ -95,15 +104,13 @@ export default {
     AppointmentDialog,
   },
   data: () => ({
-    patientId: 1,
-    doctorId: 1,
     date: null,
     time: null,
     appointmentFinished: false,
   }),
 
   computed: {
-    ...mapState('patient', ['patient']),
+    ...mapState('patient', ['patient', 'patientId']),
     ...mapState('medicalDoctor', ['permission', 'scheduleItem']),
     ...mapState('medicalRecord', ['patientRecord']),
     ...mapState('appointment', ['appointment']),
@@ -113,12 +120,18 @@ export default {
   },
 
   mounted() {
-    this.getPatientById(this.patientId);
-    this.hasMedicalRecordPermission({ doctorId: this.doctorId, patientId: this.patientId });
-    this.getPatientMedicalRecord(this.patientId);
-    this.getCurrentAppointment({ doctorId: this.doctorId, patientId: this.patientId })
-      .then(() => this.getAppointmentScheduleItem(this.appointment.id))
-      .then(() => this.setDateAndTimeObject());
+    this.getPatientById(this.$route.params.id);
+    this.hasMedicalRecordPermission(this.$route.params.id);
+    this.getPatientMedicalRecord(this.$route.params.id);
+    this.getCurrentAppointment(this.$route.params.id)
+      .then(() => {
+        if (this.appointment) {
+          this.getAppointmentScheduleItem(this.appointment.id)
+            .then(() => this.setDateAndTimeObject());
+        } else {
+          this.appointmentFinished = true;
+        }
+      });
   },
 
   methods: {
@@ -135,6 +148,9 @@ export default {
     setDateAndTimeObject() {
       this.time = this.makeNumberTwoDigit(this.appointment.time[0]).toString().concat(':00:00');
       this.date = new Date(this.appointment.date).toISOString().substr(0, 10);
+    },
+    routeBack() {
+      this.$router.push('/patients');
     },
     makeAppointment() {
       return {

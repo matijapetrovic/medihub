@@ -37,12 +37,11 @@ public class AppointmentController {
         addAppointmentUseCase.addAppointment(command);
     }
 
-    @GetMapping("/getCurrent/{doctorId}/{patientId}")
+    @GetMapping("/getCurrent/{patientId}")
     @PreAuthorize("hasRole('ROLE_DOCTOR')")
     ResponseEntity<Appointment> getCurrent(
-            @PathVariable Long doctorId,
             @PathVariable Long patientId) {
-        return ResponseEntity.ok(getCurrentAppointmentUseCase.getCurrentAppointment(doctorId, patientId));
+        return ResponseEntity.ok(getCurrentAppointmentUseCase.getCurrentAppointment(patientId));
     }
 
     private AddAppointmentCommand createCommand(AddAppointmentRequest addAppointmentRequest) {

@@ -22,6 +22,8 @@ public class FinishedAppointmentController {
     private final GetAppointmentHistoryQuery getAppointmentHistoryQuery;
     private final AddFinishedAppointmentUseCase addFinishedAppointmentUseCase;
     private final GetFinishedAppointmentProfitUseCase getFinishedAppointmentProfitUseCase;
+    private final GetPatientsFinishedAppointmetsQuery getPatientsFinishedAppointmetsQuery;
+    private final ChangeFinishedAppointmentUseCase changeFinishedAppointmentUseCase;
 
     @GetMapping("")
     @PreAuthorize("hasRole('ROLE_PATIENT')")
@@ -58,6 +60,25 @@ public class FinishedAppointmentController {
                 request.getAppointment(),
                 request.getDrugs(),
                 request.getDiagnosis()
+        );
+    }
+
+    @GetMapping("/{patientId}")
+    ResponseEntity<List<GetFinishedAppointmentOutput>> getPatientsFinishedAppointments(@PathVariable Long patientId) {
+        return ResponseEntity.ok(getPatientsFinishedAppointmetsQuery.getPatientsFinishedAppointments(patientId));
+    }
+
+    @PostMapping("/change")
+    void changeFinishedAppointment(@RequestBody ChangeFinishedAppointmentRequest request) {
+        ChangeFinishedAppointmentUseCase.ChangeFinishedAppointmentCommand command = createChangeCommand(request);
+        changeFinishedAppointmentUseCase.changeFinishedAppointment(command);
+    }
+
+    ChangeFinishedAppointmentUseCase.ChangeFinishedAppointmentCommand createChangeCommand(ChangeFinishedAppointmentRequest request) {
+        return new ChangeFinishedAppointmentUseCase.ChangeFinishedAppointmentCommand(
+                request.getId(),
+                request.getDiagnosis(),
+                request.getDescription()
         );
     }
 }

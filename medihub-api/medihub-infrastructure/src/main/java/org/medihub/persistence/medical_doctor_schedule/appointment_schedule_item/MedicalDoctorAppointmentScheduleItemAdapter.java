@@ -6,11 +6,8 @@ import org.medihub.domain.medical_doctor.MedicalDoctorAppointmentScheduleItem;
 import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem;
 import org.medihub.persistence.appointment.AppointmentMapper;
 import org.springframework.stereotype.Component;
-
-import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.Optional;
+import org.medihub.application.exceptions.NotFoundException;
 
 @Component
 @RequiredArgsConstructor
@@ -20,9 +17,13 @@ public class MedicalDoctorAppointmentScheduleItemAdapter
     private final AppointmentMapper appointmentMapper;
 
     @Override
-    public MedicalDoctorAppointmentScheduleItem loadById(Long id) {
-        MedicalDoctorAppointmentScheduleJpaItem jpaItem =
+    public MedicalDoctorAppointmentScheduleItem loadById(Long id) throws NotFoundException {
+        Optional<MedicalDoctorAppointmentScheduleJpaItem> scheduleJpaItem =
                 repository.findByAppointmentId(id);
+        if (scheduleJpaItem.isEmpty()) {
+            throw new NotFoundException("Schedule item not found");
+        }
+        MedicalDoctorAppointmentScheduleJpaItem jpaItem = scheduleJpaItem.get();
         return new MedicalDoctorAppointmentScheduleItem(
                 jpaItem.getId(),
                 jpaItem.getStartTime().toLocalDateTime().toLocalTime(),

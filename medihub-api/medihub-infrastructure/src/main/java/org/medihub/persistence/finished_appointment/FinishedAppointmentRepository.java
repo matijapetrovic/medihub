@@ -21,5 +21,5 @@ public interface FinishedAppointmentRepository extends JpaRepository<FinishedApp
             @Param(value="doctorId") Long doctorId,
             @Param(value="patientId") Long patientId);
 
-    List<FinishedAppointmentJpaEntity> findAllByAppointment_Doctor_IdAndAppointmentPatient_Id(Long doctorId, Long patientId);
+    List<FinishedAppointmentJpaEntity> findAllByAppointmentDoctor_IdAndAppointmentPatient_Id(Long doctorId, Long patientId);
 }
