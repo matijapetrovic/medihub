@@ -6,6 +6,5 @@ import java.util.List;
 
 public interface GetLeaveRequestPort {
     List<LeaveRequest> getAll();
-
     LeaveRequest getById(Long id);
 }

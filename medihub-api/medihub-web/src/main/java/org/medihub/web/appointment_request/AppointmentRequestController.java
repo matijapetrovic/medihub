@@ -1,6 +1,7 @@
 package org.medihub.web.appointment_request;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.ports.incoming.appointment_request.AppointmentRequestResponse;
 import org.medihub.application.ports.incoming.appointment_request.DeleteAppointmentRequestUseCase;
 import org.medihub.application.ports.incoming.appointment_request.GetAppointmentRequestUseCase;
 import org.medihub.application.ports.incoming.scheduling.ScheduleAppointmentUseCase;
@@ -40,13 +41,13 @@ public class AppointmentRequestController {
 
     @GetMapping("")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    public List<?> getAll() {
+    public List<AppointmentRequestResponse> getAll() {
         return getAppointmentRequestUseCase.getAll();
     }
 
     @PostMapping("/delete")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    public List<?> delete(@RequestBody Long id) {
+    public List<AppointmentRequestResponse> delete(@RequestBody Long id) {
         deleteAppointmentRequestUseCase.deleteAppointmentRequest(id);
         return getAppointmentRequestUseCase.getAll();
     }

@@ -4,11 +4,12 @@ package org.medihub.domain.account;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.io.Serializable;
 import java.util.List;
 
 @AllArgsConstructor
 @Getter
-public class Account {
+public class Account implements Serializable {
     private Long id;
     private String email;
     private String password;

@@ -128,6 +128,11 @@ public class MedicalDoctorScheduleAdapter implements
     }
 
     @Override
+    public void deleteAppointmentItemByAppointmentId(Long appointmentId) {
+        appointmentScheduleItemRepository.deleteByAppointment_Id(appointmentId);
+    }
+
+    @Override
     public void saveDoctorDailySchedule(MedicalDoctor doctor,
                                         LocalDate date,
                                         DailySchedule<MedicalDoctorScheduleItem> dailySchedule) {

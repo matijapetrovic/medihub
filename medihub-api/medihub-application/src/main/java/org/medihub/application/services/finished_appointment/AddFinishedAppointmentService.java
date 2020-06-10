@@ -2,8 +2,8 @@ package org.medihub.application.services.finished_appointment;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.finished_appointment.AddFinishedAppointmentUseCase;
+import org.medihub.application.ports.outgoing.appointment.LoadAppointmentPort;
 import org.medihub.application.ports.incoming.finished_appointment.GetFinishedAppointmentOutput;
-import org.medihub.application.ports.outgoing.appointment.GetAppointmentPort;
 import org.medihub.application.ports.outgoing.diagnosis.GetDiagnosisByIdPort;
 import org.medihub.application.ports.outgoing.doctor.DeleteAppointmentScheduleItemPort;
 import org.medihub.application.ports.outgoing.drugs.GetDrugByIdPort;
@@ -28,7 +28,7 @@ import javax.transaction.Transactional;
 
 @RequiredArgsConstructor
 public class AddFinishedAppointmentService implements AddFinishedAppointmentUseCase {
-    private final GetAppointmentPort getAppointmentPort;
+    private final LoadAppointmentPort loadAppointmentPort;
     private final GetDiagnosisByIdPort getDiagnosisByIdPort;
     private final SaveFinishedAppointmentPort saveFinishedAppointmentPort;
     private final GetDrugByIdPort getDrugByIdPort;
@@ -40,9 +40,10 @@ public class AddFinishedAppointmentService implements AddFinishedAppointmentUseC
     private final SaveDoctorReviewPort saveDoctorReviewPort;
 
     @Override
+
     @Transactional
     public GetFinishedAppointmentOutput addFinishedAppointment(AddFinishedAppointmentCommand command) {
-        Appointment appointment = getAppointmentPort.getAppointmentById(command.getAppointment());
+        Appointment appointment = loadAppointmentPort.getAppointmentById(command.getAppointment());
         Diagnosis diagnosis = getDiagnosisByIdPort.getDiagnosisById(command.getDiagnosis());
 
         FinishedAppointment finishedAppointment = new FinishedAppointment(null,

@@ -1,11 +1,11 @@
 package org.medihub.persistence.clinic_room_schedule;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.exceptions.NotAvailableException;
-import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.outgoing.clinic_room.AddAppointmentToClinicRoomPort;
 import org.medihub.application.ports.outgoing.clinic_room_schedule.LoadClinicRoomSchedulePort;
 import org.medihub.application.ports.outgoing.clinic_room_schedule.ScheduleClinicRoomPort;
+import org.medihub.application.exceptions.NotAvailableException;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.outgoing.scheduling.daily_schedule.LoadClinicRoomDailySchedulePort;
 import org.medihub.application.ports.outgoing.scheduling.daily_schedule.SaveClinicRoomDailySchedulePort;
 import org.medihub.domain.clinic_room.ClinicRoom;
@@ -17,8 +17,6 @@ import org.medihub.persistence.clinic_room.ClinicRoomRepository;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
-import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,7 +25,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor

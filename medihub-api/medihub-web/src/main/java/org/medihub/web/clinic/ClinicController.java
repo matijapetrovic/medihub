@@ -48,7 +48,7 @@ public class ClinicController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> addClinic(@RequestBody AddClinicRequest request) {
+    public ResponseEntity<Clinic> addClinic(@RequestBody AddClinicRequest request) {
         AddClinicCommand command = new AddClinicCommand(
                 request.getName(),
                 request.getAddress(),
@@ -63,8 +63,8 @@ public class ClinicController {
                 .buildAndExpand(entity.getId())
                 .toUri();
 
-        return ResponseEntity.created(location).build();
-    }
+        return ResponseEntity.created(location).body(entity);
+}
 
     @GetMapping("/names")
     public ResponseEntity<List<GetClinicNamesOutput>> getClinicNames() {
