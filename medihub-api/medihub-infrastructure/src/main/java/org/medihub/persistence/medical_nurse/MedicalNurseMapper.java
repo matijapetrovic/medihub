@@ -26,7 +26,7 @@ public class MedicalNurseMapper {
 
     public MedicalNurseJpaEntity mapToJpaEntity(MedicalNurse medicalNurse){
         return new MedicalNurseJpaEntity(
-                null,
+                medicalNurse.getId(),
                 accountMapper.mapToJpaEntity(medicalNurse.getAccount()),
                 clinicMapper.mapToJpaEntity(medicalNurse.getClinic()),
                 Time.valueOf(medicalNurse.getWorkingTime().getFrom()),

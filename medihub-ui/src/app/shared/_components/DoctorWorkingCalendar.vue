@@ -1,6 +1,12 @@
-<template
-  :doctorId="doctorId"
->
+<style scoped>
+  .description {
+    font-family:    Georgia, serif;
+    font-size:      15px;
+    white-space:    pre-line;
+  }
+</style>
+
+<template>
   <v-row class="fill-height">
     <v-col>
       <v-sheet height="64">
@@ -86,7 +92,7 @@
               </v-btn>
             </v-toolbar>
             <v-card-text>
-              <span v-html="selectedEvent.details"></span>
+              <div class="description">{{selectedEvent.details}}</div>
             </v-card-text>
             <v-card-actions>
               <v-btn
@@ -96,9 +102,23 @@
               >
                 Cancel
               </v-btn>
+              <v-btn
+                text
+                color="primary"
+                @click="openAppointmentModal"
+                v-if="selectedEvent.type === 'APPOINTMENT'"
+                :disabled="diagnosisDisabled()"
+              >
+                Enter Diagnosis
+              </v-btn>
             </v-card-actions>
           </v-card>
         </v-menu>
+        <appointment-dialog
+          ref="dialog"
+          @appointmentFinished="deleteEvent($event)"
+        >
+        </appointment-dialog>
       </v-sheet>
     </v-col>
   </v-row>
@@ -106,6 +126,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import AppointmentDialog from '@/app/medical_doctor/components/AppointmentDialog.vue';
 
 export default {
   name: 'WorkingCalendar',
@@ -127,8 +148,12 @@ export default {
     selectedElement: null,
     selectedOpen: false,
     events: [],
+    names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
     today: null,
   }),
+  components: {
+    AppointmentDialog,
+  },
   computed: {
     ...mapState('medicalDoctor', ['workingCalendar']),
     title() {
@@ -136,18 +161,14 @@ export default {
       if (!start || !end) {
         return '';
       }
-
       const startMonth = this.monthFormatter(start);
       const endMonth = this.monthFormatter(end);
       const suffixMonth = startMonth === endMonth ? '' : endMonth;
-
       const startYear = start.year;
       const endYear = end.year;
       const suffixYear = startYear === endYear ? '' : endYear;
-
       const startDay = start.day + this.nth(start.day);
       const endDay = end.day + this.nth(end.day);
-
       switch (this.type) {
         case 'month':
           return `${startMonth} ${startYear}`;
@@ -166,18 +187,16 @@ export default {
       });
     },
   },
-  created() {
-    this.setCalendar();
+  mounted() {
+    this.$refs.calendar.checkChange();
+    this.getWorkindCalendarByDoctorId(this.doctorId)
+      .then(() => {
+        this.setUpEvents();
+        console.log(this.doctorId);
+      });
   },
   methods: {
-    ...mapActions('medicalDoctor', ['getWorkindCalendarByDoctorId']),
-    setCalendar() {
-      this.$refs.calendar.checkChange();
-      this.getWorkindCalendarByDoctorId(this.doctorId)
-        .then(() => {
-          this.setUpEvents();
-        });
-    },
+    ...mapActions('medicalDoctor', ['getWorkindCalendar', 'getWorkindCalendarByDoctorId']),
     viewDay({ date }) {
       this.focus = date;
       this.type = 'day';
@@ -200,32 +219,55 @@ export default {
         this.selectedElement = nativeEvent.target;
         setTimeout(() => { this.selectedOpen = true; return null; }, 10);
       };
-
       if (this.selectedOpen) {
         this.selectedOpen = false;
         setTimeout(open, 10);
       } else {
         open();
       }
-
       nativeEvent.stopPropagation();
     },
     setUpEvents() {
-      console.log(this.workingCalendar);
       const events = [];
       Object.keys(this.workingCalendar.dailySchedules).forEach((key) => {
         const items = this.workingCalendar.dailySchedules[key].scheduleItems;
         items.forEach((item) => {
-          events.push({
-            name: item.type,
-            start: `${key} ${item.time}`,
-            end: `${key} ${this.incrementTime(item.time)}`,
-            color: this.getColorByName(item.type),
-          });
+          events.push(
+            this.getEvent(item, key),
+          );
         });
       });
-
       this.events = events;
+    },
+    getEvent(item, date) {
+      let fullName = '';
+      switch (item.type) {
+        case 'APPOINTMENT':
+          fullName = `${item.appointment.patient.firstName} ${item.appointment.patient.lastName}`;
+          return {
+            name: item.type,
+            type: item.type,
+            start: `${date} ${item.time}`,
+            end: `${date} ${this.incrementTime(item.time)}`,
+            color: this.getColorByName(item.type),
+            details: `Patient: ${fullName} \nClinic room: ${item.appointment.clinicRoom.name}`,
+            itemId: item.id,
+            itemDate: date,
+            appointment: item.appointment,
+          };
+        case 'LEAVE':
+        case 'VACATION':
+          return {
+            name: item.type,
+            type: item.type,
+            start: `${date} ${item.time}`,
+            end: `${item.endDate}`,
+            color: this.getColorByName(item.type),
+            details: `This is ${item.type}`,
+          };
+        default:
+          return null;
+      }
     },
     incrementTime(timeStr) {
       const parts = timeStr.split(':');
@@ -250,9 +292,19 @@ export default {
         default: return 'grey darken-1';
       }
     },
+    openAppointmentModal() {
+      this.$refs.dialog.show(this.selectedEvent);
+    },
+    diagnosisDisabled() {
+      return false;
+    },
     updateRange({ start, end }) {
       this.start = start;
       this.end = end;
+    },
+    deleteEvent(id) {
+      const index = this.events.findIndex((element) => element.itemId === id);
+      this.events.splice(index, 1);
     },
     nth(d) {
       return d > 3 && d < 21

@@ -4,5 +4,5 @@ import org.medihub.domain.LeaveRequest;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
 
 public interface ApproveLeaveRequestPort {
-    void approveLeaveRequest(LeaveRequest leaveRequest, MedicalDoctor medicalDoctor);
+    void approveLeaveRequest(LeaveRequest leaveRequest);
 }

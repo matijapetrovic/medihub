@@ -42,7 +42,9 @@ public class GetCurrentClinicService implements GetCurrentClinicUseCase {
                 loadClinicAdminPort.loadClinicAdminsFromClinic(clinic.getId()),
                 getClinicRoomsPort.getClinicRooms(clinic.getId()),
                 getDoctorsPort.getDoctorsForClinic(clinic.getId()),
-                loadAppointmentPort.getAllByClinicId(clinic.getId())
+                loadAppointmentPort.getAllByClinicId(clinic.getId()),
+                clinic.getRating().getRating(),
+                clinic.getRating().getCount()
         );
     }
 }

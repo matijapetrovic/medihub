@@ -3,11 +3,10 @@ package org.medihub.persistence.clinic_room_schedule;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.medihub.persistence.medical_doctor_schedule.MedicalDoctorScheduleJpaEntity;
+import org.medihub.persistence.clinic_room.ClinicRoomJpaEntity;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.sql.Time;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name="clinic_room_schedule_item")
@@ -20,9 +19,9 @@ public class ClinicRoomScheduleItemJpaEntity {
     Long id;
 
     @ManyToOne
-    @JoinColumn(name="schedule_id", referencedColumnName = "id", nullable = false)
-    ClinicRoomScheduleJpaEntity schedule;
+    @JoinColumn(name="clinic_room_id", referencedColumnName = "id", nullable = false)
+    ClinicRoomJpaEntity clinicRoom;
 
-    @Column(name="time")
-    Time time;
+    @Column(name="start_time")
+    Timestamp startTime;
 }

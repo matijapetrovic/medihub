@@ -38,6 +38,11 @@ export default {
         path: '/leave-request/add',
         icon: 'mdi-calendar-range',
       },
+      {
+        text: 'Previous Patients',
+        path: '/previous-patients',
+        icon: 'mdi-account-edit-outline',
+      },
     ],
   }),
 };

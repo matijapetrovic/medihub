@@ -19,12 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/clinicAdmin", produces = MediaType.APPLICATION_JSON_VALUE)
 
 public class ClinicAdminController {
-
     private final AddClinicAdminUseCase addClinicAdminUseCase;
 
     @PostMapping(path = "/add")
     @PreAuthorize("hasRole('ROLE_CLINIC_CENTER_ADMIN')")
-    ClinicAdmin addClinicAdmin(@RequestBody AddClinicAdminRequest addRequest) throws AccountNotFoundException {
+    public ClinicAdmin addClinicAdmin(@RequestBody AddClinicAdminRequest addRequest) throws AccountNotFoundException {
        AddClinicAdminCommand command = createCommand(addRequest);
        ClinicAdmin clinicAdmin = addClinicAdminUseCase.addClinicAdmin(command);
 

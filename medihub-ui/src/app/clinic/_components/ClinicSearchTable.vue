@@ -8,13 +8,21 @@
     <template v-slot:body="{ items }">
         <tbody>
           <tr v-for="item in items" :key="item.name">
-            <td>{{ item.name }}</td>
+            <td>
+              <v-btn
+                color="red lighten-2"
+                outlined
+                rounded
+                @click.stop="openClinicProfile(item)"
+              >
+                {{ item.name }}
+              </v-btn>
+            </td>
             <td>{{ item.address }}</td>
             <td>{{ item.city }}</td>
             <td>{{ item.country }}</td>
             <td>{{ item.rating }}({{ item.ratingCount}})</td>
-            <td>{{ item.appointmentPrice }}</td>
-            <td><v-btn @click="routeDoctors(item.id)">See doctors -></v-btn></td>
+            <td>{{ item.appointmentPrice ? item.appointmentPrice : 'N/A' }}</td>
           </tr>
         </tbody>
       </template>
@@ -46,8 +54,8 @@ export default {
     },
   },
   methods: {
-    routeDoctors(clinicId) {
-      this.$router.push(`/search-doctors/${clinicId}`);
+    openClinicProfile(clinic) {
+      this.$router.push(`/clinic/${clinic.id}`);
     },
   },
 };

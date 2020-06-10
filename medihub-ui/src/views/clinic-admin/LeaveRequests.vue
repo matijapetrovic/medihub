@@ -31,12 +31,12 @@
         </v-btn>
       </template>
     </v-data-table>
-    <v-dialog v-model="dialog" max-width="500px">
+    <v-dialog v-model="dialog" max-width="700px">
       <v-card>
         <v-card-title>
           Working calendar
         </v-card-title>
-        <v-card-text>
+        <v-card-text >
           <WorkingCalendar :doctorId="editedItem.doctorId"></WorkingCalendar>
         </v-card-text>
       </v-card>
@@ -83,7 +83,7 @@ export default {
   },
   methods: {
     ...mapActions('leaveRequest', ['getAllLeaveRequests', 'deleteLeaveRequest', 'approveLeaveRequest']),
-    ...mapState('medicalDoctor', ['workingCalendar']),
+    ...mapActions('medicalDoctor', ['workingCalendar']),
     setItems() {
       this.leaveRequests.forEach((item) => this.items.push({
         id: item.id,

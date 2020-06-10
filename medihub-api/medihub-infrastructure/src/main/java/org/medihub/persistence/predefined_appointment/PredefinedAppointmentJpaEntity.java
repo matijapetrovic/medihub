@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name="predefined_appointment")
@@ -27,14 +28,11 @@ public class PredefinedAppointmentJpaEntity {
     @JoinColumn(name="doctor_id", referencedColumnName="id", nullable=true)
     private MedicalDoctorJpaEntity medicalDoctor;
 
-    @Column(name= "date")
-    private Date date;
-
-    @Column(name = "time")
-    private Time start;
+    @Column(name="start_time")
+    Timestamp startTime;
 
     @Column(name = "duration")
-    private double duration;
+    private Double duration;
 
     @Column(name = "price")
     private BigDecimal price;

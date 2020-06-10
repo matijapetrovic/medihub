@@ -12,6 +12,7 @@ import org.medihub.domain.clinic.ClinicAdmin;
 import org.medihub.domain.clinic_room.ClinicRoom;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -31,4 +32,6 @@ public class GetCurrentClinicResponse {
     List<ClinicRoom> clinicRooms;
     List<MedicalDoctor> medicalDoctors;
     List<Appointment> appointments;
+    BigDecimal rating;
+    Integer count;
 }

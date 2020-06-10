@@ -20,8 +20,18 @@ export default {
     scheduleAppointment({ dispatch, rootState }, appointmentRequest) {
       return api.scheduleAppointment({
         ...appointmentRequest,
-        date: rootState.clinic.searchParams.date,
+        date: rootState.doctor.searchParams.date,
       })
+        .then(() => {
+          const message = 'Appointment schedule request sent.';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
+    scheduleDoctorsAppointment({ dispatch }, appointmentRequest) {
+      return api.scheduleDoctorsAppointment(appointmentRequest)
         .then(() => {
           const message = 'Appointment schedule request sent.';
           dispatch('notifications/add', utils.successNotification(message), { root: true });

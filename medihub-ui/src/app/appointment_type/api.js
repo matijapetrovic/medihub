@@ -10,4 +10,7 @@ export default {
   removeAppointmentType(id) {
     return utils.apiClient.post('api/appointment-type/delete', id);
   },
+  changeAppointmentType(item) {
+    return utils.apiClient.post('api/appointment-type/change', item);
+  },
 };

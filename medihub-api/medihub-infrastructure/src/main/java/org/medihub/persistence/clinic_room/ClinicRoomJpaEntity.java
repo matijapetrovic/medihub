@@ -18,10 +18,10 @@ public class ClinicRoomJpaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "number")
+    @Column(name = "number", unique = true)
     private int number;
 
     @ManyToOne

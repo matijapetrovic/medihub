@@ -4,36 +4,37 @@ import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.ForbiddenException;
 import org.medihub.application.ports.incoming.reviewing.AddClinicReviewUseCase;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
-import org.medihub.application.ports.outgoing.finished_appointment.LoadFinishedAppointmentPort;
+import org.medihub.application.ports.outgoing.patient.LoadPatientPort;
+import org.medihub.application.ports.outgoing.reviewing.LoadClinicReviewPort;
 import org.medihub.application.ports.outgoing.reviewing.SaveClinicReviewPort;
 import org.medihub.domain.account.Account;
-import org.medihub.domain.appointment.FinishedAppointment;
 import org.medihub.domain.clinic.ClinicReview;
+import org.medihub.domain.patient.Patient;
+
+import javax.transaction.Transactional;
 
 @RequiredArgsConstructor
 public class AddClinicReviewService implements AddClinicReviewUseCase {
     private final GetAuthenticatedPort getAuthenticatedPort;
-    private final LoadFinishedAppointmentPort loadFinishedAppointmentPort;
+    private final LoadPatientPort loadPatientPort;
     private final SaveClinicReviewPort saveClinicReviewPort;
+    private final LoadClinicReviewPort loadClinicReviewPort;
 
     @Override
+    @Transactional
     public void addClinicReview(AddClinicReviewCommand command) throws ForbiddenException {
         Account account = getAuthenticatedPort.getAuthenticated();
-        FinishedAppointment appointment =
-                loadFinishedAppointmentPort.loadFinishedAppointment(command.getAppointmentId());
-        ensurePatientCanAddReview(account, appointment);
+        Patient patient = loadPatientPort.loadPatientByAccountId(account.getId());
+        ClinicReview clinicReview = loadClinicReviewPort.loadById(command.getId());
 
-        ClinicReview clinicReview = new ClinicReview(
-                null,
-                command.getRating(),
-                appointment,
-                appointment.getAppointment().getDoctor().getClinic());
+        ensurePatientCanAddReview(patient, clinicReview);
+
+        clinicReview.updateRating(command.getRating());
         saveClinicReviewPort.saveClinicReview(clinicReview);
     }
 
-    private void ensurePatientCanAddReview(Account account, FinishedAppointment appointment) throws ForbiddenException {
-        if (!appointment.getAppointment().getPatient().getAccount().getId().equals(account.getId())) {
-            throw new ForbiddenException();
-        }
+    private void ensurePatientCanAddReview(Patient patient, ClinicReview clinicReview) throws ForbiddenException {
+        if (clinicReview == null || !clinicReview.getPatient().getId().equals(patient.getId()) || !clinicReview.getCanReview())
+            throw new ForbiddenException("Patient cannot review clinic");
     }
 }

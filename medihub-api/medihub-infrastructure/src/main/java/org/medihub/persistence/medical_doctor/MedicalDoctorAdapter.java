@@ -1,9 +1,11 @@
 package org.medihub.persistence.medical_doctor;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.ports.incoming.medical_doctor.GetPreviousPatientsQuery;
 import org.medihub.application.ports.outgoing.doctor.*;
 import org.medihub.domain.WorkingTime;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
+import org.medihub.domain.patient.Patient;
 import org.medihub.persistence.appointment_type.AppointmentTypeJpaEntity;
 import org.medihub.persistence.appointment_type.AppointmentTypeRepository;
 import org.medihub.persistence.clinic.ClinicJpaEntity;
@@ -12,7 +14,10 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,12 +74,17 @@ public class MedicalDoctorAdapter implements
                 .findById(clinicId)
                 .orElseThrow(EntityNotFoundException::new);
 
-        AppointmentTypeJpaEntity appointmentType = appointmentTypeRepository
-                .findById(appointmentTypeId)
-                .orElseThrow(EntityNotFoundException::new);
+        var appointmentType =
+                (appointmentTypeId == null ? null :
+                        appointmentTypeRepository
+                                .findById(appointmentTypeId)
+                                .orElseThrow(EntityNotFoundException::new));
+
+        Timestamp dateStart = (date == null ? null : Timestamp.valueOf(LocalDateTime.of(date, LocalTime.MIDNIGHT)));
+        Timestamp dateEnd = (date == null ? null :Timestamp.valueOf(LocalDateTime.of(date.plusDays(1), LocalTime.MIDNIGHT)));
 
         return medicalDoctorRepository
-                .findAllByClinicAndSpecializationAvailableOnDate(clinic, Date.valueOf(date), appointmentType)
+                .findAllByClinicAndSpecializationAvailableOnDate(clinic, dateStart, dateEnd, appointmentType)
                 .stream()
                 .map(medicalDoctorMapper::mapToDomainEntity)
                 .collect(Collectors.toList());
@@ -95,6 +105,5 @@ public class MedicalDoctorAdapter implements
                 .findByAccountId(accountId);
         return medicalDoctorMapper.mapToDomainEntity(doctor);
     }
-
 }
 

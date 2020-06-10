@@ -21,7 +21,7 @@ public class SearchClinicsService implements SearchClinicsQuery {
     @Override
     public List<SearchClinicsOutput> searchClinics(LocalDate date, Long appointmentTypeId) {
         AppointmentType appointmentType =
-                loadAppointmentTypePort.loadAppointmentType(appointmentTypeId);
+                appointmentTypeId == null ? null : loadAppointmentTypePort.loadAppointmentType(appointmentTypeId);
 
         return mapToOutput(searchClinicsPort.searchClinics(date, appointmentTypeId), appointmentType);
     }
@@ -32,12 +32,13 @@ public class SearchClinicsService implements SearchClinicsQuery {
                 .map((clinic) -> new SearchClinicsOutput(
                         clinic.getId(),
                         clinic.getName(),
+                        clinic.getDescription(),
                         clinic.getRating().getRating(),
                         clinic.getRating().getCount(),
                         clinic.getAddress().getAddressLine(),
                         clinic.getAddress().getCity(),
                         clinic.getAddress().getCountry(),
-                        BigDecimal.valueOf(500.0)))
+                        appointmentType == null ? null : clinic.getPrice(appointmentType).getAmount()))
                 .collect(Collectors.toList());
     }
 }

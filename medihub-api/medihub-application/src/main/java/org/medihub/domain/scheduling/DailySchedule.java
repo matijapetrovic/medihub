@@ -18,6 +18,8 @@ public class DailySchedule<T extends DailyScheduleItem> {
         this.scheduleItems = new HashSet<>();
     }
 
+    public void addAllToSchedules(Set<T> scheduleItems) { this.scheduleItems.addAll(scheduleItems);}
+
     public boolean addToSchedule(T scheduleItem) {
         return scheduleItems.add(scheduleItem);
     }

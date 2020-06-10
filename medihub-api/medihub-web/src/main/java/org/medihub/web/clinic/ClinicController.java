@@ -29,19 +29,26 @@ public class ClinicController {
     private final AddClinicUseCase addClinicUseCase;
     private final SearchClinicsQuery searchClinicsQuery;
     private final GetClinicNamesQuery getClinicNamesQuery;
+    private final GetClinicProfileQuery getClinicProfileQuery;
     private final GetAppointmentPriceUseCase getAppointmentPriceUseCase;
     private final AddPriceToAppointmentTypeUseCase addPriceToAppointmentTypeUseCase;
+    private final GetCurrentClinicUseCase getCurrentClinicUseCase;
 
     @GetMapping("")
-    ResponseEntity<List<SearchClinicsOutput>> searchClinics(@RequestParam(required = false)
+    public ResponseEntity<List<SearchClinicsOutput>> searchClinics(@RequestParam(required = false)
                                                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                                                                     LocalDate date,
                                                             @RequestParam(required = false) Long appointmentTypeId)  {
         return ResponseEntity.ok(searchClinicsQuery.searchClinics(date, appointmentTypeId));
     }
 
+    @GetMapping("/{clinicId}")
+    public ResponseEntity<GetClinicProfileOutput> getClinicProfile(@PathVariable Long clinicId) {
+        return ResponseEntity.ok(getClinicProfileQuery.getClinicProfile(clinicId));
+    }
+
     @PostMapping("")
-    ResponseEntity<?> addClinic(@RequestBody AddClinicRequest request) {
+    public ResponseEntity<?> addClinic(@RequestBody AddClinicRequest request) {
         AddClinicCommand command = new AddClinicCommand(
                 request.getName(),
                 request.getAddress(),
@@ -60,13 +67,13 @@ public class ClinicController {
     }
 
     @GetMapping("/names")
-    ResponseEntity<List<GetClinicNamesOutput>> getClinicNames() {
+    public ResponseEntity<List<GetClinicNamesOutput>> getClinicNames() {
         return ResponseEntity.ok(getClinicNamesQuery.getClinicNames());
     }
 
     @GetMapping("/prices")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    ResponseEntity<Map<Long, BigDecimal>> getPrices() {
+    public ResponseEntity<Map<Long, BigDecimal>> getPrices() {
         return ResponseEntity.ok(mapResponse(getAppointmentPriceUseCase.getPrices()));
     }
 
@@ -81,11 +88,18 @@ public class ClinicController {
 
     @PostMapping("/addPrice")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    ResponseEntity<Map<Long, BigDecimal>> addPrices(@RequestBody AddPriceRequest addPriceRequest) {
+    public ResponseEntity<Map<Long, BigDecimal>> addPrices(@
+                                                            RequestBody AddPriceRequest addPriceRequest) {
         AddPriceToAppointmentTypeUseCase.AddPriceCommand addPriceCommand = createAddPriceCommand(addPriceRequest);
         addPriceToAppointmentTypeUseCase.addPrice(addPriceCommand);
 
         return ResponseEntity.ok(mapResponse(getAppointmentPriceUseCase.getPrices()));
+    }
+
+    @GetMapping("/getCurrent")
+    @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
+    public ResponseEntity<GetCurrentClinicResponse> getCurrent() {
+        return ResponseEntity.ok(getCurrentClinicUseCase.getCurrentClinic());
     }
 
     private AddPriceToAppointmentTypeUseCase.AddPriceCommand createAddPriceCommand(AddPriceRequest addPriceRequest) {

@@ -1,13 +1,19 @@
 import utils from '@/utils';
 
 export default {
+  fetchClinicFinishedAppointments(payload) {
+    return utils.apiClient.post('/api/finished_appointment/getForClinic', payload);
+  },
   fetchFinishedAppointments() {
     return utils.apiClient.get('/api/finished_appointment');
   },
-  addClinicReview(payload) {
-    return utils.apiClient.post('/api/review/clinic', payload);
+  getProfit(payload) {
+    return utils.apiClient.post('/api/finished_appointment/getProfit', payload);
   },
-  addDoctorReview(payload) {
-    return utils.apiClient.post('/api/review/doctor', payload);
+  getFinishedAppointments(patientId) {
+    return utils.apiClient.get(`/api/finished_appointment/${patientId}`);
+  },
+  changeFinishedAppointment(changeItem) {
+    return utils.apiClient.post('/api/finished_appointment/change', changeItem);
   },
 };

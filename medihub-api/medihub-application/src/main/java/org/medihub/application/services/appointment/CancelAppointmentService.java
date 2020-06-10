@@ -7,10 +7,8 @@ import org.medihub.application.ports.outgoing.appointment.DeleteAppointmentPort;
 import org.medihub.application.ports.outgoing.appointment.LoadAppointmentPort;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
 import org.medihub.application.ports.outgoing.doctor.DeleteAppointmentScheduleItemPort;
-import org.medihub.application.ports.outgoing.patient.LoadPatientPort;
 import org.medihub.domain.account.Account;
 import org.medihub.domain.appointment.Appointment;
-import org.medihub.domain.patient.Patient;
 
 import javax.validation.constraints.NotNull;
 
@@ -27,7 +25,7 @@ public class CancelAppointmentService implements CancelAppointmentUseCase {
         Account account = getAuthenticatedPort.getAuthenticated();
         ensurePatientCanAccessAppointment(appointment, account);
 
-        deleteAppointmentScheduleItemPort.deleteByAppointmentId(appointmentId);
+        deleteAppointmentScheduleItemPort.deleteAppointmentItemByAppointmentId(appointmentId);
         deleteAppointmentPort.deleteAppointment(appointmentId);
     }
 

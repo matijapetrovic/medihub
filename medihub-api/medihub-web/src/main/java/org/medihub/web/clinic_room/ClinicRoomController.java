@@ -3,9 +3,12 @@ package org.medihub.web.clinic_room;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.ForbiddenException;
+import org.medihub.application.exceptions.NotAvailableException;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.clinic_room.*;
 import org.medihub.application.ports.incoming.clinic_room.AddClinicRoomUseCase.AddClinicRoomCommand;
 import org.medihub.application.ports.incoming.clinic_room.DeleteClinicRoomUseCase.DeleteClinicCommand;
+import org.medihub.application.ports.incoming.medical_doctor.schedule.GetScheduleOutput;
 import org.medihub.web.security.TokenUtil;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
@@ -32,17 +35,18 @@ public class ClinicRoomController {
     private final SearchClinicRoomsQuery searchClinicRoomsQuery;
     private final ScheduleClinicRoomUseCase scheduleClinicRoomUseCase;
     private final UpdateClinicRoomUseCase updateClinicRoomUseCase;
+    private final GetClinicRoomScheduleQuery getClinicRoomScheduleQuery;
 
     @GetMapping("")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    ResponseEntity<List<GetClinicRoomsOutput>> get() {
+    public ResponseEntity<List<GetClinicRoomsOutput>> get() {
         Long clinicId = getAuthenticatedClinicId();
         return ResponseEntity.ok(getClinicRoomsQuery.getClinicRooms(clinicId));
     }
 
     @GetMapping("/search")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    ResponseEntity<List<SearchClinicRoomsOutput>> searchClinics(
+    public ResponseEntity<List<SearchClinicRoomsOutput>> searchClinics(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Integer number,
             @RequestParam(required = false)
@@ -55,7 +59,7 @@ public class ClinicRoomController {
 
     @GetMapping("/schedule")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    void scheduleClinicRoom(@RequestBody ScheduleClinicRoomRequest request) {
+    public void scheduleClinicRoom(@RequestBody ScheduleClinicRoomRequest request) throws NotFoundException, NotAvailableException {
         ScheduleClinicRoomUseCase.ScheduleClinicRoomCommand command =
                 new ScheduleClinicRoomUseCase.ScheduleClinicRoomCommand(
                     request.getId(),
@@ -67,7 +71,7 @@ public class ClinicRoomController {
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    void add(@RequestBody ClinicRoomRequest request) {
+    public void add(@RequestBody ClinicRoomRequest request) {
         Long clinicId = getAuthenticatedClinicId();
         AddClinicRoomCommand command = new AddClinicRoomCommand(clinicId, request.getName(), request.getNumber());
         addClinicRoomUseCase.addClinicRoom(command);
@@ -75,7 +79,7 @@ public class ClinicRoomController {
 
     @PostMapping("/delete")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    void delete(@RequestBody Long id) throws ForbiddenException {
+    public void delete(@RequestBody Long id) throws ForbiddenException {
         Long clinicId = getAuthenticatedClinicId();
         DeleteClinicCommand command = new DeleteClinicCommand(clinicId, id);
         deleteClinicRoomUseCase.deleteClinicRoom(command);
@@ -94,7 +98,7 @@ public class ClinicRoomController {
 
     @PostMapping("/update")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    ResponseEntity<List<GetClinicRoomsOutput>> updateClinicRoom(
+    public ResponseEntity<List<GetClinicRoomsOutput>> updateClinicRoom(
             @RequestBody UpdateClinicRoomRequest updateClinicRoomRequest) {
         Long clinicId = getAuthenticatedClinicId();
         UpdateClinicRoomUseCase.UpdateClinicRoomCommand command = makeUpdateClinicRoomCommand(updateClinicRoomRequest);
@@ -110,5 +114,10 @@ public class ClinicRoomController {
                 updateClinicRoomRequest.getName(),
                 updateClinicRoomRequest.getNumber()
         );
+    }
+
+    @GetMapping("/schedule/:{id}")
+    public ResponseEntity<GetScheduleOutput> getSchedulesByDoctorId(@PathVariable Long id) {
+        return ResponseEntity.ok(getClinicRoomScheduleQuery.getClinicRoomSchedule(id));
     }
 }

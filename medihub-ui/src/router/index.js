@@ -9,6 +9,7 @@ import unregisteredUser from './routes/unregistered';
 import registeredUser from './routes/user';
 import medicalDoctor from './routes/medical_doctor';
 import patient from './routes/patient';
+import medicalNurse from './routes/medical-nurse';
 
 Vue.use(VueRouter);
 
@@ -27,6 +28,7 @@ const routes = [
   registeredUser,
   medicalDoctor,
   patient,
+  medicalNurse,
 ];
 
 const router = new VueRouter({

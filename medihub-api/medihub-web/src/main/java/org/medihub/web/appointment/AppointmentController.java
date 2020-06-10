@@ -2,6 +2,8 @@ package org.medihub.web.appointment;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.ForbiddenException;
+import org.medihub.application.exceptions.NotAvailableException;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.appointment.AddAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment.AddAppointmentUseCase.AddAppointmentCommand;
 import org.medihub.application.ports.incoming.appointment.CancelAppointmentUseCase;
@@ -26,13 +28,13 @@ public class AppointmentController {
 
     @GetMapping("")
     @PreAuthorize("hasRole('ROLE_PATIENT')")
-    ResponseEntity<List<GetAppointmentsOutput>> get() {
+    public ResponseEntity<List<GetAppointmentsOutput>> get() {
         return ResponseEntity.ok(getAppointmentsQuery.getAppointments());
     }
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    void add(@RequestBody AddAppointmentRequest request) {
+    public void add(@RequestBody AddAppointmentRequest request) throws NotFoundException, NotAvailableException {
         AddAppointmentCommand command = createCommand(request);
         addAppointmentUseCase.addAppointment(command);
     }

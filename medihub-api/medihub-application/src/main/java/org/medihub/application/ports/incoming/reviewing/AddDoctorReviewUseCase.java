@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Value;
 import org.medihub.application.exceptions.ForbiddenException;
 import org.medihub.common.SelfValidating;
+import org.medihub.common.validation.annotations.Rating;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -15,14 +16,14 @@ public interface AddDoctorReviewUseCase {
     @EqualsAndHashCode(callSuper = false)
     class AddDoctorReviewCommand extends SelfValidating<AddDoctorReviewCommand> {
         @NotNull
-        Long appointmentId;
-        @NotNull
+        Long id;
+        @Rating
         BigDecimal rating;
 
         public AddDoctorReviewCommand(
-                Long appointmentId,
+                Long id,
                 BigDecimal rating) {
-            this.appointmentId = appointmentId;
+            this.id = id;
             this.rating = rating;
             this.validateSelf();
         }

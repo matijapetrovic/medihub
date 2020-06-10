@@ -128,7 +128,7 @@
               min="1"
               type="number"
               :rules="[requiredRule, minNumberRule]"
-              :readonly="isDoctorSelected()"
+              :readonly="!isDoctorSelected()"
               >
             </v-text-field>
           </v-col>
