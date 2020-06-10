@@ -14,8 +14,7 @@
             <td>{{ item.lastName }}</td>
             <td>{{ item.rating }} ({{ item.ratingCount }})</td>
             <td>{{ item.appointmentPrice ? item.appointmentPrice : 'N/A' }}</td>
-            <td
-            >
+            <td>
               <v-select
                 v-if="item.workingTimes"
                 v-model="time[item.id]"
