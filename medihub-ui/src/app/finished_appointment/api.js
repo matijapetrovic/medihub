@@ -10,10 +10,4 @@ export default {
   getProfit(payload) {
     return utils.apiClient.post('/api/finished_appointment/getProfit', payload);
   },
-  addClinicReview(payload) {
-    return utils.apiClient.post('/api/review/clinic', payload);
-  },
-  addDoctorReview(payload) {
-    return utils.apiClient.post('/api/review/doctor', payload);
-  },
 };

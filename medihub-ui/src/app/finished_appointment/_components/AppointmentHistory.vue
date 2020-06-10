@@ -6,47 +6,6 @@
       :items-per-page="5"
       class="elevation-1"
     >
-      <template v-slot:body="{ items }">
-          <tbody>
-            <tr v-for="(item,index) in items" :key="item.id">
-              <td>{{ item.name }}</td>
-              <td>{{ item.doctorFullName }}</td>
-              <td>{{ item.clinicName }}</td>
-              <td>{{ item.date }}</td>
-              <td>{{ item.time }}</td>
-              <td>
-                <v-rating
-                  v-if="item.clinicRating"
-                  :value="item.clinicRating"
-                  readonly
-                  half-increments
-                >
-                </v-rating>
-                <v-btn
-                  v-else
-                  @click.stop="openClinicDialog(item, index)"
-                >
-                  Rate Now
-                </v-btn>
-              </td>
-              <td>
-                <v-rating
-                  v-if="item.doctorRating"
-                  :value="item.doctorRating"
-                  readonly
-                  half-increments
-                >
-                </v-rating>
-                <v-btn
-                  v-else
-                  @click.stop="openDoctorDialog(item, index)"
-                >
-                  Rate Now
-                </v-btn>
-              </td>
-            </tr>
-          </tbody>
-        </template>
     </v-data-table>
     <v-dialog
       v-model="clinicDialog"
@@ -102,8 +61,6 @@ export default {
       { text: 'Clinic', value: 'clinicName' },
       { text: 'Date', value: 'date' },
       { text: 'Time', value: 'time' },
-      { text: 'Clinic rating', value: 'clinicRating' },
-      { text: 'Doctor rating', value: 'doctorRating' },
     ],
   }),
   props: {
