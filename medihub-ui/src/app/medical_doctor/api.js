@@ -22,4 +22,7 @@ export default {
   finishAppointment(appointment) {
     return utils.apiClient.post('api/finished_appointment/add', appointment);
   },
+  getPreviousPatients() {
+    return utils.apiClient.get('api/medical-doctor/previous-patients');
+  },
 };
