@@ -10,4 +10,10 @@ export default {
   getProfit(payload) {
     return utils.apiClient.post('/api/finished_appointment/getProfit', payload);
   },
+  getFinishedAppointments(patientId) {
+    return utils.apiClient.get(`/api/finished_appointment/${patientId}`);
+  },
+  changeFinishedAppointment(changeItem) {
+    return utils.apiClient.post('/api/finished_appointment/change', changeItem);
+  },
 };

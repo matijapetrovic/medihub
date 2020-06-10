@@ -5,6 +5,7 @@ import org.medihub.application.ports.incoming.medical_doctor.*;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase.AddMedicalDoctorCommand;
 import org.medihub.application.ports.incoming.medical_doctor.schedule.GetScheduleOutput;
 import org.medihub.application.ports.incoming.medical_doctor.schedule.GetDoctorScheduleQuery;
+import org.medihub.application.ports.incoming.patient.PatientResponse;
 import org.medihub.application.ports.incoming.scheduling.GetDoctorAvailableTimesQuery;
 import org.medihub.application.ports.outgoing.doctor.GetAllDoctorsPort;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
@@ -30,6 +31,7 @@ public class MedicalDoctorController {
     private final SearchDoctorsQuery searchDoctorsQuery;
     private final GetDoctorAvailableTimesQuery getDoctorAvailableTimesQuery;
     private final GetDoctorScheduleQuery getDoctorScheduleQuery;
+    private final GetPreviousPatientsQuery getPreviousPatientsQuery;
 
     @GetMapping("/{clinicId}")
     ResponseEntity<List<GetDoctorsOutput>> getDoctors(@PathVariable Long clinicId) {
@@ -111,5 +113,10 @@ public class MedicalDoctorController {
     @GetMapping("/schedule/:{id}")
     ResponseEntity<GetScheduleOutput> getSchedulesByDoctorId(@PathVariable Long id) {
         return ResponseEntity.ok(getDoctorScheduleQuery.getDoctorSchedule(id));
+    }
+
+    @GetMapping("/previous-patients")
+    ResponseEntity<List<PatientResponse>> getPreviousPatients() {
+        return ResponseEntity.ok(getPreviousPatientsQuery.getPreviousPatients());
     }
 }
