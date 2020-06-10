@@ -25,27 +25,27 @@ public class ReviewController {
 
     @PostMapping("/clinic")
     @PreAuthorize("hasRole('ROLE_PATIENT')")
-    void addClinicReview(@RequestBody AddReviewRequest request) throws ForbiddenException {
+    public void addClinicReview(@RequestBody AddReviewRequest request) throws ForbiddenException {
         AddClinicReviewCommand command = new AddClinicReviewCommand(request.getId(), request.getRating());
         addClinicReviewUseCase.addClinicReview(command);
     }
 
     @PostMapping("/doctor")
     @PreAuthorize("hasRole('ROLE_PATIENT')")
-    void addDoctorReview(@RequestBody AddReviewRequest request) throws ForbiddenException {
+    public void addDoctorReview(@RequestBody AddReviewRequest request) throws ForbiddenException {
         AddDoctorReviewCommand command = new AddDoctorReviewCommand(request.getId(), request.getRating());
         addDoctorReviewUseCase.addDoctorReview(command);
     }
 
     @GetMapping("/clinic")
     @PreAuthorize("hasRole('ROLE_PATIENT')")
-    ResponseEntity<List<GetClinicsForReviewOutput>> getClinicsForReview() {
+    public ResponseEntity<List<GetClinicsForReviewOutput>> getClinicsForReview() {
         return ResponseEntity.ok(getClinicsForReviewQuery.getClinicsForReview());
     }
 
     @GetMapping("/doctor")
     @PreAuthorize("hasRole('ROLE_PATIENT')")
-    ResponseEntity<List<GetDoctorsForReviewOutput>> getDoctorsForReview() {
+    public ResponseEntity<List<GetDoctorsForReviewOutput>> getDoctorsForReview() {
         return ResponseEntity.ok(getDoctorsForReviewQuery.getDoctorsForReview());
     }
 

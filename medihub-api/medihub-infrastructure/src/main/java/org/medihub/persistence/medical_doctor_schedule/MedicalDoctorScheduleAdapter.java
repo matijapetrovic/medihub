@@ -89,7 +89,6 @@ public class MedicalDoctorScheduleAdapter implements
                 dailySchedules.put(date, dailySchedule);
             }
             dailySchedule.addToSchedule(medicalDoctorScheduleMapper.mapToScheduleItemDomainEntity(scheduleItem));
-
         }
 
         return new MedicalDoctorSchedule(dailySchedules);

@@ -34,12 +34,12 @@ public class MedicalDoctorController {
     private final GetPreviousPatientsQuery getPreviousPatientsQuery;
 
     @GetMapping("/{clinicId}")
-    ResponseEntity<List<GetDoctorsOutput>> getDoctors(@PathVariable Long clinicId) {
+    public ResponseEntity<List<GetDoctorsOutput>> getDoctors(@PathVariable Long clinicId) {
         return ResponseEntity.ok(getDoctorsQuery.getDoctorsForClinic(clinicId));
     }
 
     @GetMapping("/{doctorId}/available_times/{date}")
-    ResponseEntity<List<String>> getAvailableTimes(@PathVariable Long doctorId,
+    public ResponseEntity<List<String>> getAvailableTimes(@PathVariable Long doctorId,
                                                       @PathVariable
                                                       @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                                                               LocalDate date) {
@@ -47,7 +47,7 @@ public class MedicalDoctorController {
     }
 
     @GetMapping("")
-    ResponseEntity<List<SearchDoctorsOutput>> searchDoctors(@RequestParam Long clinicId,
+    public ResponseEntity<List<SearchDoctorsOutput>> searchDoctors(@RequestParam Long clinicId,
                                                             @RequestParam(required = false)
                                                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                                                                     LocalDate date,
@@ -58,13 +58,13 @@ public class MedicalDoctorController {
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    void add(@RequestBody MedicalDoctorRequest request) {
+    public void add(@RequestBody MedicalDoctorRequest request) {
         AddMedicalDoctorCommand command = createCommand(request);
         AddMedicalDoctorUseCase.addDoctor(command);
     }
 
     @GetMapping("/getAll")
-    List<?> getAll(){
+    public List<MedicalDoctorResponse> getAll(){
         return getAllDoctors(getMedicalDoctorUseCase.loadAll());
     }
 
@@ -84,7 +84,7 @@ public class MedicalDoctorController {
         );
     }
 
-    private List<?> getAllDoctors(List<MedicalDoctor> doctors) {
+    private List<MedicalDoctorResponse> getAllDoctors(List<MedicalDoctor> doctors) {
         return doctors
                 .stream()
                 .map(doctor -> new MedicalDoctorResponse(
@@ -106,17 +106,17 @@ public class MedicalDoctorController {
     }
 
     @GetMapping("/schedule")
-    ResponseEntity<GetScheduleOutput> getSchedules() {
+    public ResponseEntity<GetScheduleOutput> getSchedules() {
         return ResponseEntity.ok(getDoctorScheduleQuery.getDoctorSchedule());
     }
 
     @GetMapping("/schedule/:{id}")
-    ResponseEntity<GetScheduleOutput> getSchedulesByDoctorId(@PathVariable Long id) {
+    public ResponseEntity<GetScheduleOutput> getSchedulesByDoctorId(@PathVariable Long id) {
         return ResponseEntity.ok(getDoctorScheduleQuery.getDoctorSchedule(id));
     }
 
     @GetMapping("/previous-patients")
-    ResponseEntity<List<PatientResponse>> getPreviousPatients() {
+    public ResponseEntity<List<PatientResponse>> getPreviousPatients() {
         return ResponseEntity.ok(getPreviousPatientsQuery.getPreviousPatients());
     }
 }

@@ -27,20 +27,20 @@ public class PredefinedAppointmentController {
     private final SchedulePredefinedAppointmentUseCase schedulePredefinedAppointmentUseCase;
 
     @GetMapping("")
-    ResponseEntity<List<GetPredefinedAppointmentsOutput>> get(@RequestParam Long clinicId) {
+    public ResponseEntity<List<GetPredefinedAppointmentsOutput>> get(@RequestParam Long clinicId) {
         return ResponseEntity.ok(getPredefinedAppointmentsQuery.getPredefinedAppointments(clinicId));
     }
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    void add(@RequestBody PredefinedAppointmentRequest request) throws NotAvailableException {
+    public void add(@RequestBody PredefinedAppointmentRequest request) throws NotAvailableException {
         AddPredefinedAppointmentCommand command = createCommand(request);
         addPredefinedAppointmentUseCase.addPredefinedAppointment(command);
     }
 
     @PostMapping("/{appointmentId}/schedule")
     @PreAuthorize("hasRole('ROLE_PATIENT')")
-    void schedule(@PathVariable Long appointmentId) throws NotAvailableException, NotFoundException {
+    public void schedule(@PathVariable Long appointmentId) throws NotAvailableException, NotFoundException {
         try {
             schedulePredefinedAppointmentUseCase.schedulePredefinedAppointment(appointmentId);
         } catch (NotAvailableException | NotFoundException ex) {

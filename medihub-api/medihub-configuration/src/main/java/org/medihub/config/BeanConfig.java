@@ -343,9 +343,9 @@ public class BeanConfig {
 
     @Bean
     public GetClinicRoomScheduleQuery getClinicRoomScheduleQuery(
-            GetClinicRoomSchedulePort getClinicRoomSchedulePort
+            LoadClinicRoomSchedulePort loadClinicRoomSchedulePort
     ) {
-        return new GetClinicRoomScheduleService(getClinicRoomSchedulePort);
+        return new GetClinicRoomScheduleService(loadClinicRoomSchedulePort);
     }
 
     @Bean

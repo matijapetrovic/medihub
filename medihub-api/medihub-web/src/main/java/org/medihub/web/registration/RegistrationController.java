@@ -24,7 +24,7 @@ public class RegistrationController {
     private final RegisterPatientUseCase registerUseCase;
 
     @PostMapping("")
-    ResponseEntity<?> register(@RequestBody RegisterRequest request) throws AccountNotFoundException {
+    public ResponseEntity<?> register(@RequestBody RegisterRequest request) throws AccountNotFoundException {
         RegisterPatientCommand command = createCommand(request);
         RegistrationRequest entity = registerUseCase.registerPatient(command);
 
