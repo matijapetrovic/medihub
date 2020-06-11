@@ -8,7 +8,9 @@ import org.springframework.stereotype.Component;
 import javax.persistence.EntityNotFoundException;
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -64,9 +66,10 @@ public class ClinicRoomAdapter implements
 
     @Override
     public List<ClinicRoom> searchClinicRooms(String name, Integer number, LocalDate date, LocalTime time, Long clinicId) {
+        Timestamp timestamp = (date == null || time == null) ? null : Timestamp.valueOf(LocalDateTime.of(date, time));
+
         return clinicRoomRepository
-                .findAllWithNameOrNumberOnDate(name, number, date != null? Date.valueOf(date) : null,
-                        time != null? Time.valueOf(time) : null,clinicId)
+                .findAllWithNameOrNumberOnDate(name, number, timestamp ,clinicId)
                 .stream()
                 .map(clinicRoomMapper::mapToDomainEntity)
                 .collect(Collectors.toList());

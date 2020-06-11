@@ -11,6 +11,6 @@ public class DrugMapper {
     }
 
     public DrugJpaEntity mapToJpaEntity(Drug drug){
-        return new DrugJpaEntity(null, drug.getName());
+        return new DrugJpaEntity(drug.getId(), drug.getName());
     }
 }

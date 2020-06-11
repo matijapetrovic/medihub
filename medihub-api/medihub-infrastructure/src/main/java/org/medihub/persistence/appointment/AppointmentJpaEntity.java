@@ -3,6 +3,7 @@ package org.medihub.persistence.appointment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 import org.medihub.persistence.clinic_room.ClinicRoomJpaEntity;
 import org.medihub.persistence.medical_doctor.MedicalDoctorJpaEntity;
 import org.medihub.persistence.patient.PatientJpaEntity;
@@ -10,6 +11,7 @@ import org.medihub.persistence.patient.PatientJpaEntity;
 import javax.persistence.*;
 import java.sql.Time;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name="appointment")
@@ -22,14 +24,11 @@ public class AppointmentJpaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "date")
-    private Date date;
-
-    @Column(name="time")
-    private Time time;
+    @Column(name="start_time")
+    private Timestamp startTime;
 
     @ManyToOne
-    @JoinColumn(name="patient_id", referencedColumnName = "id")
+    @JoinColumn(name="patient_id", referencedColumnName = "id", nullable = false)
     private PatientJpaEntity patient;
 
     @ManyToOne
@@ -37,6 +36,6 @@ public class AppointmentJpaEntity {
     private MedicalDoctorJpaEntity doctor;
 
     @ManyToOne
-    @JoinColumn(name="clinic_room_id", referencedColumnName = "id")
+    @JoinColumn(name="clinic_room_id", referencedColumnName = "id", nullable = false)
     private ClinicRoomJpaEntity clinicRoom;
 }

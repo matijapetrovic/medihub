@@ -1,5 +1,6 @@
 package org.medihub.config;
 
+import org.medihub.application.ports.incoming.appointment.CancelAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment.GetAppointmentsQuery;
 import org.medihub.application.ports.incoming.appointment.GetCurrentAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment_type.ChangeAppointmentTypeUseCase;
@@ -34,6 +35,10 @@ import org.medihub.application.ports.incoming.prescription.GetPrescriptionsQuery
 import org.medihub.application.ports.incoming.reviewing.AddClinicReviewUseCase;
 import org.medihub.application.ports.incoming.reviewing.AddDoctorReviewUseCase;
 import org.medihub.application.ports.incoming.scheduling.*;
+import org.medihub.application.ports.incoming.reviewing.GetClinicsForReviewQuery;
+import org.medihub.application.ports.incoming.reviewing.GetDoctorsForReviewQuery;
+import org.medihub.application.ports.incoming.scheduling.GetDoctorAvailableTimesQuery;
+import org.medihub.application.ports.incoming.scheduling.ScheduleAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase;
 import org.medihub.application.ports.incoming.appointment_type.GetAppointmentTypesQuery;
 import org.medihub.application.ports.incoming.appointment_type.DeleteAppointmentTypeUseCase;
@@ -60,7 +65,6 @@ import org.medihub.application.ports.outgoing.clinic_room_schedule.ScheduleClini
 import org.medihub.application.ports.outgoing.diagnosis.GetDiagnosisByIdPort;
 import org.medihub.application.ports.outgoing.diagnosis.GetDiagnosisPort;
 import org.medihub.application.ports.outgoing.diagnosis.SaveDiagnosisPort;
-import org.medihub.application.ports.outgoing.doctor.GetAllDoctorsPort;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorsPort;
 import org.medihub.application.ports.outgoing.doctor.LoadDoctorPort;
 import org.medihub.application.ports.outgoing.doctor.SaveDoctorPort;
@@ -94,6 +98,7 @@ import org.medihub.application.ports.outgoing.predefined_appointment.GetPredefin
 import org.medihub.application.ports.outgoing.predefined_appointment.LoadPredefinedAppointmentPort;
 import org.medihub.application.ports.outgoing.prescription.GetPrescriptionPort;
 import org.medihub.application.ports.outgoing.prescription.GetPrescriptionsPort;
+import org.medihub.application.ports.outgoing.reviewing.*;
 import org.medihub.application.ports.outgoing.scheduling.daily_schedule.LoadClinicRoomDailySchedulePort;
 import org.medihub.application.ports.outgoing.scheduling.daily_schedule.LoadDoctorDailySchedulePort;
 import org.medihub.application.ports.outgoing.scheduling.daily_schedule.SaveClinicRoomDailySchedulePort;
@@ -103,15 +108,12 @@ import org.medihub.application.ports.outgoing.scheduling.schedule_item.LoadMedic
 import org.medihub.application.ports.outgoing.scheduling.schedule_item.LoadMedicalDoctorScheduleItemPort;
 import org.medihub.application.ports.outgoing.scheduling.schedule_item.SaveMedicalDoctorScheduleItemPort;
 import org.medihub.application.services.*;
-import org.medihub.application.ports.outgoing.reviewing.LoadClinicReviewPort;
-import org.medihub.application.ports.outgoing.reviewing.LoadDoctorReviewPort;
-import org.medihub.application.ports.outgoing.reviewing.SaveClinicReviewPort;
 import org.medihub.application.ports.outgoing.prescription.SavePrescriptionPort;
-import org.medihub.application.ports.outgoing.reviewing.SaveDoctorReviewPort;
 import org.medihub.application.services.account.post.ChangePasswordService;
 import org.medihub.application.services.account.get.GetAccountService;
 import org.medihub.application.services.account.get.GetProfileService;
 import org.medihub.application.services.account.post.UpdateProfileService;
+import org.medihub.application.services.appointment.CancelAppointmentService;
 import org.medihub.application.services.appointment.GetAppointmentsService;
 import org.medihub.application.services.appointment.GetCurrentAppointmentService;
 import org.medihub.application.services.appointment_type.change.ChangeAppointmentTypeService;
@@ -151,6 +153,8 @@ import org.medihub.application.services.medical_record.GetMedicalRecordService;
 import org.medihub.application.services.predefined_appointment.GetPredefinedAppointmentsService;
 import org.medihub.application.services.prescription.AcceptPrescriptionService;
 import org.medihub.application.services.prescription.GetPrescriptionsService;
+import org.medihub.application.services.reviewing.GetClinicsForReviewService;
+import org.medihub.application.services.reviewing.GetDoctorsForReviewService;
 import org.medihub.application.services.scheduling.add.ScheduleDoctorsAppointmentService;
 import org.medihub.application.services.scheduling.add.SchedulePredefinedAppointmentService;
 import org.medihub.application.services.scheduling.get.GetDoctorAvailableTimesService;
@@ -171,6 +175,28 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class BeanConfig {
+
+    @Bean
+    public GetClinicsForReviewQuery getClinicsForReviewQuery(
+            GetAuthenticatedPort getAuthenticatedPort,
+            LoadPatientPort loadPatientPort,
+            GetClinicReviewsPort getClinicReviewsPort) {
+        return new GetClinicsForReviewService(
+                getAuthenticatedPort,
+                loadPatientPort,
+                getClinicReviewsPort);
+    }
+
+    @Bean
+    public GetDoctorsForReviewQuery getDoctorsForReviewQuery(
+            GetAuthenticatedPort getAuthenticatedPort,
+            LoadPatientPort loadPatientPort,
+            GetDoctorReviewsPort getDoctorReviewsPort) {
+        return new GetDoctorsForReviewService(
+                getAuthenticatedPort,
+                loadPatientPort,
+                getDoctorReviewsPort);
+    }
 
     @Bean
     public SchedulePredefinedAppointmentUseCase schedulePredefinedAppointmentUseCase(
@@ -202,6 +228,19 @@ public class BeanConfig {
     }
 
     @Bean
+    public CancelAppointmentUseCase cancelAppointmentUseCase(
+            GetAuthenticatedPort getAuthenticatedPort,
+            LoadAppointmentPort loadAppointmentPort,
+            DeleteAppointmentPort deleteAppointmentPort,
+            DeleteAppointmentScheduleItemPort deleteAppointmentScheduleItemPort) {
+        return new CancelAppointmentService(
+                getAuthenticatedPort,
+                loadAppointmentPort,
+                deleteAppointmentPort,
+                deleteAppointmentScheduleItemPort);
+    }
+
+    @Bean
     public GetAppointmentsQuery getAppointmentsQuery(
         GetAuthenticatedPort getAuthenticatedPort,
         LoadPatientPort loadPatientPort,
@@ -213,12 +252,14 @@ public class BeanConfig {
     @Bean
     public AddDoctorReviewUseCase addDoctorReviewUseCase(
             GetAuthenticatedPort getAuthenticatedPort,
-            LoadFinishedAppointmentPort loadFinishedAppointmentPort,
-            SaveDoctorReviewPort saveDoctorReviewPort) {
+            LoadPatientPort loadPatientPort,
+            SaveDoctorReviewPort saveDoctorReviewPort,
+            LoadDoctorReviewPort loadDoctorReviewPort) {
         return new AddDoctorReviewService(
                 getAuthenticatedPort,
-                loadFinishedAppointmentPort,
-                saveDoctorReviewPort);
+                loadPatientPort,
+                saveDoctorReviewPort,
+                loadDoctorReviewPort);
     }
 
     @Bean
@@ -242,12 +283,14 @@ public class BeanConfig {
     @Bean
     public AddClinicReviewUseCase addClinicReviewUseCase(
             GetAuthenticatedPort getAuthenticatedPort,
-            LoadFinishedAppointmentPort loadFinishedAppointmentPort,
-            SaveClinicReviewPort saveClinicReviewPort) {
+            LoadPatientPort loadPatientPort,
+            SaveClinicReviewPort saveClinicReviewPort,
+            LoadClinicReviewPort loadClinicReviewPort) {
         return new AddClinicReviewService(
                 getAuthenticatedPort,
-                loadFinishedAppointmentPort,
-                saveClinicReviewPort);
+                loadPatientPort,
+                saveClinicReviewPort,
+                loadClinicReviewPort);
     }
 
     @Bean
@@ -315,9 +358,9 @@ public class BeanConfig {
 
     @Bean
     public GetClinicRoomScheduleQuery getClinicRoomScheduleQuery(
-            GetClinicRoomSchedulePort getClinicRoomSchedulePort
+            LoadClinicRoomSchedulePort loadClinicRoomSchedulePort
     ) {
-        return new GetClinicRoomScheduleService(getClinicRoomSchedulePort);
+        return new GetClinicRoomScheduleService(loadClinicRoomSchedulePort);
     }
 
     @Bean
@@ -450,6 +493,19 @@ public class BeanConfig {
                 getAuthenticatedPort,
                 loadClinicAdminPort,
                 loadAppointmentTypePort);
+    }
+
+    @Bean
+    public GetCurrentAppointmentUseCase GetCurrentAppointmentUseCase(
+            GetAuthenticatedPort getAuthenticatedPort,
+            GetDoctorByAccountIdPort getDoctorByAccountIdPort,
+            GetCurrentAppointmentPort getCurrentAppointmentPort
+        ) {
+        return new GetCurrentAppointmentService(
+                getAuthenticatedPort,
+                getDoctorByAccountIdPort,
+                getCurrentAppointmentPort
+        );
     }
 
     @Bean
@@ -675,7 +731,7 @@ public class BeanConfig {
             LoadClinicAdminPort loadClinicAdminPort,
             GetClinicRoomsPort getClinicRoomsPort,
             GetDoctorsPort getDoctorsPort,
-            GetAppointmentPort getAppointmentPort
+            LoadAppointmentPort loadAppointmentPort
     ){
         return new GetCurrentClinicService(
                 loadClinicPort,
@@ -683,7 +739,7 @@ public class BeanConfig {
                 loadClinicAdminPort,
                 getClinicRoomsPort,
                 getDoctorsPort,
-                getAppointmentPort
+                loadAppointmentPort
         );
     }
 
@@ -713,18 +769,28 @@ public class BeanConfig {
     }
 
     @Bean
-    public AddFinishedAppointmentUseCase addFinishedAppointmentUseCase(GetAppointmentPort getAppointmentPort,
-                                                                       GetDiagnosisByIdPort getDiagnosisByIdPort,
-                                                                       SaveFinishedAppointmentPort saveFinishedAppointmentPort,
-                                                                       GetDrugByIdPort getDrugByIdPort,
-                                                                       SavePrescriptionPort savePrescriptionPort,
-                                                                       DeleteAppointmentScheduleItemPort deleteAppointmentScheduleItemPort) {
-        return new AddFinishedAppointmentService(getAppointmentPort,
+    public AddFinishedAppointmentUseCase addFinishedAppointmentUseCase(
+            LoadAppointmentPort loadAppointmentPort,
+            GetDiagnosisByIdPort getDiagnosisByIdPort,
+            SaveFinishedAppointmentPort saveFinishedAppointmentPort,
+            GetDrugByIdPort getDrugByIdPort,
+            SavePrescriptionPort savePrescriptionPort,
+            DeleteAppointmentScheduleItemPort deleteAppointmentScheduleItemPort,
+            LoadClinicReviewPort loadClinicReviewPort,
+            LoadDoctorReviewPort loadDoctorReviewPort,
+            SaveClinicReviewPort saveClinicReviewPort,
+            SaveDoctorReviewPort saveDoctorReviewPort) {
+        return new AddFinishedAppointmentService(
+                loadAppointmentPort,
                 getDiagnosisByIdPort,
                 saveFinishedAppointmentPort,
                 getDrugByIdPort,
                 savePrescriptionPort,
-                deleteAppointmentScheduleItemPort);
+                deleteAppointmentScheduleItemPort,
+                loadClinicReviewPort,
+                loadDoctorReviewPort,
+                saveClinicReviewPort,
+                saveDoctorReviewPort);
     }
 
     @Bean

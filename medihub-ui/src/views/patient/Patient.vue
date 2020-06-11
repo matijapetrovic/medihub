@@ -24,7 +24,7 @@ export default {
   data: () => ({
     navItems: [
       {
-        text: 'Search Clinics',
+        text: 'Clinics',
         path: '/search-clinics',
         icon: 'mdi-hospital-building',
       },
@@ -42,6 +42,11 @@ export default {
         text: 'Scheduled Appointments',
         path: '/scheduled-appointments',
         icon: 'mdi-clock-time-eight-outline',
+      },
+      {
+        text: 'Reviews',
+        path: '/reviews',
+        icon: 'mdi-star-circle-outline',
       },
     ],
   }),

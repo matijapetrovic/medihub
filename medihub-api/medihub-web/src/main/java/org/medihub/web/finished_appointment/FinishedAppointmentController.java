@@ -27,13 +27,13 @@ public class FinishedAppointmentController {
 
     @GetMapping("")
     @PreAuthorize("hasRole('ROLE_PATIENT')")
-    ResponseEntity<List<GetAppointmentHistoryOutput>> getAppointmentHistory() {
+    public ResponseEntity<List<GetAppointmentHistoryOutput>> getAppointmentHistory() {
         return ResponseEntity.ok(getAppointmentHistoryQuery.getAppointmentHistory());
     }
 
     @PostMapping("/getProfit")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    ResponseEntity<FinishedAppointmentProfitResponse> getProfit(
+    public ResponseEntity<FinishedAppointmentProfitResponse> getProfit(
             @RequestBody GetProfitRequest getProfitRequest
     ) {
         GetFinishedAppointmentProfitCommand command = makeProfitCommand(getProfitRequest);
@@ -48,7 +48,7 @@ public class FinishedAppointmentController {
     }
 
     @PostMapping("/add")
-    ResponseEntity<GetFinishedAppointmentOutput> add(@RequestBody AddFinishedAppointmentRequest request) {
+    public ResponseEntity<GetFinishedAppointmentOutput> add(@RequestBody AddFinishedAppointmentRequest request) {
         AddFinishedAppointmentCommand command = this.createCommand(request);
         return ResponseEntity.ok(addFinishedAppointmentUseCase.addFinishedAppointment(command));
     }
@@ -64,12 +64,12 @@ public class FinishedAppointmentController {
     }
 
     @GetMapping("/{patientId}")
-    ResponseEntity<List<GetFinishedAppointmentOutput>> getPatientsFinishedAppointments(@PathVariable Long patientId) {
+    public ResponseEntity<List<GetFinishedAppointmentOutput>> getPatientsFinishedAppointments(@PathVariable Long patientId) {
         return ResponseEntity.ok(getPatientsFinishedAppointmetsQuery.getPatientsFinishedAppointments(patientId));
     }
 
     @PostMapping("/change")
-    void changeFinishedAppointment(@RequestBody ChangeFinishedAppointmentRequest request) {
+    public void changeFinishedAppointment(@RequestBody ChangeFinishedAppointmentRequest request) {
         ChangeFinishedAppointmentUseCase.ChangeFinishedAppointmentCommand command = createChangeCommand(request);
         changeFinishedAppointmentUseCase.changeFinishedAppointment(command);
     }

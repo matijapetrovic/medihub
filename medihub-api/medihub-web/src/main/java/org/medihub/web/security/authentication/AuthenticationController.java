@@ -26,7 +26,7 @@ public class AuthenticationController {
     private final TokenUtil tokenUtil;
 
     @PostMapping("/login")
-    ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
         LoginCommand command = new LoginCommand(request.getEmail(), request.getPassword());
         LoginResponse response = mapToLoginResponse(loginUseCase.login(command));
         return ResponseEntity.ok(response);
@@ -48,7 +48,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/password")
-    ResponseEntity<?> changePassword(@RequestBody PasswordRequest request) throws AccountNotFoundException {
+    public ResponseEntity<Map<String, String>> changePassword(@RequestBody PasswordRequest request) throws AccountNotFoundException {
         ChangePasswordCommand command = new ChangePasswordCommand(request.getOldPassword(), request.getNewPassword());
         boolean changed = changePasswordUseCase.changePassword(command);
         if (changed) {

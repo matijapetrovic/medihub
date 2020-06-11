@@ -21,11 +21,11 @@ public class ClinicAdminJpaEntity {
     private Long id;
 
     @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name="account")
+    @JoinColumn(name="account", nullable = false)
     private AccountJpaEntity account;
 
     @ManyToOne
-    @JoinColumn(name="clinic", referencedColumnName = "id")
+    @JoinColumn(name="clinic", referencedColumnName = "id", nullable = false)
     private ClinicJpaEntity clinic;
 
 }

@@ -23,7 +23,7 @@ public class ReportsController {
 
     @GetMapping("")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    ResponseEntity<List<GetAppointmentDateCount>>
+    public ResponseEntity<List<GetAppointmentDateCount>>
     get(
             @RequestParam String type,
             @RequestParam

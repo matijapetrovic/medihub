@@ -24,11 +24,11 @@ public class PatientController {
 
     @GetMapping("")
     @ResponseBody
-    public List<?> getAll(){
+    public List<PatientResponse> getAll(){
         return loadAll();
     }
 
-    private List<?> loadAll(){
+    private List<PatientResponse> loadAll(){
         return getPatientsPort.
                 getAllPatients().
                 stream().

@@ -19,7 +19,7 @@ public class MedicalDoctorAppointmentScheduleItemAdapter
     @Override
     public MedicalDoctorAppointmentScheduleItem loadById(Long id) throws NotFoundException {
         Optional<MedicalDoctorAppointmentScheduleJpaItem> scheduleJpaItem =
-                repository.findByAppointmentId(id);
+                repository.findById(id);
         if (scheduleJpaItem.isEmpty()) {
             throw new NotFoundException("Schedule item not found");
         }

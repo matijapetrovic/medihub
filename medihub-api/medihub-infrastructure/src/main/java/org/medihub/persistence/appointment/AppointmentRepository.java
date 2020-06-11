@@ -19,10 +19,9 @@ public interface AppointmentRepository extends JpaRepository<AppointmentJpaEntit
             "(select fapp.appointment from FinishedAppointmentJpaEntity fapp)")
     List<AppointmentJpaEntity> findAllScheduledByPatientId(@Param("patient_id") Long patientId);
 
-    // potencijalno startTime umesto time
     @Query("select app from AppointmentJpaEntity app " +
             "where app.doctor.id = :doctorId and app.patient.id=:patientId " +
-            "   and app.time > :start and app.time <= :end " +
+            "   and app.startTime > :start and app.startTime <= :end " +
             "   and app not in (select fa.appointment from FinishedAppointmentJpaEntity fa)")
     Optional<AppointmentJpaEntity> findCurrentAppointment(
             @Param(value="patientId") Long patientId,

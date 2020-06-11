@@ -20,12 +20,12 @@ public class PrescriptionController {
     private final AcceptPrescriptionUseCase acceptPrescriptionUseCase;
 
     @GetMapping("")
-    ResponseEntity<List<GetPrescriptionsOutput>> getPrescriptions() {
+    public ResponseEntity<List<GetPrescriptionsOutput>> getPrescriptions() {
         return ResponseEntity.ok(getPrescriptionsQuery.getPrescriptions());
     }
 
     @PostMapping("/accept")
-    void acceptPrescription(@RequestBody Long id) {
+    public void acceptPrescription(@RequestBody Long id) {
         acceptPrescriptionUseCase.acceptPrescription(id);
     }
 }
