@@ -2,6 +2,7 @@ package org.medihub.application.services.predefined_appointment;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.NotAvailableException;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.predefined_appointment.AddPredefinedAppointmentUseCase;
 import org.medihub.application.ports.outgoing.appointment_type.GetAppointmentTypesPort;
 import org.medihub.application.ports.outgoing.clinic_room.GetClinicRoomsPort;
@@ -32,7 +33,7 @@ public class AddPredefinedAppointmentService implements AddPredefinedAppointment
     private final SaveClinicRoomDailySchedulePort saveClinicRoomDailySchedulePort;
 
     @Override
-    public void addPredefinedAppointment(AddPredefinedAppointmentCommand command) throws NotAvailableException, NotActiveException {
+    public void addPredefinedAppointment(AddPredefinedAppointmentCommand command) throws NotAvailableException, NotFoundException {
         PredefinedAppointment predefinedAppointment =
                 new PredefinedAppointment(
                         null,

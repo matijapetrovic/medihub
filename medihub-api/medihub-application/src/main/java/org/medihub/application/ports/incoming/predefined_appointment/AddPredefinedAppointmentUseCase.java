@@ -3,6 +3,7 @@ package org.medihub.application.ports.incoming.predefined_appointment;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 import org.medihub.application.exceptions.NotAvailableException;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.common.SelfValidating;
 import org.medihub.common.validation.annotations.Password;
 
@@ -14,7 +15,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public interface AddPredefinedAppointmentUseCase {
-    void addPredefinedAppointment(AddPredefinedAppointmentUseCase.AddPredefinedAppointmentCommand command) throws NotAvailableException, NotActiveException;
+    void addPredefinedAppointment(AddPredefinedAppointmentUseCase.AddPredefinedAppointmentCommand command) throws NotAvailableException, NotFoundException;
 
     @Value
     @EqualsAndHashCode(callSuper = false)

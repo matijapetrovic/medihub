@@ -20,6 +20,7 @@ import org.medihub.application.ports.incoming.medical_doctor.schedule.GetDoctorS
 import org.medihub.application.ports.incoming.medical_record.ChangeMedicalRecordUseCase;
 import org.medihub.application.ports.incoming.medical_record.GetBloodTypesQuery;
 import org.medihub.application.ports.incoming.medical_record.GetPatientMedicalRecordQuery;
+import org.medihub.application.ports.incoming.operation.AddOperationUseCase;
 import org.medihub.application.ports.incoming.predefined_appointment.AddPredefinedAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment.AddAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment_request.DeleteAppointmentRequestUseCase;
@@ -230,12 +231,10 @@ public class BeanConfig {
     public CancelAppointmentUseCase cancelAppointmentUseCase(
             GetAuthenticatedPort getAuthenticatedPort,
             LoadAppointmentPort loadAppointmentPort,
-            DeleteAppointmentPort deleteAppointmentPort,
             DeleteAppointmentScheduleItemPort deleteAppointmentScheduleItemPort) {
         return new CancelAppointmentService(
                 getAuthenticatedPort,
                 loadAppointmentPort,
-                deleteAppointmentPort,
                 deleteAppointmentScheduleItemPort);
     }
 
@@ -492,19 +491,6 @@ public class BeanConfig {
                 getAuthenticatedPort,
                 loadClinicAdminPort,
                 loadAppointmentTypePort);
-    }
-
-    @Bean
-    public GetCurrentAppointmentUseCase GetCurrentAppointmentUseCase(
-            GetAuthenticatedPort getAuthenticatedPort,
-            GetDoctorByAccountIdPort getDoctorByAccountIdPort,
-            GetCurrentAppointmentPort getCurrentAppointmentPort
-        ) {
-        return new GetCurrentAppointmentService(
-                getAuthenticatedPort,
-                getDoctorByAccountIdPort,
-                getCurrentAppointmentPort
-        );
     }
 
     @Bean
@@ -861,4 +847,18 @@ public class BeanConfig {
                 getDiagnosisByIdPort,
                 saveFinishedAppointmentPort);
     }
+
+    @Bean
+    public AddOperationUseCase addOperationUseCase(GetDoctorsPort getDoctorsPort,
+                                                   GetPatientsPort getPatientsPort,
+                                                   GetClinicRoomsPort getClinicRoomsPort,
+                                                   SaveAppointmentPort saveAppointmentPort,
+                                                   SaveMedicalDoctorScheduleItemPort saveMedicalDoctorScheduleItemPort) {
+        return new AddOperationService(getDoctorsPort,
+                getPatientsPort,
+                getClinicRoomsPort,
+                saveAppointmentPort,
+                saveMedicalDoctorScheduleItemPort);
+    }
+
 }

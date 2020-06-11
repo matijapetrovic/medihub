@@ -39,7 +39,8 @@ public class ScheduleAppointmentService implements ScheduleAppointmentUseCase {
                         patient,
                         price,
                         command.getDate(),
-                        command.getTime());
+                        command.getTime(),
+                        command.getType());
         saveAppointmentRequestPort.saveAppointmentRequest(request);
         notifyClinicAdmin(request);
     }

@@ -28,4 +28,5 @@ public class ScheduleAppointmentRequest {
     @JsonDeserialize(using = LocalTimeDeserializer.class)
     @JsonSerialize(using = LocalTimeSerializer.class)
     private LocalTime time;
+    private String type;
 }

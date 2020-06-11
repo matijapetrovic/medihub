@@ -3,8 +3,6 @@ package org.medihub.persistence.patient;
 import lombok.RequiredArgsConstructor;
 import org.medihub.domain.patient.Patient;
 import org.medihub.persistence.account.AccountMapper;
-import org.medihub.persistence.appointment.AppointmentMapper;
-import org.medihub.persistence.medical_record.MedicalRecordMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

@@ -34,7 +34,7 @@ public class PredefinedAppointmentController {
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    public void add(@RequestBody PredefinedAppointmentRequest request) throws NotAvailableException, NotActiveException {
+    public void add(@RequestBody PredefinedAppointmentRequest request) throws NotAvailableException, NotFoundException {
         AddPredefinedAppointmentCommand command = createCommand(request);
         addPredefinedAppointmentUseCase.addPredefinedAppointment(command);
     }

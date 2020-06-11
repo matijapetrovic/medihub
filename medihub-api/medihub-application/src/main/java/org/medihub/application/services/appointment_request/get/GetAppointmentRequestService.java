@@ -58,7 +58,8 @@ public class GetAppointmentRequestService implements GetAppointmentRequestUseCas
                         ),
                         appointmentRequest.getPrice().getAmount(),
                         appointmentRequest.getDate().toString(),
-                        appointmentRequest.getTime().toString()
+                        appointmentRequest.getTime().toString(),
+                        appointmentRequest.getType()
                 ))
                 .collect(Collectors.toList());
     }
