@@ -33,6 +33,6 @@ public class DrugAdapter implements SaveDrugPort, GetDrugsPort, GetDrugByIdPort 
 
     @Override
     public Drug getDrugById(Long id) {
-        return drugMapper.mapToDomainEntity(drugRepository.findById(id).get());
+        return drugMapper.mapToDomainEntity(drugRepository.getOne(id));
     }
 }

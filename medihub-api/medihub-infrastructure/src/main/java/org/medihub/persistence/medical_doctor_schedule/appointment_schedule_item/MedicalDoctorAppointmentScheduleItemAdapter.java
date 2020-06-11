@@ -27,7 +27,7 @@ public class MedicalDoctorAppointmentScheduleItemAdapter
         return new MedicalDoctorAppointmentScheduleItem(
                 jpaItem.getId(),
                 jpaItem.getStartTime().toLocalDateTime().toLocalTime(),
-                MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.valueOf(jpaItem.getType()).get(),
+                MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.valueOf(jpaItem.getType()).orElseGet(null),
                 appointmentMapper.mapToDomainEntity(jpaItem.getAppointment())
         );
     }

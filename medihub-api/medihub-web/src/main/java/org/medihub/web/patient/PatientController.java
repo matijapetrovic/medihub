@@ -43,7 +43,7 @@ public class PatientController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<PatientResponse> getPatientById(@PathVariable Long id) {
+    public ResponseEntity<PatientResponse> getPatientById(@PathVariable Long id) {
         return ResponseEntity.ok(loadPatientUseCase.loadPatientById(id));
     }
 }

@@ -43,7 +43,7 @@ public class MedicalDoctorController {
     }
 
     @GetMapping("/getScheduleItem/{id}")
-    ResponseEntity<MedicalDoctorAppointmentScheduleItem> getAppointmentScheduleItem(
+    public ResponseEntity<MedicalDoctorAppointmentScheduleItem> getAppointmentScheduleItem(
             @PathVariable Long id) throws NotFoundException {
         return ResponseEntity.ok(
                 getAppointmentScheduleItemByAppointmentIdUseCase.getItem(id));
@@ -127,7 +127,7 @@ public class MedicalDoctorController {
     }
 
     @GetMapping("/medical-record-permission/{doctorId}")
-    ResponseEntity<Boolean> medicalRecordPermission(
+    public ResponseEntity<Boolean> medicalRecordPermission(
             @PathVariable Long doctorId) {
         return ResponseEntity.ok(
                 checkMedicalRecordPermissionUseCase
