@@ -30,7 +30,7 @@ public class ClinicRoomAdapter implements
     public ClinicRoom loadClinicRoom(Long id) {
         ClinicRoomJpaEntity clinicRoomJpa =
                 clinicRoomRepository
-                        .findById(id)
+                        .findByIdAndDeletedIsFalse(id)
                         .orElseThrow(EntityNotFoundException::new);
 
         return clinicRoomMapper.mapToDomainEntity(clinicRoomJpa);
@@ -43,16 +43,16 @@ public class ClinicRoomAdapter implements
 
     @Override
     public void deleteClinicRoom(Long id) {
-        ClinicRoomJpaEntity clinicRoomJpa = clinicRoomRepository.findById(id).get();
-        if(!clinicRoomJpa.getDeleted())
-            clinicRoomJpa.setDeleted(true);
-            clinicRoomRepository.save(clinicRoomJpa);
+        ClinicRoom clinicRoom =
+                clinicRoomMapper.mapToDomainEntity(clinicRoomRepository.findByIdAndDeletedIsFalse(id).get());
+        clinicRoom.setIsDeleted(true);
+        clinicRoomRepository.save(clinicRoomMapper.mapToJpaEntity(clinicRoom));
     }
 
     @Override
     public List<ClinicRoom> getClinicRooms(Long clinicId) {
         return clinicRoomRepository
-                .findAllByClinic_Id(clinicId)
+                .findAllByClinic_IdAndDeletedIsFalse(clinicId)
                 .stream()
                 .map(clinicRoomMapper::mapToDomainEntity)
                 .collect(Collectors.toList());
@@ -60,11 +60,11 @@ public class ClinicRoomAdapter implements
 
     @Override
     public ClinicRoom getClinicRoom(Long id) {
-        return clinicRoomMapper.mapToDomainEntity(clinicRoomRepository.findById(id).get());
+        return clinicRoomMapper.mapToDomainEntity(clinicRoomRepository.findByIdAndDeletedIsFalse(id).get());
     }
 
     public ClinicRoom getClinicRoomById(Long id) {
-        return clinicRoomMapper.mapToDomainEntity(clinicRoomRepository.findById(id).get());
+        return clinicRoomMapper.mapToDomainEntity(clinicRoomRepository.findByIdAndDeletedIsFalse(id).get());
     }
 
     @Override

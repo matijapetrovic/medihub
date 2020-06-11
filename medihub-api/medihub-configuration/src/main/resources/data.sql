@@ -63,10 +63,10 @@ insert into medical_record_allergy_mapping (medical_record_id, allergy_name, all
 insert into clinic (name, address, city, country, description, rating, review_count) values ('Klinika 1', 'Ulica Zmaj Jovina 20', 'Novi Sad', 'Serbia', 'asgadg', 0.0, 0);
 insert into clinic (name, address, city, country, description, rating, review_count) values ('Klinika 2', 'Ulica kneza Mihaila', 'Beograd', 'Serbia', 'asgadg', 0.0, 0);
 
-insert into clinic_room (name, number, clinic_id) values ('soba1', 1, 1);
-insert into clinic_room (name, number, clinic_id) values ('soba2', 2, 1);
-insert into clinic_room (name, number, clinic_id) values ('soba3', 3, 1);
-insert into clinic_room (name, number, clinic_id) values ('soba4', 4, 1);
+insert into clinic_room (name, number, clinic_id, deleted) values ('soba1', 1, 1, false);
+insert into clinic_room (name, number, clinic_id, deleted) values ('soba2', 2, 1, false);
+insert into clinic_room (name, number, clinic_id, deleted) values ('soba3', 3, 1, false);
+insert into clinic_room (name, number, clinic_id, deleted) values ('soba4', 4, 1, false);
 
 insert into clinic_admin(account, clinic) values (4, 1);
 

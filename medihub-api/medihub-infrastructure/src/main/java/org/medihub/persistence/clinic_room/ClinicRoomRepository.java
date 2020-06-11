@@ -13,8 +13,9 @@ import java.util.Optional;
 
 public interface ClinicRoomRepository extends JpaRepository<ClinicRoomJpaEntity, Long> {
 
-    List<ClinicRoomJpaEntity> findAllByClinic_Id(Long clinicId);
+    Optional<ClinicRoomJpaEntity> findByIdAndDeletedIsFalse(Long id);
 
+    List<ClinicRoomJpaEntity> findAllByClinic_IdAndDeletedIsFalse(Long clinicId);
     List<ClinicRoomJpaEntity> findAll();
 
     @Query("select distinct cr " +

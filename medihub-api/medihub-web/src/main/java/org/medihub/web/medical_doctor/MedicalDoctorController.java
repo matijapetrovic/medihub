@@ -7,7 +7,6 @@ import org.medihub.application.ports.incoming.medical_doctor.schedule.GetSchedul
 import org.medihub.application.ports.incoming.medical_doctor.schedule.GetDoctorScheduleQuery;
 import org.medihub.application.ports.incoming.patient.PatientResponse;
 import org.medihub.application.ports.incoming.scheduling.GetDoctorAvailableTimesQuery;
-import org.medihub.application.ports.outgoing.doctor.GetAllDoctorsPort;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;

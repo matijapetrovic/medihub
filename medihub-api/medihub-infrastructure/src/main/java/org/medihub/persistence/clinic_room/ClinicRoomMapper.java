@@ -27,7 +27,7 @@ public class ClinicRoomMapper {
                 clinicRoom.getId(),
                 clinicRoom.getName(),
                 clinicRoom.getNumber(),
-                clinicRoom.getDeleted(),
+                clinicRoom.getIsDeleted(),
                 clinicMapper.mapToJpaEntity(clinicRoom.getClinic()));
     }
 
