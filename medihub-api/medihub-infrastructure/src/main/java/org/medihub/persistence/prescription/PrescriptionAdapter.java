@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.outgoing.prescription.GetPrescriptionPort;
 import org.medihub.application.ports.outgoing.prescription.GetPrescriptionsPort;
 import org.medihub.application.ports.outgoing.prescription.SavePrescriptionPort;
+import org.medihub.domain.Drug;
 import org.medihub.domain.Prescription;
+import org.medihub.persistence.drug.DrugMapper;
+import org.medihub.persistence.drug.DrugRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,7 +20,6 @@ public class PrescriptionAdapter implements SavePrescriptionPort,
         GetPrescriptionPort {
     private final PrescriptionRepository prescriptionRepository;
     private final PrescriptionMapper prescriptionMapper;
-
     @Override
     public Prescription savePrescription(Prescription p) {
         return prescriptionMapper.mapToDomainEntity(prescriptionRepository.save(prescriptionMapper.mapToJpaEntity(p)));

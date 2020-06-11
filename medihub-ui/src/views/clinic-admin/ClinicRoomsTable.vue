@@ -86,13 +86,21 @@
     </v-data-table>
       </v-col>
     </v-row>
+    <ConfirmDialog
+    @confirmResponse="setConfirmation($event)"
+    ref="confirm"
+    />
   </v-container>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import ConfirmDialog from '@/app/shared/_components/dialogs/ConfirmDialog.vue';
 
 export default {
+  components: {
+    ConfirmDialog,
+  },
   data: () => ({
     dialog: false,
     search: '',
@@ -147,21 +155,15 @@ export default {
       this.dialog = true;
     },
     deleteItem(item) {
-      if (window.confirm('Are you sure you want to delete this item?')) {
-        const index = this.clinicRooms.map((e) => e.id).indexOf(item.id);
-        this.deleteClinicRoom(item.id).then(() => {
-          this.clinicRooms.splice(index, 1);
-        });
-      }
+      this.editedItem = item;
+      this.$refs.confirm.open('Delete confirmation', 'Are you sure you want to delete clinic room', null);
     },
-
     close() {
       this.dialog = false;
       this.$nextTick(() => {
         this.editedIndex = -1;
       });
     },
-
     save() {
       if (this.editedIndex > -1) {
         this.clinicRooms[this.editedIndex] = this.editedItem;
@@ -170,6 +172,14 @@ export default {
         this.clinicRooms.push(this.editedItem);
       }
       this.close();
+    },
+    setConfirmation(signal) {
+      if (signal) {
+        const index = this.clinicRooms.map((e) => e.id).indexOf(this.editedItem.id);
+        this.deleteClinicRoom(this.editedItem.id).then(() => {
+          this.clinicRooms.splice(index, 1);
+        });
+      }
     },
   },
 };

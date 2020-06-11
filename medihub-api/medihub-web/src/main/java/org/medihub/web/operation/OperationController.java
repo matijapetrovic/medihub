@@ -1,6 +1,7 @@
 package org.medihub.web.operation;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.operation.AddOperationUseCase;
 import org.medihub.application.ports.incoming.operation.OperationOutput;
 import org.springframework.http.MediaType;
@@ -19,7 +20,7 @@ public class OperationController {
     private final AddOperationUseCase addOperationUseCase;
 
     @PostMapping("/add")
-    ResponseEntity<OperationOutput> addOperation(@RequestBody AddOperationRequest request) {
+    ResponseEntity<OperationOutput> addOperation(@RequestBody AddOperationRequest request) throws NotFoundException {
         AddOperationUseCase.AddOperationCommand command = createAddCommand(request);
 
         return ResponseEntity.ok(addOperationUseCase.addOperation(command));

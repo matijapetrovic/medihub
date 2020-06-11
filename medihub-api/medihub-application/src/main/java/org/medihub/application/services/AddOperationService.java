@@ -1,6 +1,7 @@
 package org.medihub.application.services;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.operation.AddOperationUseCase;
 import org.medihub.application.ports.incoming.operation.OperationOutput;
 import org.medihub.application.ports.outgoing.appointment.SaveAppointmentPort;
@@ -29,7 +30,7 @@ public class AddOperationService implements AddOperationUseCase {
     private final SaveMedicalDoctorScheduleItemPort saveMedicalDoctorScheduleItemPort;
 
     @Override
-    public OperationOutput addOperation(AddOperationCommand command) {
+    public OperationOutput addOperation(AddOperationCommand command) throws NotFoundException {
         //create operation
         Operation operation = new Operation(
                 null,

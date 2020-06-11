@@ -1,13 +1,15 @@
 package org.medihub.web.medical_doctor;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.medical_doctor.*;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase.AddMedicalDoctorCommand;
 import org.medihub.application.ports.incoming.medical_doctor.schedule.GetScheduleOutput;
 import org.medihub.application.ports.incoming.medical_doctor.schedule.GetDoctorScheduleQuery;
-import org.medihub.application.ports.incoming.patient.PatientResponse;
+import org.medihub.application.ports.incoming.scheduling.GetAppointmentScheduleItemByAppointmentIdUseCase;
 import org.medihub.application.ports.incoming.scheduling.GetDoctorAvailableTimesQuery;
-import org.medihub.application.ports.outgoing.doctor.GetAllDoctorsPort;
+import org.medihub.domain.medical_doctor.MedicalDoctorAppointmentScheduleItem;
+import org.medihub.application.ports.incoming.patient.PatientResponse;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
@@ -31,11 +33,19 @@ public class MedicalDoctorController {
     private final SearchDoctorsQuery searchDoctorsQuery;
     private final GetDoctorAvailableTimesQuery getDoctorAvailableTimesQuery;
     private final GetDoctorScheduleQuery getDoctorScheduleQuery;
+    private final GetAppointmentScheduleItemByAppointmentIdUseCase getAppointmentScheduleItemByAppointmentIdUseCase;
     private final GetPreviousPatientsQuery getPreviousPatientsQuery;
 
     @GetMapping("/{clinicId}")
     public ResponseEntity<List<GetDoctorsOutput>> getDoctors(@PathVariable Long clinicId) {
         return ResponseEntity.ok(getDoctorsQuery.getDoctorsForClinic(clinicId));
+    }
+
+    @GetMapping("/getScheduleItem/{id}")
+    public ResponseEntity<MedicalDoctorAppointmentScheduleItem> getAppointmentScheduleItem(
+            @PathVariable Long id) throws NotFoundException {
+        return ResponseEntity.ok(
+                getAppointmentScheduleItemByAppointmentIdUseCase.getItem(id));
     }
 
     @GetMapping("/{doctorId}/available_times/{date}")
@@ -115,6 +125,7 @@ public class MedicalDoctorController {
         return ResponseEntity.ok(getDoctorScheduleQuery.getDoctorSchedule(id));
     }
 
+    
     @GetMapping("/previous-patients")
     public ResponseEntity<List<PatientResponse>> getPreviousPatients() {
         return ResponseEntity.ok(getPreviousPatientsQuery.getPreviousPatients());

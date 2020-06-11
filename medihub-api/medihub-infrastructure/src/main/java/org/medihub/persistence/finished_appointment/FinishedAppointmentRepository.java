@@ -1,5 +1,6 @@
 package org.medihub.persistence.finished_appointment;
 
+import org.medihub.domain.appointment.FinishedAppointment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,4 +14,12 @@ public interface FinishedAppointmentRepository extends JpaRepository<FinishedApp
     List<FinishedAppointmentJpaEntity> findAllByAppointment_Patient_Id(Long patientId);
     List<FinishedAppointmentJpaEntity> findAllByAppointment_Doctor_Clinic_Id(Long clinicId);
 
+    @Query("select fa " +
+            "from FinishedAppointmentJpaEntity fa " +
+            "where fa.appointment.doctor=:doctorId and fa.appointment.patient=:patientId ")
+    List<FinishedAppointmentJpaEntity> findAllAppointmentsWhereDoctorExaminesPatient(
+            @Param(value="doctorId") Long doctorId,
+            @Param(value="patientId") Long patientId);
+
+    List<FinishedAppointmentJpaEntity> findAllByAppointmentDoctor_IdAndAppointmentPatient_Id(Long doctorId, Long patientId);
 }

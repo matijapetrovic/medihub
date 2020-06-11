@@ -79,7 +79,7 @@ public class ClinicRoomController {
 
     @PostMapping("/delete")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    public void delete(@RequestBody Long id) throws ForbiddenException {
+    public void delete(@RequestBody Long id) throws ForbiddenException, NotFoundException {
         Long clinicId = getAuthenticatedClinicId();
         DeleteClinicCommand command = new DeleteClinicCommand(clinicId, id);
         deleteClinicRoomUseCase.deleteClinicRoom(command);

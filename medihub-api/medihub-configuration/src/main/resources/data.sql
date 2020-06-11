@@ -64,10 +64,10 @@ insert into medical_record_allergy_mapping (medical_record_id, allergy_name, all
 insert into clinic (name, address, city, country, description, rating, review_count) values ('Klinika 1', 'Ulica Zmaj Jovina 20', 'Novi Sad', 'Serbia', 'asgadg', 0.0, 0);
 insert into clinic (name, address, city, country, description, rating, review_count) values ('Klinika 2', 'Ulica kneza Mihaila', 'Beograd', 'Serbia', 'asgadg', 0.0, 0);
 
-insert into clinic_room (name, number, clinic_id) values ('soba1', 1, 1);
-insert into clinic_room (name, number, clinic_id) values ('soba2', 2, 1);
-insert into clinic_room (name, number, clinic_id) values ('soba3', 3, 1);
-insert into clinic_room (name, number, clinic_id) values ('soba4', 4, 1);
+insert into clinic_room (name, number, clinic_id, deleted) values ('soba1', 1, 1, false);
+insert into clinic_room (name, number, clinic_id, deleted) values ('soba2', 2, 1, false);
+insert into clinic_room (name, number, clinic_id, deleted) values ('soba3', 3, 1, false);
+insert into clinic_room (name, number, clinic_id, deleted) values ('soba4', 4, 1, false);
 
 insert into clinic_admin(account, clinic) values (4, 1);
 
@@ -79,14 +79,12 @@ insert into medical_doctor (account_id, clinic, working_time_from, working_time_
 insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count,specialization) values (6, 1, '06:00:00', '14:00:00', 8, 0.0, 0, 1);
 insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count,specialization) values (7, 2, '18:00:00', '01:00:00', 7, 0.0, 0, 2);
 insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count,specialization) values (10, 1, '18:00:00', '01:00:00', 7, 0.0, 0, 1);
-
 insert into medical_nurse (account_id, clinic, working_time_from, working_time_to) values (3, 1, '06:00:00', '14:00:00');
 
 insert into appointment (id, start_time, clinic_room_id, patient_id, doctor_id) values (50, '2020-10-10 12:00:00', 1, 1, 1);
 insert into appointment (id, start_time, clinic_room_id, patient_id, doctor_id) values (51, '2020-10-12 13:00:00', 1, 1, 1);
 insert into appointment (id, start_time, clinic_room_id, patient_id, doctor_id) values (52, '2019-12-12 07:00:00', 1, 1, 2);
 insert into appointment (id, patient_id, doctor_id, clinic_room_id, start_time) values (53, 2, 1, 1, '2020-10-10 20:00:00');
-
 
 insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (1, 1, 500.0);
 insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (1, 2, 1500.0);

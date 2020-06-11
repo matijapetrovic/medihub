@@ -63,6 +63,15 @@ public class GetDoctorScheduleService implements GetDoctorScheduleQuery {
         MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType type = item.getType();
 
         switch(type) {
+            case PREDEFINED_APPOINTMENT:
+                MedicalDoctorPredefinedAppointmentScheduleItem predefinedItem =
+                        (MedicalDoctorPredefinedAppointmentScheduleItem) item;
+                return new PredefinedAppointmentScheduleItemOutput(
+                        predefinedItem.getId(),
+                        predefinedItem.getTime().toString(),
+                        predefinedItem.getType().toString(),
+                        predefinedItem.getPredefinedAppointment()
+                );
             case APPOINTMENT:
                 MedicalDoctorAppointmentScheduleItem castItem = (MedicalDoctorAppointmentScheduleItem) item;
                 return new AppointmentScheduleItemOutput(
