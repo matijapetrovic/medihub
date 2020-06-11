@@ -23,21 +23,21 @@ public class MedicalRecordController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_PATIENT')")
-    ResponseEntity<GetMedicalRecordOutput> get() {
+    public ResponseEntity<GetMedicalRecordOutput> get() {
         return ResponseEntity.ok(getMedicalRecordQuery.getMedicalRecord());
     }
 
     @GetMapping("/blood_types")
-    ResponseEntity<List<String>> getBloodTypes() { return ResponseEntity.ok(getBloodTypesQuery.getBloodTypes());}
+    public ResponseEntity<List<String>> getBloodTypes() { return ResponseEntity.ok(getBloodTypesQuery.getBloodTypes());}
 
     @GetMapping("/{id}")
-    ResponseEntity<GetMedicalRecordOutput> getPatientMedicalRecord(@PathVariable Long id) {
+    public ResponseEntity<GetMedicalRecordOutput> getPatientMedicalRecord(@PathVariable Long id) {
         GetMedicalRecordOutput getMedicalRecordOutput = getPatientMedicalRecordQuery.getPatientMedicalRecord(id);
         return ResponseEntity.ok(getMedicalRecordOutput);
     }
 
     @PostMapping("/change")
-    void changeMedicalRecord(@RequestBody ChangeMedicalReportRequest request) {
+    public void changeMedicalRecord(@RequestBody ChangeMedicalReportRequest request) {
         ChangeMedicalRecordUseCase.ChangeMedicalRecordCommand command = createCommand(request);
         changeMedicalRecordUseCase.changeMedicalRecord(command);
     }

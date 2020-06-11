@@ -24,7 +24,7 @@ public class RegistrationController {
     private final RegisterPatientUseCase registerUseCase;
 
     @PostMapping("")
-    ResponseEntity<?> register(@RequestBody RegisterRequest request) throws AccountNotFoundException {
+    public ResponseEntity<RegistrationRequest> register(@RequestBody RegisterRequest request) throws AccountNotFoundException {
         RegisterPatientCommand command = createCommand(request);
         RegistrationRequest entity = registerUseCase.registerPatient(command);
 
@@ -33,7 +33,7 @@ public class RegistrationController {
                 .path("/{id}")
                 .buildAndExpand(entity.getId())
                 .toUri();
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).body(entity);
     }
 
     private RegisterPatientCommand createCommand(RegisterRequest request) {

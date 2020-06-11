@@ -3,6 +3,7 @@ package org.medihub.persistence.appointment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 import org.medihub.persistence.clinic_room.ClinicRoomJpaEntity;
 import org.medihub.persistence.medical_doctor.MedicalDoctorJpaEntity;
 import org.medihub.persistence.patient.PatientJpaEntity;

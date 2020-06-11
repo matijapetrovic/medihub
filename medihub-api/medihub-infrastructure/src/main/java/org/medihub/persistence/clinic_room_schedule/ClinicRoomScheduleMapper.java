@@ -10,37 +10,51 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
 public class ClinicRoomScheduleMapper {
     private final ClinicRoomMapper clinicRoomMapper;
 
-    public ClinicRoomScheduleJpaEntity mapToScheduleJpaEntity(
+    public Set<ClinicRoomScheduleItemJpaEntity> mapToScheduleJpaEntity(
             DailySchedule<ClinicRoomScheduleItem> dailySchedule,
             ClinicRoom clinicRoom,
             LocalDate date){
-        return new ClinicRoomScheduleJpaEntity(
-                dailySchedule.getId(),
-                clinicRoomMapper.mapToJpaEntity(clinicRoom),
-                Date.valueOf(date)
-        );
+        return dailySchedule
+                .getScheduleItems()
+                .stream()
+                .map(scheduleItem -> mapToScheduleItemJpaEntity(clinicRoom, date, scheduleItem))
+                .collect(Collectors.toSet());
+    }
+
+    public DailySchedule<ClinicRoomScheduleItem> mapToScheduleDomainEntity(
+            Set<ClinicRoomScheduleItemJpaEntity> scheduleItemJpaEntities) {
+        Set<ClinicRoomScheduleItem> scheduleItems =
+                scheduleItemJpaEntities
+                    .stream()
+                    .map(this::mapToScheduleItemDomainEntity)
+                    .collect(Collectors.toSet());
+        return new DailySchedule<>(null, scheduleItems);
     }
 
     public ClinicRoomScheduleItemJpaEntity mapToScheduleItemJpaEntity(
-        ClinicRoomScheduleJpaEntity clinicRoomSchedule,
-        ClinicRoomScheduleItem scheduleItem
-    ) {
+            ClinicRoom clinicRoom,
+            LocalDate date,
+            ClinicRoomScheduleItem scheduleItem) {
         return new ClinicRoomScheduleItemJpaEntity(
                 scheduleItem.getId(),
-                clinicRoomSchedule,
-                Time.valueOf(scheduleItem.getTime()));
+                clinicRoomMapper.mapToJpaEntity(clinicRoom),
+                Timestamp.valueOf(LocalDateTime.of(date, scheduleItem.getTime())));
     }
 
     public ClinicRoomScheduleItem mapToScheduleItemDomainEntity(ClinicRoomScheduleItemJpaEntity scheduleItem) {
         return new ClinicRoomScheduleItem(
                 scheduleItem.getId(),
-                scheduleItem.getTime().toLocalTime());
+                scheduleItem.getStartTime().toLocalDateTime().toLocalTime());
     }
 }

@@ -16,6 +16,8 @@ export default {
       return api.addOperation(payload)
         .then((response) => {
           commit('SET_OPERATION', response.data);
+          const message = 'Operation added successfully';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
         })
         .catch((err) => {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });

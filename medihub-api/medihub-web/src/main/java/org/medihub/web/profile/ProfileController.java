@@ -22,7 +22,7 @@ public class ProfileController {
     private final GetProfileQuery getProfileQuery;
 
     @GetMapping("")
-    ResponseEntity<GetProfileOutput> getProfile() throws AccountNotFoundException {
+    public ResponseEntity<GetProfileOutput> getProfile() throws AccountNotFoundException {
         GetProfileOutput response =
                 getProfileQuery
                         .getProfile(getCurrentUserEmail());
@@ -30,7 +30,7 @@ public class ProfileController {
     }
 
     @PostMapping("")
-    ResponseEntity<?> updateProfile(@RequestBody UpdateProfileRequest request)
+    public void updateProfile(@RequestBody UpdateProfileRequest request)
             throws AccountNotFoundException {
         UpdateProfileCommand command =
                 new UpdateProfileUseCase.UpdateProfileCommand(
@@ -43,7 +43,6 @@ public class ProfileController {
                         request.getTelephoneNum());
 
         updateProfileUseCase.updateProfile(command);
-        return ResponseEntity.noContent().build();
     }
 
     public String getCurrentUserEmail() {

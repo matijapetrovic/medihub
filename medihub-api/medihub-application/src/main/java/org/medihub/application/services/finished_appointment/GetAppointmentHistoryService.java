@@ -61,20 +61,8 @@ public class GetAppointmentHistoryService implements GetAppointmentHistoryQuery 
                             appointment.getAppointment().getDoctor().getFullName(),
                             appointment.getAppointment().getDoctor().getClinic().getName(),
                             appointment.getAppointment().getDate().toString(),
-                            appointment.getAppointment().getTime().toString(),
-                            getClinicRating(appointment),
-                            getDoctorRating(appointment)
+                            appointment.getAppointment().getTime().toString()
                         ))
                 .collect(Collectors.toList());
-    }
-
-    private BigDecimal getClinicRating(FinishedAppointment appointment) {
-        ClinicReview review = loadClinicReviewPort.loadByAppointmentId(appointment.getId());
-        return review != null ? review.getRating() : null;
-    }
-
-    private BigDecimal getDoctorRating(FinishedAppointment appointment) {
-        MedicalDoctorReview review = loadDoctorReviewPort.loadByAppointmentId(appointment.getId());
-        return review != null ? review.getRating() : null;
     }
 }

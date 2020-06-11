@@ -25,26 +25,26 @@ public class LeaveRequestController {
 
     @GetMapping("")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    List<?> getAll() {
+    public List<?> getAll() {
        return getLeaveRequestPort.getAll();
     }
-
+    // TODO : MAKE QUERY NOT PORT!!!
     @PostMapping("/add")
     @PreAuthorize("hasRole('ROLE_DOCTOR')")
-    void add(@RequestBody AddLeaveRequest addLeaveRequest) {
+    public void add(@RequestBody AddLeaveRequest addLeaveRequest) {
         AddLeaveRequestUseCase.AddLeaveCommand addLeaveCommand = makeAddLeaveCommand(addLeaveRequest);
         addLeaveRequestUseCase.addLeave(addLeaveCommand);
     }
 
     @PostMapping("/delete")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    void delete(@RequestBody Long id) {
+    public void delete(@RequestBody Long id) {
         deleteLeaveRequestPort.delete(id);
     }
 
     @PostMapping("/approve")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    void approveLeaveRequest(@RequestBody ApproveLeaveRequest approveLeaveRequest) {
+    public void approveLeaveRequest(@RequestBody ApproveLeaveRequest approveLeaveRequest) {
         approveLeaveRequestUseCase.approveLeaveRequest(approveLeaveRequest.getId(), approveLeaveRequest.getMedicalDoctorId());
     }
 

@@ -6,12 +6,6 @@ import javax.validation.constraints.Email;
 
 public class EmailValidator implements
         ConstraintValidator<Email, String> {
-
-    @Override
-    public void initialize(Email constraintAnnotation) {
-
-    }
-
     @Override
     public boolean isValid(String emailField, ConstraintValidatorContext constraintValidatorContext) {
         return emailField != null && emailField.matches("[^@]+@[^\\.]+\\..+")

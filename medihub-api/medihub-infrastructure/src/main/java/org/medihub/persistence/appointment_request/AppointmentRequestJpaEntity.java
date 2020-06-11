@@ -10,6 +10,7 @@ import org.medihub.persistence.patient.PatientJpaEntity;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -35,11 +36,8 @@ public class AppointmentRequestJpaEntity {
     @Column(name="price", nullable = false)
     private BigDecimal money;
 
-    @Column(name="date", nullable = false)
-    private LocalDate date;
-
-    @Column(name="time", nullable = false)
-    private LocalTime time;
+    @Column(name="start_time", nullable = false)
+    private Timestamp startTime;
 
     @Column(name="type")
     private String type;

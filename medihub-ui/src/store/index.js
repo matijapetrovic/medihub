@@ -22,6 +22,7 @@ import finishedAppointment from '@/app/finished_appointment/store';
 import reports from '@/app/reports/store';
 import prescriptions from '@/app/prescriptions/store';
 import operation from '@/app/operation/store';
+import reviews from '@/app/reviews/store';
 
 Vue.use(Vuex);
 
@@ -55,5 +56,6 @@ export default new Vuex.Store({
     reports,
     prescriptions,
     operation,
+    reviews,
   },
 });

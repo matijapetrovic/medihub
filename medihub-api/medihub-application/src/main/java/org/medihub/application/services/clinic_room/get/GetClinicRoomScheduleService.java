@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.clinic_room.ClinicRoomScheduleOutput;
 import org.medihub.application.ports.incoming.clinic_room.GetClinicRoomScheduleQuery;
 import org.medihub.application.ports.incoming.medical_doctor.schedule.*;
-import org.medihub.application.ports.outgoing.clinic_room.GetClinicRoomSchedulePort;
+import org.medihub.application.ports.outgoing.clinic_room_schedule.LoadClinicRoomSchedulePort;
 import org.medihub.domain.clinic_room.ClinicRoomSchedule;
 import org.medihub.domain.clinic_room.ClinicRoomScheduleItem;
 
@@ -14,11 +14,11 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 public class GetClinicRoomScheduleService implements GetClinicRoomScheduleQuery {
-    private final GetClinicRoomSchedulePort getClinicRoomSchedulePort;
+    private final LoadClinicRoomSchedulePort getClinicRoomSchedulePort;
 
     @Override
     public GetScheduleOutput getClinicRoomSchedule(Long id) {
-        ClinicRoomSchedule clinicRoomSchedule = getClinicRoomSchedulePort.getClinicRoomSchedule(id);
+        ClinicRoomSchedule clinicRoomSchedule = getClinicRoomSchedulePort.loadClinicRoomSchedule(id);
         GetScheduleOutput getScheduleOutput = createOutput(clinicRoomSchedule);
         return getScheduleOutput;
     }

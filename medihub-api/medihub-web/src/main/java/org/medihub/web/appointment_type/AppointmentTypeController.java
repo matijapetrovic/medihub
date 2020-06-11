@@ -21,7 +21,7 @@ public class AppointmentTypeController {
     private final ChangeAppointmentTypeUseCase changeAppointmentTypeUseCase;
 
     @PostMapping("/add")
-    private void add(@RequestBody AppointmentTypeRequest appointmentTypeRequest){
+    public void add(@RequestBody AppointmentTypeRequest appointmentTypeRequest){
         AddAppointmentTypeCommand command = createCommand(appointmentTypeRequest);
 
         addAppointmentTypeUseCase.addAppointmentType(command);
@@ -32,17 +32,17 @@ public class AppointmentTypeController {
     }
 
     @GetMapping("")
-    ResponseEntity<List<GetAppointmentTypesOutput>> get() {
+    public ResponseEntity<List<GetAppointmentTypesOutput>> get() {
         return ResponseEntity.ok(getAppointmentTypesQuery.getAppointmentTypes());
     }
 
     @PostMapping("/delete")
-    private void delete(@RequestBody Long id) {
+    public  void delete(@RequestBody Long id) {
         deleteAppointmentTypeUseCase.delete(id);
     }
 
     @PostMapping("/change")
-    private void change(@RequestBody ChangeAppointmentTypeRequest request) {
+    public void change(@RequestBody ChangeAppointmentTypeRequest request) {
         ChangeAppointmentTypeUseCase.ChangeAppointmentTypeCommand command = createChangeCommand(request);
         changeAppointmentTypeUseCase.changeAppointmentType(command);
     }

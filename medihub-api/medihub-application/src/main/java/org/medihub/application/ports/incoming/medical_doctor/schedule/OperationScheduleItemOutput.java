@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class OperationScheduleItemOutput extends DailyScheduleItemOutput {
 
     public DoctorOutput doctor;
-    public List<DoctorOutput> presetDoctors;
+    public List<DoctorOutput> presentDoctors;
 
     public OperationScheduleItemOutput(Long id, String time, String type, MedicalDoctor doctor, Set<MedicalDoctor> presentDoctors) {
         super(id, time, type);
@@ -22,7 +22,7 @@ public class OperationScheduleItemOutput extends DailyScheduleItemOutput {
                 doctor.getFirstName(),
                 doctor.getLastName()
         );
-        this.presetDoctors = presentDoctors
+        this.presentDoctors = presentDoctors
                 .stream()
                 .map(entity -> new DoctorOutput(
                         entity.getId(),

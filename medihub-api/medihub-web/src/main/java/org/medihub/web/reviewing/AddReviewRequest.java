@@ -13,5 +13,5 @@ import java.math.BigDecimal;
 @Setter
 public class AddReviewRequest {
     private BigDecimal rating;
-    private Long appointmentId;
+    private Long id;
 }
