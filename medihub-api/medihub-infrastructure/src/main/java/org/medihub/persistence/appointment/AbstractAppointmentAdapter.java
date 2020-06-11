@@ -14,51 +14,48 @@ import java.time.LocalDateTime;
 
 @Component
 @RequiredArgsConstructor
-public class AppointmentAdapter implements
+public class AbstractAppointmentAdapter implements
         SaveAppointmentPort,
         LoadAppointmentPort,
         GetScheduledAppointmentsPort,
         GetCurrentAppointmentPort {
-    private final AppointmentMapper appointmentMapper;
-    private final AppointmentRepository appointmentRepository;
+    private final AbstractAppointmentMapper abstractAppointmentMapper;
+    private final AbstractAppointmentRepository abstractAppointmentRepository;
 
     @Override
     public Appointment saveAppointment(Appointment appointment) {
-        return appointmentMapper.mapToDomainEntity(appointmentRepository.save(appointmentMapper.mapToJpaEntity(appointment)));
+        return abstractAppointmentMapper.mapToDomainEntity(abstractAppointmentRepository.save(abstractAppointmentMapper.mapToJpaEntity(appointment)));
     }
 
     @Override
     public Appointment getAppointmentById(Long id) throws NotFoundException {
-        AppointmentJpaEntity appointment = appointmentRepository.findById(id)
-                .orElseThrow(NotFoundException::new);
-        return appointmentMapper.mapToDomainEntity(appointment);
+        return abstractAppointmentMapper.mapToDomainEntity(abstractAppointmentRepository.findById(id).orElseThrow(NotFoundException::new));
     }
 
     @Override
     public List<Appointment> getAllByClinicId(Long clinicId) {
-        return appointmentMapper.mapToDomainList(appointmentRepository.findAllByDoctorClinicId(clinicId));
+        return abstractAppointmentMapper.mapToDomainList(abstractAppointmentRepository.findAllByDoctorClinicId(clinicId));
     }
 
     @Override
     public List<Appointment> getAppointments(Long patientId) {
-        return appointmentRepository
+        return abstractAppointmentRepository
                 .findAllScheduledByPatientId(patientId)
                 .stream()
-                .map(appointmentMapper::mapToDomainEntity)
+                .map(abstractAppointmentMapper::mapToDomainEntity)
                 .collect(Collectors.toList());
     }
 
-    @Override
     public Appointment getCurrentAppointment(Long doctorId, Long patientId) {
         LocalDateTime now = LocalDateTime.now();
         Timestamp end = Timestamp.valueOf(now);
         Timestamp start = Timestamp.valueOf(now.minusHours(1));
 
         Optional<AppointmentJpaEntity> appointmentJpaEntity =
-                appointmentRepository.findCurrentAppointment(patientId, doctorId, start, end);
+                abstractAppointmentRepository.findCurrentAppointment(patientId, doctorId, start, end);
         if (appointmentJpaEntity.isEmpty())
             return null;
 
-        return appointmentMapper.mapToDomainEntity(appointmentJpaEntity.get());
+        return abstractAppointmentMapper.mapToDomainEntity(appointmentJpaEntity.get());
     }
 }

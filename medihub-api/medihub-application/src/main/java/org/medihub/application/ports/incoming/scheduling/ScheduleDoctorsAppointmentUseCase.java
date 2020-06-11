@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Value;
 import org.medihub.common.SelfValidating;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -20,14 +21,18 @@ public interface ScheduleDoctorsAppointmentUseCase {
         LocalDate date;
         @NotNull
         LocalTime time;
+        @NotBlank
+        String type;
 
         public ScheduleDoctorsAppointmentCommand(
                 Long patientId,
                 LocalDate date,
-                LocalTime time) {
+                LocalTime time,
+                String type) {
             this.patientId = patientId;
             this.date = date;
             this.time = time;
+            this.type = type;
             this.validateSelf();
         }
     }

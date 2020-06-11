@@ -88,6 +88,7 @@ export default {
       this.scheduleAppointment({
         doctorId: this.doctor.id,
         time: this.appointment.time,
+        type: 'APPOINTMENT',
       })
         .then(() => {
           this.dialog = false;

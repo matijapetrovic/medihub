@@ -32,7 +32,7 @@
           :disabled="!selectedRoom(item)"
           @click="setEditedItemAndToggleDialog(item)"
           >
-            Schedule appointment
+            Schedule {{item.type}}
           </v-btn>
         </div>
       </template>
@@ -121,7 +121,7 @@ export default {
   }),
   computed: {
     ...mapState('appointmentRequest', ['appointmentRequests']),
-    ...mapState('clinicRooms', ['clinicRooms']),
+    ...mapState('clinicRooms', ['clinicRooms', 'presentDoctors']),
   },
   mounted() {
     this.fetchAppointmentRequests()
@@ -134,6 +134,7 @@ export default {
     ...mapActions('appointmentRequest', ['fetchAppointmentRequests', 'deleteAppointmentRequest', 'getAppointmentRequests']),
     ...mapActions('clinicRooms', ['fetchClinicRooms', 'scheduleRoom']),
     ...mapActions('appointment', ['addAppointment']),
+    ...mapActions('operation', ['addOperation']),
 
     filterRooms(rooms, date, time) {
       const retList = [];
@@ -166,6 +167,7 @@ export default {
         doctor: item.doctor,
         date: item.date,
         time: item.time,
+        type: item.type,
       }));
     },
     fetchParams() {
@@ -195,6 +197,7 @@ export default {
         date: item.date,
         time: item.time,
         price: item.price,
+        type: item.type,
       }));
     },
     setEditedItemAndToggleDialog(item) {
@@ -209,7 +212,13 @@ export default {
         doctorId: this.editedItem.doctorId,
         clinicRoomId: this.editedItem.clinicRoom.id,
       };
-      this.addAppointment(addAppointmentRequest);
+
+      if (this.editedItem.type === 'APPOINTMENT') {
+        this.addAppointment(addAppointmentRequest);
+      } else {
+        addAppointmentRequest.presentDoctors = this.presentDoctors;
+        this.addOperation(addAppointmentRequest);
+      }
       this.deleteItem(this.editedItem);
       this.dialog = false;
       this.resetPathParams(null);

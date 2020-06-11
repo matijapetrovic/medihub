@@ -7,6 +7,7 @@ export default {
     clinicRooms: [],
     params: null,
     workingCalendar: null,
+    presentDoctors: [],
   },
   mutations: {
     SET_CLINIC_ROOMS(state, clinicRooms) {
@@ -24,6 +25,9 @@ export default {
     },
     SET_WORKING_CALENDAR(state, workingCalendar) {
       state.workingCalendar = workingCalendar;
+    },
+    SET_PRESENT_DOCTORS(state, presentDoctors) {
+      state.presentDoctors = presentDoctors;
     },
   },
   actions: {
@@ -99,6 +103,9 @@ export default {
     },
     getSearchParams({ commit }) {
       commit('GET_SEARCH_PARAMS');
+    },
+    savePresentDoctors({ commit }, presentDoctors) {
+      commit('SET_PRESENT_DOCTORS', presentDoctors);
     },
   },
 };

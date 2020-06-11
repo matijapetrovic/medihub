@@ -2,7 +2,7 @@
   .description {
     font-family:    Georgia, serif;
     font-size:      15px;
-    white-space:    pre-line;
+    white-space:    pre;
   }
 </style>
 
@@ -244,6 +244,7 @@ export default {
     },
     getEvent(item, date) {
       let fullName = '';
+      let doctorList = '';
       switch (item.type) {
         case 'PREDEFINED_APPOINTMENT':
           return {
@@ -278,6 +279,18 @@ export default {
             end: `${item.endDate}`,
             color: this.getColorByName(item.type),
             details: `This is ${item.type}`,
+          };
+        case 'OPERATION':
+          item.presentDoctors.forEach((doctor) => {
+            doctorList = doctorList.concat(`\t${doctor.firstName} ${doctor.secondName}\n`);
+          });
+          return {
+            name: item.type,
+            type: item.type,
+            start: `${date} ${item.time}`,
+            end: `${date} ${this.incrementTime(item.time)}`,
+            color: this.getColorByName(item.type),
+            details: `Main doctor:\n\t${item.doctor.firstName} ${item.doctor.secondName}\nPresent Doctors:\n${doctorList}`,
           };
         default:
           return null;

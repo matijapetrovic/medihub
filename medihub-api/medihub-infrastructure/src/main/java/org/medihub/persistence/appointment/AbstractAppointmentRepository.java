@@ -4,20 +4,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
-import java.sql.Timestamp;
 
-public interface AppointmentRepository extends JpaRepository<AppointmentJpaEntity, Long> {
-    Optional<AppointmentJpaEntity> findById(Long id);
-    List<AppointmentJpaEntity> findAllByDoctorIdAndPatientId(Long doctorId, Long patientId);
+public interface AbstractAppointmentRepository extends JpaRepository<AbstractAppointmentJpaEntity, Long> {
+    Optional<AbstractAppointmentJpaEntity> findById(Long id);
+    List<AbstractAppointmentJpaEntity> findAllByDoctorClinicId(Long clinicId);
 
-
-    List<AppointmentJpaEntity> findAllByDoctorClinicId(Long clinicId);
-
-    @Query("select app from AppointmentJpaEntity app where app.patient.id=:patient_id and app not in " +
+    @Query("select app from AbstractAppointmentJpaEntity app where app.patient.id=:patient_id and app not in " +
             "(select fapp.appointment from FinishedAppointmentJpaEntity fapp)")
-    List<AppointmentJpaEntity> findAllScheduledByPatientId(@Param("patient_id") Long patientId);
+    List<AbstractAppointmentJpaEntity> findAllScheduledByPatientId(@Param("patient_id") Long patientId);
 
     @Query("select app from AppointmentJpaEntity app " +
             "where app.doctor.id = :doctorId and app.patient.id=:patientId " +

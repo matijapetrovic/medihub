@@ -38,4 +38,7 @@ public class AppointmentRequestJpaEntity {
 
     @Column(name="start_time", nullable = false)
     private Timestamp startTime;
+
+    @Column(name="type")
+    private String type;
 }

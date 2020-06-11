@@ -36,7 +36,8 @@ public class ScheduleDoctorsAppointmentService implements ScheduleDoctorsAppoint
                         patient,
                         price,
                         command.getDate(),
-                        command.getTime());
+                        command.getTime(),
+                        command.getType());
         saveAppointmentRequestPort.saveAppointmentRequest(request);
     }
 

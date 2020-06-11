@@ -12,6 +12,8 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.OPERATION;
+
 @RequiredArgsConstructor
 public class GetDoctorScheduleService implements GetDoctorScheduleQuery {
     private final GetDoctorSchedulePort getDoctorSchedulePort;
@@ -73,10 +75,10 @@ public class GetDoctorScheduleService implements GetDoctorScheduleQuery {
             case APPOINTMENT:
                 MedicalDoctorAppointmentScheduleItem castItem = (MedicalDoctorAppointmentScheduleItem) item;
                 return new AppointmentScheduleItemOutput(
-                    castItem.getId(),
-                    castItem.getTime().toString(),
-                    castItem.getType().toString(),
-                    castItem.getAppointment());
+                        castItem.getId(),
+                        castItem.getTime().toString(),
+                        castItem.getType().toString(),
+                        castItem.getAppointment());
             case LEAVE:
             case VACATION:
                 MedicalDoctorVacationScheduleItem vacationItem = (MedicalDoctorVacationScheduleItem) item;
@@ -86,7 +88,17 @@ public class GetDoctorScheduleService implements GetDoctorScheduleQuery {
                         vacationItem.getType().toString(),
                         vacationItem.getEndDate().toString()
                 );
+            case OPERATION:
+                MedicalDoctorOperationScheduleItem operationItem = (MedicalDoctorOperationScheduleItem) item;
+                return new OperationScheduleItemOutput(
+                        operationItem.getId(),
+                        operationItem.getTime().toString(),
+                        operationItem.getType().toString(),
+                        operationItem.getOperation().getDoctor(),
+                        operationItem.getOperation().getPresentDoctors()
+                );
         }
+
 
         return null;
 
