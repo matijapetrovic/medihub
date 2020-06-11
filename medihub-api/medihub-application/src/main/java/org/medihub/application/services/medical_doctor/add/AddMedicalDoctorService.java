@@ -56,7 +56,8 @@ public class AddMedicalDoctorService implements AddMedicalDoctorUseCase {
                 new WorkingTime(LocalTime.parse(command.getFrom()),
                                 LocalTime.parse(command.getTo())),
                 specialization,
-                new Rating(BigDecimal.ZERO,0));
+                new Rating(BigDecimal.ZERO,0),
+                false);
         saveDoctorPort.saveDoctor(entity);
     }
 }

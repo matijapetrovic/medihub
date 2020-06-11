@@ -49,4 +49,7 @@ public class MedicalDoctorJpaEntity {
     @ManyToOne
     @JoinColumn(name="specialization", referencedColumnName = "id", nullable = false)
     private AppointmentTypeJpaEntity specialization;
+
+    @Column(name="archived")
+    private Boolean archived;
 }

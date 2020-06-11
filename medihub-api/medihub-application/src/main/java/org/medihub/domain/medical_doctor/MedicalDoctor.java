@@ -13,6 +13,7 @@ import org.medihub.domain.reviewing.Rating;
 public class MedicalDoctor extends MedicalStaff {
     private AppointmentType specialization;
     private Rating rating;
+    private Boolean archived;
 
     public MedicalDoctor(
             Long id,
@@ -20,10 +21,12 @@ public class MedicalDoctor extends MedicalStaff {
             Clinic clinic,
             WorkingTime workingTime,
             AppointmentType appointmentType,
-            Rating rating) {
+            Rating rating,
+            Boolean archived) {
         super(id, account, clinic, workingTime);
         this.specialization = appointmentType;
         this.rating = rating;
+        this.archived = archived;
     }
 
     public String getFirstName() {
@@ -35,4 +38,6 @@ public class MedicalDoctor extends MedicalStaff {
     }
 
     public String getFullName() { return String.format("%s %s", getFirstName(), getLastName()); }
+
+    public void archive() { this.archived = true; }
 }

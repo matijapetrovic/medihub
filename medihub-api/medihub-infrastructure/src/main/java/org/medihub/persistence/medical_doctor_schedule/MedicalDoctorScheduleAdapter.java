@@ -164,6 +164,13 @@ public class MedicalDoctorScheduleAdapter implements
     }
 
     @Override
+    public Integer countFutureScheduleItems(Long doctorId) {
+        LocalDateTime now = LocalDateTime.now();
+        Timestamp timestamp = Timestamp.valueOf(now);
+        return scheduleItemRepository.countAllByDoctorIdAndStartTimeAfter(doctorId, timestamp);
+    }
+
+    @Override
     public void saveMedicalDoctorScheduleItem(
             MedicalDoctorScheduleItem scheduleItem,
             MedicalDoctor doctor,

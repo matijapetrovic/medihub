@@ -1,6 +1,7 @@
 package org.medihub.web.medical_doctor;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.ForbiddenException;
 import org.medihub.application.ports.incoming.medical_doctor.*;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase.AddMedicalDoctorCommand;
 import org.medihub.application.ports.incoming.medical_doctor.schedule.GetScheduleOutput;
@@ -32,6 +33,12 @@ public class MedicalDoctorController {
     private final GetDoctorAvailableTimesQuery getDoctorAvailableTimesQuery;
     private final GetDoctorScheduleQuery getDoctorScheduleQuery;
     private final GetPreviousPatientsQuery getPreviousPatientsQuery;
+    private final DeleteDoctorUseCase deleteDoctorUseCase;
+
+    @PostMapping("/delete/{doctorId}")
+    public void deleteDoctor(@PathVariable Long doctorId) throws ForbiddenException {
+        deleteDoctorUseCase.deleteDoctor(doctorId);
+    }
 
     @GetMapping("/{clinicId}")
     public ResponseEntity<List<GetDoctorsOutput>> getDoctors(@PathVariable Long clinicId) {

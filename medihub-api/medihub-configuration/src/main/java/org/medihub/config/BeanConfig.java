@@ -128,6 +128,7 @@ import org.medihub.application.services.leave_request.add.AddLeaveRequestService
 import org.medihub.application.services.leave_request.add.ApproveLeaveRequestService;
 import org.medihub.application.services.leave_request.delete.DeleteLeaveRequestService;
 import org.medihub.application.services.leave_request.get.GetLeaveRequestService;
+import org.medihub.application.services.medical_doctor.DeleteDoctorService;
 import org.medihub.application.services.medical_doctor.add.AddAppointmentToMedicalDoctorService;
 import org.medihub.application.services.medical_doctor.get.*;
 import org.medihub.application.services.clinic.get.GetAppointmentPriceService;
@@ -168,6 +169,22 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class BeanConfig {
+
+    @Bean
+    public DeleteDoctorUseCase deleteDoctorUseCase(
+            GetAuthenticatedPort getAuthenticatedPort,
+            LoadClinicAdminPort loadClinicAdminPort,
+            LoadDoctorPort loadDoctorPort,
+            LoadMedicalDoctorScheduleItemPort loadMedicalDoctorScheduleItemPort,
+            SaveDoctorPort saveDoctorPort
+    ) {
+        return new DeleteDoctorService(
+                getAuthenticatedPort,
+                loadClinicAdminPort,
+                loadDoctorPort,
+                loadMedicalDoctorScheduleItemPort,
+                saveDoctorPort);
+    }
 
     @Bean
     public GetClinicsForReviewQuery getClinicsForReviewQuery(

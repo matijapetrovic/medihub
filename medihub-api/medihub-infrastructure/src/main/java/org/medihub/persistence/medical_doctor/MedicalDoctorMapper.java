@@ -30,7 +30,8 @@ public class MedicalDoctorMapper {
                 appointmentTypeMapper.mapToDomainEntity(medicalDoctorJpaEntity.getSpecialization()),
                 new Rating(
                         medicalDoctorJpaEntity.getRating(),
-                        medicalDoctorJpaEntity.getReviewCount()));
+                        medicalDoctorJpaEntity.getReviewCount()),
+                medicalDoctorJpaEntity.getArchived());
     }
 
     public MedicalDoctorJpaEntity mapToJpaEntity(MedicalDoctor medicalDoctor){
@@ -43,7 +44,8 @@ public class MedicalDoctorMapper {
                 medicalDoctor.getWorkingTime().getWorkingHours(),
                 medicalDoctor.getRating().getRating(),
                 medicalDoctor.getRating().getCount(),
-                appointmentTypeMapper.mapToJpaEntity(medicalDoctor.getSpecialization()));
+                appointmentTypeMapper.mapToJpaEntity(medicalDoctor.getSpecialization()),
+                medicalDoctor.getArchived());
     }
 
     public List<MedicalDoctor> mapToDomainList(List<MedicalDoctorJpaEntity> medicalDoctorJpaEntities){
