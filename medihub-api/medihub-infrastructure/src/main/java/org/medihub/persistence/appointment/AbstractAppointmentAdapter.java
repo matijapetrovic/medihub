@@ -28,8 +28,8 @@ public class AbstractAppointmentAdapter implements
     }
 
     @Override
-    public Appointment getAppointmentById(Long id) {
-        return abstractAppointmentMapper.mapToDomainEntity(abstractAppointmentRepository.findById(id).get());
+    public Appointment getAppointmentById(Long id) throws NotFoundException {
+        return abstractAppointmentMapper.mapToDomainEntity(abstractAppointmentRepository.findById(id).orElseThrow(NotFoundException::new));
     }
 
     @Override
