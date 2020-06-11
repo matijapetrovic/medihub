@@ -17,9 +17,13 @@ export default {
     };
   },
   errorNotification(err) {
-    let text = err.response ? err.response.message : err;
+    console.log(err.response);
+    let text = err.response ? err.response.data.message : err;
     if (!text) {
-      text = 'Authentication failed';
+      text = err.response.status;
+      if (!text) {
+        text = 'Authentication failed';
+      }
     }
     return {
       text,
