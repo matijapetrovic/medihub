@@ -55,13 +55,15 @@ public class AppointmentRequestController {
         return new ScheduleAppointmentCommand(
                 request.getDoctorId(),
                 request.getDate(),
-                request.getTime());
+                request.getTime(),
+                request.getType());
     }
 
     private ScheduleDoctorsAppointmentCommand createDoctorsCommand(AddDoctorsAppointmentRequest request) {
         return new ScheduleDoctorsAppointmentCommand(
                 request.getPatientId(),
                 request.getDate(),
-                request.getTime());
+                request.getTime(),
+                request.getType());
     }
 }

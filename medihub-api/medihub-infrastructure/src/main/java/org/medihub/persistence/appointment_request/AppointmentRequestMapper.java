@@ -24,7 +24,8 @@ public class AppointmentRequestMapper {
                 patientMapper.mapToDomainEntity(request.getPatientJpaEntity()),
                 Money.of(request.getMoney()),
                 request.getDate(),
-                request.getTime());
+                request.getTime(),
+                request.getType());
     }
 
     public AppointmentRequestJpaEntity mapToJpaEntity(AppointmentRequest request) {
@@ -34,7 +35,8 @@ public class AppointmentRequestMapper {
                 patientMapper.mapToJpaEntity(request.getPatient()),
                 request.getPrice().getAmount(),
                 request.getDate(),
-                request.getTime());
+                request.getTime(),
+                request.getType());
     }
 
     public List<AppointmentRequest> mapToDomainList(List<AppointmentRequestJpaEntity> appointmentRequestJpaEntities) {

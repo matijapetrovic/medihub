@@ -78,7 +78,7 @@
       <v-row>
         <v-col>
           <v-subheader>
-            Doctor:
+            Main Doctor:
             {{this.doctor === null? '': this.doctor.firstName}}
             {{this.doctor === null? '': this.doctor.lastName}},
             telephone number: {{this.doctor === null? '': this.doctor.telephone}}
@@ -89,13 +89,48 @@
             v-model="doctor"
             item-text="email"
             dense
-            solo
+            outlined
             selected
             return-object=""
             :readonly="!clinicRoomsEmpty()"
             @input="setDoctorParams()"
           >
           </v-select>
+          <v-subheader v-if="isOperation">
+            Present Doctors:
+          </v-subheader>
+          <v-form ref="docForm">
+            <v-select
+                v-if="isOperation"
+                multiple
+                :items="otherDoctors"
+                item-text="email"
+                item-value="id"
+                dense
+                v-model="presentDoctors"
+                outlined
+                :rules="[requiredRule]"
+              >
+              <template v-slot:selection="{ item, index }">
+                <v-chip v-if="index === 0">
+                  <span>{{ item.email }}</span>
+                </v-chip>
+                <v-chip v-if="index === 1">
+                  <span>{{ item.email }}</span>
+                </v-chip>
+                <v-chip v-if="index === 2">
+                  <span>{{ item.email }}</span>
+                </v-chip>
+                <v-chip v-if="index === 3">
+                  <span>{{ item.email }}</span>
+                </v-chip>
+                <span
+                  v-if="index === 4"
+                  class="grey--text caption"
+                >(+{{ doctors.length - 3 }} others)</span>
+              </template>
+            </v-select>
+          </v-form>
         </v-col>
       </v-row>
       <v-row justify="center">
@@ -155,6 +190,8 @@ export default {
     WorkingCalendar,
   },
   data: () => ({
+    presentDoctors: [],
+    type: '',
     appointmentId: null,
     params: null,
     id: null,
@@ -183,7 +220,7 @@ export default {
     this.fetchParams();
   },
   methods: {
-    ...mapActions('clinicRooms', ['fetchClinicRooms', 'deleteClinicRoom']),
+    ...mapActions('clinicRooms', ['fetchClinicRooms', 'deleteClinicRoom', 'savePresentDoctors']),
     ...mapActions('medicalDoctor', ['getDoctorsForDateTime', 'getAllDoctors']),
     ...mapActions('doctor', ['fetchAvailableTimesWithoutState']),
 
@@ -231,6 +268,7 @@ export default {
       this.doctor = this.params.doctor;
       this.date = this.params.date;
       this.doctors.length = 0;
+      this.type = this.params.type;
       this.doctors.push(this.doctor);
     },
     noResultsSearch() {
@@ -251,11 +289,22 @@ export default {
       this.doctors.push(this.doctor);
     },
     scheduleRoom(item) {
-      this.$router.push(`/appointment-request/${JSON.stringify({
-        id: this.appointmentId,
-        doctor: this.doctor,
-        clinicRoom: item,
-      })}`);
+      if (this.validateDocsForm()) {
+        this.$router.push(`/appointment-request/${JSON.stringify({
+          id: this.appointmentId,
+          doctor: this.doctor,
+          clinicRoom: item,
+        })}`);
+        this.savePresentDoctors(this.presentDoctors);
+      }
+    },
+    validateDocsForm() {
+      const valid = this.$refs.docForm.validate();
+      if (!valid && this.type === 'OPERATION') {
+        return false;
+      }
+
+      return true;
     },
     editItem(item) {
       this.id = item.id;
@@ -271,6 +320,12 @@ export default {
     },
     requiredRule() {
       return (value) => !!value || 'Required';
+    },
+    otherDoctors() {
+      return this.doctors.filter((element) => element.email !== this.doctor.email);
+    },
+    isOperation() {
+      return this.type === 'OPERATION';
     },
   },
 };

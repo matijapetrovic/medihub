@@ -244,6 +244,7 @@ export default {
     },
     getEvent(item, date) {
       let fullName = '';
+      const presentDoctors = '';
       switch (item.type) {
         case 'APPOINTMENT':
           fullName = `${item.appointment.patient.firstName} ${item.appointment.patient.lastName}`;
@@ -267,6 +268,18 @@ export default {
             end: `${item.endDate}`,
             color: this.getColorByName(item.type),
             details: `This is ${item.type}`,
+          };
+        case 'OPERATION':
+          item.presentDoctors.forEach((doctor) => {
+            presentDoctors.concat(`\t${doctor.name}\n`);
+          });
+          return {
+            name: item.type,
+            type: item.type,
+            start: `${date} ${item.time}`,
+            end: `${date} ${this.incrementTime(item.time)}`,
+            color: this.getColorByName(item.type),
+            details: `Main doctor:\n\t${item.doctor} \nPresent Doctors: ${presentDoctors}`,
           };
         default:
           return null;

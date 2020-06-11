@@ -15,7 +15,8 @@ import org.medihub.domain.appointment.Appointment;
 import org.medihub.domain.medical_doctor.*;
 import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType;
 import org.medihub.domain.scheduling.DailySchedule;
-import org.medihub.persistence.appointment.AppointmentMapper;
+import org.medihub.persistence.appointment.AbstractAppointmentMapper;
+import org.medihub.persistence.appointment.AppointmentJpaEntity;
 import org.medihub.persistence.medical_doctor.MedicalDoctorJpaEntity;
 import org.medihub.persistence.medical_doctor.MedicalDoctorMapper;
 import org.medihub.persistence.medical_doctor.MedicalDoctorRepository;
@@ -48,7 +49,7 @@ public class MedicalDoctorScheduleAdapter implements
         SaveMedicalDoctorScheduleItemPort,
         LoadMedicalDoctorScheduleItemPort,
         DeleteMedicalDoctorScheduleItemPort {
-    private final AppointmentMapper appointmentMapper;
+    private final AbstractAppointmentMapper abstractAppointmentMapper;
     private final MedicalDoctorMapper doctorMapper;
     private final MedicalDoctorScheduleMapper medicalDoctorScheduleMapper;
 
@@ -105,7 +106,7 @@ public class MedicalDoctorScheduleAdapter implements
                         doctorMapper.mapToJpaEntity(appointment.getDoctor()),
                         Timestamp.valueOf(LocalDateTime.of(date, time)),
                         MedicalDoctorScheduleItemType.APPOINTMENT.getOrdinal(),
-                        appointmentMapper.mapToJpaEntity(appointment));
+                        (AppointmentJpaEntity) abstractAppointmentMapper.mapToJpaEntity(appointment));
 
         scheduleItemRepository.save(scheduleJpaItem);
     }

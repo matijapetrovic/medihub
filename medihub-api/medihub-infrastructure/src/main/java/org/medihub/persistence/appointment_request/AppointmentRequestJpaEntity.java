@@ -40,4 +40,7 @@ public class AppointmentRequestJpaEntity {
 
     @Column(name="time", nullable = false)
     private LocalTime time;
+
+    @Column(name="type")
+    private String type;
 }

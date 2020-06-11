@@ -10,33 +10,18 @@ import org.medihub.persistence.patient.PatientJpaEntity;
 import javax.persistence.*;
 import java.sql.Time;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name="appointment")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class AppointmentJpaEntity {
-    @Id
-    @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "date")
-    private Date date;
-
-    @Column(name="time")
-    private Time time;
-
-    @ManyToOne
-    @JoinColumn(name="patient_id", referencedColumnName = "id")
-    private PatientJpaEntity patient;
-
-    @ManyToOne
-    @JoinColumn(name="doctor_id", referencedColumnName = "id")
-    private MedicalDoctorJpaEntity doctor;
-
-    @ManyToOne
-    @JoinColumn(name="clinic_room_id", referencedColumnName = "id")
-    private ClinicRoomJpaEntity clinicRoom;
+public class AppointmentJpaEntity extends  AbstractAppointmentJpaEntity {
+    public AppointmentJpaEntity(Long id,
+                                Timestamp startTime,
+                                PatientJpaEntity patient,
+                                MedicalDoctorJpaEntity doctor,
+                                ClinicRoomJpaEntity clinicRoom) {
+        super(id, startTime, patient, doctor, clinicRoom);
+    }
 }

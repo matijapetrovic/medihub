@@ -15,6 +15,7 @@ import org.medihub.application.ports.incoming.medical_doctor.schedule.GetDoctorS
 import org.medihub.application.ports.incoming.medical_record.ChangeMedicalRecordUseCase;
 import org.medihub.application.ports.incoming.medical_record.GetBloodTypesQuery;
 import org.medihub.application.ports.incoming.medical_record.GetPatientMedicalRecordQuery;
+import org.medihub.application.ports.incoming.operation.AddOperationUseCase;
 import org.medihub.application.ports.incoming.predefined_appointment.AddPredefinedAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment.AddAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment_request.DeleteAppointmentRequestUseCase;
@@ -773,4 +774,18 @@ public class BeanConfig {
                 getDiagnosisByIdPort,
                 saveFinishedAppointmentPort);
     }
+
+    @Bean
+    public AddOperationUseCase addOperationUseCase(GetDoctorsPort getDoctorsPort,
+                                                   GetPatientsPort getPatientsPort,
+                                                   GetClinicRoomsPort getClinicRoomsPort,
+                                                   SaveAppointmentPort saveAppointmentPort,
+                                                   SaveMedicalDoctorScheduleItemPort saveMedicalDoctorScheduleItemPort) {
+        return new AddOperationService(getDoctorsPort,
+                getPatientsPort,
+                getClinicRoomsPort,
+                saveAppointmentPort,
+                saveMedicalDoctorScheduleItemPort);
+    }
+
 }

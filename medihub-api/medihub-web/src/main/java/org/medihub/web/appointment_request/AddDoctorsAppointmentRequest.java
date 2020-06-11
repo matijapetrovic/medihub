@@ -16,4 +16,5 @@ public class AddDoctorsAppointmentRequest {
     private Long patientId;
     private LocalDate date;
     private LocalTime time;
+    private String type;
 }

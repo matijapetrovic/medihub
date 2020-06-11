@@ -19,6 +19,7 @@ public class AppointmentRequest {
     private Money price;
     private LocalDate date;
     private LocalTime time;
+    private String type;
 
     public AppointmentType getAppointmentType() {
         return doctor.getSpecialization();

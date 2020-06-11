@@ -1,12 +1,17 @@
 package org.medihub.persistence.medical_doctor_schedule;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.domain.appointment.Operation;
 import org.medihub.domain.medical_doctor.*;
 import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType;
 import org.medihub.domain.scheduling.DailySchedule;
-import org.medihub.persistence.appointment.AppointmentMapper;
+import org.medihub.persistence.appointment.AbstractAppointmentJpaEntity;
+import org.medihub.persistence.appointment.AbstractAppointmentMapper;
+import org.medihub.persistence.appointment.AppointmentJpaEntity;
+import org.medihub.persistence.appointment.OperationJpaEntity;
 import org.medihub.persistence.medical_doctor.MedicalDoctorMapper;
 import org.medihub.persistence.medical_doctor_schedule.appointment_schedule_item.MedicalDoctorAppointmentScheduleJpaItem;
+import org.medihub.persistence.medical_doctor_schedule.operation_schedule_item.MedicalDoctorOperationScheduleJpaItem;
 import org.medihub.persistence.medical_doctor_schedule.predefined_appointment_schedule_item.MedicalDoctorPredefinedAppointmentScheduleJpaItem;
 import org.medihub.persistence.medical_doctor_schedule.schedule_item.MedicalDoctorScheduleItemJpaEntity;
 import org.medihub.persistence.medical_doctor_schedule.vacation_schedule_item.MedicalDoctorVacationScheduleJpaItem;
@@ -24,7 +29,7 @@ import java.util.stream.Collectors;
 @Component
 public class MedicalDoctorScheduleMapper {
     private final MedicalDoctorMapper medicalDoctorMapper;
-    private final AppointmentMapper appointmentMapper;
+    private final AbstractAppointmentMapper abstractAppointmentMapper;
     private final PredefinedAppointmentMapper predefinedAppointmentMapper;
 
     public Set<MedicalDoctorScheduleItemJpaEntity> mapToScheduleJpaEntity(
@@ -54,7 +59,6 @@ public class MedicalDoctorScheduleMapper {
             MedicalDoctor doctor,
             LocalDate date) {
         switch(scheduleItem.getType()) {
-            case OPERATION:
             case APPOINTMENT:
                 MedicalDoctorAppointmentScheduleItem appointmentScheduleItem =
                         (MedicalDoctorAppointmentScheduleItem) scheduleItem;
@@ -63,7 +67,7 @@ public class MedicalDoctorScheduleMapper {
                         medicalDoctorMapper.mapToJpaEntity(doctor),
                         Timestamp.valueOf(LocalDateTime.of(date, scheduleItem.getTime())),
                         MedicalDoctorScheduleItemType.APPOINTMENT.getOrdinal(),
-                        appointmentMapper.mapToJpaEntity(appointmentScheduleItem.getAppointment()));
+                        (AppointmentJpaEntity) abstractAppointmentMapper.mapToJpaEntity(appointmentScheduleItem.getAppointment()));
             case LEAVE:
             case VACATION:
                 MedicalDoctorVacationScheduleItem vacationScheduleItem =
@@ -82,7 +86,15 @@ public class MedicalDoctorScheduleMapper {
                         medicalDoctorMapper.mapToJpaEntity(doctor),
                         Timestamp.valueOf(LocalDateTime.of(date, scheduleItem.getTime())),
                         MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.PREDEFINED_APPOINTMENT.getOrdinal(),
-                        predefinedAppointmentMapper.mapToJpaEntity(predefinedAppointmentScheduleItem.getPredefinedAppointment())
+                        predefinedAppointmentMapper.mapToJpaEntity(predefinedAppointmentScheduleItem.getPredefinedAppointment()));
+            case OPERATION:
+                MedicalDoctorOperationScheduleItem operationScheduleItem = (MedicalDoctorOperationScheduleItem) scheduleItem;
+                return new MedicalDoctorOperationScheduleJpaItem(
+                        operationScheduleItem.getId(),
+                        medicalDoctorMapper.mapToJpaEntity(doctor),
+                        Timestamp.valueOf(LocalDateTime.of(date, operationScheduleItem.getTime())),
+                        MedicalDoctorScheduleItemType.OPERATION.getOrdinal(),
+                        (OperationJpaEntity) abstractAppointmentMapper.mapToJpaEntity(operationScheduleItem.getOperation())
                 );
         }
 
@@ -95,7 +107,6 @@ public class MedicalDoctorScheduleMapper {
                 MedicalDoctorScheduleItemType.valueOf(scheduleItem.getType())
                 .orElseThrow();
         switch(type) {
-            case OPERATION:
             case APPOINTMENT:
                 MedicalDoctorAppointmentScheduleJpaItem appointmentScheduleItem =
                         (MedicalDoctorAppointmentScheduleJpaItem) scheduleItem;
@@ -103,7 +114,7 @@ public class MedicalDoctorScheduleMapper {
                         appointmentScheduleItem.getId(),
                         appointmentScheduleItem.getStartTime().toLocalDateTime().toLocalTime(),
                         MedicalDoctorScheduleItemType.APPOINTMENT,
-                        appointmentMapper.mapToDomainEntity(appointmentScheduleItem.getAppointment()));
+                        abstractAppointmentMapper.mapToDomainEntity(appointmentScheduleItem.getAppointment()));
             case LEAVE:
             case VACATION:
                 MedicalDoctorVacationScheduleJpaItem vacationScheduleItem
@@ -121,6 +132,15 @@ public class MedicalDoctorScheduleMapper {
                     predefinedAppointmentScheduleItem.getStartTime().toLocalDateTime().toLocalTime(),
                     MedicalDoctorScheduleItemType.PREDEFINED_APPOINTMENT,
                     predefinedAppointmentMapper.mapToDomainEntity(predefinedAppointmentScheduleItem.getPredefinedAppointment())
+                );
+            case OPERATION:
+                MedicalDoctorOperationScheduleJpaItem operationScheduleItem =
+                        (MedicalDoctorOperationScheduleJpaItem) scheduleItem;
+                return new MedicalDoctorOperationScheduleItem(
+                        operationScheduleItem.getId(),
+                        operationScheduleItem.getStartTime().toLocalDateTime().toLocalTime(),
+                        MedicalDoctorScheduleItemType.OPERATION,
+                        (Operation) abstractAppointmentMapper.mapToDomainEntity(operationScheduleItem.getOperation())
                 );
         }
 

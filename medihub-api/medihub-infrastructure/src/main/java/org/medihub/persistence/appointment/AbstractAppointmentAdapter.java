@@ -12,35 +12,35 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class AppointmentAdapter implements
+public class AbstractAppointmentAdapter implements
         SaveAppointmentPort,
         GetAppointmentPort,
         GetScheduledAppointmentsPort {
-    private final AppointmentMapper appointmentMapper;
-    private final AppointmentRepository appointmentRepository;
+    private final AbstractAppointmentMapper abstractAppointmentMapper;
+    private final AbstractAppointmentRepository abstractAppointmentRepository;
 
     @Override
     public Appointment saveAppointment(Appointment appointment) {
-        return appointmentMapper.mapToDomainEntity(appointmentRepository.save(appointmentMapper.mapToJpaEntity(appointment)));
+        return abstractAppointmentMapper.mapToDomainEntity(abstractAppointmentRepository.save(abstractAppointmentMapper.mapToJpaEntity(appointment)));
     }
 
 
     @Override
     public Appointment getAppointmentById(Long id) {
-        return appointmentMapper.mapToDomainEntity(appointmentRepository.findById(id).get());
+        return abstractAppointmentMapper.mapToDomainEntity(abstractAppointmentRepository.findById(id).get());
     }
 
     @Override
     public List<Appointment> getAllByClinicId(Long clinicId) {
-        return appointmentMapper.mapToDomainList(appointmentRepository.findAllByDoctorClinicId(clinicId));
+        return abstractAppointmentMapper.mapToDomainList(abstractAppointmentRepository.findAllByDoctorClinicId(clinicId));
     }
 
     @Override
     public List<Appointment> getAppointments(Long patientId) {
-        return appointmentRepository
+        return abstractAppointmentRepository
                 .findAllScheduledByPatientId(patientId)
                 .stream()
-                .map(appointmentMapper::mapToDomainEntity)
+                .map(abstractAppointmentMapper::mapToDomainEntity)
                 .collect(Collectors.toList());
     }
 }
