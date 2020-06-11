@@ -96,11 +96,11 @@ public class MedicalDoctorController {
                 .stream()
                 .map(doctor -> new MedicalDoctorResponse(
                         doctor.getId(),
-                        doctor.getAccount().getEmail(),
-                        doctor.getAccount().getFirstName(),
-                        doctor.getAccount().getLastName(),
-                        doctor.getAccount().getPersonalInfo().getAddress(),
-                        doctor.getAccount().getPersonalInfo().getTelephoneNumber(),
+                        doctor.getPersonalInfo().getAccount().getEmail(),
+                        doctor.getPersonalInfo().getFirstName(),
+                        doctor.getPersonalInfo().getLastName(),
+                        doctor.getPersonalInfo().getAddress(),
+                        doctor.getPersonalInfo().getTelephoneNumber(),
                         doctor.getWorkingTime().getFrom().toString(),
                         doctor.getWorkingTime().getTo().toString(),
                         doctor.getClinic().getName(),

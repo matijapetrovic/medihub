@@ -95,6 +95,8 @@ import org.medihub.application.ports.outgoing.predefined_appointment.GetPredefin
 import org.medihub.application.ports.outgoing.predefined_appointment.LoadPredefinedAppointmentPort;
 import org.medihub.application.ports.outgoing.prescription.GetPrescriptionPort;
 import org.medihub.application.ports.outgoing.prescription.GetPrescriptionsPort;
+import org.medihub.application.ports.outgoing.profile.LoadPersonalInfoPort;
+import org.medihub.application.ports.outgoing.profile.SavePersonalInfoPort;
 import org.medihub.application.ports.outgoing.reviewing.*;
 import org.medihub.application.ports.outgoing.scheduling.daily_schedule.LoadClinicRoomDailySchedulePort;
 import org.medihub.application.ports.outgoing.scheduling.daily_schedule.LoadDoctorDailySchedulePort;
@@ -438,13 +440,17 @@ public class BeanConfig {
     @Bean
     public UpdateProfileUseCase updateProfileUseCase(
             LoadAccountPort loadAccountPort,
-            SaveAccountPort saveAccountPort) {
-        return new UpdateProfileService(loadAccountPort, saveAccountPort);
+            LoadPersonalInfoPort loadPersonalInfoPort,
+            SavePersonalInfoPort savePersonalInfoPort) {
+        return new UpdateProfileService(
+                loadAccountPort,
+                loadPersonalInfoPort,
+                savePersonalInfoPort);
     }
 
     @Bean
-    public GetProfileQuery getProfileQuery(LoadAccountPort loadAccountPort) {
-        return new GetProfileService(loadAccountPort);
+    public GetProfileQuery getProfileQuery(LoadAccountPort loadAccountPort, LoadPersonalInfoPort loadPersonalInfoPort) {
+        return new GetProfileService(loadAccountPort, loadPersonalInfoPort);
     }
 
     @Bean

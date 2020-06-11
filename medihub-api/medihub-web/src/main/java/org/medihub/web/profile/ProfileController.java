@@ -2,6 +2,7 @@ package org.medihub.web.profile;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.AccountNotFoundException;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.account.profile.GetProfileOutput;
 import org.medihub.application.ports.incoming.account.profile.GetProfileQuery;
 import org.medihub.application.ports.incoming.account.profile.UpdateProfileUseCase;
@@ -22,7 +23,7 @@ public class ProfileController {
     private final GetProfileQuery getProfileQuery;
 
     @GetMapping("")
-    public ResponseEntity<GetProfileOutput> getProfile() throws AccountNotFoundException {
+    public ResponseEntity<GetProfileOutput> getProfile() throws AccountNotFoundException, NotFoundException {
         GetProfileOutput response =
                 getProfileQuery
                         .getProfile(getCurrentUserEmail());
@@ -31,7 +32,7 @@ public class ProfileController {
 
     @PostMapping("")
     public void updateProfile(@RequestBody UpdateProfileRequest request)
-            throws AccountNotFoundException {
+            throws AccountNotFoundException, NotFoundException {
         UpdateProfileCommand command =
                 new UpdateProfileUseCase.UpdateProfileCommand(
                         getCurrentUserEmail(),

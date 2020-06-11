@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.medihub.persistence.account.AccountJpaEntity;
 import org.medihub.persistence.appointment.AppointmentJpaEntity;
 import org.medihub.persistence.medical_record.MedicalRecordJpaEntity;
+import org.medihub.persistence.personal_info.PersonalInfoJpaEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -27,7 +28,7 @@ public class PatientJpaEntity {
     @NotNull
     private String insuranceNumber;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="account_id")
-    private AccountJpaEntity account;
+    @OneToOne
+    @JoinColumn(name="personal_info_id", referencedColumnName = "id", nullable = false)
+    private PersonalInfoJpaEntity personalInfo;
 }

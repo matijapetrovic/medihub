@@ -7,6 +7,7 @@ import org.medihub.domain.reviewing.Rating;
 import org.medihub.persistence.account.AccountMapper;
 import org.medihub.persistence.appointment_type.AppointmentTypeMapper;
 import org.medihub.persistence.clinic.ClinicMapper;
+import org.medihub.persistence.personal_info.PersonalInfoMapper;
 import org.springframework.stereotype.Component;
 
 import java.sql.Time;
@@ -19,11 +20,12 @@ public class MedicalDoctorMapper {
     private final AccountMapper accountMapper;
     private final ClinicMapper clinicMapper;
     private final AppointmentTypeMapper appointmentTypeMapper;
+    private final PersonalInfoMapper personalInfoMapper;
 
     public MedicalDoctor mapToDomainEntity(MedicalDoctorJpaEntity medicalDoctorJpaEntity){
         return new MedicalDoctor(
                 medicalDoctorJpaEntity.getId(),
-                accountMapper.mapToDomainEntity(medicalDoctorJpaEntity.getAccount()),
+                personalInfoMapper.mapToDomainEntity(medicalDoctorJpaEntity.getPersonalInfo()),
                 clinicMapper.mapToDomainEntity(medicalDoctorJpaEntity.getClinic()),
                 new WorkingTime(medicalDoctorJpaEntity.getFrom().toLocalTime(),
                         medicalDoctorJpaEntity.getTo().toLocalTime()),
@@ -37,7 +39,7 @@ public class MedicalDoctorMapper {
     public MedicalDoctorJpaEntity mapToJpaEntity(MedicalDoctor medicalDoctor){
         return new MedicalDoctorJpaEntity(
                 medicalDoctor.getId(),
-                accountMapper.mapToJpaEntity(medicalDoctor.getAccount()),
+                personalInfoMapper.mapToJpaEntity(medicalDoctor.getPersonalInfo()),
                 clinicMapper.mapToJpaEntity(medicalDoctor.getClinic()),
                 Time.valueOf(medicalDoctor.getWorkingTime().getFrom()),
                 Time.valueOf(medicalDoctor.getWorkingTime().getTo()),

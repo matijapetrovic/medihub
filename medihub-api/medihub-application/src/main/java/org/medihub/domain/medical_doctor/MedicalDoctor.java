@@ -2,6 +2,7 @@ package org.medihub.domain.medical_doctor;
 
 import lombok.Getter;
 import org.medihub.domain.WorkingTime;
+import org.medihub.domain.account.PersonalInfo;
 import org.medihub.domain.clinic.Clinic;
 import org.medihub.domain.MedicalStaff;
 import org.medihub.domain.appointment.AppointmentType;
@@ -17,24 +18,24 @@ public class MedicalDoctor extends MedicalStaff {
 
     public MedicalDoctor(
             Long id,
-            Account account,
+            PersonalInfo personalInfo,
             Clinic clinic,
             WorkingTime workingTime,
             AppointmentType appointmentType,
             Rating rating,
             Boolean archived) {
-        super(id, account, clinic, workingTime);
+        super(id, personalInfo, clinic, workingTime);
         this.specialization = appointmentType;
         this.rating = rating;
         this.archived = archived;
     }
 
     public String getFirstName() {
-        return getAccount().getFirstName();
+        return getPersonalInfo().getFirstName();
     }
 
     public String getLastName() {
-        return getAccount().getLastName();
+        return getPersonalInfo().getLastName();
     }
 
     public String getFullName() { return String.format("%s %s", getFirstName(), getLastName()); }

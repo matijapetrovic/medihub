@@ -39,7 +39,7 @@ public class PatientAdapter implements GetPatientsPort, LoadPatientPort, GetPrev
     @Override
     public Patient loadPatientByAccountId(Long accountId) {
         PatientJpaEntity patient = patientRepository
-                .findByAccount_Id(accountId)
+                .findByPersonalInfoAccountId(accountId)
                 .orElseThrow(EntityNotFoundException::new);
 
         return patientMapper.mapToDomainEntity(patient);
