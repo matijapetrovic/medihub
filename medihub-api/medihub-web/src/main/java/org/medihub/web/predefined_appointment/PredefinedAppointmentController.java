@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.NotActiveException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class PredefinedAppointmentController {
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    public void add(@RequestBody PredefinedAppointmentRequest request) throws NotAvailableException {
+    public void add(@RequestBody PredefinedAppointmentRequest request) throws NotAvailableException, NotActiveException {
         AddPredefinedAppointmentCommand command = createCommand(request);
         addPredefinedAppointmentUseCase.addPredefinedAppointment(command);
     }

@@ -17,6 +17,7 @@ import org.medihub.domain.medical_doctor.MedicalDoctorPredefinedAppointmentSched
 import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem;
 import org.medihub.domain.scheduling.DailySchedule;
 
+import java.io.NotActiveException;
 import java.time.LocalTime;
 
 @RequiredArgsConstructor
@@ -31,7 +32,7 @@ public class AddPredefinedAppointmentService implements AddPredefinedAppointment
     private final SaveClinicRoomDailySchedulePort saveClinicRoomDailySchedulePort;
 
     @Override
-    public void addPredefinedAppointment(AddPredefinedAppointmentCommand command) throws NotAvailableException {
+    public void addPredefinedAppointment(AddPredefinedAppointmentCommand command) throws NotAvailableException, NotActiveException {
         PredefinedAppointment predefinedAppointment =
                 new PredefinedAppointment(
                         null,

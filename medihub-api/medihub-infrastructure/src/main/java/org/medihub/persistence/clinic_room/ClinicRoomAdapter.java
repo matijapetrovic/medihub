@@ -1,11 +1,13 @@
 package org.medihub.persistence.clinic_room;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.NotAvailableException;
 import org.medihub.application.ports.outgoing.clinic_room.*;
 import org.medihub.domain.clinic_room.ClinicRoom;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
+import java.io.NotActiveException;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -56,12 +58,12 @@ public class ClinicRoomAdapter implements
     }
 
     @Override
-    public ClinicRoom getClinicRoom(Long id) {
-        return clinicRoomMapper.mapToDomainEntity(clinicRoomRepository.findById(id).get());
+    public ClinicRoom getClinicRoom(Long id) throws NotActiveException {
+        return clinicRoomMapper.mapToDomainEntity(clinicRoomRepository.findById(id).orElseThrow(NotActiveException::new));
     }
 
-    public ClinicRoom getClinicRoomById(Long id) {
-        return clinicRoomMapper.mapToDomainEntity(clinicRoomRepository.findById(id).get());
+    public ClinicRoom getClinicRoomById(Long id) throws NotActiveException {
+        return clinicRoomMapper.mapToDomainEntity(clinicRoomRepository.findById(id).orElseThrow(NotActiveException::new));
     }
 
     @Override
