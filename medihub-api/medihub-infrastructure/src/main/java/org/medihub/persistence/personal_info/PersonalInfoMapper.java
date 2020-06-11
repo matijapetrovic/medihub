@@ -21,7 +21,7 @@ public class PersonalInfoMapper {
                         personalInfo.getCity(),
                         personalInfo.getCountry()),
                 personalInfo.getTelephoneNumber(),
-                accountMapper.mapToDomainEntity(personalInfo.getAccount()));
+                personalInfo.getAccount() == null ? null : accountMapper.mapToDomainEntity(personalInfo.getAccount()));
     }
 
     public PersonalInfoJpaEntity mapToJpaEntity(PersonalInfo personalInfo) {
@@ -33,6 +33,6 @@ public class PersonalInfoMapper {
                 personalInfo.getCity(),
                 personalInfo.getCountry(),
                 personalInfo.getTelephoneNumber(),
-                accountMapper.mapToJpaEntity(personalInfo.getAccount()));
+                personalInfo.getAccount() == null ? null : accountMapper.mapToJpaEntity(personalInfo.getAccount()));
     }
 }

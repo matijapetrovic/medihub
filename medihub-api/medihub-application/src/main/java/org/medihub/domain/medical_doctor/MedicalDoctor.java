@@ -6,7 +6,6 @@ import org.medihub.domain.account.PersonalInfo;
 import org.medihub.domain.clinic.Clinic;
 import org.medihub.domain.MedicalStaff;
 import org.medihub.domain.appointment.AppointmentType;
-import org.medihub.domain.account.Account;
 import org.medihub.domain.reviewing.Rating;
 
 
@@ -40,5 +39,5 @@ public class MedicalDoctor extends MedicalStaff {
 
     public String getFullName() { return String.format("%s %s", getFirstName(), getLastName()); }
 
-    public void archive() { this.archived = true; }
+    public void archive() { this.archived = true; this.getPersonalInfo().removeAccount(); }
 }

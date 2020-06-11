@@ -35,6 +35,10 @@ export default {
     SET_PREVIOUS_PATIENTS(state, previousPatients) {
       state.previousPatients = previousPatients;
     },
+    REMOVE_DOCTOR(state, doctorId) {
+      const idx = state.doctors.findIndex((doctor) => doctor.id === doctorId);
+      state.doctors.splice(idx, 1);
+    },
   },
   actions: {
     addMedicalDoctor({ dispatch }, payload) {
@@ -88,6 +92,17 @@ export default {
       return api.getPreviousPatients()
         .then((response) => {
           commit('SET_PREVIOUS_PATIENTS', response.data);
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
+    deleteDoctor({ commit, dispatch }, doctorId) {
+      return api.deleteDoctor(doctorId)
+        .then(() => {
+          const message = 'Doctor deleted successfull';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
+          commit('REMOVE_DOCTOR', doctorId);
         })
         .catch((err) => {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });

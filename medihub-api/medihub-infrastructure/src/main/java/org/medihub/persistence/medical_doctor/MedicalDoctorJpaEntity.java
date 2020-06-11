@@ -24,7 +24,7 @@ public class MedicalDoctorJpaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="personal_info_id", referencedColumnName = "id", nullable = false)
     private PersonalInfoJpaEntity personalInfo;
 

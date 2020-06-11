@@ -49,6 +49,7 @@ import org.medihub.application.ports.incoming.patient.RegisterPatientUseCase;
 import org.medihub.application.ports.incoming.scheduling.ScheduleDoctorsAppointmentUseCase;
 import org.medihub.application.ports.incoming.scheduling.SchedulePredefinedAppointmentUseCase;
 import org.medihub.application.ports.outgoing.*;
+import org.medihub.application.ports.outgoing.account.DeleteAccountPort;
 import org.medihub.application.ports.outgoing.account.LoadAccountPort;
 import org.medihub.application.ports.outgoing.account.SaveAccountPort;
 import org.medihub.application.ports.outgoing.appointment.*;
@@ -178,14 +179,16 @@ public class BeanConfig {
             LoadClinicAdminPort loadClinicAdminPort,
             LoadDoctorPort loadDoctorPort,
             LoadMedicalDoctorScheduleItemPort loadMedicalDoctorScheduleItemPort,
-            SaveDoctorPort saveDoctorPort
+            SaveDoctorPort saveDoctorPort,
+            DeleteAccountPort deleteAccountPort
     ) {
         return new DeleteDoctorService(
                 getAuthenticatedPort,
                 loadClinicAdminPort,
                 loadDoctorPort,
                 loadMedicalDoctorScheduleItemPort,
-                saveDoctorPort);
+                saveDoctorPort,
+                deleteAccountPort);
     }
 
     @Bean

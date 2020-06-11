@@ -27,4 +27,6 @@ public class PersonalInfo {
     public String getCountry() {
         return address.getCountry();
     }
+
+    public void removeAccount() { account = null; }
 }
