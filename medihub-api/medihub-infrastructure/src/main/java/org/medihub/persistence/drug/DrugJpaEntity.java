@@ -18,6 +18,6 @@ public class DrugJpaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="name", unique = true, nullable = false)
+    @Column(name="name", nullable = false)
     private String name;
 }

@@ -5,10 +5,14 @@ export default {
   namespaced: true,
   state: {
     scheduledAppointments: [],
+    appointment: null,
   },
   mutations: {
     SET_SCHEDULED_APPOINTMENTS(state, scheduledAppointments) {
       state.scheduledAppointments = scheduledAppointments;
+    },
+    SET_APPOINTMENT(state, appointment) {
+      state.appointment = appointment;
     },
     REMOVE_APPOINTMENT(state, appointmentId) {
       const idx = state.scheduledAppointments
@@ -54,6 +58,15 @@ export default {
       return api.fetchScheduledAppointments()
         .then((response) => {
           commit('SET_SCHEDULED_APPOINTMENTS', response.data);
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
+    getCurrentAppointment({ commit, dispatch }, payload) {
+      return api.getCurrentAppointment(payload)
+        .then((response) => {
+          commit('SET_APPOINTMENT', response.data);
         })
         .catch((err) => {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
