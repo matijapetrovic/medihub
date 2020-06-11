@@ -22,9 +22,6 @@ export default {
   finishAppointment(appointment) {
     return utils.apiClient.post('api/finished_appointment/add', appointment);
   },
-  hasMedicalRecordPermission(doctorId) {
-    return utils.apiClient.get(`api/medical-doctor/medical-record-permission/${doctorId}`);
-  },
   getAppointmentScheduleItem(appointmentId) {
     return utils.apiClient.get(`api/medical-doctor/getScheduleItem/${appointmentId}`);
   },

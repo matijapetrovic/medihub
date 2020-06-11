@@ -8,7 +8,6 @@ export default {
     doctors: [],
     workingCalendar: null,
     newRecordItem: null,
-    permission: null,
     scheduleItem: null,
     previousPatients: [],
   },
@@ -37,20 +36,11 @@ export default {
         .dailySchedules[update.date]
         .scheduleItems.splice(index, 1);
     },
-    SET_PERMISSION(state, permission) {
-      state.permission = permission;
-    },
     SET_PREVIOUS_PATIENTS(state, previousPatients) {
       state.previousPatients = previousPatients;
     },
   },
   actions: {
-    hasMedicalRecordPermission({ commit }, payload) {
-      return api.hasMedicalRecordPermission(payload)
-        .then((data) => {
-          commit('SET_PERMISSION', data.data);
-        });
-    },
     getAppointmentScheduleItem({ commit }, id) {
       return api.getAppointmentScheduleItem(id)
         .then((data) => {

@@ -133,7 +133,6 @@ import org.medihub.application.services.leave_request.add.AddLeaveRequestService
 import org.medihub.application.services.leave_request.add.ApproveLeaveRequestService;
 import org.medihub.application.services.leave_request.delete.DeleteLeaveRequestService;
 import org.medihub.application.services.leave_request.get.GetLeaveRequestService;
-import org.medihub.application.services.medical_doctor.get.MedicalRecordPermissionUseCaseService;
 import org.medihub.application.services.medical_doctor.add.AddAppointmentToMedicalDoctorService;
 import org.medihub.application.services.medical_doctor.get.*;
 import org.medihub.application.services.clinic.get.GetAppointmentPriceService;
@@ -517,22 +516,6 @@ public class BeanConfig {
                 getDoctorsPort,
                 getAuthenticatedPort,
                 loadClinicAdminPort
-        );
-    }
-
-    @Bean
-    public CheckMedicalRecordPermissionUseCase geCheckMedicalRecordPermissionUseCase(
-            GetAuthenticatedPort getAuthenticatedPort,
-            GetDoctorByAccountIdPort getDoctorByAccountIdPort,
-            GetCurrentAppointmentPort getCurrentAppointmentPort,
-            GetFinishedAppointmentsForDoctorAndPatient getFinishedAppointmentsForDoctorAndPatient
-
-    ) {
-        return new MedicalRecordPermissionUseCaseService(
-                getAuthenticatedPort,
-                getDoctorByAccountIdPort,
-                getCurrentAppointmentPort,
-                getFinishedAppointmentsForDoctorAndPatient
         );
     }
 

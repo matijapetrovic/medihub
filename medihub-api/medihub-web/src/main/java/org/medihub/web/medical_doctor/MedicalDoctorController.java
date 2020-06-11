@@ -33,7 +33,6 @@ public class MedicalDoctorController {
     private final SearchDoctorsQuery searchDoctorsQuery;
     private final GetDoctorAvailableTimesQuery getDoctorAvailableTimesQuery;
     private final GetDoctorScheduleQuery getDoctorScheduleQuery;
-    private final CheckMedicalRecordPermissionUseCase checkMedicalRecordPermissionUseCase;
     private final GetAppointmentScheduleItemByAppointmentIdUseCase getAppointmentScheduleItemByAppointmentIdUseCase;
     private final GetPreviousPatientsQuery getPreviousPatientsQuery;
 
@@ -126,13 +125,6 @@ public class MedicalDoctorController {
         return ResponseEntity.ok(getDoctorScheduleQuery.getDoctorSchedule(id));
     }
 
-    @GetMapping("/medical-record-permission/{doctorId}")
-    public ResponseEntity<Boolean> medicalRecordPermission(
-            @PathVariable Long doctorId) {
-        return ResponseEntity.ok(
-                checkMedicalRecordPermissionUseCase
-                        .doctorHasPermission(doctorId));
-    }
     
     @GetMapping("/previous-patients")
     public ResponseEntity<List<PatientResponse>> getPreviousPatients() {

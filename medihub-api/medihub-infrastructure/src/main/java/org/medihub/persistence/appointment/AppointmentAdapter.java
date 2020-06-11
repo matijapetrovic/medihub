@@ -12,8 +12,6 @@ import java.sql.Timestamp;
 import java.util.Optional;
 import java.time.LocalDateTime;
 
-
-
 @Component
 @RequiredArgsConstructor
 public class AppointmentAdapter implements
@@ -58,12 +56,10 @@ public class AppointmentAdapter implements
 
     @Override
     public Appointment getCurrentAppointment(Long doctorId, Long patientId) {
-        LocalDateTime now = LocalDateTime.now().plusHours(2);
+        LocalDateTime now = LocalDateTime.now();
         Timestamp end = Timestamp.valueOf(now);
         Timestamp start = Timestamp.valueOf(now.minusHours(1));
 
-        List<AppointmentJpaEntity> appointmentJpaEntities =
-                appointmentRepository.findAllByDoctorIdAndPatientId(doctorId, patientId);
         Optional<AppointmentJpaEntity> appointmentJpaEntity =
                 appointmentRepository.findCurrentAppointment(patientId, doctorId, start, end);
         if (appointmentJpaEntity.isEmpty())

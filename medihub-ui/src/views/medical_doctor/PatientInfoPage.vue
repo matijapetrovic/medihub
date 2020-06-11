@@ -51,7 +51,7 @@
         <v-spacer></v-spacer>
       </v-row>
       </v-col>
-      <v-col v-if="permission">
+      <v-col v-if="appointment">
         <PatientDetailsCard
           :medical-record="patientRecord"
         />
@@ -111,7 +111,7 @@ export default {
 
   computed: {
     ...mapState('patient', ['patient', 'patientId']),
-    ...mapState('medicalDoctor', ['permission', 'scheduleItem']),
+    ...mapState('medicalDoctor', ['scheduleItem']),
     ...mapState('medicalRecord', ['patientRecord']),
     ...mapState('appointment', ['appointment']),
     isAppointmentPresent() {
@@ -121,7 +121,6 @@ export default {
 
   mounted() {
     this.getPatientById(this.$route.params.id);
-    this.hasMedicalRecordPermission(this.$route.params.id);
     this.getPatientMedicalRecord(this.$route.params.id);
     this.getCurrentAppointment(this.$route.params.id)
       .then(() => {
@@ -136,7 +135,7 @@ export default {
 
   methods: {
     ...mapActions('patient', ['getPatientById']),
-    ...mapActions('medicalDoctor', ['hasMedicalRecordPermission', 'getAppointmentScheduleItem']),
+    ...mapActions('medicalDoctor', ['getAppointmentScheduleItem']),
     ...mapActions('medicalRecord', ['getPatientMedicalRecord']),
     ...mapActions('appointment', ['getCurrentAppointment']),
     showAppointment() {
