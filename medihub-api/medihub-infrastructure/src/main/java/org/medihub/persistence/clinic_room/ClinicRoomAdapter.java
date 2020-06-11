@@ -66,12 +66,12 @@ public class ClinicRoomAdapter implements
     }
 
     @Override
-    public ClinicRoom getClinicRoom(Long id) {
-        return clinicRoomMapper.mapToDomainEntity(clinicRoomRepository.findByIdAndDeletedIsFalse(id).get());
+    public ClinicRoom getClinicRoom(Long id) throws NotFoundException {
+        return clinicRoomMapper.mapToDomainEntity(clinicRoomRepository.findByIdAndDeletedIsFalse(id).orElseThrow(NotFoundException::new));
     }
 
-    public ClinicRoom getClinicRoomById(Long id) {
-        return clinicRoomMapper.mapToDomainEntity(clinicRoomRepository.findByIdAndDeletedIsFalse(id).get());
+    public ClinicRoom getClinicRoomById(Long id) throws NotFoundException {
+        return clinicRoomMapper.mapToDomainEntity(clinicRoomRepository.findByIdAndDeletedIsFalse(id).orElseThrow(NotFoundException::new));
     }
 
     @Override
