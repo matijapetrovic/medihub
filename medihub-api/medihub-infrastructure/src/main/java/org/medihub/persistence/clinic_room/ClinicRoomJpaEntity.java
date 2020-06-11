@@ -24,6 +24,9 @@ public class ClinicRoomJpaEntity {
     @Column(name = "number", unique = true)
     private int number;
 
+    @Column(name = "deleted")
+    private Boolean deleted;
+
     @ManyToOne
     @JoinColumn(name="clinic_id", nullable = false)
     private ClinicJpaEntity clinic;

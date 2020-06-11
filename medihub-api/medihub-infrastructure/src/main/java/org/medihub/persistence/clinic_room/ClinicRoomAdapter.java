@@ -43,7 +43,10 @@ public class ClinicRoomAdapter implements
 
     @Override
     public void deleteClinicRoom(Long id) {
-        clinicRoomRepository.deleteById(id);
+        ClinicRoomJpaEntity clinicRoomJpa = clinicRoomRepository.findById(id).get();
+        if(!clinicRoomJpa.getDeleted())
+            clinicRoomJpa.setDeleted(true);
+            clinicRoomRepository.save(clinicRoomJpa);
     }
 
     @Override
