@@ -3,7 +3,6 @@ package org.medihub.application.services.appointment;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.ForbiddenException;
 import org.medihub.application.ports.incoming.appointment.CancelAppointmentUseCase;
-import org.medihub.application.ports.outgoing.appointment.DeleteAppointmentPort;
 import org.medihub.application.ports.outgoing.appointment.LoadAppointmentPort;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
 import org.medihub.application.ports.outgoing.doctor.DeleteAppointmentScheduleItemPort;
@@ -18,7 +17,6 @@ import java.time.LocalDate;
 public class CancelAppointmentService implements CancelAppointmentUseCase {
     private final GetAuthenticatedPort getAuthenticatedPort;
     private final LoadAppointmentPort loadAppointmentPort;
-    private final DeleteAppointmentPort deleteAppointmentPort;
     private final DeleteAppointmentScheduleItemPort deleteAppointmentScheduleItemPort;
 
     @Override
@@ -29,7 +27,6 @@ public class CancelAppointmentService implements CancelAppointmentUseCase {
         ensurePatientCanCancelAppointment(appointment, account);
 
         deleteAppointmentScheduleItemPort.deleteAppointmentItemByAppointmentId(appointmentId);
-        deleteAppointmentPort.deleteAppointment(appointmentId);
     }
 
     private void ensurePatientCanCancelAppointment(Appointment appointment, Account account) throws ForbiddenException {

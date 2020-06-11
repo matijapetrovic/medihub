@@ -1,8 +1,12 @@
 package org.medihub.persistence.clinic_room;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.ForbiddenException;
+import org.medihub.application.exceptions.NotAvailableException;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.outgoing.clinic_room.*;
 import org.medihub.domain.clinic_room.ClinicRoom;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
@@ -42,9 +46,12 @@ public class ClinicRoomAdapter implements
     }
 
     @Override
-    public void deleteClinicRoom(Long id) {
-        ClinicRoom clinicRoom =
-                clinicRoomMapper.mapToDomainEntity(clinicRoomRepository.findByIdAndDeletedIsFalse(id).get());
+    public void deleteClinicRoom(Long id) throws ForbiddenException {
+        LocalDateTime now  = LocalDateTime.now();
+        ClinicRoom clinicRoom = clinicRoomMapper.mapToDomainEntity(
+                clinicRoomRepository.findByIdIfDeletedIsFalse(id, Timestamp.valueOf(now))
+                        .orElseThrow(ForbiddenException::new));
+
         clinicRoom.setIsDeleted(true);
         clinicRoomRepository.save(clinicRoomMapper.mapToJpaEntity(clinicRoom));
     }

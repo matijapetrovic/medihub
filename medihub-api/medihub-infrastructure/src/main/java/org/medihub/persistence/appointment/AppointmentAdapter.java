@@ -1,7 +1,6 @@
 package org.medihub.persistence.appointment;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.outgoing.appointment.DeleteAppointmentPort;
 import org.medihub.application.ports.outgoing.appointment.LoadAppointmentPort;
 import org.medihub.application.ports.outgoing.appointment.GetScheduledAppointmentsPort;
 import org.medihub.application.ports.outgoing.appointment.SaveAppointmentPort;
@@ -16,8 +15,7 @@ import java.util.stream.Collectors;
 public class AppointmentAdapter implements
         SaveAppointmentPort,
         LoadAppointmentPort,
-        GetScheduledAppointmentsPort,
-        DeleteAppointmentPort {
+        GetScheduledAppointmentsPort {
     private final AppointmentMapper appointmentMapper;
     private final AppointmentRepository appointmentRepository;
 
@@ -25,7 +23,6 @@ public class AppointmentAdapter implements
     public Appointment saveAppointment(Appointment appointment) {
         return appointmentMapper.mapToDomainEntity(appointmentRepository.save(appointmentMapper.mapToJpaEntity(appointment)));
     }
-
 
     @Override
     public Appointment getAppointmentById(Long id) {
@@ -46,8 +43,4 @@ public class AppointmentAdapter implements
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public void deleteAppointment(Long appointmentId) {
-        appointmentRepository.deleteById(appointmentId);
-    }
 }
