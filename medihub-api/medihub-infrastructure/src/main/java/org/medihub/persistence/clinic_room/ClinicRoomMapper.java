@@ -18,7 +18,8 @@ public class ClinicRoomMapper {
                 clinicRoomJpaEntity.getId(),
                 clinicRoomJpaEntity.getName(),
                 clinicRoomJpaEntity.getNumber(),
-                clinicMapper.mapToDomainEntity(clinicRoomJpaEntity.getClinic()));
+                clinicMapper.mapToDomainEntity(clinicRoomJpaEntity.getClinic()),
+                clinicRoomJpaEntity.getDeleted());
     }
 
     public ClinicRoomJpaEntity mapToJpaEntity(ClinicRoom clinicRoom){
@@ -26,6 +27,7 @@ public class ClinicRoomMapper {
                 clinicRoom.getId(),
                 clinicRoom.getName(),
                 clinicRoom.getNumber(),
+                clinicRoom.getIsDeleted(),
                 clinicMapper.mapToJpaEntity(clinicRoom.getClinic()));
     }
 

@@ -18,7 +18,6 @@ public class AppointmentAdapter implements
         SaveAppointmentPort,
         LoadAppointmentPort,
         GetScheduledAppointmentsPort,
-        DeleteAppointmentPort,
         GetCurrentAppointmentPort {
     private final AppointmentMapper appointmentMapper;
     private final AppointmentRepository appointmentRepository;
@@ -47,11 +46,6 @@ public class AppointmentAdapter implements
                 .stream()
                 .map(appointmentMapper::mapToDomainEntity)
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public void deleteAppointment(Long appointmentId) {
-        appointmentRepository.deleteById(appointmentId);
     }
 
     @Override
