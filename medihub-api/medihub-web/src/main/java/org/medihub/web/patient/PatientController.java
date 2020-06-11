@@ -23,7 +23,6 @@ public class PatientController {
     private final GetPatientsPort getPatientsPort;
 
     @GetMapping("")
-    @ResponseBody
     public List<PatientResponse> getAll(){
         return loadAll();
     }

@@ -31,7 +31,7 @@ insert into authority (id, name) values (5, 'ROLE_CLINIC_CENTER_ADMIN');
 
 insert into account (email, password, country, password_changed) values ('patient@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Serbia', true);
 insert into account (email, password, first_name, last_name, address, password_changed) values ('doctor@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Dragan', 'Arsic', 'aa', true);
-insert into account (email, password, first_name, last_name, address, password_changed) values ('nurse@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Marko', 'markov', 'aa', false);
+insert into account (email, password, first_name, last_name, address, password_changed) values ('nurse@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Marko', 'markov', 'aa', true);
 insert into account (email, password, first_name, last_name, address, password_changed) values ('clinicadmin@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Dusan', 'Susic', 'aa', true);
 insert into account (email, password, password_changed) values ('admin@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', false);
 insert into account (email, password, first_name, last_name, address, password_changed, telephone_number) values ('d1@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Marko', 'markov', 'aa', true, '06951521615');
@@ -130,3 +130,6 @@ insert into clinic_review (clinic_id, patient_id, rating, can_review) values (2,
 
 insert into doctor_review (doctor_id, patient_id, rating, can_review) values (1, 1, null, true);
 insert into doctor_review (doctor_id, patient_id, rating, can_review) values (3, 1, 4.5, false);
+
+insert into appointment_request (doctor, patient, price, start_time, type) values (1, 1, 200, '2020-06-15 15:00:00', 'APPOINTMENT');
+insert into appointment_request (doctor, patient, price, start_time, type) values (1, 1, 200, '2020-06-17 09:00:00', 'OPERATION');
