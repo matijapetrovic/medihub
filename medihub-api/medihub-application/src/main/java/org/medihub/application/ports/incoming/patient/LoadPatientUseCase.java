@@ -5,4 +5,6 @@ import java.util.List;
 
 public interface LoadPatientUseCase {
     List<Patient> loadAllPatients();
+
+    PatientResponse loadPatientById(Long id);
 }

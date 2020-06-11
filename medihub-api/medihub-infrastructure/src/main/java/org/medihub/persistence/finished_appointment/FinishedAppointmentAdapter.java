@@ -1,8 +1,10 @@
 package org.medihub.persistence.finished_appointment;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.incoming.finished_appointment.GetFinishedAppointmentOutput;
-import org.medihub.application.ports.incoming.finished_appointment.GetPatientsFinishedAppointmetsQuery;
+import org.medihub.application.ports.incoming.finished_appointment.GetFinishedAppointmentsForDoctorAndPatient;
+import org.medihub.application.ports.outgoing.finished_appointment.GetFinishedAppointmentsPort;
+import org.medihub.application.ports.outgoing.finished_appointment.LoadFinishedAppointmentPort;
+import org.medihub.application.ports.outgoing.finished_appointment.SaveFinishedAppointmentPort;
 import org.medihub.application.ports.outgoing.finished_appointment.*;
 import org.medihub.domain.appointment.FinishedAppointment;
 import org.springframework.stereotype.Component;
@@ -17,6 +19,7 @@ public class FinishedAppointmentAdapter implements
         GetFinishedAppointmentsPort,
         LoadFinishedAppointmentPort,
         SaveFinishedAppointmentPort,
+        GetFinishedAppointmentsForDoctorAndPatient,
         GetPatientsFinishedAppointmentsPort,
         GetFinishedAppointmentPort {
     private final FinishedAppointmentMapper mapper;
@@ -52,6 +55,11 @@ public class FinishedAppointmentAdapter implements
     @Override
     public FinishedAppointment saveFinishedAppointment(FinishedAppointment finishedAppointment) {
         return mapper.mapToDomainEntity(repository.save(mapper.mapToJpaEntity(finishedAppointment)));
+    }
+
+    @Override
+    public List<FinishedAppointment> getAppointmentsWhereDoctorExaminesPatient(Long doctorId, Long patientId) {
+        return mapper.mapToJpaDomainList(repository.findAllByAppointmentDoctor_IdAndAppointmentPatient_Id(doctorId, patientId));
     }
 
     @Override

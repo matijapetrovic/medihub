@@ -1,8 +1,6 @@
 package org.medihub.application.ports.incoming.finished_appointment;
 
 import lombok.Value;
-import org.medihub.application.ports.incoming.medical_record.AllergyDTO;
-import org.medihub.application.ports.incoming.medical_record.ChangeMedicalRecordUseCase;
 import org.medihub.common.SelfValidating;
 
 import javax.validation.constraints.NotBlank;

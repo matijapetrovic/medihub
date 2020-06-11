@@ -9,6 +9,8 @@ import org.medihub.application.ports.incoming.appointment.AddAppointmentUseCase.
 import org.medihub.application.ports.incoming.appointment.CancelAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment.GetAppointmentsOutput;
 import org.medihub.application.ports.incoming.appointment.GetAppointmentsQuery;
+import org.medihub.application.ports.incoming.appointment.GetCurrentAppointmentUseCase;
+import org.medihub.domain.appointment.Appointment;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,6 +27,7 @@ public class AppointmentController {
     private final AddAppointmentUseCase addAppointmentUseCase;
     private final GetAppointmentsQuery getAppointmentsQuery;
     private final CancelAppointmentUseCase cancelAppointmentUseCase;
+    private final GetCurrentAppointmentUseCase getCurrentAppointmentUseCase;
 
     @GetMapping("")
     @PreAuthorize("hasRole('ROLE_PATIENT')")
@@ -41,8 +44,14 @@ public class AppointmentController {
 
     @PostMapping("/{appointmentId}/cancel")
     @PreAuthorize("hasRole('ROLE_PATIENT')")
-    public void cancel(@PathVariable Long appointmentId) throws ForbiddenException {
+    public void cancel(@PathVariable Long appointmentId) throws ForbiddenException, NotFoundException {
         cancelAppointmentUseCase.cancelAppointment(appointmentId);
+    }
+
+    @GetMapping("/getCurrent/{patientId}")
+    @PreAuthorize("hasRole('ROLE_DOCTOR')")
+    public ResponseEntity<Appointment> getCurrent(@PathVariable Long patientId) {
+        return ResponseEntity.ok(getCurrentAppointmentUseCase.getCurrentAppointment(patientId));
     }
 
     private AddAppointmentCommand createCommand(AddAppointmentRequest addAppointmentRequest) {
