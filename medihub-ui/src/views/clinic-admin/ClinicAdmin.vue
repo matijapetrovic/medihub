@@ -70,6 +70,11 @@ export default {
         icon: 'mdi-bookmark-check',
         path: '/reports',
       },
+      {
+        text: 'Registration requests',
+        path: '/registration-requests',
+        icon: 'mdi-account-clock-outline',
+      },
     ],
   }),
 };

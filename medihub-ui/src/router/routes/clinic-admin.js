@@ -10,6 +10,7 @@ import ClinicRoomsTable from '@/views/clinic-admin/ClinicRoomsTable.vue';
 import ClinicInfo from '@/views/clinic/ClinicInformation.vue';
 import PriceListTable from '@/views/clinic/PriceListTable.vue';
 import Reports from '@/views/clinic-admin/Reports.vue';
+import RegistrationRequests from '@/views/clinic-admin/RegistrationRequests.vue';
 
 import ClinicAdminHome from '@/views/clinic-admin/ClinicAdminHome.vue';
 
@@ -69,6 +70,10 @@ export default {
     {
       path: '/reports',
       component: Reports,
+    },
+    {
+      path: '/registration-requests',
+      component: RegistrationRequests,
     },
   ],
 };

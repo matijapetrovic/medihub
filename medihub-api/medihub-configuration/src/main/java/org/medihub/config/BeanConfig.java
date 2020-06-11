@@ -11,7 +11,6 @@ import org.medihub.application.ports.incoming.finished_appointment.*;
 import org.medihub.application.ports.incoming.clinic.GetAppointmentPriceUseCase;
 import org.medihub.application.ports.incoming.finished_appointment.GetAppointmentHistoryQuery;
 import org.medihub.application.ports.incoming.finished_appointment.GetFinishedAppointmentProfitUseCase;
-import org.medihub.application.ports.incoming.finished_appointment.GetFinishedAppointmentsForDoctorAndPatient;
 import org.medihub.application.ports.incoming.leave_request.AddLeaveRequestUseCase;
 import org.medihub.application.ports.incoming.leave_request.ApproveLeaveRequestUseCase;
 import org.medihub.application.ports.incoming.leave_request.DeleteLeaveRequestUseCase;
@@ -50,6 +49,10 @@ import org.medihub.application.ports.incoming.account.ChangePasswordUseCase;
 import org.medihub.application.ports.incoming.account.GetAccountQuery;
 import org.medihub.application.ports.incoming.account.profile.GetProfileQuery;
 import org.medihub.application.ports.incoming.account.profile.UpdateProfileUseCase;
+import org.medihub.application.ports.incoming.clinic.SearchClinicsQuery;
+import org.medihub.application.ports.incoming.medical_doctor.GetMedicalDoctorUseCase;
+import org.medihub.application.ports.incoming.medical_doctor.GetDoctorsQuery;
+import org.medihub.application.ports.incoming.patient.GetRegistrationRequestsQuery;
 import org.medihub.application.ports.incoming.patient.LoadPatientUseCase;
 import org.medihub.application.ports.incoming.patient.RegisterPatientUseCase;
 import org.medihub.application.ports.outgoing.*;
@@ -89,6 +92,7 @@ import org.medihub.application.ports.outgoing.medical_record.LoadMedicalRecordBy
 import org.medihub.application.ports.outgoing.medical_record.LoadMedicalRecordPort;
 import org.medihub.application.ports.outgoing.medical_record.SaveMedicalRecordPort;
 import org.medihub.application.ports.outgoing.patient.GetPatientsPort;
+import org.medihub.application.ports.outgoing.patient.GetRegistrationRequestsPort;
 import org.medihub.application.ports.outgoing.patient.LoadPatientPort;
 import org.medihub.application.ports.outgoing.patient.SaveRegistrationRequestPort;
 import org.medihub.application.ports.outgoing.authentication.AuthenticationPort;
@@ -170,6 +174,7 @@ import org.medihub.application.services.patient.add.RegisterPatientService;
 import org.medihub.application.services.reviewing.AddClinicReviewService;
 import org.medihub.application.services.reviewing.AddDoctorReviewService;
 import org.medihub.application.services.scheduling.get.GetMedicalDoctorAppointmentScheduleItemService;
+import org.medihub.application.services.patient.GetRegistrationRequestsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -874,4 +879,8 @@ public class BeanConfig {
                 saveMedicalDoctorScheduleItemPort);
     }
 
+    @Bean
+    public GetRegistrationRequestsQuery getRegistrationRequestsQuery(GetRegistrationRequestsPort getRegistrationRequestsPort) {
+        return new GetRegistrationRequestsService(getRegistrationRequestsPort);
+    }
 }
