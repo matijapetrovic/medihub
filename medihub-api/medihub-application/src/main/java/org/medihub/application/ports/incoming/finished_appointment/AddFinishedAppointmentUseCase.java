@@ -2,12 +2,13 @@ package org.medihub.application.ports.incoming.finished_appointment;
 
 import lombok.EqualsAndHashCode;
 import lombok.Value;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.common.SelfValidating;
 
 import javax.validation.constraints.NotNull;
 
 public interface AddFinishedAppointmentUseCase {
-    public GetFinishedAppointmentOutput addFinishedAppointment(AddFinishedAppointmentCommand command);
+    public GetFinishedAppointmentOutput addFinishedAppointment(AddFinishedAppointmentCommand command) throws NotFoundException;
 
     @Value
     @EqualsAndHashCode(callSuper = false)

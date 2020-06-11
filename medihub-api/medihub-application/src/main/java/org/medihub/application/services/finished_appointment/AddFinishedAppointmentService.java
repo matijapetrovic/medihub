@@ -1,6 +1,7 @@
 package org.medihub.application.services.finished_appointment;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.finished_appointment.AddFinishedAppointmentUseCase;
 import org.medihub.application.ports.outgoing.appointment.LoadAppointmentPort;
 import org.medihub.application.ports.incoming.finished_appointment.GetFinishedAppointmentOutput;
@@ -42,7 +43,7 @@ public class AddFinishedAppointmentService implements AddFinishedAppointmentUseC
     @Override
 
     @Transactional
-    public GetFinishedAppointmentOutput addFinishedAppointment(AddFinishedAppointmentCommand command) {
+    public GetFinishedAppointmentOutput addFinishedAppointment(AddFinishedAppointmentCommand command) throws NotFoundException {
         Appointment appointment = loadAppointmentPort.getAppointmentById(command.getAppointment());
         Diagnosis diagnosis = getDiagnosisByIdPort.getDiagnosisById(command.getDiagnosis());
 
@@ -57,7 +58,7 @@ public class AddFinishedAppointmentService implements AddFinishedAppointmentUseC
         for  (Long id : command.getDrugs()) {
             Drug drug = getDrugByIdPort.getDrugById(id);
             Prescription prescription = new Prescription(null, drug, retVal, null);
-            //savePrescriptionPort.savePrescription(prescription);
+            savePrescriptionPort.savePrescription(prescription);
         }
 
         updateClinicReview(finishedAppointment);

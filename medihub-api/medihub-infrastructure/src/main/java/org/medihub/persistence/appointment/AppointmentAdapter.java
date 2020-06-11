@@ -1,6 +1,7 @@
 package org.medihub.persistence.appointment;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.outgoing.appointment.*;
 import org.medihub.domain.appointment.Appointment;
 import org.springframework.stereotype.Component;
@@ -30,8 +31,10 @@ public class AppointmentAdapter implements
     }
 
     @Override
-    public Appointment getAppointmentById(Long id) {
-        return appointmentMapper.mapToDomainEntity(appointmentRepository.findById(id).get());
+    public Appointment getAppointmentById(Long id) throws NotFoundException {
+        AppointmentJpaEntity appointment = appointmentRepository.findById(id)
+                .orElseThrow(NotFoundException::new);
+        return appointmentMapper.mapToDomainEntity(appointment);
     }
 
     @Override

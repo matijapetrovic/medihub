@@ -44,7 +44,7 @@ public class AppointmentController {
 
     @PostMapping("/{appointmentId}/cancel")
     @PreAuthorize("hasRole('ROLE_PATIENT')")
-    public void cancel(@PathVariable Long appointmentId) throws ForbiddenException {
+    public void cancel(@PathVariable Long appointmentId) throws ForbiddenException, NotFoundException {
         cancelAppointmentUseCase.cancelAppointment(appointmentId);
     }
 

@@ -1,6 +1,7 @@
 package org.medihub.web.finished_appointment;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.finished_appointment.*;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -48,7 +49,7 @@ public class FinishedAppointmentController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<GetFinishedAppointmentOutput> add(@RequestBody AddFinishedAppointmentRequest request) {
+    public ResponseEntity<GetFinishedAppointmentOutput> add(@RequestBody AddFinishedAppointmentRequest request) throws NotFoundException {
         AddFinishedAppointmentCommand command = this.createCommand(request);
         return ResponseEntity.ok(addFinishedAppointmentUseCase.addFinishedAppointment(command));
     }

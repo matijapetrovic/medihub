@@ -2,6 +2,7 @@ package org.medihub.application.services.appointment;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.ForbiddenException;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.appointment.CancelAppointmentUseCase;
 import org.medihub.application.ports.outgoing.appointment.DeleteAppointmentPort;
 import org.medihub.application.ports.outgoing.appointment.LoadAppointmentPort;
@@ -23,7 +24,7 @@ public class CancelAppointmentService implements CancelAppointmentUseCase {
 
     @Override
     @Transactional
-    public void cancelAppointment(@NotNull Long appointmentId) throws ForbiddenException {
+    public void cancelAppointment(@NotNull Long appointmentId) throws ForbiddenException, NotFoundException {
         Appointment appointment = loadAppointmentPort.getAppointmentById(appointmentId);
         Account account = getAuthenticatedPort.getAuthenticated();
         ensurePatientCanCancelAppointment(appointment, account);
