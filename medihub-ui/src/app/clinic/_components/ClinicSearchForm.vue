@@ -33,7 +33,7 @@
           </template>
           <v-date-picker
             v-model="date"
-            :min="today"
+            :min="tomorrow"
             no-title
             scrollable
           >
@@ -63,7 +63,6 @@ export default {
     appointmentType: null,
     date: null,
     menu: null,
-    today: new Date().toISOString().substr(0, 10),
   }),
   props: {
     appointmentTypes: {
@@ -90,6 +89,15 @@ export default {
   computed: {
     requiredRule() {
       return (value) => !!value || 'Required';
+    },
+    tomorrow() {
+      function addDays(date, days) {
+        const res = new Date(date);
+        res.setDate(res.getDate() + days);
+        return res;
+      }
+
+      return addDays(new Date(), 1).toISOString().substr(0, 10);
     },
   },
   mounted() {
