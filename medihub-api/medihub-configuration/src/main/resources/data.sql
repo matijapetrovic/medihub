@@ -93,6 +93,7 @@ insert into medical_doctor (personal_info_id, clinic, working_time_from, working
 
 insert into medical_nurse (personal_info_id, clinic, working_time_from, working_time_to) values (3, 1, '06:00:00', '14:00:00');
 
+
 insert into appointment (id, start_time, clinic_room_id, patient_id, doctor_id) values (51, CURRENT_TIMESTAMP , 1, 1, 1);
 insert into appointment (id, start_time, clinic_room_id, patient_id, doctor_id) values (52, '2020-10-12 13:00:00', 1, 1, 3);
 insert into appointment (id, start_time, clinic_room_id, patient_id, doctor_id) values (53, '2019-12-12 07:00:00', 1, 1, 2);
@@ -130,8 +131,9 @@ insert into drug (name) value ('Andol');
 insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Sad bas i nije heh', 52, 2);
 insert into finished_appointment (description, appointment_id, diagnosis_id) values ('aaa', 53, 2);
 
-insert into predefined_appointment (doctor_id, start_time, duration, price, clinic_room_id, appointment_type_id) values (1, '2020-05-06 16:00:00', 3.0, 500.0, 1, 1);
-insert into medical_doctor_predefined_appointment_schedule_item (id, doctor_id, start_time, schedule_item_type, predefined_appointment_id) values (5,1, '2020-05-06 15:00:00', 5, 1);
+insert into predefined_appointment (doctor_id, start_time, duration, price, clinic_room_id, appointment_type_id) values (1, '2020-10-10 07:00:00', 3.0, 500.0, 1, 1);
+insert into medical_doctor_predefined_appointment_schedule_item (id, predefined_appointment_id, doctor_id, start_time, schedule_item_type) values (5, 1, 1,'2020-05-06 15:00:00' , 5);
+
 
 insert into prescriptions (drug_id, medical_nurse_id, finished_appointment_id) values (1, null, 1);
 insert into prescriptions (drug_id, medical_nurse_id, finished_appointment_id) values (2, null, 1);

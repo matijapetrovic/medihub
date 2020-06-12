@@ -52,7 +52,7 @@ export default {
   },
   data: () => ({
     item: {},
-    rating: null,
+    rating: 0,
   }),
   methods: {
     emitRated() {
@@ -60,7 +60,7 @@ export default {
       this.resetRating();
     },
     resetRating() {
-      this.rating = null;
+      this.rating = 0;
     },
   },
 };
