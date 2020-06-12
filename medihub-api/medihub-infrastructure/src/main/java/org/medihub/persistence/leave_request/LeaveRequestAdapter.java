@@ -24,8 +24,8 @@ public class LeaveRequestAdapter implements
     }
 
     @Override
-    public List<LeaveRequest> getAll() {
-        return leaveRequestMapper.mapToDomainList(leaveRequestRepository.findAll());
+    public List<LeaveRequest> getAll(Long clinicId) {
+        return leaveRequestMapper.mapToDomainList(leaveRequestRepository.findAllByDoctorClinicId(clinicId));
     }
 
     @Override
