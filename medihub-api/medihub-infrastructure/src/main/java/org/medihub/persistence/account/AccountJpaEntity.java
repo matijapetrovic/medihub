@@ -30,6 +30,9 @@ public class AccountJpaEntity {
     @Column(name="password_changed")
     private boolean passwordChanged;
 
+    @Column(name="activated")
+    private boolean activated;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="account_authority",
                 joinColumns = @JoinColumn(name="user_id", referencedColumnName = "id"),

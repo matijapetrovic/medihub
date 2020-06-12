@@ -27,6 +27,7 @@ public class RegistrationRequest {
                 email,
                 password,
                 true,
+                false,
                 List.of(new Authority(1L, "ROLE_PATIENT")));
 
         PersonalInfo personalInfo = new PersonalInfo(

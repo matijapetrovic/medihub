@@ -14,6 +14,7 @@ public class Account implements Serializable {
     private String email;
     private String password;
     private boolean passwordChanged;
+    private boolean activated;
     private List<Authority> authorities;
 
     public boolean changePassword(String newPassword) {
@@ -23,5 +24,9 @@ public class Account implements Serializable {
         password = newPassword;
         passwordChanged = true;
         return true;
+    }
+
+    public void activate() {
+        this.activated = true;
     }
 }

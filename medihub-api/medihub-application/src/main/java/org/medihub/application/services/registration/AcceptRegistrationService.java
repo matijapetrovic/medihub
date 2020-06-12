@@ -31,7 +31,7 @@ public class AcceptRegistrationService implements AcceptRegistrationUseCase {
         String to = "medihub.mail@gmail.com";
         String subject = "Registration request accepted";
         String text = String.format("Your registration request has been accepted. Please visit this link to activate" +
-                "your account: http://localhost:8081/activate/%d", patient.getId());
+                "your account: http://localhost:8081/activate/%d", patient.getPersonalInfo().getAccount().getId());
         sendEmailPort.sendEmail(to, subject, text);
     }
 }

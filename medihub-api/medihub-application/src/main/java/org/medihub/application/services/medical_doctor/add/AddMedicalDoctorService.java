@@ -51,8 +51,8 @@ public class AddMedicalDoctorService implements AddMedicalDoctorUseCase {
                                 null,
                                 command.getEmail(),
                                 encoderPort.encode(command.getPassword()),
-
                                 false,
+                                true,
                                 List.of(new Authority(2L, "ROLE_DOCTOR")))
                         ),
                                 clinicAdmin.getClinic(),

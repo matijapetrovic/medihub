@@ -39,6 +39,7 @@ public class AddClinicAdminService implements AddClinicAdminUseCase {
                 command.getEmail(),
                 encoderPort.encode(command.getPassword()),
                 false,
+                true,
                 List.of(new Authority(4L, "ROLE_CLINIC_ADMIN"))
         );
 

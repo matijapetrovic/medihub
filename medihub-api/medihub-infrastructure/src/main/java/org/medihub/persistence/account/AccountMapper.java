@@ -19,6 +19,7 @@ public class AccountMapper {
                 account.getEmail(),
                 account.getPassword(),
                 account.isPasswordChanged(),
+                account.isActivated(),
                 mapToAuthorities(account.getAuthorities()));
     }
 
@@ -41,6 +42,7 @@ public class AccountMapper {
                 account.getEmail(),
                 account.getPassword(),
                 account.isPasswordChanged(),
+                account.isActivated(),
                 mapToJpaAuthorities(account.getAuthorities()));
     }
 

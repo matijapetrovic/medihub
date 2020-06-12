@@ -1,5 +1,6 @@
 package org.medihub.config;
 
+import org.medihub.application.ports.incoming.account.ActivateAccountUseCase;
 import org.medihub.application.ports.incoming.appointment.CancelAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment.GetAppointmentsQuery;
 import org.medihub.application.ports.incoming.appointment.GetCurrentAppointmentUseCase;
@@ -49,8 +50,8 @@ import org.medihub.application.ports.incoming.clinic_admin.AddClinicAdminUseCase
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase;
 import org.medihub.application.ports.incoming.account.ChangePasswordUseCase;
 import org.medihub.application.ports.incoming.account.GetAccountQuery;
-import org.medihub.application.ports.incoming.account.profile.GetProfileQuery;
-import org.medihub.application.ports.incoming.account.profile.UpdateProfileUseCase;
+import org.medihub.application.ports.incoming.profile.GetProfileQuery;
+import org.medihub.application.ports.incoming.profile.UpdateProfileUseCase;
 import org.medihub.application.ports.incoming.clinic.SearchClinicsQuery;
 import org.medihub.application.ports.incoming.medical_doctor.GetMedicalDoctorUseCase;
 import org.medihub.application.ports.incoming.medical_doctor.GetDoctorsQuery;
@@ -122,10 +123,11 @@ import org.medihub.application.ports.outgoing.scheduling.schedule_item.LoadMedic
 import org.medihub.application.ports.outgoing.scheduling.schedule_item.SaveMedicalDoctorScheduleItemPort;
 import org.medihub.application.services.*;
 import org.medihub.application.ports.outgoing.prescription.SavePrescriptionPort;
-import org.medihub.application.services.account.post.ChangePasswordService;
-import org.medihub.application.services.account.get.GetAccountService;
-import org.medihub.application.services.account.get.GetProfileService;
-import org.medihub.application.services.account.post.UpdateProfileService;
+import org.medihub.application.services.account.ActivateAccountService;
+import org.medihub.application.services.account.ChangePasswordService;
+import org.medihub.application.services.account.GetAccountService;
+import org.medihub.application.services.profile.GetProfileService;
+import org.medihub.application.services.profile.UpdateProfileService;
 import org.medihub.application.services.appointment.CancelAppointmentService;
 import org.medihub.application.services.appointment.GetAppointmentsService;
 import org.medihub.application.services.appointment.GetCurrentAppointmentService;
@@ -933,5 +935,13 @@ public class BeanConfig {
             DeleteRegistrationRequestPort deleteRegistrationRequestPort,
             SendEmailPort sendEmailPort) {
         return new RejectRegistrationService(loadRegistrationRequestPort, deleteRegistrationRequestPort, sendEmailPort);
+    }
+
+    @Bean
+    public ActivateAccountUseCase activateAccountUseCase(
+            LoadAccountPort loadAccountPort,
+            SaveAccountPort saveAccountPort
+    ) {
+        return new ActivateAccountService(loadAccountPort, saveAccountPort);
     }
 }
