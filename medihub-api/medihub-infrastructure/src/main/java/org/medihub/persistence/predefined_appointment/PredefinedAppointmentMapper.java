@@ -13,6 +13,8 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
@@ -45,4 +47,12 @@ public class PredefinedAppointmentMapper {
                 appointmentTypeMapper.mapToJpaEntity(predefinedAppointment.getAppointmentType())
         );
     }
+
+    public List<PredefinedAppointment> mapToDomainList(List<PredefinedAppointmentJpaEntity> appointmentJpaEntities) {
+        return appointmentJpaEntities
+                .stream()
+                .map(this::mapToDomainEntity)
+                .collect(Collectors.toList());
+    }
+
 }

@@ -4,7 +4,6 @@ import org.medihub.domain.medical_doctor.MedicalDoctor;
 
 import java.util.List;
 
-public interface GetMedicalDoctorUseCase {
-    List<MedicalDoctor> loadAll();
+public interface GetAllMedicalDoctorsUseCase {
+    List<MedicalDoctor> getAll();
 }
-

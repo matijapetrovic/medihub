@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-public class GetPredefinedAppointmentsService implements GetPredefinedAppointmentsQuery {
+public class GetPredefinedAppointmentsOutputService implements GetPredefinedAppointmentsQuery {
     private final GetPredefinedAppointmentsPort getPredefinedAppointmentsPort;
 
     @Override
