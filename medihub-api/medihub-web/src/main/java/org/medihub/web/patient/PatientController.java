@@ -34,10 +34,10 @@ public class PatientController {
                 stream().
                 map(patient -> new PatientResponse(
                         patient.getId(),
-                        patient.getAccount().getPersonalInfo().getFirstName(),
-                        patient.getAccount().getPersonalInfo().getLastName(),
-                        patient.getAccount().getEmail(),
-                        patient.getAccount().getAddress(),
+                        patient.getPersonalInfo().getFirstName(),
+                        patient.getPersonalInfo().getLastName(),
+                        patient.getPersonalInfo().getAccount().getEmail(),
+                        patient.getPersonalInfo().getAddress(),
                         patient.getInsuranceNumber()
                 )).collect(Collectors.toList());
     }

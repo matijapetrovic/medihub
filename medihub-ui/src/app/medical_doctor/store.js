@@ -39,6 +39,10 @@ export default {
     SET_PREVIOUS_PATIENTS(state, previousPatients) {
       state.previousPatients = previousPatients;
     },
+    REMOVE_DOCTOR(state, doctorId) {
+      const idx = state.doctors.findIndex((doctor) => doctor.id === doctorId);
+      state.doctors.splice(idx, 1);
+    },
   },
   actions: {
     getAppointmentScheduleItem({ commit }, id) {
@@ -107,6 +111,17 @@ export default {
     },
     setStateForPatientPage({ commit }, data) {
       commit('SET_PAGE_DATA', data);
+    },
+    deleteDoctor({ commit, dispatch }, doctorId) {
+      return api.deleteDoctor(doctorId)
+        .then(() => {
+          const message = 'Doctor deleted successfull';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
+          commit('REMOVE_DOCTOR', doctorId);
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
     },
   },
   getters: {

@@ -1,15 +1,16 @@
-package org.medihub.application.ports.incoming.account.profile;
+package org.medihub.application.ports.incoming.profile;
 
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 import org.medihub.application.exceptions.AccountNotFoundException;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.common.SelfValidating;
 import org.medihub.common.validation.annotations.TelephoneNumber;
 
 import javax.validation.constraints.NotNull;
 
 public interface UpdateProfileUseCase {
-    void updateProfile(UpdateProfileCommand command) throws AccountNotFoundException;
+    void updateProfile(UpdateProfileCommand command) throws AccountNotFoundException, NotFoundException;
 
     @Value
     @EqualsAndHashCode(callSuper = false)

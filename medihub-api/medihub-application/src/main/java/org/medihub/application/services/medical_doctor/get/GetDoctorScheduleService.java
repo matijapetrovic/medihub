@@ -22,7 +22,6 @@ public class GetDoctorScheduleService implements GetDoctorScheduleQuery {
 
     @Override
     public GetScheduleOutput getDoctorSchedule() {
-
         Account account = getAuthenticatedPort.getAuthenticated();
         MedicalDoctor medicalDoctor = getDoctorByAccountIdPort.getDoctor(account.getId());
 

@@ -1,4 +1,4 @@
-package org.medihub.application.services.patient.get;
+package org.medihub.application.services.patient;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.patient.LoadPatientUseCase;
@@ -25,10 +25,10 @@ public class LoadPatientService implements LoadPatientUseCase {
     private PatientResponse makePatientResponse(Patient patient) {
         return new PatientResponse(
                 patient.getId(),
-                patient.getAccount().getFirstName(),
-                patient.getAccount().getLastName(),
-                patient.getAccount().getEmail(),
-                patient.getAccount().getAddress(),
+                patient.getPersonalInfo().getFirstName(),
+                patient.getPersonalInfo().getLastName(),
+                patient.getPersonalInfo().getAccount().getEmail(),
+                patient.getPersonalInfo().getAddress(),
                 patient.getInsuranceNumber()
         );
     }

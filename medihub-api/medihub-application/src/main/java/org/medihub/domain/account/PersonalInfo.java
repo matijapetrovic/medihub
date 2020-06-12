@@ -1,14 +1,20 @@
 package org.medihub.domain.account;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.Value;
 import org.medihub.domain.account.Address;
 
-@Value
+@AllArgsConstructor
+@Getter
 public class PersonalInfo {
-    String firstName;
-    String lastName;
-    Address address;
-    String telephoneNumber;
+    private Long id;
+    private String firstName;
+    private String lastName;
+    private Address address;
+    private String telephoneNumber;
+
+    private Account account;
 
     public String getAddress() {
         return address.getAddressLine();
@@ -21,4 +27,6 @@ public class PersonalInfo {
     public String getCountry() {
         return address.getCountry();
     }
+
+    public void removeAccount() { account = null; }
 }

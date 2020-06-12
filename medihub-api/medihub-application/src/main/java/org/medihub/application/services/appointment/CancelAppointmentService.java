@@ -31,7 +31,7 @@ public class CancelAppointmentService implements CancelAppointmentUseCase {
     }
 
     private void ensurePatientCanCancelAppointment(Appointment appointment, Account account) throws ForbiddenException {
-        if (!appointment.getPatient().getAccount().getId().equals(account.getId()))
+        if (!appointment.getPatient().getPersonalInfo().getAccount().getId().equals(account.getId()))
             throw new ForbiddenException("Patient cannot access this appointment");
 
         if (LocalDate.now().plusDays(1).isAfter(appointment.getDate()))
