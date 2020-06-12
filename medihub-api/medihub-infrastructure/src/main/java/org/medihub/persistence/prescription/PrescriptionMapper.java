@@ -10,6 +10,7 @@ import org.medihub.persistence.medical_nurse.MedicalNurseJpaEntity;
 import org.medihub.persistence.medical_nurse.MedicalNurseMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -42,17 +43,17 @@ public class PrescriptionMapper {
         );
     }
 
-    public Set<Prescription> mapToDomainSet(Set<PrescriptionJpaEntity> prescriptionJpaEntities){
+    public List<Prescription> mapToDomainList(List<PrescriptionJpaEntity> prescriptionJpaEntities){
         return prescriptionJpaEntities
                 .stream()
                 .map(this::mapToDomainEntity)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
-    public Set<PrescriptionJpaEntity> mapToJpaSet(Set<Prescription> prescriptions){
+    public List<PrescriptionJpaEntity> mapToJpaList(List<Prescription> prescriptions){
         return prescriptions
                 .stream()
                 .map(this::mapToJpaEntity)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 }

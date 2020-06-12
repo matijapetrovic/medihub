@@ -1,7 +1,7 @@
 package org.medihub.application.ports.incoming.medical_record;
 
 import lombok.Value;
-import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase;
+import org.medihub.application.ports.incoming.medical_record.dto.AllergyDTO;
 import org.medihub.common.SelfValidating;
 
 import javax.validation.constraints.NotBlank;

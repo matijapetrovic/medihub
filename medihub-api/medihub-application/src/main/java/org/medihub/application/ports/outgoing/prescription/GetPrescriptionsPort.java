@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface GetPrescriptionsPort {
     List<Prescription> getPrescriptions(Long clinicId);
+    List<Prescription> getPrescriptionsForAppointment(Long appointmentId);
 }

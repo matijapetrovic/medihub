@@ -27,10 +27,12 @@ public class PrescriptionAdapter implements SavePrescriptionPort,
 
     @Override
     public List<Prescription> getPrescriptions(Long clinicId) {
-        return prescriptionRepository.getClinicPrescriptions(clinicId)
-                .stream()
-                .map(prescriptionMapper::mapToDomainEntity)
-                .collect(Collectors.toList());
+        return prescriptionMapper.mapToDomainList(prescriptionRepository.getClinicPrescriptions(clinicId));
+    }
+
+    @Override
+    public List<Prescription> getPrescriptionsForAppointment(Long appointmentId) {
+        return prescriptionMapper.mapToDomainList(prescriptionRepository.findAllByFinishedAppointmentId(appointmentId));
     }
 
     @Override
