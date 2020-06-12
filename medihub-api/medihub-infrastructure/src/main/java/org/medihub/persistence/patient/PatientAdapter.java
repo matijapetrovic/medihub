@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.outgoing.doctor.GetPreviousPatientsPort;
 import org.medihub.application.ports.outgoing.patient.GetPatientsPort;
 import org.medihub.application.ports.outgoing.patient.LoadPatientPort;
+import org.medihub.application.ports.outgoing.patient.SavePatientPort;
 import org.medihub.domain.patient.Patient;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +14,11 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class PatientAdapter implements GetPatientsPort, LoadPatientPort, GetPreviousPatientsPort {
+public class PatientAdapter implements
+        GetPatientsPort,
+        LoadPatientPort,
+        GetPreviousPatientsPort,
+        SavePatientPort {
     private final PatientMapper patientMapper;
         private final PatientRepository patientRepository;
 
@@ -51,5 +56,10 @@ public class PatientAdapter implements GetPatientsPort, LoadPatientPort, GetPrev
                 .stream()
                 .map(patientMapper::mapToDomainEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Patient savePatient(Patient patient) {
+        return patientMapper.mapToDomainEntity(patientRepository.save(patientMapper.mapToJpaEntity(patient)));
     }
 }

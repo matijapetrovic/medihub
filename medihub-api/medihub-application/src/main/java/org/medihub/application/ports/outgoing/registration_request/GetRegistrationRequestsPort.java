@@ -1,4 +1,4 @@
-package org.medihub.application.ports.outgoing.patient;
+package org.medihub.application.ports.outgoing.registration_request;
 
 import org.medihub.domain.patient.RegistrationRequest;
 

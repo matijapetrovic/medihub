@@ -1,4 +1,4 @@
-package org.medihub.application.ports.incoming.patient;
+package org.medihub.application.ports.incoming.registration;
 
 import lombok.Value;
 

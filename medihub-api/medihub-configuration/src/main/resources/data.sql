@@ -131,3 +131,5 @@ insert into clinic_review (clinic_id, patient_id, rating, can_review) values (2,
 
 insert into doctor_review (doctor_id, patient_id, rating, can_review) values (1, 1, null, true);
 insert into doctor_review (doctor_id, patient_id, rating, can_review) values (3, 1, 4.5, false);
+
+insert into registration_request (email, password, first_name, last_name, address, city, country, telephone_number, insurance_number) values ('p20@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Andrej', 'Petrovic', 'Ulica 1', 'Beograd', 'Serbia', '0601231233', '14115151553');

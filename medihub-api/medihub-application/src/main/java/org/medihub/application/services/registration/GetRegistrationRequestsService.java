@@ -1,9 +1,9 @@
-package org.medihub.application.services.patient;
+package org.medihub.application.services.registration;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.incoming.patient.GetRegistrationRequestsOutput;
-import org.medihub.application.ports.incoming.patient.GetRegistrationRequestsQuery;
-import org.medihub.application.ports.outgoing.patient.GetRegistrationRequestsPort;
+import org.medihub.application.ports.incoming.registration.GetRegistrationRequestsOutput;
+import org.medihub.application.ports.incoming.registration.GetRegistrationRequestsQuery;
+import org.medihub.application.ports.outgoing.registration_request.GetRegistrationRequestsPort;
 
 import java.util.List;
 import java.util.stream.Collectors;
