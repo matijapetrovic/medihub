@@ -34,27 +34,30 @@ public class AddClinicAdminService implements AddClinicAdminUseCase {
             command.getCountry()
         );
 
+        Account account = new Account(
+                null,
+                command.getEmail(),
+                encoderPort.encode(command.getPassword()),
+                false,
+                true,
+                List.of(new Authority(4L, "ROLE_CLINIC_ADMIN"))
+        );
+
         PersonalInfo personalInfo = new PersonalInfo(
+            null,
             command.getFirstName(),
             command.getLastName(),
             address,
-            command.getTelephoneNumber()
-        );
+            command.getTelephoneNumber(),
+            account);
 
-        Account account = new Account(
-            null,
-            command.getEmail(),
-            encoderPort.encode(command.getPassword()),
-            personalInfo,
-            false,
-            List.of(new Authority(4L, "ROLE_CLINIC_ADMIN"))
-        );
+
 
         Clinic clinic = loadClinicPort.loadClinic(command.getClinic());
 
         ClinicAdmin clinicAdmin = new ClinicAdmin(
                 null,
-                account,
+                personalInfo,
                 clinic
         );
 

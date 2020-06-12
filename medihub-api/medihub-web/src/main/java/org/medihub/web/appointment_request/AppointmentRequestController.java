@@ -3,7 +3,7 @@ package org.medihub.web.appointment_request;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.appointment_request.AppointmentRequestResponse;
 import org.medihub.application.ports.incoming.appointment_request.DeleteAppointmentRequestUseCase;
-import org.medihub.application.ports.incoming.appointment_request.GetAppointmentRequestUseCase;
+import org.medihub.application.ports.incoming.appointment_request.GetAppointmentRequestForClinicUseCase;
 import org.medihub.application.ports.incoming.scheduling.ScheduleAppointmentUseCase;
 import org.medihub.application.ports.incoming.scheduling.ScheduleAppointmentUseCase.ScheduleAppointmentCommand;
 import org.medihub.application.ports.incoming.scheduling.ScheduleDoctorsAppointmentUseCase;
@@ -22,7 +22,7 @@ import java.util.List;
 public class AppointmentRequestController {
     private final ScheduleAppointmentUseCase scheduleAppointmentUseCase;
     private final ScheduleDoctorsAppointmentUseCase scheduleDoctorsAppointmentUseCase;
-    private final GetAppointmentRequestUseCase getAppointmentRequestUseCase;
+    private final GetAppointmentRequestForClinicUseCase getAppointmentRequestUseCase;
     private final DeleteAppointmentRequestUseCase deleteAppointmentRequestUseCase;
 
     @PostMapping("")

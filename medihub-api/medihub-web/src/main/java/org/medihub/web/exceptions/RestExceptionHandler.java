@@ -1,5 +1,6 @@
 package org.medihub.web.exceptions;
 
+import org.medihub.application.exceptions.AccountNotActivatedException;
 import org.medihub.application.exceptions.ForbiddenException;
 import org.medihub.application.exceptions.NotAvailableException;
 import org.medihub.application.exceptions.NotFoundException;
@@ -64,6 +65,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
         return buildResponse(apiError);
     }
+
+    @ExceptionHandler(AccountNotActivatedException.class)
+    protected ResponseEntity<Object> handleAccountNotActivated(
+            AccountNotActivatedException ex) {
+        ApiError apiError = new ApiError(HttpStatus.UNAUTHORIZED, "Please visit confirmation emai link to activate your account", ex);
+        return buildResponse(apiError);
+    }
+
 
     private ResponseEntity<Object> buildResponse(ApiError apiError) {
         return ResponseEntity.status(apiError.getStatus()).body(apiError);

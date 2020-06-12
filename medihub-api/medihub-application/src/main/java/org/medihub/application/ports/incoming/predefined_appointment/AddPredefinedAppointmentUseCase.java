@@ -10,6 +10,7 @@ import org.medihub.common.validation.annotations.Password;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.NotActiveException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -21,7 +22,7 @@ public interface AddPredefinedAppointmentUseCase {
     class AddPredefinedAppointmentCommand extends SelfValidating<AddPredefinedAppointmentUseCase.AddPredefinedAppointmentCommand> {
         @Email
         Long doctorId;
-        @Password
+        @NotBlank
         String start;
         @NotBlank
         double duration;

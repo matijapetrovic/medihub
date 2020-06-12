@@ -2,6 +2,7 @@ package org.medihub.web.medical_doctor;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.NotFoundException;
+import org.medihub.application.exceptions.ForbiddenException;
 import org.medihub.application.ports.incoming.medical_doctor.*;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase.AddMedicalDoctorCommand;
 import org.medihub.application.ports.incoming.medical_doctor.schedule.GetScheduleOutput;
@@ -28,13 +29,19 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/medical-doctor", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MedicalDoctorController {
     private final AddMedicalDoctorUseCase AddMedicalDoctorUseCase;
-    private final GetMedicalDoctorUseCase getMedicalDoctorUseCase;
+    private final GetAllClinicMedicalDoctorsUseCase getMedicalDoctorUseCase;
     private final GetDoctorsQuery getDoctorsQuery;
     private final SearchDoctorsQuery searchDoctorsQuery;
     private final GetDoctorAvailableTimesQuery getDoctorAvailableTimesQuery;
     private final GetDoctorScheduleQuery getDoctorScheduleQuery;
     private final GetAppointmentScheduleItemByAppointmentIdUseCase getAppointmentScheduleItemByAppointmentIdUseCase;
     private final GetPreviousPatientsQuery getPreviousPatientsQuery;
+    private final DeleteDoctorUseCase deleteDoctorUseCase;
+
+    @PostMapping("/delete/{doctorId}")
+    public void deleteDoctor(@PathVariable Long doctorId) throws ForbiddenException {
+        deleteDoctorUseCase.deleteDoctor(doctorId);
+    }
 
     @GetMapping("/{clinicId}")
     public ResponseEntity<List<GetDoctorsOutput>> getDoctors(@PathVariable Long clinicId) {
@@ -99,11 +106,11 @@ public class MedicalDoctorController {
                 .stream()
                 .map(doctor -> new MedicalDoctorResponse(
                         doctor.getId(),
-                        doctor.getAccount().getEmail(),
-                        doctor.getAccount().getFirstName(),
-                        doctor.getAccount().getLastName(),
-                        doctor.getAccount().getPersonalInfo().getAddress(),
-                        doctor.getAccount().getPersonalInfo().getTelephoneNumber(),
+                        doctor.getPersonalInfo().getAccount().getEmail(),
+                        doctor.getPersonalInfo().getFirstName(),
+                        doctor.getPersonalInfo().getLastName(),
+                        doctor.getPersonalInfo().getAddress(),
+                        doctor.getPersonalInfo().getTelephoneNumber(),
                         doctor.getWorkingTime().getFrom().toString(),
                         doctor.getWorkingTime().getTo().toString(),
                         doctor.getClinic().getName(),

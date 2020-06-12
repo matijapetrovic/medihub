@@ -10,6 +10,7 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
+import java.io.NotActiveException;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -26,7 +27,9 @@ public class ClinicRoomAdapter implements
         LoadClinicRoomPort,
         DeleteClinicRoomPort,
         GetClinicRoomsPort,
-        SearchClinicRoomsPort {
+        SearchClinicRoomsPort,
+        GetAllClinicRoomsPort
+{
     private final ClinicRoomMapper clinicRoomMapper;
     private final ClinicRoomRepository clinicRoomRepository;
 
@@ -83,5 +86,10 @@ public class ClinicRoomAdapter implements
                 .stream()
                 .map(clinicRoomMapper::mapToDomainEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ClinicRoom> getAll() {
+        return clinicRoomMapper.mapToDomainList(clinicRoomRepository.findAllByDeletedIsFalse());
     }
 }
