@@ -32,10 +32,10 @@ public class GetPreviousPatientsService implements GetPreviousPatientsQuery {
         return patients
                 .stream()
                 .map(p -> new PatientResponse(p.getId(),
-                        p.getAccount().getPersonalInfo().getFirstName(),
-                        p.getAccount().getPersonalInfo().getLastName(),
-                        p.getAccount().getEmail(),
-                        p.getAccount().getPersonalInfo().getAddress(),
+                        p.getPersonalInfo().getFirstName(),
+                        p.getPersonalInfo().getLastName(),
+                        p.getPersonalInfo().getAccount().getEmail(),
+                        p.getPersonalInfo().getAddress(),
                         p.getInsuranceNumber()))
                 .collect(Collectors.toList());
     }

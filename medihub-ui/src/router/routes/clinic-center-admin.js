@@ -6,6 +6,7 @@ import AddAppointmentTypeForm from '@/app/appointment_type/components/AddAppoint
 import AppointmentTypeTable from '@/app/appointment_type/components/AppointmentTypeTable.vue';
 import AddDrug from '@/views/clinic-center-admin/AddDrug.vue';
 import AddDiagnosis from '@/views/clinic-center-admin/AddDiagnosis.vue';
+import RegistrationRequests from '@/views/clinic-center-admin/ClinicCenterAdminRegistrationRequests.vue';
 
 export default {
   path: '/clinic-center-admin',
@@ -43,6 +44,10 @@ export default {
     {
       path: '/add-diagnosis',
       component: AddDiagnosis,
+    },
+    {
+      path: '/registration-requests',
+      component: RegistrationRequests,
     },
   ],
 };

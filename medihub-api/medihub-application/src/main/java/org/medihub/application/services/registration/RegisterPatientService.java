@@ -1,11 +1,11 @@
-package org.medihub.application.services.patient.add;
+package org.medihub.application.services.registration;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.AccountNotFoundException;
-import org.medihub.application.ports.incoming.patient.RegisterPatientUseCase;
+import org.medihub.application.ports.incoming.registration.RegisterPatientUseCase;
 import org.medihub.application.ports.outgoing.encoding.EncoderPort;
 import org.medihub.application.ports.outgoing.account.LoadAccountPort;
-import org.medihub.application.ports.outgoing.patient.SaveRegistrationRequestPort;
+import org.medihub.application.ports.outgoing.registration_request.SaveRegistrationRequestPort;
 import org.medihub.domain.account.Account;
 import org.medihub.domain.account.Address;
 import org.medihub.domain.patient.RegistrationRequest;

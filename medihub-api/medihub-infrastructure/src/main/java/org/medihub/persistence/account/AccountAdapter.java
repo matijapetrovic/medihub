@@ -1,6 +1,7 @@
 package org.medihub.persistence.account;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.ports.outgoing.account.DeleteAccountPort;
 import org.medihub.application.ports.outgoing.account.LoadAccountPort;
 import org.medihub.application.ports.outgoing.account.SaveAccountPort;
 import org.medihub.domain.account.Account;
@@ -10,7 +11,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class AccountAdapter implements LoadAccountPort, SaveAccountPort {
+public class AccountAdapter implements LoadAccountPort, SaveAccountPort, DeleteAccountPort {
     private final AccountMapper accountMapper;
     private final AccountRepository accountRepository;
 
@@ -37,5 +38,10 @@ public class AccountAdapter implements LoadAccountPort, SaveAccountPort {
     @Override
     public void saveAccount(Account account) {
         accountRepository.save(accountMapper.mapToJpaEntity(account));
+    }
+
+    @Override
+    public void deleteAccountById(Long accountId) {
+        accountRepository.deleteById(accountId);
     }
 }

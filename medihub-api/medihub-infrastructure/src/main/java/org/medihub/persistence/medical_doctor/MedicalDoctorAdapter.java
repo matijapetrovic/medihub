@@ -1,19 +1,15 @@
 package org.medihub.persistence.medical_doctor;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.incoming.medical_doctor.GetPreviousPatientsQuery;
 import org.medihub.application.ports.outgoing.doctor.*;
 import org.medihub.domain.WorkingTime;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
-import org.medihub.domain.patient.Patient;
-import org.medihub.persistence.appointment_type.AppointmentTypeJpaEntity;
 import org.medihub.persistence.appointment_type.AppointmentTypeRepository;
 import org.medihub.persistence.clinic.ClinicJpaEntity;
 import org.medihub.persistence.clinic.ClinicRepository;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -102,7 +98,7 @@ public class MedicalDoctorAdapter implements
     @Override
     public MedicalDoctor getDoctor(Long accountId) {
         MedicalDoctorJpaEntity doctor = medicalDoctorRepository
-                .findByAccountId(accountId);
+                .findByPersonalInfoAccountId(accountId);
         return medicalDoctorMapper.mapToDomainEntity(doctor);
     }
 }
