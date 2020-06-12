@@ -2,6 +2,7 @@ import MedicalNurse from '@/views/medical-nurse/MedicalNurse.vue';
 import Prescriptions from '@/views/medical-nurse/Prescriptions.vue';
 import AllPatientsView from '@/views/patient/AllPatientsView.vue';
 import AddLeaveRequestForm from '@/app/leave_request/components/AddLeaveRequestForm.vue';
+import NurseWorkingCalendarView from '@/views/medical-nurse/NurseWorkingCalendarView.vue';
 
 export default {
   path: '/medical-nurse',
@@ -23,6 +24,10 @@ export default {
     {
       path: '/nurse-vacation/add',
       component: AddLeaveRequestForm,
+    },
+    {
+      path: '/nurse-schedule',
+      component: NurseWorkingCalendarView,
     },
   ],
 };

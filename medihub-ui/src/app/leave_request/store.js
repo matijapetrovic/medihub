@@ -71,5 +71,25 @@ export default {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
+    deleteNurseLeaveRequest({ dispatch }, id) {
+      return api.deleteNurseLeaveRequest(id)
+        .then(() => {
+          const message = 'Leave request deleted successfully';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
+    approveNurseLeaveRequest({ dispatch }, payload) {
+      return api.approveNurseLeaveRequest(payload)
+        .then(() => {
+          const message = 'Request approved successfully';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
   },
 };

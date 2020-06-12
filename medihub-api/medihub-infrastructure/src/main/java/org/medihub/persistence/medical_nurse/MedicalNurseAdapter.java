@@ -2,6 +2,7 @@ package org.medihub.persistence.medical_nurse;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.outgoing.medical_nurse.GetMedicalNurseByAccountIdPort;
+import org.medihub.application.ports.outgoing.medical_nurse.GetNurseSchedulePort;
 import org.medihub.domain.medical_nurse.MedicalNurse;
 import org.springframework.stereotype.Component;
 

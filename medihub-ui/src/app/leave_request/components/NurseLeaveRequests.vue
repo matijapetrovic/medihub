@@ -37,7 +37,7 @@
           Working calendar
         </v-card-title>
         <v-card-text >
-          <WorkingCalendar :doctorId="editedItem.doctorId"></WorkingCalendar>
+          <NurseWorkingCalendar :nurseId="editedItem.nurseId"></NurseWorkingCalendar>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -45,20 +45,20 @@
 </template>
 
 <script>
-import WorkingCalendar from '@/app/shared/_components/DoctorWorkingCalendar.vue';
+import NurseWorkingCalendar from '@/app/medical_nurse/components/NurseWorkingCalendar.vue';
 import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'LeaveRequests',
   components: {
-    WorkingCalendar,
+    NurseWorkingCalendar,
   },
   data: () => ({
     headers: [
       {
-        text: 'Doctor',
+        text: 'Nurse',
         align: 'start',
-        value: 'doctorEmail',
+        value: 'nurseEmail',
       },
       { text: 'Type', value: 'type' },
       { text: 'Working calendar', value: 'calendar' },
@@ -82,28 +82,28 @@ export default {
       .then(() => this.setItems());
   },
   methods: {
-    ...mapActions('leaveRequest', ['getNurseLeaveRequests', 'deleteLeaveRequest', 'approveLeaveRequest']),
+    ...mapActions('leaveRequest', ['getNurseLeaveRequests', 'deleteNurseLeaveRequest', 'approveNurseLeaveRequest']),
     ...mapActions('medicalDoctor', ['workingCalendar']),
     setItems() {
       this.nurseLeaveRequests.forEach((item) => this.items.push({
         id: item.id,
         type: item.type,
-        doctorId: item.medicalDoctor.id,
-        medicalDoctor: item.medicalDoctor,
-        doctorEmail: item.medicalDoctor.account.email,
-        dates: item.dates,
+        nurseId: item.nurse,
+        nurseEmail: item.email,
+        start: item.start,
+        end: item.end,
       }));
     },
     approveRequest(item) {
-      this.approveLeaveRequest({
+      this.approveNurseLeaveRequest({
         id: item.id,
-        medicalDoctorId: item.medicalDoctor.id,
+        medicalDoctorId: item.nurseId,
       });
       this.deleteItem(item);
     },
     rejectRequest(item) {
       this.deleteItem(item);
-      this.deleteLeaveRequest(item.id);
+      this.deleteNurseLeaveRequest(item.id);
     },
     deleteItem(item) {
       const index = this.items.map((e) => e.id).indexOf(item.id);

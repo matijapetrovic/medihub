@@ -38,6 +38,11 @@ export default {
         path: '/nurse-vacation/add',
         icon: 'mdi-calendar-range',
       },
+      {
+        text: 'Working calendar',
+        path: '/nurse-schedule',
+        icon: 'mdi-calendar',
+      },
     ],
   }),
 };

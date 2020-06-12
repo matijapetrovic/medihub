@@ -1,6 +1,7 @@
 package org.medihub.web.leave_request;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.leave_request.*;
 import org.medihub.application.ports.outgoing.leave_request.DeleteLeaveRequestPort;
 import org.medihub.application.ports.outgoing.leave_request.GetLeaveRequestPort;
@@ -26,6 +27,8 @@ public class LeaveRequestController {
 
     private final AddNurseLeaveRequestUseCase addNurseLeaveRequestUseCase;
     private final GetNurseLeaveRequestsQuery getNurseLeaveRequestsQuery;
+    private final DeleteNurseLeaveRequestUseCase deleteNurseLeaveRequestUseCase;
+    private final ApproveNurseLeaveRequestUseCase approveNurseLeaveRequestUseCase;
 
     @GetMapping("")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
@@ -68,5 +71,19 @@ public class LeaveRequestController {
     @GetMapping("/nurse")
     public ResponseEntity<List<NurseLeaveRequestOutput>> getNurseRequests() {
         return ResponseEntity.ok(getNurseLeaveRequestsQuery.getNurseLeaveRequests());
+    }
+
+    @PostMapping("/nurse/delete")
+    public void deleteNurseLeaveRequest(@RequestBody Long id) {
+        deleteNurseLeaveRequestUseCase.deleteNurseLeaveRequest(id);
+    }
+
+    @PostMapping("/nurse/approve")
+    public void approveNurseLeaveRequest(@RequestBody ApproveLeaveRequest approveLeaveRequest) throws NotFoundException {
+        ApproveNurseLeaveRequestUseCase.ApproveNurseLeaveRequestCommand command  =
+                new ApproveNurseLeaveRequestUseCase.ApproveNurseLeaveRequestCommand(approveLeaveRequest.getId(),
+                        approveLeaveRequest.getMedicalDoctorId());
+
+        approveNurseLeaveRequestUseCase.approve(command);
     }
 }

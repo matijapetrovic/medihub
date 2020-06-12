@@ -1,6 +1,7 @@
 package org.medihub.persistence.leave_request;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.leave_request.AddNurseLeaveRequestUseCase;
 import org.medihub.application.ports.outgoing.leave_request.*;
 import org.medihub.domain.LeaveRequest;
@@ -17,7 +18,9 @@ public class LeaveRequestAdapter implements
         GetLeaveRequestPort,
         DeleteLeaveRequestPort,
         AddNurseLeaveRequestPort,
-        GetNurseLeaveRequestsPort {
+        GetNurseLeaveRequestsPort,
+        DeleteNurseLeaveRequestPort,
+        GetNurseLeaveRequestPort {
     private final LeaveRequestMapper leaveRequestMapper;
     private final LeaveRequestRepository leaveRequestRepository;
     private final NurseLeaveRequestRepository nurseLeaveRequestRepository;
@@ -55,5 +58,15 @@ public class LeaveRequestAdapter implements
                 .stream()
                 .map(nurseLeaveRequestMapper::mapToDomainEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteNurseLeaveRequest(Long id) {
+        nurseLeaveRequestRepository.deleteById(id);
+    }
+
+    @Override
+    public NurseLeaveRequest getNurseLeaveRequest(Long id) throws NotFoundException {
+        return nurseLeaveRequestMapper.mapToDomainEntity(nurseLeaveRequestRepository.findById(id).orElseThrow(NotFoundException::new));
     }
 }

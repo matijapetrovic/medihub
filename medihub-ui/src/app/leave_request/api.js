@@ -19,4 +19,10 @@ export default {
   getNurseLeaveRequests() {
     return utils.apiClient.get('api/leave-request/nurse');
   },
+  deleteNurseLeaveRequest(id) {
+    return utils.apiClient.post('api/leave-request/nurse/delete', id);
+  },
+  approveNurseLeaveRequest(payload) {
+    return utils.apiClient.post('api/leave-request/nurse/approve', payload);
+  },
 };
