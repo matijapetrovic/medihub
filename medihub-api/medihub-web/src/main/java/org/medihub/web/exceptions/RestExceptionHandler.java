@@ -41,14 +41,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(UnauthorizedException.class)
     protected ResponseEntity<Object> handleUnauthorized(
             UnauthorizedException ex) {
-        ApiError apiError = new ApiError(HttpStatus.UNAUTHORIZED, "Unauthorized", ex);
+        ApiError apiError = new ApiError(HttpStatus.UNAUTHORIZED, ex.getMessage(), ex);
         return buildResponse(apiError);
     }
 
     @ExceptionHandler(ForbiddenException.class)
     protected ResponseEntity<Object> handleForbidden(
             ForbiddenException ex) {
-        ApiError apiError = new ApiError(HttpStatus.FORBIDDEN, "Forbidden", ex);
+        ApiError apiError = new ApiError(HttpStatus.FORBIDDEN, ex.getMessage(), ex);
         return buildResponse(apiError);
     }
 
