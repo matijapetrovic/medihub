@@ -38,25 +38,29 @@ public class AddMedicalDoctorService implements AddMedicalDoctorUseCase {
 
         MedicalDoctor entity = new MedicalDoctor(
                 null,
-                new Account(
+                new PersonalInfo(
                         null,
-                        command.getEmail(),
-                        encoderPort.encode(command.getPassword()),
-                        new PersonalInfo(
-                                command.getFirstName(),
-                                command.getLastName(),
-                                new Address(
-                                        command.getAddressLine(),
-                                        command.getCity(),
-                                        command.getCountry()),
-                                command.getTelephoneNumber()),
-                        false,
-                        List.of(new Authority(2L, "ROLE_DOCTOR"))),
-                clinicAdmin.getClinic(),
+                        command.getFirstName(),
+                        command.getLastName(),
+                        new Address(
+                                command.getAddressLine(),
+                                command.getCity(),
+                                command.getCountry()),
+                        command.getTelephoneNumber(),
+                        new Account(
+                                null,
+                                command.getEmail(),
+                                encoderPort.encode(command.getPassword()),
+
+                                false,
+                                List.of(new Authority(2L, "ROLE_DOCTOR")))
+                        ),
+                                clinicAdmin.getClinic(),
                 new WorkingTime(LocalTime.parse(command.getFrom()),
                                 LocalTime.parse(command.getTo())),
                 specialization,
-                new Rating(BigDecimal.ZERO,0));
+                new Rating(BigDecimal.ZERO,0),
+                false);
         saveDoctorPort.saveDoctor(entity);
     }
 }

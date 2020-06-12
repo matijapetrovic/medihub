@@ -22,23 +22,24 @@ public class RegistrationRequest {
     private String insuranceNumber;
 
     public Patient accept() {
-        PersonalInfo personalInfo = new PersonalInfo(
-                firstName,
-                lastName,
-                address,
-                telephoneNumber);
-
         Account account = new Account(
                 null,
                 email,
                 password,
-                personalInfo,
                 true,
                 List.of(new Authority(1L, "ROLE_PATIENT")));
+
+        PersonalInfo personalInfo = new PersonalInfo(
+                null,
+                firstName,
+                lastName,
+                address,
+                telephoneNumber,
+                account);
 
         return new Patient(
                null,
                insuranceNumber,
-               account);
+               personalInfo);
     }
 }

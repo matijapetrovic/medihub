@@ -58,6 +58,7 @@ import org.medihub.application.ports.incoming.registration.GetRegistrationReques
 import org.medihub.application.ports.incoming.patient.LoadPatientUseCase;
 import org.medihub.application.ports.incoming.registration.RegisterPatientUseCase;
 import org.medihub.application.ports.outgoing.*;
+import org.medihub.application.ports.outgoing.account.DeleteAccountPort;
 import org.medihub.application.ports.outgoing.account.LoadAccountPort;
 import org.medihub.application.ports.outgoing.account.SaveAccountPort;
 import org.medihub.application.ports.outgoing.appointment.*;
@@ -108,6 +109,8 @@ import org.medihub.application.ports.outgoing.predefined_appointment.GetPredefin
 import org.medihub.application.ports.outgoing.predefined_appointment.LoadPredefinedAppointmentPort;
 import org.medihub.application.ports.outgoing.prescription.GetPrescriptionPort;
 import org.medihub.application.ports.outgoing.prescription.GetPrescriptionsPort;
+import org.medihub.application.ports.outgoing.profile.LoadPersonalInfoPort;
+import org.medihub.application.ports.outgoing.profile.SavePersonalInfoPort;
 import org.medihub.application.ports.outgoing.reviewing.*;
 import org.medihub.application.ports.outgoing.scheduling.daily_schedule.LoadClinicRoomDailySchedulePort;
 import org.medihub.application.ports.outgoing.scheduling.daily_schedule.LoadDoctorDailySchedulePort;
@@ -143,6 +146,7 @@ import org.medihub.application.services.leave_request.add.AddLeaveRequestService
 import org.medihub.application.services.leave_request.add.ApproveLeaveRequestService;
 import org.medihub.application.services.leave_request.delete.DeleteLeaveRequestService;
 import org.medihub.application.services.leave_request.get.GetLeaveRequestService;
+import org.medihub.application.services.medical_doctor.DeleteDoctorService;
 import org.medihub.application.services.medical_doctor.add.AddAppointmentToMedicalDoctorService;
 import org.medihub.application.services.medical_doctor.get.*;
 import org.medihub.application.services.clinic.get.GetAppointmentPriceService;
@@ -187,6 +191,24 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class BeanConfig {
+
+    @Bean
+    public DeleteDoctorUseCase deleteDoctorUseCase(
+            GetAuthenticatedPort getAuthenticatedPort,
+            LoadClinicAdminPort loadClinicAdminPort,
+            LoadDoctorPort loadDoctorPort,
+            LoadMedicalDoctorScheduleItemPort loadMedicalDoctorScheduleItemPort,
+            SaveDoctorPort saveDoctorPort,
+            DeleteAccountPort deleteAccountPort
+    ) {
+        return new DeleteDoctorService(
+                getAuthenticatedPort,
+                loadClinicAdminPort,
+                loadDoctorPort,
+                loadMedicalDoctorScheduleItemPort,
+                saveDoctorPort,
+                deleteAccountPort);
+    }
 
     @Bean
     public GetClinicsForReviewQuery getClinicsForReviewQuery(
@@ -438,13 +460,17 @@ public class BeanConfig {
     @Bean
     public UpdateProfileUseCase updateProfileUseCase(
             LoadAccountPort loadAccountPort,
-            SaveAccountPort saveAccountPort) {
-        return new UpdateProfileService(loadAccountPort, saveAccountPort);
+            LoadPersonalInfoPort loadPersonalInfoPort,
+            SavePersonalInfoPort savePersonalInfoPort) {
+        return new UpdateProfileService(
+                loadAccountPort,
+                loadPersonalInfoPort,
+                savePersonalInfoPort);
     }
 
     @Bean
-    public GetProfileQuery getProfileQuery(LoadAccountPort loadAccountPort) {
-        return new GetProfileService(loadAccountPort);
+    public GetProfileQuery getProfileQuery(LoadAccountPort loadAccountPort, LoadPersonalInfoPort loadPersonalInfoPort) {
+        return new GetProfileService(loadAccountPort, loadPersonalInfoPort);
     }
 
     @Bean

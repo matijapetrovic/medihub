@@ -1,5 +1,6 @@
 package org.medihub.persistence.account;
 
+import lombok.RequiredArgsConstructor;
 import org.medihub.domain.account.Address;
 import org.medihub.domain.account.PersonalInfo;
 import org.medihub.domain.account.Account;
@@ -10,20 +11,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class AccountMapper {
     public Account mapToDomainEntity(AccountJpaEntity account) {
         return new Account(
                 account.getId(),
                 account.getEmail(),
                 account.getPassword(),
-                new PersonalInfo(
-                        account.getFirstName(),
-                        account.getLastName(),
-                        new Address(
-                                account.getAddress(),
-                                account.getCity(),
-                                account.getCountry()),
-                        account.getTelephoneNumber()),
                 account.isPasswordChanged(),
                 mapToAuthorities(account.getAuthorities()));
     }
@@ -46,12 +40,6 @@ public class AccountMapper {
                 account.getId(),
                 account.getEmail(),
                 account.getPassword(),
-                account.getFirstName(),
-                account.getLastName(),
-                account.getAddress(),
-                account.getCity(),
-                account.getCountry(),
-                account.getTelephoneNumber(),
                 account.isPasswordChanged(),
                 mapToJpaAuthorities(account.getAuthorities()));
     }

@@ -6,8 +6,7 @@
     >
     <v-col
       cols="12"
-      lg="10"
-      offset-md="1"
+      lg="12"
     >
     <v-data-table
       :headers="headers"
@@ -89,13 +88,6 @@
       <template v-slot:item.actions="{ item }">
         <v-icon
           small
-          class="mr-2"
-          @click="editItem(item)"
-        >
-          mdi-pencil
-        </v-icon>
-        <v-icon
-          small
           @click="deleteItem(item)"
         >
           mdi-delete
@@ -130,6 +122,7 @@ export default {
       { text: 'Start of work', value: 'workingTimeStarts' },
       { text: 'End of work', value: 'workingTimeEnds' },
       { text: 'Clinic name', value: 'clinicName' },
+      { text: 'Actions', value: 'actions', sortable: false },
     ],
     editedIndex: -1,
     editedItem: {
@@ -175,7 +168,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('medicalDoctor', ['getAllDoctors']),
+    ...mapActions('medicalDoctor', ['getAllDoctors', 'deleteDoctor']),
     initialize() {
       this.getAllDoctors();
     },
@@ -186,8 +179,7 @@ export default {
     },
 
     deleteItem(item) {
-      const index = this.doctors.indexOf(item);
-      return () => window.confirm('Are you sure you want to delete this item?') && this.doctors.splice(index, 1);
+      this.deleteDoctor(item.id);
     },
 
     close() {

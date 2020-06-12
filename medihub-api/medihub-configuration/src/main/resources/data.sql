@@ -29,17 +29,16 @@ insert into authority (id, name) values (3, 'ROLE_NURSE');
 insert into authority (id, name) values (4, 'ROLE_CLINIC_ADMIN');
 insert into authority (id, name) values (5, 'ROLE_CLINIC_CENTER_ADMIN');
 
-insert into account (email, password, country, password_changed) values ('patient@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Serbia', true);
-insert into account (email, password, first_name, last_name, address, password_changed) values ('doctor@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Dragan', 'Arsic', 'aa', true);
-insert into account (email, password, first_name, last_name, address, password_changed) values ('nurse@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Marko', 'markov', 'aa', false);
-insert into account (email, password, first_name, last_name, address, password_changed) values ('clinicadmin@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Dusan', 'Susic', 'aa', true);
+insert into account (email, password, password_changed) values ('patient@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', true);
+insert into account (email, password, password_changed) values ('doctor@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', true);
+insert into account (email, password, password_changed) values ('nurse@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', false);
+insert into account (email, password, password_changed) values ('clinicadmin@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', true);
 insert into account (email, password, password_changed) values ('admin@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', false);
-insert into account (email, password, first_name, last_name, address, password_changed, telephone_number) values ('d1@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Marko', 'markov', 'aa', true, '06951521615');
-insert into account (email, password, first_name, last_name, address, password_changed, telephone_number) values ('d2@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Marijan', 'Gagic', 'aa', false, '06951521616');
+insert into account (email, password, password_changed) values ('d1@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', true);
+insert into account (email, password, password_changed) values ('d2@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', false);
 
-insert into account (email, password, first_name, last_name, address, city, country, password_changed) values ('p1@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Andrej', 'Petrovic', 'Ulica 1', 'Beograd', 'Serbia', 1);
-insert into account (email, password, first_name, last_name, address, city, country, password_changed) values ('p2@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Milan', 'Milanovic', 'Ulica 2', 'Novi Sad', 'Serbia', 1);
-insert into account (email, password, first_name, last_name, address, city, country, password_changed) values ('d3@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Milan', 'Djuric', 'Ulica 2', 'Novi Sad', 'Serbia', 1);
+insert into account (email, password, password_changed) values ('p1@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 1);
+insert into account (email, password, password_changed) values ('p2@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 1);
 
 insert into account_authority (user_id, authority_id) values (1, 1);
 insert into account_authority (user_id, authority_id) values (2, 2);
@@ -51,8 +50,19 @@ insert into account_authority (user_id, authority_id) values (7, 2);
 insert into account_authority (user_id, authority_id) values (8, 1);
 insert into account_authority (user_id, authority_id) values (9, 1);
 
-insert into patient (insurance_number, account_id) values ('14115151555', 8);
-insert into patient (insurance_number, account_id) values ('14115151252', 9);
+insert into personal_info (account_id, country ) values (1, 'Serbia');
+insert into personal_info (first_name, last_name, address, account_id) values ('Dragan', 'Arsic', 'aa', 2);
+insert into personal_info (first_name, last_name, address, account_id) values ('Marko', 'markov', 'aa', 3);
+insert into personal_info (first_name, last_name, address, account_id) values ('Dusan', 'Susic', 'aa', 4);
+insert into personal_info (account_id) values (5);
+insert into personal_info (first_name, last_name, address, telephone_number, account_id ) values ('Marko', 'markov', 'aa', '06951521615', 6);
+insert into personal_info (first_name, last_name, address, telephone_number, account_id) values ('Marijan', 'Gagic', 'aa', '06951521616' , 7);
+insert into personal_info (first_name, last_name, address, city, country, account_id) values ('Andrej', 'Petrovic', 'Ulica 1', 'Beograd', 'Serbia', 8);
+insert into personal_info (first_name, last_name, address, city, country, account_id) values ('Milan', 'Milanovic', 'Ulica 2', 'Novi Sad', 'Serbia', 9);
+
+
+insert into patient (insurance_number, personal_info_id) values ('14115151555', 8);
+insert into patient (insurance_number, personal_info_id) values ('14115151252', 9);
 
 insert into medical_record (patient_id, height, weight, blood_type, rh_positive, left_dioptry, right_dioptry) values (1, 190, 79, 'A', true, 0.5, 0.75);
 insert into medical_record (patient_id, height, weight, blood_type, rh_positive) values (2, 170, 55, 'O', false);
@@ -70,17 +80,18 @@ insert into clinic_room (name, number, clinic_id, deleted) values ('soba2', 2, 1
 insert into clinic_room (name, number, clinic_id, deleted) values ('soba3', 3, 1, false);
 insert into clinic_room (name, number, clinic_id, deleted) values ('soba4', 4, 1, false);
 
-insert into clinic_admin(account, clinic) values (4, 1);
+insert into clinic_admin(personal_info_id, clinic) values (4, 1);
 
 insert into appointment_type(name) values ('Pregeld uha');
 insert into appointment_type(name) values ('Pregled grla');
 insert into appointment_type(name) values ('Pregled nosa');
 
-insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count, specialization) values (2, 1, '06:00:00', '14:00:00', 8, 0.0, 0, 3);
-insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count,specialization) values (6, 1, '06:00:00', '14:00:00', 8, 0.0, 0, 1);
-insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count,specialization) values (7, 2, '18:00:00', '01:00:00', 7, 0.0, 0, 2);
-insert into medical_doctor (account_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count,specialization) values (10, 1, '18:00:00', '01:00:00', 7, 0.0, 0, 1);
-insert into medical_nurse (account_id, clinic, working_time_from, working_time_to) values (3, 1, '06:00:00', '14:00:00');
+
+insert into medical_doctor (personal_info_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count, specialization) values (2, 1, '06:00:00', '14:00:00', 8, 0.0, 0, 3);
+insert into medical_doctor (personal_info_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count,specialization) values (6, 1, '06:00:00', '14:00:00', 8, 0.0, 0, 1);
+insert into medical_doctor (personal_info_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count,specialization) values (7, 2, '18:00:00', '01:00:00', 7, 0.0, 0, 2);
+
+insert into medical_nurse (personal_info_id, clinic, working_time_from, working_time_to) values (3, 1, '06:00:00', '14:00:00');
 
 insert into appointment (id, start_time, clinic_room_id, patient_id, doctor_id) values (50, '2020-10-10 12:00:00', 1, 1, 1);
 insert into appointment (id, start_time, clinic_room_id, patient_id, doctor_id) values (51, '2020-10-12 13:00:00', 1, 1, 1);
