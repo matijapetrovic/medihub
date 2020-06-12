@@ -4,6 +4,7 @@ import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.domain.clinic_room.ClinicRoom;
 import org.medihub.domain.clinic_room.ClinicRoomSchedule;
 
+import java.io.NotActiveException;
 import java.util.List;
 
 public interface GetClinicRoomsPort {

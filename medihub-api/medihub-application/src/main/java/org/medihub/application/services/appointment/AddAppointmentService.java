@@ -12,6 +12,7 @@ import org.medihub.application.ports.outgoing.doctor.GetDoctorsPort;
 import org.medihub.application.ports.outgoing.patient.GetPatientsPort;
 import org.medihub.domain.appointment.Appointment;
 
+import java.io.NotActiveException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -25,7 +26,7 @@ public class AddAppointmentService implements AddAppointmentUseCase {
     private final AddAppointmentToClinicRoomPort addAppointmentToClinicRoomPort;
 
     @Override
-    public void addAppointment(AddAppointmentCommand addAppointmentCommand) throws NotFoundException, NotAvailableException {
+    public void addAppointment(AddAppointmentCommand addAppointmentCommand) throws NotFoundException, NotAvailableException, NotActiveException {
         Appointment appointment = new Appointment(
                 null,
                 LocalDate.parse(addAppointmentCommand.getDate()),

@@ -17,6 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.NotActiveException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -37,7 +38,7 @@ public class AppointmentController {
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    public void add(@RequestBody AddAppointmentRequest request) throws NotFoundException, NotAvailableException {
+    public void add(@RequestBody AddAppointmentRequest request) throws NotFoundException, NotAvailableException, NotActiveException {
         AddAppointmentCommand command = createCommand(request);
         addAppointmentUseCase.addAppointment(command);
     }

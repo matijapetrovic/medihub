@@ -20,7 +20,7 @@ public class OperationController {
     private final AddOperationUseCase addOperationUseCase;
 
     @PostMapping("/add")
-    ResponseEntity<OperationOutput> addOperation(@RequestBody AddOperationRequest request) throws NotFoundException {
+    public ResponseEntity<OperationOutput> addOperation(@RequestBody AddOperationRequest request) throws NotFoundException {
         AddOperationUseCase.AddOperationCommand command = createAddCommand(request);
 
         return ResponseEntity.ok(addOperationUseCase.addOperation(command));

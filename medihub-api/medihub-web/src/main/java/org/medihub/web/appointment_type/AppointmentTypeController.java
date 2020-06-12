@@ -1,6 +1,8 @@
 package org.medihub.web.appointment_type;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.ForbiddenException;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.appointment_type.*;
 import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase.AddAppointmentTypeCommand;
 import org.springframework.http.MediaType;
@@ -37,7 +39,7 @@ public class AppointmentTypeController {
     }
 
     @PostMapping("/delete")
-    public  void delete(@RequestBody Long id) {
+    public void delete(@RequestBody Long id) throws NotFoundException, ForbiddenException {
         deleteAppointmentTypeUseCase.delete(id);
     }
 
