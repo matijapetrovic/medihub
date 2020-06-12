@@ -534,19 +534,6 @@ public class BeanConfig {
     }
 
     @Bean
-    public GetCurrentAppointmentUseCase GetCurrentAppointmentUseCase(
-            GetAuthenticatedPort getAuthenticatedPort,
-            GetDoctorByAccountIdPort getDoctorByAccountIdPort,
-            GetCurrentAppointmentPort getCurrentAppointmentPort
-        ) {
-        return new GetCurrentAppointmentService(
-                getAuthenticatedPort,
-                getDoctorByAccountIdPort,
-                getCurrentAppointmentPort
-        );
-    }
-
-    @Bean
     public GetMedicalDoctorUseCase getMedicalDoctorUseCase(
             GetDoctorsPort getDoctorsPort,
             GetAuthenticatedPort getAuthenticatedPort,

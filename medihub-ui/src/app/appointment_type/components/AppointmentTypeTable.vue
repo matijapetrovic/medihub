@@ -43,17 +43,23 @@
         </template>
     </v-data-table>
     <AppointmentEditDialog ref="editDialog"></AppointmentEditDialog>
+    <ConfirmDialog
+    @confirmResponse="setConfirmation($event)"
+    ref="confirm"
+    />
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import ConfirmDialog from '@/app/shared/_components/dialogs/ConfirmDialog.vue';
 import AppointmentEditDialog from './AppointmentEditDialog.vue';
 
 export default {
   name: 'AppoitmentTypeTable',
   components: {
     AppointmentEditDialog,
+    ConfirmDialog,
   },
   data: () => ({
     headers: [
@@ -74,12 +80,16 @@ export default {
   methods: {
     ...mapActions('appointmentType', ['fetchAppointmentTypes', 'removeAppointmentType']),
     deleteItem(item) {
-      if (window.confirm('Are you sure you want to delete this item?')) {
-        this.removeAppointmentType(item);
-      }
+      this.editedItem = item;
+      this.$refs.confirm.open('Delete confirmation', 'Are you sure you want to delete clinic room', null);
     },
     editItem(item) {
       this.$refs.editDialog.show(item);
+    },
+    setConfirmation(signal) {
+      if (signal) {
+        this.removeAppointmentType(this.editedItem);
+      }
     },
   },
   computed: {

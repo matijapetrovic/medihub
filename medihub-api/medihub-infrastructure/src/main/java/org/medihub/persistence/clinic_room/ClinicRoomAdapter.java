@@ -10,6 +10,7 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
+import java.io.NotActiveException;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;

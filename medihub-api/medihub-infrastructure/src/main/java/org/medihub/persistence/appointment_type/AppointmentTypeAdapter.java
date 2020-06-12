@@ -1,6 +1,8 @@
 package org.medihub.persistence.appointment_type;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.ForbiddenException;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.outgoing.appointment_type.*;
 import org.medihub.domain.appointment.AppointmentType;
 import org.springframework.stereotype.Component;
@@ -53,8 +55,16 @@ public class AppointmentTypeAdapter implements
     }
 
     @Override
-    public void delete(Long id) {
-        appointmentTypeRepository.deleteById(id);
+    public void delete(Long id) throws ForbiddenException {
+        Long count = appointmentTypeRepository.countAppointmentTypeSpecializations(id);
+        if(count == 0) {
+            appointmentTypeRepository.deleteClinicPrices(id);
+            appointmentTypeRepository.deleteById(id);
+
+        }
+            else {
+            throw new ForbiddenException("Appointment type can not be deleted!");
+        }
     }
 
     @Override

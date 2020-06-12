@@ -10,6 +10,7 @@ import org.medihub.common.validation.annotations.Password;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.NotActiveException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 

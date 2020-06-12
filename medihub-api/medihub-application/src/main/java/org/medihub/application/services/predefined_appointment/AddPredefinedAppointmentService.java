@@ -18,6 +18,7 @@ import org.medihub.domain.medical_doctor.MedicalDoctorPredefinedAppointmentSched
 import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem;
 import org.medihub.domain.scheduling.DailySchedule;
 
+import java.io.NotActiveException;
 import java.time.LocalTime;
 
 @RequiredArgsConstructor
