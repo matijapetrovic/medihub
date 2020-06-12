@@ -14,6 +14,6 @@ public class MedicalNurseAdapter implements GetMedicalNurseByAccountIdPort {
 
     @Override
     public MedicalNurse getMedicalNurseByAccountId(Long id) {
-        return medicalNurseMapper.mapToDomainEntity(medicalNurseRepository.findByAccount_Id(id));
+        return medicalNurseMapper.mapToDomainEntity(medicalNurseRepository.findByPersonalInfoAccountId(id));
     }
 }

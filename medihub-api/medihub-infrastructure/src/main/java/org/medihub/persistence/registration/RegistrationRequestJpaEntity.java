@@ -26,15 +26,11 @@ public class RegistrationRequestJpaEntity {
     @NotNull
     private String password;
 
-    @Column(name="insurance_number", unique = true)
-    @NotNull
-    private String insuranceNumber;
-
-    @Column(name="firstName")
+    @Column(name="first_name")
     @NotNull
     private String firstName;
 
-    @Column(name="lastName")
+    @Column(name="last_name")
     @NotNull
     private String lastName;
 
@@ -48,7 +44,11 @@ public class RegistrationRequestJpaEntity {
     @Column(name="country")
     private String country;
 
-    @Column(name="telephone")
+    @Column(name="telephone_number")
     private String telephoneNumber;
+
+    @Column(name="insurance_number", unique = true)
+    @NotNull
+    private String insuranceNumber;
 
 }

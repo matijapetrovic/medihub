@@ -3,9 +3,10 @@ package org.medihub.web.leave_request;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.leave_request.*;
+import org.medihub.application.ports.incoming.leave_request.AddLeaveRequestUseCase;
+import org.medihub.application.ports.incoming.leave_request.ApproveLeaveRequestUseCase;
+import org.medihub.application.ports.incoming.leave_request.GetLeaveRequestUseCase;
 import org.medihub.application.ports.outgoing.leave_request.DeleteLeaveRequestPort;
-import org.medihub.application.ports.outgoing.leave_request.GetLeaveRequestPort;
-import org.medihub.domain.NurseLeaveRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,7 +23,7 @@ public class LeaveRequestController {
     private final AddLeaveRequestUseCase addLeaveRequestUseCase;
     private final ApproveLeaveRequestUseCase approveLeaveRequestUseCase;
 
-    private final GetLeaveRequestPort getLeaveRequestPort;
+    private final GetLeaveRequestUseCase getLeaveRequestUseCase;
     private final DeleteLeaveRequestPort deleteLeaveRequestPort;
 
     private final AddNurseLeaveRequestUseCase addNurseLeaveRequestUseCase;
@@ -32,9 +33,10 @@ public class LeaveRequestController {
 
     @GetMapping("")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    public List<?> getAll() {
-       return getLeaveRequestPort.getAll();
+    public ResponseEntity<List<?>> getAll() {
+       return ResponseEntity.ok(getLeaveRequestUseCase.getAll());
     }
+
     // TODO : MAKE QUERY NOT PORT!!!
     @PostMapping("/add")
     @PreAuthorize("hasRole('ROLE_DOCTOR')")

@@ -14,4 +14,7 @@ export default {
   changePassword(credentials) {
     return utils.apiClient.post('api/auth/password', credentials);
   },
+  activateAccount(accountId) {
+    return utils.apiClient.post(`api/auth/activate/${accountId}`);
+  },
 };

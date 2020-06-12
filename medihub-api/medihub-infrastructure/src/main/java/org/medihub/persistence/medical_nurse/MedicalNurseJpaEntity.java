@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.medihub.persistence.account.AccountJpaEntity;
 import org.medihub.persistence.clinic.ClinicJpaEntity;
+import org.medihub.persistence.personal_info.PersonalInfoJpaEntity;
 
 import javax.persistence.*;
 import java.sql.Time;
@@ -21,9 +22,9 @@ public class MedicalNurseJpaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="account_id")
-    private AccountJpaEntity account;
+    @OneToOne
+    @JoinColumn(name="personal_info_id", referencedColumnName = "id", nullable = false)
+    private PersonalInfoJpaEntity personalInfo;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="clinic", referencedColumnName="id", nullable=true)

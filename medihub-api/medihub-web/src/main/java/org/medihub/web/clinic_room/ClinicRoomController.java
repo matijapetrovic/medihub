@@ -31,7 +31,7 @@ public class ClinicRoomController {
     private final TokenUtil tokenUtil;
     private final AddClinicRoomUseCase addClinicRoomUseCase;
     private final DeleteClinicRoomUseCase deleteClinicRoomUseCase;
-    private final GetClinicRoomsQuery getClinicRoomsQuery;
+    private final GetClinicRoomsForClinicQuery getClinicRoomsForClinicQuery;
     private final SearchClinicRoomsQuery searchClinicRoomsQuery;
     private final ScheduleClinicRoomUseCase scheduleClinicRoomUseCase;
     private final UpdateClinicRoomUseCase updateClinicRoomUseCase;
@@ -41,7 +41,7 @@ public class ClinicRoomController {
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
     public ResponseEntity<List<GetClinicRoomsOutput>> get() {
         Long clinicId = getAuthenticatedClinicId();
-        return ResponseEntity.ok(getClinicRoomsQuery.getClinicRooms(clinicId));
+        return ResponseEntity.ok(getClinicRoomsForClinicQuery.getClinicRooms(clinicId));
     }
 
     @GetMapping("/search")
@@ -104,7 +104,7 @@ public class ClinicRoomController {
         UpdateClinicRoomUseCase.UpdateClinicRoomCommand command = makeUpdateClinicRoomCommand(updateClinicRoomRequest);
         updateClinicRoomUseCase.updateClinicRoom(command);
 
-        return ResponseEntity.ok(getClinicRoomsQuery.getClinicRooms(clinicId));
+        return ResponseEntity.ok(getClinicRoomsForClinicQuery.getClinicRooms(clinicId));
     }
 
     private UpdateClinicRoomUseCase.UpdateClinicRoomCommand makeUpdateClinicRoomCommand(

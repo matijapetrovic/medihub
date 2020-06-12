@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface PatientRepository extends JpaRepository<PatientJpaEntity, Long> {
     List<PatientJpaEntity> findAll();
-    Optional<PatientJpaEntity> findByAccount_Id(Long accountId);
+    Optional<PatientJpaEntity> findByPersonalInfoAccountId(Long accountId);
 
     @Query("select distinct fa.appointment.patient from FinishedAppointmentJpaEntity fa " +
     "where fa.appointment.doctor.id = :doctor_id")

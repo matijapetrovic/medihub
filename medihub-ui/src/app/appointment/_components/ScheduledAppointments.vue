@@ -14,7 +14,8 @@
               <td>{{ item.clinicName }}</td>
               <td>{{ item.date }}</td>
               <td>{{ item.time }}</td>
-              <td><v-btn @click="openCancelDialog(item)">Cancel</v-btn></td>
+              <td><v-btn :disabled="!canCancel(item)" @click="openCancelDialog(item)">
+                Cancel</v-btn></td>
             </tr>
           </tbody>
         </template>
@@ -76,6 +77,16 @@ export default {
     },
     closeDialog() {
       this.dialog = false;
+    },
+    canCancel(appointment) {
+      function addDays(date, days) {
+        const res = new Date(date);
+        res.setDate(res.getDate() + days);
+        return res;
+      }
+      const dateStr = `${appointment.date}T${appointment.time}`;
+      const appDate = Date.parse(dateStr);
+      return addDays(Date.now(), 1).getTime() < new Date(appDate).getTime();
     },
   },
 };

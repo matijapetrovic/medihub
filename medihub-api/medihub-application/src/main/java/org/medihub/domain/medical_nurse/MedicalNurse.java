@@ -5,6 +5,7 @@ import lombok.Getter;
 import org.medihub.domain.MedicalStaff;
 import org.medihub.domain.WorkingTime;
 import org.medihub.domain.account.Account;
+import org.medihub.domain.account.PersonalInfo;
 import org.medihub.domain.clinic.Clinic;
 import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem;
 import org.medihub.domain.scheduling.Schedule;
@@ -13,9 +14,9 @@ import org.medihub.domain.scheduling.Schedule;
 public class MedicalNurse extends MedicalStaff {
     public MedicalNurse(
             Long id,
-            Account account,
+            PersonalInfo personalInfo,
             Clinic clinic,
             WorkingTime workingTime) {
-        super(id, account, clinic, workingTime);
+        super(id, personalInfo, clinic, workingTime);
     }
 }

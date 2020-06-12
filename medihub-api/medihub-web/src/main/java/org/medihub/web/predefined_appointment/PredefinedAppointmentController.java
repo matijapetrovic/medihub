@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.NotActiveException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -41,12 +42,12 @@ public class PredefinedAppointmentController {
     @PostMapping("/{appointmentId}/schedule")
     @PreAuthorize("hasRole('ROLE_PATIENT')")
     public void schedule(@PathVariable Long appointmentId) throws NotAvailableException, NotFoundException {
-        try {
+        try{
             schedulePredefinedAppointmentUseCase.schedulePredefinedAppointment(appointmentId);
-        } catch (NotAvailableException | NotFoundException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            throw new NotFoundException("samo jako");
+        } catch (NotAvailableException | NotFoundException ex)
+
+    {
+        throw ex;
     }
     }
 

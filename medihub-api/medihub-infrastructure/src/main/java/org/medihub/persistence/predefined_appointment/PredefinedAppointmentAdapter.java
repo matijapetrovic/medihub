@@ -2,10 +2,7 @@ package org.medihub.persistence.predefined_appointment;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.NotFoundException;
-import org.medihub.application.ports.outgoing.predefined_appointment.AddPredefinedAppointmentPort;
-import org.medihub.application.ports.outgoing.predefined_appointment.DeletePredefinedAppointmentPort;
-import org.medihub.application.ports.outgoing.predefined_appointment.GetPredefinedAppointmentsPort;
-import org.medihub.application.ports.outgoing.predefined_appointment.LoadPredefinedAppointmentPort;
+import org.medihub.application.ports.outgoing.predefined_appointment.*;
 import org.medihub.domain.appointment.PredefinedAppointment;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +17,8 @@ public class PredefinedAppointmentAdapter implements
         AddPredefinedAppointmentPort,
         GetPredefinedAppointmentsPort,
         LoadPredefinedAppointmentPort,
-        DeletePredefinedAppointmentPort {
+        DeletePredefinedAppointmentPort,
+        GetAllPredefinedAppointmentsPort {
     private final PredefinedAppointmentRepository predefinedAppointmentRepository;
     private final PredefinedAppointmentMapper predefinedAppointmentMapper;
 
@@ -55,5 +53,10 @@ public class PredefinedAppointmentAdapter implements
         if (predefinedAppointment.isEmpty())
             throw new NotFoundException(String.format("Predefined appointment %d not found.", appointmentId));
         return predefinedAppointmentMapper.mapToDomainEntity(predefinedAppointment.get());
+    }
+
+    @Override
+    public List<PredefinedAppointment> getAll() {
+        return predefinedAppointmentMapper.mapToDomainList(predefinedAppointmentRepository.findAll());
     }
 }

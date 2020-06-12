@@ -37,6 +37,24 @@
         </v-card-subtitle>
         <v-card-text>
           {{ diagnosis.description }}
+          <v-divider class="my-5"></v-divider>
+          <div v-if="diagnosis.prescriptions && diagnosis.prescriptions.length">
+            <v-chip
+              v-for="(prescription,index) in diagnosis.prescriptions"
+              :key="index"
+              class="ma-2"
+              :class="{ green: prescription.validated, red: !prescription.validated }"
+              text-color="white"
+            >
+              {{ prescription.drug }}
+              <v-icon color="white" right>
+                {{ prescription.validate ? 'mdi-check' : 'mdi-close' }}
+              </v-icon>
+            </v-chip>
+          </div>
+          <p v-else>
+            No prescriptions
+          </p>
         </v-card-text>
       </v-card>
     </v-dialog>

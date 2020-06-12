@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.medihub.persistence.account.AccountJpaEntity;
 import org.medihub.persistence.appointment_type.AppointmentTypeJpaEntity;
 import org.medihub.persistence.clinic.ClinicJpaEntity;
+import org.medihub.persistence.personal_info.PersonalInfoJpaEntity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -24,8 +25,8 @@ public class MedicalDoctorJpaEntity {
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="account_id")
-    private AccountJpaEntity account;
+    @JoinColumn(name="personal_info_id", referencedColumnName = "id", nullable = false)
+    private PersonalInfoJpaEntity personalInfo;
 
     @ManyToOne
     @JoinColumn(name="clinic", referencedColumnName="id")
@@ -49,4 +50,7 @@ public class MedicalDoctorJpaEntity {
     @ManyToOne
     @JoinColumn(name="specialization", referencedColumnName = "id", nullable = false)
     private AppointmentTypeJpaEntity specialization;
+
+    @Column(name="archived")
+    private Boolean archived;
 }

@@ -24,6 +24,7 @@ import prescriptions from '@/app/prescriptions/store';
 import operation from '@/app/operation/store';
 import reviews from '@/app/reviews/store';
 import nurse from '@/app/medical_nurse/store';
+import registrationRequest from '@/app/registration_requests/store';
 
 Vue.use(Vuex);
 
@@ -59,5 +60,6 @@ export default new Vuex.Store({
     operation,
     reviews,
     nurse,
+    registrationRequest,
   },
 });

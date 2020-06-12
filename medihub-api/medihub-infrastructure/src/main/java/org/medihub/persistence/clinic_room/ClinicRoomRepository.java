@@ -16,7 +16,7 @@ public interface ClinicRoomRepository extends JpaRepository<ClinicRoomJpaEntity,
     Optional<ClinicRoomJpaEntity> findByIdAndDeletedIsFalse(Long id);
 
     List<ClinicRoomJpaEntity> findAllByClinic_IdAndDeletedIsFalse(Long clinicId);
-    List<ClinicRoomJpaEntity> findAll();
+    List<ClinicRoomJpaEntity> findAllByDeletedIsFalse();
 
     @Query("select  cr from ClinicRoomJpaEntity cr where cr.id=:id and " +
             "cr not in (select a.clinicRoom from AppointmentJpaEntity a " +

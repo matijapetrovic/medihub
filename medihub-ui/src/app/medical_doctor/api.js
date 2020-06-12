@@ -28,4 +28,7 @@ export default {
   getPreviousPatients() {
     return utils.apiClient.get('api/medical-doctor/previous-patients');
   },
+  deleteDoctor(doctorId) {
+    return utils.apiClient.post(`api/medical-doctor/delete/${doctorId}`);
+  },
 };

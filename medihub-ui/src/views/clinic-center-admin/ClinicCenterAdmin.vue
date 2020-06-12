@@ -59,6 +59,11 @@ export default {
           { text: 'Add', path: '/add-diagnosis', icon: 'add' },
         ],
       },
+      {
+        text: 'Registration requests',
+        path: '/registration-requests',
+        icon: 'mdi-account-clock-outline',
+      },
     ],
   }),
 };
