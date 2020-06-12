@@ -331,12 +331,14 @@ public class BeanConfig {
             LoadMedicalRecordPort loadMedicalRecordPort,
             GetAuthenticatedPort getAuthenticatedPort,
             LoadPatientPort loadPatientPort,
-            GetFinishedAppointmentsPort getFinishedAppointmentsPort) {
+            GetFinishedAppointmentsPort getFinishedAppointmentsPort,
+            GetPrescriptionsPort getPrescriptionsPort) {
         return new GetMedicalRecordService(
                 loadMedicalRecordPort,
                 getAuthenticatedPort,
                 loadPatientPort,
-                getFinishedAppointmentsPort);
+                getFinishedAppointmentsPort,
+                getPrescriptionsPort);
     }
 
     @Bean

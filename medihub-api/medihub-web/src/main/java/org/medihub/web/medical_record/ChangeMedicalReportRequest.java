@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.medihub.application.ports.incoming.medical_record.AllergyDTO;
+import org.medihub.application.ports.incoming.medical_record.dto.AllergyDTO;
 
 import java.util.List;
 
