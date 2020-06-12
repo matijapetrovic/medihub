@@ -147,7 +147,7 @@ import org.medihub.application.services.leave_request.add.ApproveNurseLeaveReque
 import org.medihub.application.services.leave_request.delete.DeleteLeaveRequestService;
 import org.medihub.application.services.leave_request.delete.DeleteNurseVacationRequestService;
 import org.medihub.application.services.leave_request.get.GetLeaveRequestService;
-import org.medihub.application.services.leave_request.get.GetNurseLeaveRequestsService
+import org.medihub.application.services.leave_request.get.GetNurseLeaveRequestsService;
 import org.medihub.application.services.medical_doctor.DeleteDoctorService;
 import org.medihub.application.services.medical_doctor.add.AddAppointmentToMedicalDoctorService;
 import org.medihub.application.services.medical_doctor.get.*;
@@ -937,7 +937,6 @@ public class BeanConfig {
     }
 
     @Bean
-<<<<<<< HEAD
     public AddNurseLeaveRequestUseCase addNurseLeaveRequestUseCase(GetAuthenticatedPort getAuthenticatedPort,
                                                                    AddNurseLeaveRequestPort addNurseLeaveRequestPort,
                                                                    GetMedicalNurseByAccountIdPort getMedicalNurseByAccountIdPort) {
@@ -970,7 +969,7 @@ public class BeanConfig {
         return new GetNurseScheduleService(getAuthenticatedPort, getMedicalNurseByAccountIdPort, getNurseSchedulePort);
     }
 
-=======
+    @Bean
     public GetRegistrationRequestsQuery getRegistrationRequestsQuery(GetRegistrationRequestsPort getRegistrationRequestsPort) {
         return new GetRegistrationRequestsService(getRegistrationRequestsPort);
     }
@@ -1000,5 +999,4 @@ public class BeanConfig {
     ) {
         return new ActivateAccountService(loadAccountPort, saveAccountPort);
     }
->>>>>>> master
 }

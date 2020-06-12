@@ -27,7 +27,7 @@ public class GetNurseLeaveRequestsService implements GetNurseLeaveRequestsQuery 
                       entity.getStart().toString(),
                       entity.getEnd().toString(),
                       entity.getType(),
-                      entity.getMedicalNurse().getAccount().getEmail(),
+                      entity.getMedicalNurse().getPersonalInfo().getAccount().getEmail(),
                       entity.getMedicalNurse().getId()
                 ))
                 .collect(Collectors.toList());
