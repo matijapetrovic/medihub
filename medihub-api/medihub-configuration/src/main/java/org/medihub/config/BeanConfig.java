@@ -734,8 +734,14 @@ public class BeanConfig {
     }
 
     @Bean
-    public GetLeaveRequestUseCase getLeaveRequestUseCase(GetLeaveRequestPort getLeaveRequestPort) {
-        return new GetLeaveRequestService(getLeaveRequestPort);
+    public GetLeaveRequestUseCase getLeaveRequestUseCase(
+            GetLeaveRequestPort getLeaveRequestPort,
+            GetAuthenticatedPort getAuthenticatedPort,
+            LoadClinicAdminPort loadClinicAdminPort) {
+        return new GetLeaveRequestService(
+                getLeaveRequestPort,
+                getAuthenticatedPort,
+                loadClinicAdminPort);
     }
 
     @Bean
