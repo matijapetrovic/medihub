@@ -1,6 +1,7 @@
 package org.medihub.persistence.prescription;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.ports.outgoing.prescription.DeletePrescriptionPort;
 import org.medihub.application.ports.outgoing.prescription.GetPrescriptionPort;
 import org.medihub.application.ports.outgoing.prescription.GetPrescriptionsPort;
 import org.medihub.application.ports.outgoing.prescription.SavePrescriptionPort;
@@ -17,7 +18,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PrescriptionAdapter implements SavePrescriptionPort,
         GetPrescriptionsPort,
-        GetPrescriptionPort {
+        GetPrescriptionPort,
+        DeletePrescriptionPort {
     private final PrescriptionRepository prescriptionRepository;
     private final PrescriptionMapper prescriptionMapper;
     @Override
@@ -38,5 +40,10 @@ public class PrescriptionAdapter implements SavePrescriptionPort,
     @Override
     public Prescription getPrescription(Long id) {
         return prescriptionMapper.mapToDomainEntity(prescriptionRepository.getOne(id));
+    }
+
+    @Override
+    public void delete(Prescription p) {
+        prescriptionRepository.delete(prescriptionMapper.mapToJpaEntity(p));
     }
 }

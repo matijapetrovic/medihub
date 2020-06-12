@@ -7,4 +7,7 @@ export default {
   acceptPrescription(id) {
     return utils.apiClient.post('api/prescription/accept', id);
   },
+  rejectPrescription(id) {
+    return utils.apiClient.post('api/prescription/reject', id);
+  },
 };
