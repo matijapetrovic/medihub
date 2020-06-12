@@ -41,7 +41,7 @@ public class ClinicJpaEntity {
     @Column(name="review_count")
     private Integer reviewCount;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="clinic_appointment_type_mapping",
         joinColumns = {@JoinColumn(name="clinic_id", referencedColumnName = "id")})
     @MapKeyJoinColumn(name="appointment_type_id")

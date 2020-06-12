@@ -22,7 +22,7 @@ public interface AddPredefinedAppointmentUseCase {
     class AddPredefinedAppointmentCommand extends SelfValidating<AddPredefinedAppointmentUseCase.AddPredefinedAppointmentCommand> {
         @Email
         Long doctorId;
-        @Password
+        @NotBlank
         String start;
         @NotBlank
         double duration;

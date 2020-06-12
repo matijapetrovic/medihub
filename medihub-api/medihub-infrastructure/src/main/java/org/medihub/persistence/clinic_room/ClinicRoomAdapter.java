@@ -27,7 +27,9 @@ public class ClinicRoomAdapter implements
         LoadClinicRoomPort,
         DeleteClinicRoomPort,
         GetClinicRoomsPort,
-        SearchClinicRoomsPort {
+        SearchClinicRoomsPort,
+        GetAllClinicRoomsPort
+{
     private final ClinicRoomMapper clinicRoomMapper;
     private final ClinicRoomRepository clinicRoomRepository;
 
@@ -84,5 +86,10 @@ public class ClinicRoomAdapter implements
                 .stream()
                 .map(clinicRoomMapper::mapToDomainEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ClinicRoom> getAll() {
+        return clinicRoomMapper.mapToDomainList(clinicRoomRepository.findAllByDeletedIsFalse());
     }
 }

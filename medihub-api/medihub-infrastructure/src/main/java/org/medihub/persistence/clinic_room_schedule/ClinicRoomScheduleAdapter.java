@@ -2,6 +2,7 @@ package org.medihub.persistence.clinic_room_schedule;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.outgoing.clinic_room.AddAppointmentToClinicRoomPort;
+import org.medihub.application.ports.outgoing.clinic_room.LoadRoomDailySchedulePort;
 import org.medihub.application.ports.outgoing.clinic_room_schedule.LoadClinicRoomSchedulePort;
 import org.medihub.application.ports.outgoing.clinic_room_schedule.ScheduleClinicRoomPort;
 import org.medihub.application.exceptions.NotAvailableException;
@@ -33,7 +34,8 @@ public class ClinicRoomScheduleAdapter implements
         ScheduleClinicRoomPort,
         AddAppointmentToClinicRoomPort,
         LoadClinicRoomDailySchedulePort,
-        SaveClinicRoomDailySchedulePort {
+        SaveClinicRoomDailySchedulePort,
+        LoadRoomDailySchedulePort {
     private final ClinicRoomScheduleItemRepository itemRepository;
     private final ClinicRoomScheduleMapper clinicRoomScheduleMapper;
     private final ClinicRoomRepository clinicRoomRepository;
