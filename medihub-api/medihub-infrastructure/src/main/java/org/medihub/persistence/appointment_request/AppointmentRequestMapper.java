@@ -22,7 +22,7 @@ public class AppointmentRequestMapper {
     public AppointmentRequest mapToDomainEntity(AppointmentRequestJpaEntity request) {
         return new AppointmentRequest(
                 request.getId(),
-                medicalDoctorMapper.mapToDomainEntity(request.getMedicalDoctorJpaEntity()),
+                medicalDoctorMapper.mapToDomainEntity(request.getDoctor()),
                 patientMapper.mapToDomainEntity(request.getPatientJpaEntity()),
                 Money.of(request.getMoney()),
                 request.getStartTime().toLocalDateTime().toLocalDate(),

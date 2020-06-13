@@ -16,11 +16,12 @@ public interface MedicalDoctorRepository extends JpaRepository<MedicalDoctorJpaE
     Optional<MedicalDoctorJpaEntity> findById(Long id);
 
     List<MedicalDoctorJpaEntity> findAll();
-    List<MedicalDoctorJpaEntity> findAllByClinicId(Long clinicId);
+    List<MedicalDoctorJpaEntity> findAllByClinicIdAndArchivedFalse(Long clinicId);
     MedicalDoctorJpaEntity findByPersonalInfoAccountId(Long accountId);
 
     @Query("select d from MedicalDoctorJpaEntity d " +
-            "where d.clinic = :clinic " +
+            "where d.archived = false " +
+            "and d.clinic = :clinic " +
             "and (:appointmentType is null or d.specialization = :appointmentType) " +
             "and ((:dateStart is null and :dateEnd is null) or d.working_hours > " +
             "       (select count(mdsi) from MedicalDoctorScheduleItemJpaEntity mdsi " +

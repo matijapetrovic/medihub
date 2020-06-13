@@ -31,10 +31,14 @@ public interface ClinicRoomRepository extends JpaRepository<ClinicRoomJpaEntity,
             "where (cr.name like concat('%', :name, '%') or :name is null ) "+
             "and (cr.number=:number or :number is null )" +
             "and (crsi.startTime<>:timestamp or :timestamp is null or crsi.startTime is null) " +
-            "and cr.clinic.id=:clinic_id")
+            "and cr.clinic.id=:clinic_id " +
+            "and 24>=(select count(crsi2) from ClinicRoomScheduleItemJpaEntity crsi2 " +
+            "where crsi2.startTime between :dateStart and :dateEnd and crsi2.clinicRoom=cr )")
     List<ClinicRoomJpaEntity> findAllWithNameOrNumberOnDate(
             @Param(value="name")String name,
             @Param(value="number") Integer number,
             @Param(value="timestamp") Timestamp timestamp,
-            @Param(value="clinic_id") Long clinicId);
+            @Param(value="clinic_id") Long clinicId,
+            @Param(value="dateStart") Timestamp dateStart,
+            @Param(value="dateEnd") Timestamp dateEnd);
 }

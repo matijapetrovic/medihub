@@ -1,10 +1,11 @@
 package org.medihub.application.services.medical_doctor.get;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.medical_doctor.schedule.*;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
-import org.medihub.application.ports.outgoing.doctor.GetDoctorByAccountIdPort;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorSchedulePort;
+import org.medihub.application.ports.outgoing.doctor.LoadDoctorPort;
 import org.medihub.domain.account.Account;
 import org.medihub.domain.appointment.Operation;
 import org.medihub.domain.medical_doctor.*;
@@ -13,18 +14,19 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.OPERATION;
 
 @RequiredArgsConstructor
 public class GetDoctorScheduleService implements GetDoctorScheduleQuery {
     private final GetDoctorSchedulePort getDoctorSchedulePort;
     private final GetAuthenticatedPort getAuthenticatedPort;
-    private final GetDoctorByAccountIdPort getDoctorByAccountIdPort;
+    private final LoadDoctorPort loadDoctorPort;
 
     @Override
-    public GetScheduleOutput getDoctorSchedule() {
+    public GetScheduleOutput getDoctorSchedule() throws NotFoundException {
         Account account = getAuthenticatedPort.getAuthenticated();
-        MedicalDoctor medicalDoctor = getDoctorByAccountIdPort.getDoctor(account.getId());
+        MedicalDoctor medicalDoctor = loadDoctorPort.loadDoctorByAccountId(account.getId());
+        if (medicalDoctor.getArchived())
+            throw new NotFoundException("Doctor does not exist");
 
         MedicalDoctorSchedule medicalDoctorSchedule = getDoctorSchedulePort.getDoctorSchedule(medicalDoctor.getId());
         GetScheduleOutput getScheduleOutput = createOutput(medicalDoctorSchedule);
@@ -33,8 +35,12 @@ public class GetDoctorScheduleService implements GetDoctorScheduleQuery {
     }
 
     @Override
-    public GetScheduleOutput getDoctorSchedule(Long id) {
-        MedicalDoctorSchedule medicalDoctorSchedule = getDoctorSchedulePort.getDoctorSchedule(id);
+    public GetScheduleOutput getDoctorSchedule(Long doctorId) throws NotFoundException {
+        MedicalDoctor medicalDoctor = loadDoctorPort.loadDoctor(doctorId);
+        if (medicalDoctor.getArchived())
+            throw new NotFoundException("Doctor not found");
+        MedicalDoctorSchedule medicalDoctorSchedule = getDoctorSchedulePort.getDoctorSchedule(doctorId);
+
         GetScheduleOutput getScheduleOutput = createOutput(medicalDoctorSchedule);
 
         return getScheduleOutput;
