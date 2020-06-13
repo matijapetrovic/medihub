@@ -722,28 +722,17 @@ public class BeanConfig {
             DeleteAppointmentRequestPort deleteAppointmentRequestPort,
             GetClinicRoomsPort getClinicRoomsPort,
             AddAppointmentToMedicalDoctorSchedulePort addAppointmentToMedicalDoctorSchedulePort,
-            AddAppointmentToClinicRoomPort addAppointmentToClinicRoomPort,
-            GetAuthenticatedPort getAuthenticatedPort,
-            LoadClinicAdminPort loadClinicAdminPort,
-            LoadClinicPort loadClinicPort,
-            LoadDoctorPort loadDoctorPort,
-            SendEmailPort sendEmailPort
+            AddAppointmentToClinicRoomPort addAppointmentToClinicRoomPort
     ) {
         return new AddAppointmentService(
-                getAuthenticatedPort,
-                loadClinicAdminPort,
-                loadAppointmentRequestPort,
-                saveAppointmentPort,
-                deleteAppointmentRequestPort,
-                getClinicRoomsPort,
-                addAppointmentToMedicalDoctorSchedulePort,
-                addAppointmentToClinicRoomPort,
-                getAuthenticatedPort,
-                loadClinicAdminPort,
-                loadClinicPort,
-                loadDoctorPort,
-                sendEmailPort
-        );
+           getAuthenticatedPort,
+            loadClinicAdminPort,
+            loadAppointmentRequestPort,
+            saveAppointmentPort,
+            deleteAppointmentRequestPort,
+            getClinicRoomsPort,
+            addAppointmentToMedicalDoctorSchedulePort,
+            addAppointmentToClinicRoomPort);
     }
 
     @Bean
