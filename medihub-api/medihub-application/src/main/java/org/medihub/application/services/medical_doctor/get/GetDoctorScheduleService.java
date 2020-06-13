@@ -6,6 +6,7 @@ import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPor
 import org.medihub.application.ports.outgoing.doctor.GetDoctorByAccountIdPort;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorSchedulePort;
 import org.medihub.domain.account.Account;
+import org.medihub.domain.appointment.Operation;
 import org.medihub.domain.medical_doctor.*;
 
 import java.time.LocalDate;
@@ -88,13 +89,15 @@ public class GetDoctorScheduleService implements GetDoctorScheduleQuery {
                         vacationItem.getEndDate().toString()
                 );
             case OPERATION:
-                MedicalDoctorOperationScheduleItem operationItem = (MedicalDoctorOperationScheduleItem) item;
+                MedicalDoctorAppointmentScheduleItem operationItem = (MedicalDoctorAppointmentScheduleItem) item;
+                Operation operation = (Operation) operationItem.getAppointment();
                 return new OperationScheduleItemOutput(
                         operationItem.getId(),
                         operationItem.getTime().toString(),
                         operationItem.getType().toString(),
-                        operationItem.getOperation().getDoctor(),
-                        operationItem.getOperation().getPresentDoctors()
+                        operation.getDoctor(),
+                        operation.getPresentDoctors(),
+                        operation
                 );
         }
 

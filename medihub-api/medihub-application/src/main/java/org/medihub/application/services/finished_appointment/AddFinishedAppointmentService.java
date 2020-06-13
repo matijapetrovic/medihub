@@ -19,6 +19,7 @@ import org.medihub.domain.Drug;
 import org.medihub.domain.Prescription;
 import org.medihub.domain.appointment.Appointment;
 import org.medihub.domain.appointment.FinishedAppointment;
+import org.medihub.domain.appointment.Operation;
 import org.medihub.domain.clinic.Clinic;
 import org.medihub.domain.clinic.ClinicReview;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
@@ -105,7 +106,12 @@ public class AddFinishedAppointmentService implements AddFinishedAppointmentUseC
                 finishedAppointment.getDiagnosis().getId(),
                 finishedAppointment.getAppointment().getDate().toString(),
                 finishedAppointment.getAppointment().getTime().toString(),
-                finishedAppointment.getDiagnosis().getName()
+                finishedAppointment.getDiagnosis().getName(),
+                getType(finishedAppointment)
         );
+    }
+
+    private String getType(FinishedAppointment finishedAppointment) {
+        return (finishedAppointment.getAppointment() instanceof Operation)? "OPERATION":"APPOINTMENT";
     }
 }

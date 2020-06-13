@@ -106,7 +106,7 @@
                 text
                 color="primary"
                 @click="openAppointmentModal"
-                v-if="selectedEvent.type === 'APPOINTMENT'"
+                v-if="selectedEvent.type === 'APPOINTMENT' || selectedEvent.type === 'OPERATION'"
                 :disabled="diagnosisDisabled()"
               >
                 Enter Diagnosis
@@ -291,6 +291,9 @@ export default {
             end: `${date} ${this.incrementTime(item.time)}`,
             color: this.getColorByName(item.type),
             details: `Main doctor:\n\t${item.doctor.firstName} ${item.doctor.secondName}\nPresent Doctors:\n${doctorList}`,
+            itemId: item.id,
+            itemDate: date,
+            appointment: item.operation,
           };
         default:
           return null;
