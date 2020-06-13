@@ -77,7 +77,7 @@ public class AddAppointmentService implements AddAppointmentUseCase {
     private void notifyClinicAdmin(Appointment appointment, ClinicAdmin admin) {
         String to = admin.getPersonalInfo().getAccount().getEmail();
         String subject = "Appointment request notification";
-        String text = String.format("Doctor %s has been scheduled request an appointment with %s at %s",
+        String text = String.format("Doctor %s has been scheduled request a n appointment with %s at %s",
                 appointment.getDoctor().getFullName(),
                 appointment.getPatient().getFullName(),
                 LocalDateTime.of(appointment.getDate(), appointment.getTime()));

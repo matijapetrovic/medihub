@@ -7,6 +7,9 @@ export default {
   getAllDoctors(date) {
     return utils.apiClient.get(`api/medical-doctor/getAllOnDate/${date}`);
   },
+  getAllDoctorsForClinic() {
+    return utils.apiClient.get('api/medical-doctor/getAll');
+  },
   getDoctorsForDateTime(payload) {
     return utils.apiClient.get(`api/medical-doctor/${payload.date}/${payload.time}`);
   },

@@ -266,7 +266,6 @@ export default {
     },
     getDoctorsAndPrices(date) {
       this.clear();
-      console.log(date);
       this.$refs.menu.save(date);
       this.getAllDoctors(date);
       this.fetchPrices();

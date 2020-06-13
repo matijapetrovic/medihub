@@ -67,6 +67,12 @@ export default {
           commit('SET_DOCTORS', data.data);
         });
     },
+    getAllDoctorsForClinic({ commit }) {
+      return api.getAllDoctorsForClinic()
+        .then((data) => {
+          commit('SET_DOCTORS', data.data);
+        });
+    },
     getWorkindCalendar({ commit, dispatch }) {
       return api.getWorkindCalendar()
         .then((response) => {

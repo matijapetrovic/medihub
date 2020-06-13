@@ -93,10 +93,10 @@ insert into medical_doctor (personal_info_id, clinic, working_time_from, working
 
 insert into medical_nurse (personal_info_id, clinic, working_time_from, working_time_to) values (3, 1, '06:00:00', '14:00:00');
 
-insert into appointment (id, start_time, clinic_room_id, patient_id, doctor_id) values (51, CURRENT_TIMESTAMP , 1, 1, 1);
-insert into appointment (id, start_time, clinic_room_id, patient_id, doctor_id) values (52, '2020-10-12 13:00:00', 1, 1, 3);
-insert into appointment (id, start_time, clinic_room_id, patient_id, doctor_id) values (53, '2019-12-12 07:00:00', 1, 1, 2);
-insert into appointment (id, patient_id, doctor_id, clinic_room_id, start_time) values (54, 1, 2, 1, '2020-10-10 20:00:00');
+insert into appointment (id, start_time, clinic_room_id, patient_id, doctor_id, price) values (51, CURRENT_TIMESTAMP , 1, 1, 1, 200);
+insert into appointment (id, start_time, clinic_room_id, patient_id, doctor_id, price) values (52, '2020-10-12 13:00:00', 1, 1, 1, 3242);
+insert into appointment (id, start_time, clinic_room_id, patient_id, doctor_id, price) values (53, '2020-12-12 07:00:00', 1, 1, 1, 42443);
+insert into appointment (id, patient_id, doctor_id, clinic_room_id, start_time, price) values (54, 1, 1, 1, '2020-10-10 20:00:00', 523);
 
 insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (1, 1, 500.0);
 insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (1, 2, 1500.0);
