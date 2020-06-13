@@ -156,7 +156,7 @@ insert into finished_appointment (description, appointment_id, diagnosis_id) val
 insert into finished_appointment (description, appointment_id, diagnosis_id) values ('aaa', 53, 2);
 
 insert into predefined_appointment (doctor_id, start_time, duration, price, clinic_room_id, appointment_type_id) values (1, '2020-06-15 00:00:00', 3.0, 500.0, 1, 1);
-insert into medical_doctor_predefined_appointment_schedule_item (id, doctor_id, start_time, schedule_item_type, predefined_appointment_id) values (10000    1,1, '2020-05-06 15:00:00', 5, 1);
+insert into medical_doctor_predefined_appointment_schedule_item (id, doctor_id, start_time, schedule_item_type, predefined_appointment_id) values (10000, 1, '2020-05-06 15:00:00', 5, 1);
 
 insert into prescriptions (drug_id, medical_nurse_id, finished_appointment_id) values (1, null, 1);
 insert into prescriptions (drug_id, medical_nurse_id, finished_appointment_id) values (2, null, 1);
@@ -168,3 +168,5 @@ insert into doctor_review (doctor_id, patient_id, rating, can_review) values (1,
 insert into doctor_review (doctor_id, patient_id, rating, can_review) values (3, 1, 4.5, false);
 
 insert into registration_request (email, password, first_name, last_name, address, city, country, telephone_number, insurance_number) values ('p20@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Andrej', 'Petrovic', 'Ulica 1', 'Beograd', 'Serbia', '0601231233', '14115151553');
+
+insert into leave_request (start_date, end_date, doctor_id, schedule_item_type) values ('2020-06-15 00:00:00', '2020-06-25 00:00:00', 1, 1);

@@ -13,10 +13,7 @@ import org.medihub.application.ports.incoming.finished_appointment.*;
 import org.medihub.application.ports.incoming.clinic.GetAppointmentPriceUseCase;
 import org.medihub.application.ports.incoming.finished_appointment.GetAppointmentHistoryQuery;
 import org.medihub.application.ports.incoming.finished_appointment.GetFinishedAppointmentProfitUseCase;
-import org.medihub.application.ports.incoming.leave_request.AddLeaveRequestUseCase;
-import org.medihub.application.ports.incoming.leave_request.ApproveLeaveRequestUseCase;
-import org.medihub.application.ports.incoming.leave_request.DeleteLeaveRequestUseCase;
-import org.medihub.application.ports.incoming.leave_request.GetLeaveRequestUseCase;
+import org.medihub.application.ports.incoming.leave_request.*;
 import org.medihub.application.ports.incoming.medical_doctor.schedule.GetDoctorScheduleQuery;
 import org.medihub.application.ports.incoming.medical_record.ChangeMedicalRecordUseCase;
 import org.medihub.application.ports.incoming.medical_record.GetBloodTypesQuery;
@@ -717,7 +714,8 @@ public class BeanConfig {
             GetAuthenticatedPort getAuthenticatedPort,
             LoadClinicAdminPort loadClinicAdminPort,
             LoadClinicPort loadClinicPort,
-            LoadDoctorPort loadDoctorPort
+            LoadDoctorPort loadDoctorPort,
+            SendEmailPort sendEmailPort
     ) {
         return new AddAppointmentService(
                 saveAppointmentPort,
@@ -729,7 +727,8 @@ public class BeanConfig {
                 getAuthenticatedPort,
                 loadClinicAdminPort,
                 loadClinicPort,
-                loadDoctorPort
+                loadDoctorPort,
+                sendEmailPort
         );
     }
 
@@ -766,19 +765,29 @@ public class BeanConfig {
     }
 
     @Bean
-    public DeleteLeaveRequestUseCase deleteLeaveRequestUseCase(DeleteLeaveRequestPort deleteLeaveRequestPort) {
-        return new DeleteLeaveRequestService(deleteLeaveRequestPort);
+    public DeleteLeaveRequestUseCase deleteLeaveRequestUseCase(
+            DeleteLeaveRequestPort deleteLeaveRequestPort,
+            SendEmailPort sendEmailPort,
+            GetLeaveRequestPort getLeaveRequestPort) {
+        return new DeleteLeaveRequestService(
+                deleteLeaveRequestPort,
+                sendEmailPort,
+                getLeaveRequestPort);
     }
 
     @Bean
     public ApproveLeaveRequestUseCase approveLeaveRequestUseCase(
             ApproveLeaveRequestPort approveLeaveRequestPort,
             GetLeaveRequestPort getLeaveRequestPort,
-            DeleteLeaveRequestPort deleteLeaveRequestPort) {
+            DeleteLeaveRequestPort deleteLeaveRequestPort,
+            SendEmailPort sendEmailPort,
+            GetDoctorsPort getDoctorsPort) {
         return new ApproveLeaveRequestService(
                 approveLeaveRequestPort,
                 getLeaveRequestPort,
-                deleteLeaveRequestPort);
+                deleteLeaveRequestPort,
+                sendEmailPort,
+                getDoctorsPort);
     }
 
     @Bean
@@ -991,4 +1000,5 @@ public class BeanConfig {
     ) {
         return new ActivateAccountService(loadAccountPort, saveAccountPort);
     }
+
 }

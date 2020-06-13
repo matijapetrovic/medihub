@@ -7,8 +7,8 @@ export default {
   getAllLeaveRequests() {
     return utils.apiClient.get('api/leave-request');
   },
-  deleteLeaveRequest(id) {
-    return utils.apiClient.post('api/leave-request/delete', id);
+  deleteLeaveRequest(id, reason) {
+    return utils.apiClient.post(`api/leave-request/${id}/delete`, reason);
   },
   approveLeaveRequest(credentials) {
     return utils.apiClient.post('api/leave-request/approve', credentials);
