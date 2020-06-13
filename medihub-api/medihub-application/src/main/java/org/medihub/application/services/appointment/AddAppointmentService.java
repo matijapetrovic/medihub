@@ -17,6 +17,7 @@ import org.medihub.domain.account.Account;
 import org.medihub.domain.appointment.Appointment;
 import org.medihub.domain.appointment.AppointmentRequest;
 import org.medihub.domain.clinic.ClinicAdmin;
+import org.medihub.domain.clinic_room.ClinicRoom;
 
 import javax.transaction.Transactional;
 import java.io.NotActiveException;
@@ -40,8 +41,11 @@ public class AddAppointmentService implements AddAppointmentUseCase {
         Account account = getAuthenticatedPort.getAuthenticated();
         ClinicAdmin clinicAdmin = loadClinicAdminPort.loadClinicAdminByAccountId(account.getId());
         AppointmentRequest appointmentRequest = loadAppointmentRequestPort.loadByIdWithLock(addAppointmentCommand.getId());
+        ClinicRoom room = getClinicRoomsPort.getClinicRoomById(addAppointmentCommand.getClinicRoomId());
 
         if(!clinicAdmin.getClinic().getId().equals(appointmentRequest.getDoctor().getClinic().getId()))
+            throw new ForbiddenException();
+        if(!clinicAdmin.getClinic().getId().equals(room.getClinic().getId()))
             throw new ForbiddenException();
 
         deleteAppointmentRequestPort.deleteAppointmentRequest(appointmentRequest.getId());
@@ -52,7 +56,7 @@ public class AddAppointmentService implements AddAppointmentUseCase {
                 appointmentRequest.getTime(),
                 appointmentRequest.getPatient(),
                 appointmentRequest.getDoctor(),
-                getClinicRoomsPort.getClinicRoomById(addAppointmentCommand.getClinicRoomId()),
+                room,
                 appointmentRequest.getPrice().getAmount()
         );
         appointment = saveAppointmentPort.saveAppointment(appointment);
