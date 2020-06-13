@@ -29,7 +29,8 @@ public class AppointmentMapper {
                 appointment.getTime().toLocalTime(),
                 patientMapper.mapToDomainEntity(appointment.getPatient()),
                 medicalDoctorMapper.mapToDomainEntity(appointment.getDoctor()),
-                clinicRoomMapper.mapToDomainEntity(appointment.getClinicRoom()));
+                clinicRoomMapper.mapToDomainEntity(appointment.getClinicRoom()),
+                appointment.getPrice());
     }
 
     public AppointmentJpaEntity mapToJpaEntity(Appointment appointment){
@@ -39,7 +40,8 @@ public class AppointmentMapper {
                 Time.valueOf(appointment.getTime()),
                 patientMapper.mapToJpaEntity(appointment.getPatient()),
                 medicalDoctorMapper.mapToJpaEntity(appointment.getDoctor()),
-                clinicRoomMapper.mapToJpaEntity(appointment.getClinicRoom()));
+                clinicRoomMapper.mapToJpaEntity(appointment.getClinicRoom()),
+                appointment.getPrice());
     }
 
     public Set<Appointment> mapToDomainSet(Set<AppointmentJpaEntity> appointmentJpaEntitySet){

@@ -19,4 +19,5 @@ public class PredefinedAppointmentRequest {
     private Long appointmentTypeId;
     private String date;
     private BigDecimal price;
+    private BigDecimal discount;
 }

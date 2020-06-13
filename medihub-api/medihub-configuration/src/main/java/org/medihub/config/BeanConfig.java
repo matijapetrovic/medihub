@@ -531,7 +531,11 @@ public class BeanConfig {
             GetPatientsPort getPatientsPort,
             GetClinicRoomsPort getClinicRoomsPort,
             AddAppointmentToMedicalDoctorSchedulePort addAppointmentToMedicalDoctorSchedulePort,
-            AddAppointmentToClinicRoomPort addAppointmentToClinicRoomPort
+            AddAppointmentToClinicRoomPort addAppointmentToClinicRoomPort,
+            GetAuthenticatedPort getAuthenticatedPort,
+            LoadClinicAdminPort loadClinicAdminPort,
+            LoadClinicPort loadClinicPort,
+            LoadDoctorPort loadDoctorPort
     ) {
         return new AddAppointmentService(
                 saveAppointmentPort,
@@ -539,7 +543,11 @@ public class BeanConfig {
                 getPatientsPort,
                 getClinicRoomsPort,
                 addAppointmentToMedicalDoctorSchedulePort,
-                addAppointmentToClinicRoomPort
+                addAppointmentToClinicRoomPort,
+                getAuthenticatedPort,
+                loadClinicAdminPort,
+                loadClinicPort,
+                loadDoctorPort
         );
     }
 
@@ -659,8 +667,7 @@ public class BeanConfig {
        return new GetFinishedAppointmentProfitService(
                getAuthenticatedPort,
                getFinishedAppointmentsPort,
-               loadClinicAdminPort,
-               loadClinicPort
+               loadClinicAdminPort
        );
     }
 }

@@ -51,7 +51,8 @@ public class PredefinedAppointmentController {
                 request.getClinicRoomId(),
                 request.getAppointmentTypeId(),
                 LocalDate.parse(request.getDate()),
-                request.getPrice()
+                request.getPrice(),
+                request.getDiscount()
         );
     }
 }

@@ -8,6 +8,7 @@ import org.medihub.persistence.medical_doctor.MedicalDoctorJpaEntity;
 import org.medihub.persistence.patient.PatientJpaEntity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.sql.Time;
 import java.sql.Date;
 
@@ -39,4 +40,7 @@ public class AppointmentJpaEntity {
     @ManyToOne
     @JoinColumn(name="clinic_room_id", referencedColumnName = "id")
     private ClinicRoomJpaEntity clinicRoom;
+
+    @Column(name="price")
+    private BigDecimal price;
 }

@@ -21,6 +21,7 @@ public class PredefinedAppointment {
     private ClinicRoom clinicRoom;
     private AppointmentType appointmentType;
     private BigDecimal price;
+    private BigDecimal discount;
 
     public Appointment schedule(Patient patient) {
         return new Appointment(
@@ -29,6 +30,7 @@ public class PredefinedAppointment {
                 start,
                 patient,
                 doctor,
-                clinicRoom);
+                clinicRoom,
+                price.multiply(BigDecimal.ONE.subtract(this.discount)));
     }
 }

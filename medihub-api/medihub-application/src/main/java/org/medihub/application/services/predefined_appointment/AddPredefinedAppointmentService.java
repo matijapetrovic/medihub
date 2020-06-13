@@ -41,7 +41,8 @@ public class AddPredefinedAppointmentService implements AddPredefinedAppointment
                         command.getDuration(),
                         getClinicRoomsPort.getClinicRoom(command.getClinicRoomId()),
                         getAppointmentTypesPort.getById(command.getAppointmentTypeId()),
-                        command.getPrice()
+                        command.getPrice(),
+                        command.getDiscount()
                 );
         predefinedAppointment = addPredefinedAppointmentPort.addPredefinedAppointment(predefinedAppointment);
         addPredefinedAppointmentToDoctorSchedule(predefinedAppointment);

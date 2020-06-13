@@ -122,7 +122,7 @@
           <v-spacer></v-spacer>
           <v-col cols="12" sm="6" md="4">
             <v-text-field
-              v-model="predefinedAppointment.price"
+              v-model="predefinedAppointment.discount"
               label="Price"
               prepend-icon="mdi-cash-usd"
               min="1"
@@ -132,6 +132,18 @@
               >
             </v-text-field>
           </v-col>
+          <v-spacer></v-spacer>
+          <v-slider
+            v-model="slider"
+            class="align-center"
+            label="Discount"
+            :max="0"
+            :min="100"
+            hide-details
+          >
+          a
+          <v-subheader>Subheader</v-subheader>
+          </v-slider>
           <v-spacer></v-spacer>
         </v-row>
         <v-card-actions>
@@ -169,9 +181,11 @@ export default {
       price: null,
       appointmentType: null,
       appointmentTypeId: null,
+      discount: null,
     },
     menu: null,
     today: new Date().toISOString().substr(0, 10),
+    slider: 0,
   }),
   mounted() {
     this.getDoctorsAndPrices();

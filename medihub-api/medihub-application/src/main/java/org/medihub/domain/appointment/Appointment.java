@@ -7,6 +7,7 @@ import org.medihub.domain.Prescription;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
 import org.medihub.domain.patient.Patient;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
@@ -21,4 +22,5 @@ public class Appointment {
     private Patient patient;
     private MedicalDoctor doctor;
     private ClinicRoom clinicRoom;
+    private BigDecimal price;
 }

@@ -31,23 +31,20 @@ public class GetFinishedAppointmentProfitService implements GetFinishedAppointme
     private final GetAuthenticatedPort getAuthenticatedPort;
     private final GetFinishedAppointmentsPort getFinishedAppointmentsPort;
     private final LoadClinicAdminPort loadClinicAdminPort;
-    private final LoadClinicPort loadClinicPort;
 
     @Override
     public FinishedAppointmentProfitResponse getProfit(GetFinishedAppointmentProfitCommand getFinishedAppointmentProfitCommand) {
         Account account = getAuthenticatedPort.getAuthenticated();
         ClinicAdmin clinicAdmin = loadClinicAdminPort.loadClinicAdminByAccountId(account.getId());
-        Clinic clinic = loadClinicPort.loadClinic(clinicAdmin.getClinic().getId());
         List<FinishedAppointment> finishedAppointments =
                 getFinishedAppointmentsPort
                         .getAllFinishedAppointmentsForCurrentClinic(clinicAdmin.getClinic().getId());
 
-        return makeResponse(getFinishedAppointmentProfitCommand, finishedAppointments, clinic);
+        return makeResponse(getFinishedAppointmentProfitCommand, finishedAppointments);
     }
     private FinishedAppointmentProfitResponse makeResponse(
             GetFinishedAppointmentProfitCommand command,
-            List<FinishedAppointment> finishedAppointments,
-            Clinic clinic)
+            List<FinishedAppointment> finishedAppointments)
     {
         Long monthsBetween = getMonthsBetween(command.getFrom(), command.getTo());
         LocalDate longTermStartDate = getLargeTermStartDate(monthsBetween, command.getTo());
@@ -61,11 +58,11 @@ public class GetFinishedAppointmentProfitService implements GetFinishedAppointme
             if(!appointmentDate.isBefore(command.getFrom()) &&
                 !appointmentDate.isAfter(command.getTo()))
             {
-                price = price.add(clinic.getAppointmentPrices().get(type).getAmount());
+                price = price.add(fa.getAppointment().getPrice());
             }
             if(!appointmentDate.isBefore(longTermStartDate) &&
                     !appointmentDate.isAfter(command.getTo())) {
-                longTermPrice = longTermPrice.add(clinic.getAppointmentPrices().get(type).getAmount());
+                longTermPrice = longTermPrice.add(fa.getAppointment().getPrice());
             }
         }
         return new FinishedAppointmentProfitResponse(price, longTermPrice, description);
@@ -83,7 +80,7 @@ public class GetFinishedAppointmentProfitService implements GetFinishedAppointme
     private Long evaluateLongTerm(Long monthsBetween) {
         if(monthsBetween < 1) {
             return 3L;
-        } else if(monthsBetween > 1 && monthsBetween < 3) {
+        } else if(monthsBetween >= 1 && monthsBetween <= 3) {
             return 6L;
         } else {
             return 12L;
