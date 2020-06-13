@@ -81,7 +81,7 @@ public class AutomaticSchedulingController {
             AppointmentRequest appointmentRequest) throws NotFoundException, NotAvailableException, NotActiveException {
         for(ClinicRoom room: getAllClinicRoomsUseCase.getAll()) {
             if(roomAvailableTimeFound(date, room.getId(), time, appointmentRequest)
-                    && room.getClinic().getId() == doctorClinicId)
+                    && room.getClinic().getId().equals(doctorClinicId))
                 return true;
         }
         return false;
