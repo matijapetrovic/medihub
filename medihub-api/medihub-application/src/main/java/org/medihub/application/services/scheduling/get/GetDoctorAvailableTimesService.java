@@ -10,8 +10,8 @@ import org.medihub.domain.scheduling.DailySchedule;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class GetDoctorAvailableTimesService implements GetDoctorAvailableTimesQuery {
@@ -24,18 +24,21 @@ public class GetDoctorAvailableTimesService implements GetDoctorAvailableTimesQu
                 loadDoctorDailySchedulePort.loadDailySchedule(doctorId, date);
         WorkingTime workingTime = getDoctorWorkingTimePort.getWorkingTime(doctorId);
 
-        return buildAvailableTimesList(dailySchedule, workingTime);
+        List<LocalTime> availableTimes = dailySchedule.getAvailableTimes(workingTime);
+        if (date.equals(LocalDate.now().plusDays(1)))
+            filterAvailableTimesForToday(availableTimes);
+
+        return mapToOutput(availableTimes);
     }
 
-    private List<String> buildAvailableTimesList(DailySchedule<MedicalDoctorScheduleItem> dailySchedule,
-                                                    WorkingTime workingTime) {
-        List<String> availableTimes = new ArrayList<>();
-        for (int i = 0; i < workingTime.getWorkingHours(); i++) {
-            LocalTime currentTime = workingTime.getFrom().plusHours(i);
-            if (dailySchedule.isAvailable(currentTime))
-                availableTimes.add(currentTime.toString());
-        }
+    private void filterAvailableTimesForToday(List<LocalTime> availableTimes) {
+        availableTimes.removeIf(time -> time.isBefore(LocalTime.now()));
+    }
 
-        return availableTimes;
+    private List<String> mapToOutput(List<LocalTime> availableTimes) {
+        return availableTimes
+                .stream()
+                .map(LocalTime::toString)
+                .collect(Collectors.toList());
     }
 }
