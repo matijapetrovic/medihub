@@ -1,36 +1,32 @@
+
 package org.medihub.application.ports.incoming.appointment;
 
 import lombok.EqualsAndHashCode;
 import lombok.Value;
+import org.medihub.application.exceptions.ForbiddenException;
 import org.medihub.application.exceptions.NotAvailableException;
 import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.common.SelfValidating;
 
+import javax.validation.constraints.NotNull;
 import java.io.NotActiveException;
 
 public interface AddAppointmentUseCase {
-    void addAppointment(AddAppointmentCommand addAppointmentCommand) throws NotFoundException, NotAvailableException, NotActiveException;
+    void addAppointment(AddAppointmentCommand addAppointmentCommand) throws NotFoundException, NotAvailableException, NotActiveException, ForbiddenException;
 
     @Value
     @EqualsAndHashCode(callSuper = false)
     class AddAppointmentCommand extends SelfValidating<AddAppointmentUseCase.AddAppointmentCommand> {
 
-        String date;
-        String time;
-        Long patientId;
-        Long doctorId;
+        @NotNull
+        Long id;
+        @NotNull
         Long clinicRoomId;
 
         public AddAppointmentCommand(
-                String date,
-                String time,
-                Long patientId,
-                Long doctorId,
+                Long id,
                 Long clinicRoomId) {
-            this.date = date;
-            this.time = time;
-            this.patientId = patientId;
-            this.doctorId = doctorId;
+            this.id = id;
             this.clinicRoomId = clinicRoomId;
         }
     }

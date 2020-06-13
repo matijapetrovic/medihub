@@ -1,6 +1,10 @@
 package org.medihub.web.appointment_request;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.ForbiddenException;
+import org.medihub.application.exceptions.NotAvailableException;
+import org.medihub.application.exceptions.NotFoundException;
+import org.medihub.application.ports.incoming.appointment.AddAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment_request.AppointmentRequestResponse;
 import org.medihub.application.ports.incoming.appointment_request.DeleteAppointmentRequestUseCase;
 import org.medihub.application.ports.incoming.appointment_request.GetAppointmentRequestForClinicUseCase;
@@ -13,6 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.NotActiveException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -24,6 +29,7 @@ public class AppointmentRequestController {
     private final ScheduleDoctorsAppointmentUseCase scheduleDoctorsAppointmentUseCase;
     private final GetAppointmentRequestForClinicUseCase getAppointmentRequestUseCase;
     private final DeleteAppointmentRequestUseCase deleteAppointmentRequestUseCase;
+    private final AddAppointmentUseCase addAppointmentUseCase;
 
     @PostMapping("")
     @PreAuthorize("hasRole('ROLE_PATIENT')")
@@ -37,6 +43,14 @@ public class AppointmentRequestController {
     public void scheduleForDoctor(@RequestBody AddDoctorsAppointmentRequest addDoctorsAppointmentRequest) {
         ScheduleDoctorsAppointmentCommand command = createDoctorsCommand(addDoctorsAppointmentRequest);
         scheduleDoctorsAppointmentUseCase.scheduleAppointment(command);
+    }
+
+    @PostMapping("/{requestId}/schedule")
+    @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
+    public void scheduleAppointment(
+            @PathVariable Long requestId,
+            @RequestBody ScheduleRequest request) throws NotAvailableException, NotActiveException, NotFoundException, ForbiddenException {
+        addAppointmentUseCase.addAppointment(new AddAppointmentUseCase.AddAppointmentCommand(requestId, request.getClinicRoomId()));
     }
 
     @GetMapping("")

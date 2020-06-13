@@ -2,6 +2,7 @@ package org.medihub.web.scheduling;
 
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.ForbiddenException;
 import org.medihub.application.exceptions.NotAvailableException;
 import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.appointment.AddAppointmentUseCase;
@@ -36,19 +37,19 @@ public class AutomaticSchedulingController {
     private final GetRoomAvailableTimeQuery getRoomAvailableTimeQuery;
 
     @Scheduled(cron = "${schedule.cron}")
-    void runAutomaticScheduling() throws NotFoundException, NotAvailableException, NotActiveException {
+    void runAutomaticScheduling() throws NotFoundException, NotAvailableException, NotActiveException, ForbiddenException {
         for (AppointmentRequest appointmentRequest: getAllAppointmentRequestsUseCase.getAll()) {
             searchForMatchingDate(appointmentRequest);
         }
     }
 
-    private void searchForMatchingDate(AppointmentRequest appointmentRequest) throws NotFoundException, NotAvailableException, NotActiveException {
+    private void searchForMatchingDate(AppointmentRequest appointmentRequest) throws NotFoundException, NotAvailableException, NotActiveException, ForbiddenException {
         LocalDate currentDate = appointmentRequest.getDate();
         while(!doctorFound(currentDate, appointmentRequest))
             currentDate = currentDate.plusDays(1L);
     }
 
-    private boolean doctorFound(LocalDate date, AppointmentRequest appointmentRequest) throws NotFoundException, NotAvailableException, NotActiveException {
+    private boolean doctorFound(LocalDate date, AppointmentRequest appointmentRequest) throws NotFoundException, NotAvailableException, NotActiveException, ForbiddenException {
         if(doctorAvailableTimeFound(date,appointmentRequest.getDoctor().getId(),
                 appointmentRequest.getDoctor().getClinic().getId(), appointmentRequest))
             return true;
@@ -59,7 +60,7 @@ public class AutomaticSchedulingController {
             LocalDate date,
             Long doctorId,
             Long doctorClinicId,
-            AppointmentRequest appointmentRequest) throws NotFoundException, NotAvailableException, NotActiveException {
+            AppointmentRequest appointmentRequest) throws NotFoundException, NotAvailableException, NotActiveException, ForbiddenException {
         List<String> availableTimes = getDoctorAvailableTimesQuery.getAvailableTimes(doctorId, date);
         if(availableTimes.contains(appointmentRequest.getTime().toString()) &&
                 roomFound(date,appointmentRequest.getTime(), doctorClinicId, appointmentRequest))
@@ -75,7 +76,7 @@ public class AutomaticSchedulingController {
             LocalDate date,
             LocalTime time,
             Long doctorClinicId,
-            AppointmentRequest appointmentRequest) throws NotFoundException, NotAvailableException, NotActiveException {
+            AppointmentRequest appointmentRequest) throws NotFoundException, NotAvailableException, NotActiveException, ForbiddenException {
         for(ClinicRoom room: getAllClinicRoomsUseCase.getAll()) {
             if(roomAvailableTimeFound(date, room.getId(), time, appointmentRequest)
                     && room.getClinic().getId() == doctorClinicId)
@@ -88,7 +89,7 @@ public class AutomaticSchedulingController {
             LocalDate date,
             Long clinicRoomId,
             LocalTime findTime,
-            AppointmentRequest appointmentRequest) throws NotFoundException, NotAvailableException, NotActiveException {
+            AppointmentRequest appointmentRequest) throws NotFoundException, NotAvailableException, NotActiveException, ForbiddenException {
         List<String> times = getRoomAvailableTimeQuery.loadClinicRoomDailySchedule(clinicRoomId, date);
         for(String time: getRoomAvailableTimeQuery.loadClinicRoomDailySchedule(clinicRoomId, date)) {
             if(LocalTime.parse(time).equals(findTime)) {
@@ -98,7 +99,7 @@ public class AutomaticSchedulingController {
         return false;
     }
 
-    private boolean addAppointment(AppointmentRequest appointmentRequest, Long clinicRoomId) throws NotFoundException, NotAvailableException, NotActiveException {
+    private boolean addAppointment(AppointmentRequest appointmentRequest, Long clinicRoomId) throws NotFoundException, NotAvailableException, NotActiveException, ForbiddenException {
         addAppointmentUseCase.addAppointment(makeCommand(appointmentRequest, clinicRoomId));
         deleteAppointmentRequestUseCase.deleteAppointmentRequest(appointmentRequest.getId());
         return true;
@@ -106,10 +107,7 @@ public class AutomaticSchedulingController {
 
     private AddAppointmentCommand makeCommand(AppointmentRequest appointmentRequest, Long clinicRoomId) {
         return new AddAppointmentCommand(
-           appointmentRequest.getDate().toString(),
-                appointmentRequest.getTime().toString(),
-                appointmentRequest.getPatient().getId(),
-                appointmentRequest.getDoctor().getId(),
+           appointmentRequest.getId(),
                 clinicRoomId
         );
     }

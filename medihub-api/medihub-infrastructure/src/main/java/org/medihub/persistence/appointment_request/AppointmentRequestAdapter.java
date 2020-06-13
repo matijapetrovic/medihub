@@ -1,10 +1,12 @@
 package org.medihub.persistence.appointment_request;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.outgoing.appointment.SaveAppointmentRequestPort;
 import org.medihub.application.ports.outgoing.appointment_request.DeleteAppointmentRequestPort;
 import org.medihub.application.ports.outgoing.appointment_request.GetAllAppointmentRequestsPort;
 import org.medihub.application.ports.outgoing.appointment_request.GetAppointmentRequestForClinicPort;
+import org.medihub.application.ports.outgoing.appointment_request.LoadAppointmentRequestPort;
 import org.medihub.domain.appointment.AppointmentRequest;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +18,8 @@ public class AppointmentRequestAdapter implements
         SaveAppointmentRequestPort,
         GetAppointmentRequestForClinicPort,
         DeleteAppointmentRequestPort,
-        GetAllAppointmentRequestsPort {
+        GetAllAppointmentRequestsPort,
+        LoadAppointmentRequestPort {
     private final AppointmentRequestRepository appointmentRequestRepository;
     private final AppointmentRequestMapper mapper;
 
@@ -39,5 +42,13 @@ public class AppointmentRequestAdapter implements
     @Override
     public List<AppointmentRequest> getAll() {
         return mapper.mapToDomainList(appointmentRequestRepository.findAllByDoctorArchivedFalse());
+    }
+
+    @Override
+    public AppointmentRequest loadById(Long id) throws NotFoundException {
+        AppointmentRequestJpaEntity appointmentRequestJpaEntity =
+                appointmentRequestRepository.findById(id).orElseThrow(NotFoundException::new);
+        return mapper.mapToDomainEntity(appointmentRequestJpaEntity);
+
     }
 }
