@@ -12,10 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AddOperationRequest {
-    String date;
-    String time;
-    Long patientId;
-    Long doctorId;
     Long clinicRoomId;
     List<Long> presentDoctors;
+    Long requestId;
 }

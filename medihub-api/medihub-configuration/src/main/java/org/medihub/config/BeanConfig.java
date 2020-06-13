@@ -954,23 +954,22 @@ public class BeanConfig {
 
     @Bean
     public AddOperationUseCase addOperationUseCase(GetDoctorsPort getDoctorsPort,
-                                                   GetPatientsPort getPatientsPort,
                                                    GetClinicRoomsPort getClinicRoomsPort,
                                                    SaveAppointmentPort saveAppointmentPort,
                                                    SaveMedicalDoctorScheduleItemPort saveMedicalDoctorScheduleItemPort,
                                                    GetAuthenticatedPort getAuthenticatedPort,
                                                    LoadClinicAdminPort loadClinicAdminPort,
-                                                   LoadClinicPort loadClinicPort,
-                                                   LoadDoctorPort loadDoctorPort) {
+                                                   LoadAppointmentRequestPort loadAppointmentRequestPort,
+                                                   DeleteAppointmentRequestPort deleteAppointmentRequestPort) {
         return new AddOperationService(getDoctorsPort,
-                getPatientsPort,
                 getClinicRoomsPort,
                 saveAppointmentPort,
                 saveMedicalDoctorScheduleItemPort,
                 getAuthenticatedPort,
                 loadClinicAdminPort,
-                loadClinicPort,
-                loadDoctorPort);
+                loadAppointmentRequestPort,
+                deleteAppointmentRequestPort
+                );
     }
 
     @Bean

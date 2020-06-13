@@ -12,7 +12,9 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @Entity
-@Table(name="medical_doctor_appointment_schedule_item")
+@Table(name="medical_doctor_appointment_schedule_item",uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"start_time", "doctor_id"})
+})
 @Data
 @NoArgsConstructor
 public class MedicalDoctorAppointmentScheduleJpaItem extends MedicalDoctorScheduleItemJpaEntity {
