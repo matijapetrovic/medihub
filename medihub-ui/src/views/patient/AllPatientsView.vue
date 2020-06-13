@@ -85,7 +85,10 @@
         <v-btn color="primary" @click="initialize">Reset</v-btn>
       </template>
       <template v-slot:item.info="{ item }">
-        <v-btn color="gray" rounded small @click="redirectToPatientPage(item.id)">
+        <v-btn color="gray"
+               rounded small
+              @click="redirectToPatientPage(item.id)"
+              v-if="isDoctor">
           See iformation
       </v-btn>
       </template>
@@ -132,8 +135,12 @@ export default {
 
   computed: {
     ...mapState('patient', ['patients', 'patientId']),
+    ...mapState('auth', ['user']),
     formTitle() {
       return this.editedIndex === -1 ? 'New Item' : 'Edit Item';
+    },
+    isDoctor() {
+      return this.user.role[0] === 'ROLE_DOCTOR';
     },
   },
 
