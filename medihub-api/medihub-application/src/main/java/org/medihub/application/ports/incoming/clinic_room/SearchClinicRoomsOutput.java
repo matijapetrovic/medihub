@@ -8,6 +8,8 @@ import org.medihub.domain.scheduling.DailySchedule;
 import org.medihub.domain.scheduling.DailyScheduleItem;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,12 +29,13 @@ public class SearchClinicRoomsOutput {
             String name,
             Integer number,
             ClinicRoomSchedule schedule,
-            LocalDate date){
+            LocalDateTime datetime){
         this.id = id;
         this.name = name;
         this.number = number;
         this.schedule = schedule;
-        this.firstFree = schedule.getFirstDailySchedule(date).toString();
+        LocalDateTime first = schedule.getFirstDailySchedule(datetime);
+        this.firstFree = first == null ? "N/A" : first.toString().replace('T', ' ');
         this.simpleSchedule = mapToList(schedule.getDailySchedules());
     }
 

@@ -6,14 +6,6 @@ import org.medihub.domain.medical_doctor.*;
 import org.medihub.domain.medical_nurse.MedicalNurse;
 import org.medihub.domain.medical_nurse.MedicalNurseScheduleItem;
 import org.medihub.domain.medical_nurse.MedicalNurseVacationScheduleItem;
-import org.medihub.domain.scheduling.DailySchedule;
-import org.medihub.persistence.appointment.AppointmentJpaEntity;
-import org.medihub.persistence.appointment.OperationJpaEntity;
-import org.medihub.persistence.medical_doctor_schedule.appointment_schedule_item.MedicalDoctorAppointmentScheduleJpaItem;
-import org.medihub.persistence.medical_doctor_schedule.operation_schedule_item.MedicalDoctorOperationScheduleJpaItem;
-import org.medihub.persistence.medical_doctor_schedule.predefined_appointment_schedule_item.MedicalDoctorPredefinedAppointmentScheduleJpaItem;
-import org.medihub.persistence.medical_doctor_schedule.schedule_item.MedicalDoctorScheduleItemJpaEntity;
-import org.medihub.persistence.medical_doctor_schedule.vacation_schedule_item.MedicalDoctorVacationScheduleJpaItem;
 import org.medihub.persistence.medical_nurse.MedicalNurseMapper;
 import org.springframework.stereotype.Component;
 

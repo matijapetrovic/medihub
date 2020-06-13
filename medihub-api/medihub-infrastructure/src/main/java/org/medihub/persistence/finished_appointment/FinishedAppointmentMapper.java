@@ -5,6 +5,7 @@ import org.medihub.domain.appointment.FinishedAppointment;
 import org.medihub.persistence.appointment.AbstractAppointmentMapper;
 import org.medihub.persistence.appointment.AppointmentJpaEntity;
 import org.medihub.persistence.diagnosis.DiagnosisMapper;
+import org.springframework.expression.Operation;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -25,11 +26,11 @@ public class FinishedAppointmentMapper {
     }
 
     public FinishedAppointmentJpaEntity mapToJpaEntity(FinishedAppointment appointment) {
-        return new FinishedAppointmentJpaEntity(
-                appointment.getId(),
-                appointment.getDescription(),
-                (AppointmentJpaEntity) abstractAppointmentMapper.mapToJpaEntity(appointment.getAppointment()),
-                diagnosisMapper.mapToJpaEntity(appointment.getDiagnosis()));
+            return new FinishedAppointmentJpaEntity(
+                    appointment.getId(),
+                    appointment.getDescription(),
+                    abstractAppointmentMapper.mapToJpaEntity(appointment.getAppointment()),
+                    diagnosisMapper.mapToJpaEntity(appointment.getDiagnosis()));
     }
 
     public List<FinishedAppointment> mapToJpaDomainList(List<FinishedAppointmentJpaEntity> appointments) {

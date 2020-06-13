@@ -18,7 +18,7 @@ import org.medihub.domain.appointment.Operation;
 import org.medihub.domain.clinic.Clinic;
 import org.medihub.domain.clinic.ClinicAdmin;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
-import org.medihub.domain.medical_doctor.MedicalDoctorOperationScheduleItem;
+import org.medihub.domain.medical_doctor.MedicalDoctorAppointmentScheduleItem;
 import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem;
 
 import java.math.BigDecimal;
@@ -60,7 +60,7 @@ public class AddOperationService implements AddOperationUseCase {
 
         //Create main doctor schedule item
         MedicalDoctor mainDoctor = getDoctorsPort.getMedicalDoctorById(command.getDoctorId());
-        MedicalDoctorOperationScheduleItem mainScheduleItem = new MedicalDoctorOperationScheduleItem(
+        MedicalDoctorAppointmentScheduleItem mainScheduleItem = new MedicalDoctorAppointmentScheduleItem(
                 null,
                 LocalTime.parse(command.getTime()),
                 MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.OPERATION,
@@ -74,7 +74,7 @@ public class AddOperationService implements AddOperationUseCase {
         //Create present doctor schedule items
         for(Long doctorId : command.getPresentDoctors()) {
             MedicalDoctor doctor = getDoctorsPort.getMedicalDoctorById(doctorId);
-            MedicalDoctorOperationScheduleItem operationScheduleItem = new MedicalDoctorOperationScheduleItem(
+            MedicalDoctorAppointmentScheduleItem operationScheduleItem = new MedicalDoctorAppointmentScheduleItem(
                     null,
                     LocalTime.parse(command.getTime()),
                     MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.OPERATION,

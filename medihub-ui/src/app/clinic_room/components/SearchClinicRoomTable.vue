@@ -167,6 +167,21 @@
           <v-btn small rounded @click="editItem(item)"> Working calendar</v-btn>
         </template>
       </v-data-table>
+      <v-row
+        v-else
+      >
+        <v-spacer></v-spacer>
+        <v-col
+          lg="4"
+          class="mx-auto"
+        >
+        <p>
+          No rooms available for the given date and time.</p>
+          <p>Would you like to search rooms for the date only?</p>
+          <v-btn @click="searchForDay" class="mx-auto">Search</v-btn>
+        </v-col>
+        <v-spacer></v-spacer>
+      </v-row>
       <v-dialog v-model="dialog" max-width="500px">
         <v-card>
           <v-card-title>
@@ -238,6 +253,14 @@ export default {
       if (!this.clinicRoomsEmpty()) {
         this.clear();
       }
+    },
+    searchForDay() {
+      this.fetchClinicRooms({
+        name: null,
+        number: null,
+        date: this.date,
+        time: null,
+      });
     },
     reset() {
       this.fetchClinicRooms({
