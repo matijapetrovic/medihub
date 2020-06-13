@@ -61,8 +61,8 @@ export default {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
-    getAllDoctors({ commit }) {
-      return api.getAllDoctors()
+    getAllDoctors({ commit }, date) {
+      return api.getAllDoctors(date)
         .then((data) => {
           commit('SET_DOCTORS', data.data);
         });

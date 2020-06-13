@@ -5,7 +5,6 @@ import org.medihub.domain.medical_doctor.MedicalDoctor;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface GetAllClinicMedicalDoctorsUseCase {
-    List<MedicalDoctor> loadAll();
+public interface GetMedicalDoctorByClinicIdOnDateUseCase {
+    List<MedicalDoctor> loadAll(LocalDate date);
 }
-

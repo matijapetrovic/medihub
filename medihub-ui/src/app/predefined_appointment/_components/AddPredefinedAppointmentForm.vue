@@ -7,8 +7,10 @@
         <v-card-title>
           Define appointment
           <v-spacer></v-spacer>
-          Discounted price:
-           {{Math.round(predefinedAppointment.price*(1 - predefinedAppointment.discount / 100))}}$
+          <v-subheader>
+            Discounted price:
+            {{Math.round(predefinedAppointment.price*(1 - predefinedAppointment.discount / 100))}}$
+          </v-subheader>
         </v-card-title>
         <v-row>
           <v-spacer></v-spacer>
@@ -32,7 +34,7 @@
               ref="menu"
               v-model="menu"
               :close-on-content-click="false"
-              :return-value.sync="date"
+              :return-value.sync="predefinedAppointment.date"
               transition="scale-transition"
               offset-y
               min-width="290px"
@@ -53,7 +55,8 @@
               >
                 <v-spacer></v-spacer>
                 <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-                <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+                <v-btn text color="primary"
+                @click="getDoctorsAndPrices(predefinedAppointment.date)">OK</v-btn>
               </v-date-picker>
             </v-menu>
           </v-col>
@@ -178,7 +181,7 @@ import { mapActions, mapState } from 'vuex';
 export default {
   name: 'AddPredefinedAppointmentForm',
   data: () => ({
-    date: null,
+    date: new Date().toISOString().substr(0, 10),
     predefinedAppointment: {
       doctor: null,
       date: new Date().toISOString().substr(0, 10),
@@ -194,7 +197,7 @@ export default {
     today: new Date().toISOString().substr(0, 10),
   }),
   mounted() {
-    this.getDoctorsAndPrices();
+    this.getDoctorsAndPrices(new Date().toISOString().substr(0, 10));
   },
   methods: {
     ...mapActions('predefinedAppointment', ['addPredefinedAppointment']),
@@ -261,8 +264,11 @@ export default {
       this.predefinedAppointment.appointmentType = this.predefinedAppointment.doctor.specialization;
       this.setAppointmentTypePrice();
     },
-    getDoctorsAndPrices() {
-      this.getAllDoctors();
+    getDoctorsAndPrices(date) {
+      this.clear();
+      console.log(date);
+      this.$refs.menu.save(date);
+      this.getAllDoctors(date);
       this.fetchPrices();
     },
     setAppointmentTypePrice() {
@@ -277,6 +283,10 @@ export default {
         return retVal;
       });
       return retVal;
+    },
+    saveDateAndLoadDoctor(date) {
+      this.$refs.menu.save(date);
+      this.getDoctorsAndPrices(date);
     },
   },
   computed: {

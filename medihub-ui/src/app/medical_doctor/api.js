@@ -4,8 +4,8 @@ export default {
   addMedicalDoctor(credentials) {
     return utils.apiClient.post('api/medical-doctor/add', credentials);
   },
-  getAllDoctors() {
-    return utils.apiClient.get('api/medical-doctor/getAll');
+  getAllDoctors(date) {
+    return utils.apiClient.get(`api/medical-doctor/getAllOnDate/${date}`);
   },
   getDoctorsForDateTime(payload) {
     return utils.apiClient.get(`api/medical-doctor/${payload.date}/${payload.time}`);

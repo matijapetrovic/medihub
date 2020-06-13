@@ -212,6 +212,19 @@ public class BeanConfig {
     }
 
     @Bean
+    public GetMedicalDoctorByClinicIdOnDateUseCase getMedicalDoctorByClinicIdOnDateUseCase(
+            GetDoctorsForClinicOnDatePort getDoctorsPort,
+            GetAuthenticatedPort getAuthenticatedPort,
+            LoadClinicAdminPort loadClinicAdminPort
+    ) {
+        return new GetDoctorsForClinicOnDateService(
+                getDoctorsPort,
+                getAuthenticatedPort,
+                loadClinicAdminPort
+        );
+    }
+
+    @Bean
     public GetClinicsForReviewQuery getClinicsForReviewQuery(
             GetAuthenticatedPort getAuthenticatedPort,
             LoadPatientPort loadPatientPort,

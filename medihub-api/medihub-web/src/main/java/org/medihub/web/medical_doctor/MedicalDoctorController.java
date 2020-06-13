@@ -37,6 +37,7 @@ public class MedicalDoctorController {
     private final GetAppointmentScheduleItemByAppointmentIdUseCase getAppointmentScheduleItemByAppointmentIdUseCase;
     private final GetPreviousPatientsQuery getPreviousPatientsQuery;
     private final DeleteDoctorUseCase deleteDoctorUseCase;
+    private final GetMedicalDoctorByClinicIdOnDateUseCase getMedicalDoctorByClinicIdOnDateUseCase;
 
     @PostMapping("/delete/{doctorId}")
     public void deleteDoctor(@PathVariable Long doctorId) throws ForbiddenException {
@@ -81,8 +82,13 @@ public class MedicalDoctorController {
     }
 
     @GetMapping("/getAll")
-    public List<MedicalDoctorResponse> getAll(){
+    public List<MedicalDoctorResponse> getAll() {
         return getAllDoctors(getMedicalDoctorUseCase.loadAll());
+    }
+
+    @GetMapping("/getAllOnDate/{date}")
+    public List<MedicalDoctorResponse> getAllOnDate(@PathVariable String date){
+        return getAllDoctors(getMedicalDoctorByClinicIdOnDateUseCase.loadAll(LocalDate.parse(date)));
     }
 
     private AddMedicalDoctorCommand createCommand(MedicalDoctorRequest medicalDoctorRequest){
