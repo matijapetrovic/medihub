@@ -27,7 +27,7 @@ public class AppointmentRequestJpaEntity {
 
     @ManyToOne
     @JoinColumn(name="doctor", referencedColumnName = "id", nullable = false)
-    private MedicalDoctorJpaEntity medicalDoctorJpaEntity;
+    private MedicalDoctorJpaEntity doctor;
 
     @ManyToOne
     @JoinColumn(name="patient", referencedColumnName = "id", nullable = false)
