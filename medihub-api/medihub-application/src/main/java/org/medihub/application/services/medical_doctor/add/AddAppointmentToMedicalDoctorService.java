@@ -15,7 +15,7 @@ public class AddAppointmentToMedicalDoctorService implements AddAppointmentToMed
 
     @Override
     public void addAppointmentToMedicalDoctorSchedule(
-            AddAppointmentUseCase.AddAppointmentCommand command,
+            AddAppointmentToScheduleCommand command,
             Appointment appointment) {
         addAppointmentToMedicalDoctorSchedulePort.addAppointmentToSchedule(
                 LocalDate.parse(command.getDate()),

@@ -71,6 +71,7 @@ import org.medihub.application.ports.outgoing.appointment.*;
 import org.medihub.application.ports.outgoing.appointment_request.DeleteAppointmentRequestPort;
 import org.medihub.application.ports.outgoing.appointment_request.GetAllAppointmentRequestsPort;
 import org.medihub.application.ports.outgoing.appointment_request.GetAppointmentRequestForClinicPort;
+import org.medihub.application.ports.outgoing.appointment_request.LoadAppointmentRequestPort;
 import org.medihub.application.ports.outgoing.appointment_type.*;
 import org.medihub.application.ports.outgoing.clinic.*;
 import org.medihub.application.ports.outgoing.clinic_room.*;
@@ -714,31 +715,24 @@ public class BeanConfig {
 
     @Bean
     public AddAppointmentUseCase getAddAppointmentUseCase(
-            SaveAppointmentPort saveAppointmentPort,
-            GetDoctorsPort getDoctorsPort,
-            GetPatientsPort getPatientsPort,
-            GetClinicRoomsPort getClinicRoomsPort,
-            AddAppointmentToMedicalDoctorSchedulePort addAppointmentToMedicalDoctorSchedulePort,
-            AddAppointmentToClinicRoomPort addAppointmentToClinicRoomPort,
             GetAuthenticatedPort getAuthenticatedPort,
             LoadClinicAdminPort loadClinicAdminPort,
-            LoadClinicPort loadClinicPort,
-            LoadDoctorPort loadDoctorPort,
-            SendEmailPort sendEmailPort
+            LoadAppointmentRequestPort loadAppointmentRequestPort,
+            SaveAppointmentPort saveAppointmentPort,
+            DeleteAppointmentRequestPort deleteAppointmentRequestPort,
+            GetClinicRoomsPort getClinicRoomsPort,
+            AddAppointmentToMedicalDoctorSchedulePort addAppointmentToMedicalDoctorSchedulePort,
+            AddAppointmentToClinicRoomPort addAppointmentToClinicRoomPort
     ) {
         return new AddAppointmentService(
-                saveAppointmentPort,
-                getDoctorsPort,
-                getPatientsPort,
-                getClinicRoomsPort,
-                addAppointmentToMedicalDoctorSchedulePort,
-                addAppointmentToClinicRoomPort,
-                getAuthenticatedPort,
-                loadClinicAdminPort,
-                loadClinicPort,
-                loadDoctorPort,
-                sendEmailPort
-        );
+           getAuthenticatedPort,
+            loadClinicAdminPort,
+            loadAppointmentRequestPort,
+            saveAppointmentPort,
+            deleteAppointmentRequestPort,
+            getClinicRoomsPort,
+            addAppointmentToMedicalDoctorSchedulePort,
+            addAppointmentToClinicRoomPort);
     }
 
     @Bean

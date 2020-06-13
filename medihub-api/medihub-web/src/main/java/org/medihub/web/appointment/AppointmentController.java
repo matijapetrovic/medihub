@@ -36,13 +36,6 @@ public class AppointmentController {
         return ResponseEntity.ok(getAppointmentsQuery.getAppointments());
     }
 
-    @PostMapping("/add")
-    @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    public void add(@RequestBody AddAppointmentRequest request) throws NotFoundException, NotAvailableException, NotActiveException {
-        AddAppointmentCommand command = createCommand(request);
-        addAppointmentUseCase.addAppointment(command);
-    }
-
     @PostMapping("/{appointmentId}/cancel")
     @PreAuthorize("hasRole('ROLE_PATIENT')")
     public void cancel(@PathVariable Long appointmentId) throws ForbiddenException, NotFoundException {
@@ -53,16 +46,6 @@ public class AppointmentController {
     @PreAuthorize("hasRole('ROLE_DOCTOR')")
     public ResponseEntity<Appointment> getCurrent(@PathVariable Long patientId) {
         return ResponseEntity.ok(getCurrentAppointmentUseCase.getCurrentAppointment(patientId));
-    }
-
-    private AddAppointmentCommand createCommand(AddAppointmentRequest addAppointmentRequest) {
-        return new AddAppointmentCommand(
-                addAppointmentRequest.getDate(),
-                addAppointmentRequest.getTime(),
-                addAppointmentRequest.getPatientId(),
-                addAppointmentRequest.getDoctorId(),
-                addAppointmentRequest.getClinicRoomId()
-        );
     }
 
 }

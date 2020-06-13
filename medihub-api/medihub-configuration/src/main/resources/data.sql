@@ -186,6 +186,6 @@ insert into doctor_review (doctor_id, patient_id, rating, can_review) values (1,
 insert into doctor_review (doctor_id, patient_id, rating, can_review) values (3, 1, 4.5, false);
 
 insert into appointment_request (doctor, patient, price, start_time, type) values (2, 1, 200, '2020-06-15 15:00:00', 'APPOINTMENT');
-insert into appointment_request (doctor, patient, price, start_time, type) values (2, 1, 200, '2020-06-17 09:00:00', 'OPERATION');
+insert into appointment_request (doctor, patient, price, start_time, type) values (2, 1, 200, '2020-06-17 09:00:00', 'APPOINTMENT');
 
 insert into registration_request (email, password, first_name, last_name, address, city, country, telephone_number, insurance_number) values ('p20@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Andrej', 'Petrovic', 'Ulica 1', 'Beograd', 'Serbia', '0601231233', '14115151553');
