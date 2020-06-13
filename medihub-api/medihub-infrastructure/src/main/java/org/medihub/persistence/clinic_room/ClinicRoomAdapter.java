@@ -2,17 +2,12 @@ package org.medihub.persistence.clinic_room;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.ForbiddenException;
-import org.medihub.application.exceptions.NotAvailableException;
 import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.outgoing.clinic_room.*;
 import org.medihub.domain.clinic_room.ClinicRoom;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
-import java.io.NotActiveException;
-import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -80,11 +75,23 @@ public class ClinicRoomAdapter implements
     @Override
     public List<ClinicRoom> searchClinicRooms(String name, Integer number, LocalDate date, LocalTime time, Long clinicId) {
         Timestamp timestamp = (date == null || time == null) ? null : Timestamp.valueOf(LocalDateTime.of(date, time));
+        if (timestamp == null)
+            return searchClinicRooms(name, number, date, clinicId);
 
         Timestamp dateStart = (date == null ? null : Timestamp.valueOf(LocalDateTime.of(date, LocalTime.MIDNIGHT)));
-        Timestamp dateEnd = (date == null ? null :Timestamp.valueOf(LocalDateTime.of(date.plusDays(1), LocalTime.MIDNIGHT)));
+        Timestamp dateEnd = (date == null ? null :Timestamp.valueOf(LocalDateTime.of(date, LocalTime.of(23, 0))));
         return clinicRoomRepository
-                .findAllWithNameOrNumberOnDate(name, number, timestamp ,clinicId, dateStart, dateEnd)
+                .findAllWithNameOrNumberOnDateTime(name, number, timestamp ,clinicId, dateStart, dateEnd)
+                .stream()
+                .map(clinicRoomMapper::mapToDomainEntity)
+                .collect(Collectors.toList());
+    }
+
+    private List<ClinicRoom> searchClinicRooms(String name, Integer number, LocalDate date, Long clinicId) {
+        Timestamp dateStart = (date == null ? null : Timestamp.valueOf(LocalDateTime.of(date, LocalTime.MIDNIGHT)));
+        Timestamp dateEnd = (date == null ? null :Timestamp.valueOf(LocalDateTime.of(date, LocalTime.of(23, 0))));
+        return clinicRoomRepository
+                .findAllWithNameOrNumberOnDate(clinicId, dateStart, dateEnd)
                 .stream()
                 .map(clinicRoomMapper::mapToDomainEntity)
                 .collect(Collectors.toList());
