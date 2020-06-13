@@ -4,14 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.outgoing.doctor.*;
 import org.medihub.domain.WorkingTime;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
-import org.medihub.persistence.appointment_type.AppointmentTypeJpaEntity;
 import org.medihub.persistence.appointment_type.AppointmentTypeRepository;
 import org.medihub.persistence.clinic.ClinicJpaEntity;
 import org.medihub.persistence.clinic.ClinicRepository;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -72,14 +70,17 @@ public class MedicalDoctorAdapter implements
                 .findById(clinicId)
                 .orElseThrow(EntityNotFoundException::new);
 
-        AppointmentTypeJpaEntity appointmentType = appointmentTypeRepository
-                .findById(appointmentTypeId)
-                .orElseThrow(EntityNotFoundException::new);
+        var appointmentType =
+                (appointmentTypeId == null ? null :
+                        appointmentTypeRepository
+                                .findById(appointmentTypeId)
+                                .orElseThrow(EntityNotFoundException::new));
 
-        Timestamp timestamp = Timestamp.valueOf(LocalDateTime.of(date, LocalTime.MIDNIGHT));
+        Timestamp dateStart = (date == null ? null : Timestamp.valueOf(LocalDateTime.of(date, LocalTime.MIDNIGHT)));
+        Timestamp dateEnd = (date == null ? null :Timestamp.valueOf(LocalDateTime.of(date.plusDays(1), LocalTime.MIDNIGHT)));
 
         return medicalDoctorRepository
-                .findAllByClinicAndSpecializationAvailableOnDate(clinic, timestamp, appointmentType)
+                .findAllByClinicAndSpecializationAvailableOnDate(clinic, dateStart, dateEnd, appointmentType)
                 .stream()
                 .map(medicalDoctorMapper::mapToDomainEntity)
                 .collect(Collectors.toList());
@@ -97,9 +98,8 @@ public class MedicalDoctorAdapter implements
     @Override
     public MedicalDoctor getDoctor(Long accountId) {
         MedicalDoctorJpaEntity doctor = medicalDoctorRepository
-                .findByAccountId(accountId);
+                .findByPersonalInfoAccountId(accountId);
         return medicalDoctorMapper.mapToDomainEntity(doctor);
     }
-
 }
 

@@ -19,34 +19,19 @@ public class AccountJpaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="email")
+    @Column(name="email", unique=true, nullable = false)
     @NotNull
     private String email;
 
-    @Column(name="password")
+    @Column(name="password", nullable = false)
     @NotNull
     private String password;
 
-    @Column(name="firstName")
-    private String firstName;
-
-    @Column(name="lastName")
-    private String lastName;
-
-    @Column(name="address")
-    private String address;
-
-    @Column(name="city")
-    private String city;
-
-    @Column(name="country")
-    private String country;
-
-    @Column(name="telephone_number")
-    private String telephoneNumber;
-
     @Column(name="password_changed")
     private boolean passwordChanged;
+
+    @Column(name="activated")
+    private boolean activated;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="account_authority",

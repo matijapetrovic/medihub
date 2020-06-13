@@ -16,4 +16,5 @@ public class AppointmentRequestResponse {
     private BigDecimal price;
     private String date;
     private String time;
+    private String type;
 }

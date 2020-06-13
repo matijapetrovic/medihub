@@ -1,12 +1,17 @@
 package org.medihub.web.medical_doctor;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.NotFoundException;
+import org.medihub.application.exceptions.ForbiddenException;
 import org.medihub.application.ports.incoming.medical_doctor.*;
 import org.medihub.application.ports.incoming.medical_doctor.AddMedicalDoctorUseCase.AddMedicalDoctorCommand;
-import org.medihub.application.ports.incoming.medical_doctor.schedule.GetDoctorScheduleOutput;
+import org.medihub.application.ports.incoming.medical_doctor.schedule.GetScheduleOutput;
 import org.medihub.application.ports.incoming.medical_doctor.schedule.GetDoctorScheduleQuery;
+import org.medihub.application.ports.incoming.scheduling.GetAppointmentScheduleItemByAppointmentIdUseCase;
 import org.medihub.application.ports.incoming.scheduling.GetDoctorAvailableTimesQuery;
-import org.medihub.application.ports.outgoing.doctor.GetAllDoctorsPort;
+import org.medihub.domain.medical_doctor.MedicalDoctorAppointmentScheduleItem;
+import org.medihub.application.ports.incoming.patient.PatientResponse;
+import org.medihub.domain.medical_doctor.MedicalDoctor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,19 +29,34 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/medical-doctor", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MedicalDoctorController {
     private final AddMedicalDoctorUseCase AddMedicalDoctorUseCase;
-    private final GetAllDoctorsPort getAllDoctorsPort;
+    private final GetAllClinicMedicalDoctorsUseCase getMedicalDoctorUseCase;
     private final GetDoctorsQuery getDoctorsQuery;
     private final SearchDoctorsQuery searchDoctorsQuery;
     private final GetDoctorAvailableTimesQuery getDoctorAvailableTimesQuery;
     private final GetDoctorScheduleQuery getDoctorScheduleQuery;
+    private final GetAppointmentScheduleItemByAppointmentIdUseCase getAppointmentScheduleItemByAppointmentIdUseCase;
+    private final GetPreviousPatientsQuery getPreviousPatientsQuery;
+    private final DeleteDoctorUseCase deleteDoctorUseCase;
+
+    @PostMapping("/delete/{doctorId}")
+    public void deleteDoctor(@PathVariable Long doctorId) throws ForbiddenException {
+        deleteDoctorUseCase.deleteDoctor(doctorId);
+    }
 
     @GetMapping("/{clinicId}")
-    ResponseEntity<List<SearchDoctorsOutput>> getDoctors(@PathVariable Long clinicId) {
+    public ResponseEntity<List<GetDoctorsOutput>> getDoctors(@PathVariable Long clinicId) {
         return ResponseEntity.ok(getDoctorsQuery.getDoctorsForClinic(clinicId));
     }
 
+    @GetMapping("/getScheduleItem/{id}")
+    public ResponseEntity<MedicalDoctorAppointmentScheduleItem> getAppointmentScheduleItem(
+            @PathVariable Long id) throws NotFoundException {
+        return ResponseEntity.ok(
+                getAppointmentScheduleItemByAppointmentIdUseCase.getItem(id));
+    }
+
     @GetMapping("/{doctorId}/available_times/{date}")
-    ResponseEntity<List<String>> getAvailableTimes(@PathVariable Long doctorId,
+    public ResponseEntity<List<String>> getAvailableTimes(@PathVariable Long doctorId,
                                                       @PathVariable
                                                       @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                                                               LocalDate date) {
@@ -44,24 +64,25 @@ public class MedicalDoctorController {
     }
 
     @GetMapping("")
-    ResponseEntity<List<SearchDoctorsOutput>> searchDoctors(@RequestParam Long clinicId,
-                                                            @RequestParam
+    public ResponseEntity<List<SearchDoctorsOutput>> searchDoctors(@RequestParam Long clinicId,
+                                                            @RequestParam(required = false)
                                                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                                                                     LocalDate date,
-                                                            @RequestParam Long appointmentTypeId) {
+                                                            @RequestParam(required = false)
+                                                                    Long appointmentTypeId) {
         return ResponseEntity.ok(searchDoctorsQuery.searchDoctors(clinicId, date, appointmentTypeId));
     }
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    void add(@RequestBody MedicalDoctorRequest request) {
+    public void add(@RequestBody MedicalDoctorRequest request) {
         AddMedicalDoctorCommand command = createCommand(request);
         AddMedicalDoctorUseCase.addDoctor(command);
     }
 
     @GetMapping("/getAll")
-    List<?> getAll(){
-        return getAllDoctors();
+    public List<MedicalDoctorResponse> getAll(){
+        return getAllDoctors(getMedicalDoctorUseCase.loadAll());
     }
 
     private AddMedicalDoctorCommand createCommand(MedicalDoctorRequest medicalDoctorRequest){
@@ -80,16 +101,16 @@ public class MedicalDoctorController {
         );
     }
 
-    private List<?> getAllDoctors() {
-        return getAllDoctorsPort.getAllDoctors()
+    private List<MedicalDoctorResponse> getAllDoctors(List<MedicalDoctor> doctors) {
+        return doctors
                 .stream()
                 .map(doctor -> new MedicalDoctorResponse(
                         doctor.getId(),
-                        doctor.getAccount().getEmail(),
-                        doctor.getAccount().getFirstName(),
-                        doctor.getAccount().getLastName(),
-                        doctor.getAccount().getPersonalInfo().getAddress(),
-                        doctor.getAccount().getPersonalInfo().getTelephoneNumber(),
+                        doctor.getPersonalInfo().getAccount().getEmail(),
+                        doctor.getPersonalInfo().getFirstName(),
+                        doctor.getPersonalInfo().getLastName(),
+                        doctor.getPersonalInfo().getAddress(),
+                        doctor.getPersonalInfo().getTelephoneNumber(),
                         doctor.getWorkingTime().getFrom().toString(),
                         doctor.getWorkingTime().getTo().toString(),
                         doctor.getClinic().getName(),
@@ -102,12 +123,18 @@ public class MedicalDoctorController {
     }
 
     @GetMapping("/schedule")
-    ResponseEntity<GetDoctorScheduleOutput> getSchedules() {
+    public ResponseEntity<GetScheduleOutput> getSchedules() {
         return ResponseEntity.ok(getDoctorScheduleQuery.getDoctorSchedule());
     }
 
     @GetMapping("/schedule/:{id}")
-    ResponseEntity<GetDoctorScheduleOutput> getSchedulesByDoctorId(@PathVariable Long id) {
+    public ResponseEntity<GetScheduleOutput> getSchedulesByDoctorId(@PathVariable Long id) {
         return ResponseEntity.ok(getDoctorScheduleQuery.getDoctorSchedule(id));
+    }
+
+    
+    @GetMapping("/previous-patients")
+    public ResponseEntity<List<PatientResponse>> getPreviousPatients() {
+        return ResponseEntity.ok(getPreviousPatientsQuery.getPreviousPatients());
     }
 }

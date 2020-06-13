@@ -60,7 +60,7 @@
           <v-btn
             color="red darken-1"
             text
-            @click="dialog=false"
+            @click="dialog = false"
           >
             Close
           </v-btn>
@@ -138,6 +138,9 @@ export default {
         appointmentTypeId: this.editedItem.appointmentType.id,
         price: this.editedItem.price,
       });
+      this.dialog = false;
+    },
+    closeDialog() {
       this.dialog = false;
     },
   },

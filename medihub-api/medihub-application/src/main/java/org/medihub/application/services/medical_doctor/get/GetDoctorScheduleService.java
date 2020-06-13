@@ -12,6 +12,8 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.OPERATION;
+
 @RequiredArgsConstructor
 public class GetDoctorScheduleService implements GetDoctorScheduleQuery {
     private final GetDoctorSchedulePort getDoctorSchedulePort;
@@ -19,26 +21,25 @@ public class GetDoctorScheduleService implements GetDoctorScheduleQuery {
     private final GetDoctorByAccountIdPort getDoctorByAccountIdPort;
 
     @Override
-    public GetDoctorScheduleOutput getDoctorSchedule() {
-
+    public GetScheduleOutput getDoctorSchedule() {
         Account account = getAuthenticatedPort.getAuthenticated();
         MedicalDoctor medicalDoctor = getDoctorByAccountIdPort.getDoctor(account.getId());
 
         MedicalDoctorSchedule medicalDoctorSchedule = getDoctorSchedulePort.getDoctorSchedule(medicalDoctor.getId());
-        GetDoctorScheduleOutput getDoctorScheduleOutput = createOutput(medicalDoctorSchedule);
+        GetScheduleOutput getScheduleOutput = createOutput(medicalDoctorSchedule);
 
-        return getDoctorScheduleOutput;
+        return getScheduleOutput;
     }
 
     @Override
-    public GetDoctorScheduleOutput getDoctorSchedule(Long id) {
+    public GetScheduleOutput getDoctorSchedule(Long id) {
         MedicalDoctorSchedule medicalDoctorSchedule = getDoctorSchedulePort.getDoctorSchedule(id);
-        GetDoctorScheduleOutput getDoctorScheduleOutput = createOutput(medicalDoctorSchedule);
+        GetScheduleOutput getScheduleOutput = createOutput(medicalDoctorSchedule);
 
-        return getDoctorScheduleOutput;
+        return getScheduleOutput;
     }
 
-    public GetDoctorScheduleOutput createOutput(MedicalDoctorSchedule medicalDoctorSchedule) {
+    public GetScheduleOutput createOutput(MedicalDoctorSchedule medicalDoctorSchedule) {
 
         Map<String, DailyScheduleOutput> dailySchedules = new HashMap<String, DailyScheduleOutput>();
 
@@ -54,20 +55,29 @@ public class GetDoctorScheduleService implements GetDoctorScheduleQuery {
             dailySchedules.put(date.toString(), dailyScheduleOutput);
         }
 
-        return new GetDoctorScheduleOutput(dailySchedules);
+        return new GetScheduleOutput(dailySchedules);
     }
 
     public DailyScheduleItemOutput getItem(MedicalDoctorScheduleItem item) {
         MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType type = item.getType();
 
         switch(type) {
+            case PREDEFINED_APPOINTMENT:
+                MedicalDoctorPredefinedAppointmentScheduleItem predefinedItem =
+                        (MedicalDoctorPredefinedAppointmentScheduleItem) item;
+                return new PredefinedAppointmentScheduleItemOutput(
+                        predefinedItem.getId(),
+                        predefinedItem.getTime().toString(),
+                        predefinedItem.getType().toString(),
+                        predefinedItem.getPredefinedAppointment()
+                );
             case APPOINTMENT:
                 MedicalDoctorAppointmentScheduleItem castItem = (MedicalDoctorAppointmentScheduleItem) item;
                 return new AppointmentScheduleItemOutput(
-                    castItem.getId(),
-                    castItem.getTime().toString(),
-                    castItem.getType().toString(),
-                    castItem.getAppointment());
+                        castItem.getId(),
+                        castItem.getTime().toString(),
+                        castItem.getType().toString(),
+                        castItem.getAppointment());
             case LEAVE:
             case VACATION:
                 MedicalDoctorVacationScheduleItem vacationItem = (MedicalDoctorVacationScheduleItem) item;
@@ -77,7 +87,17 @@ public class GetDoctorScheduleService implements GetDoctorScheduleQuery {
                         vacationItem.getType().toString(),
                         vacationItem.getEndDate().toString()
                 );
+            case OPERATION:
+                MedicalDoctorOperationScheduleItem operationItem = (MedicalDoctorOperationScheduleItem) item;
+                return new OperationScheduleItemOutput(
+                        operationItem.getId(),
+                        operationItem.getTime().toString(),
+                        operationItem.getType().toString(),
+                        operationItem.getOperation().getDoctor(),
+                        operationItem.getOperation().getPresentDoctors()
+                );
         }
+
 
         return null;
 

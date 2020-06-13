@@ -6,6 +6,9 @@
       <v-card max-width="1300" max-height="1300" class="mx-auto">
         <v-card-title>
           Define appointment
+          <v-spacer></v-spacer>
+          Discounted price:
+           {{Math.round(predefinedAppointment.price*(1 - predefinedAppointment.discount / 100))}}$
         </v-card-title>
         <v-row>
           <v-spacer></v-spacer>
@@ -122,7 +125,7 @@
           <v-spacer></v-spacer>
           <v-col cols="12" sm="6" md="4">
             <v-text-field
-              v-model="predefinedAppointment.discount"
+              v-model="predefinedAppointment.price"
               label="Price"
               prepend-icon="mdi-cash-usd"
               min="1"
@@ -133,17 +136,21 @@
             </v-text-field>
           </v-col>
           <v-spacer></v-spacer>
-          <v-slider
-            v-model="slider"
-            class="align-center"
-            label="Discount"
-            :max="0"
-            :min="100"
-            hide-details
-          >
-          a
-          <v-subheader>Subheader</v-subheader>
-          </v-slider>
+          <v-col>
+            <v-subheader>
+              Discount: {{predefinedAppointment.discount}}%
+            </v-subheader>
+          </v-col>
+          <v-col>
+            <v-slider
+              v-model="predefinedAppointment.discount"
+              class="align-center"
+              :max="100"
+              :min="0"
+              hide-details
+            >
+            </v-slider>
+          </v-col>
           <v-spacer></v-spacer>
         </v-row>
         <v-card-actions>
@@ -181,11 +188,10 @@ export default {
       price: null,
       appointmentType: null,
       appointmentTypeId: null,
-      discount: null,
+      discount: 0,
     },
     menu: null,
     today: new Date().toISOString().substr(0, 10),
-    slider: 0,
   }),
   mounted() {
     this.getDoctorsAndPrices();
@@ -205,6 +211,7 @@ export default {
           clinicRoomId: this.predefinedAppointment.clinicRoom.id,
           appointmentTypeId: this.predefinedAppointment.doctor.appointmentTypeId,
           price: this.predefinedAppointment.price,
+          discount: this.predefinedAppointment.discount / 100,
           date: this.predefinedAppointment.date,
         };
         this.addPredefinedAppointment(request);
@@ -283,6 +290,9 @@ export default {
     },
     minNumberRule() {
       return (value) => value > 0 || 'Number must be positive!';
+    },
+    discountTitle() {
+      return `Discount: ${this.discount}%`;
     },
   },
 };

@@ -20,6 +20,10 @@ import predefinedAppointment from '@/app/predefined_appointment/store';
 import leaveRequest from '@/app/leave_request/store';
 import finishedAppointment from '@/app/finished_appointment/store';
 import reports from '@/app/reports/store';
+import prescriptions from '@/app/prescriptions/store';
+import operation from '@/app/operation/store';
+import reviews from '@/app/reviews/store';
+import registrationRequest from '@/app/registration_requests/store';
 
 Vue.use(Vuex);
 
@@ -51,5 +55,9 @@ export default new Vuex.Store({
     leaveRequest,
     finishedAppointment,
     reports,
+    prescriptions,
+    operation,
+    reviews,
+    registrationRequest,
   },
 });

@@ -6,6 +6,7 @@ export default {
   state: {
     finishedAppointments: [],
     profit: null,
+    patientFAs: [],
   },
   mutations: {
     SET_FINISHED_APPOINTMENTS(state, finishedAppointments) {
@@ -13,6 +14,15 @@ export default {
     },
     SET_PROFIT(state, profit) {
       state.profit = profit;
+    },
+    SET_PATIENT_FAs(state, finishedAppointments) {
+      state.patientFAs = finishedAppointments;
+    },
+    UPDATE_PATIENT_FAs(state, updateItem) {
+      const fa = state.patientFAs.find((element) => element.id === updateItem.id);
+      fa.diagnosis = updateItem.diagnosis.id;
+      fa.diagnosisStr = updateItem.diagnosis.name;
+      fa.description = updateItem.description;
     },
   },
   actions: {
@@ -43,26 +53,29 @@ export default {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
-    addClinicReview({ dispatch }, payload) {
-      return api.addClinicReview(payload)
-        .then(() => {
-          const message = 'Clinic review added successfully.';
-          dispatch('notifications/add', utils.successNotification(message), { root: true });
+    getFinishedAppointments({ commit, dispatch }, patientId) {
+      return api.getFinishedAppointments(patientId)
+        .then((response) => {
+          commit('SET_PATIENT_FAs', response.data);
         })
         .catch((err) => {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
-          throw err;
         });
     },
-    addDoctorReview({ dispatch }, payload) {
-      return api.addDoctorReview(payload)
+    changeFinishedAppointment({ commit, dispatch }, changeItem) {
+      const apiItem = {
+        id: changeItem.id,
+        description: changeItem.description,
+        diagnosis: changeItem.diagnosis.id,
+      };
+      return api.changeFinishedAppointment(apiItem)
         .then(() => {
-          const message = 'Doctor review added successfully.';
+          commit('UPDATE_PATIENT_FAs', changeItem);
+          const message = 'Finished appointment changed successfully.';
           dispatch('notifications/add', utils.successNotification(message), { root: true });
         })
         .catch((err) => {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
-          throw err;
         });
     },
   },

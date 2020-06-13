@@ -9,8 +9,12 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
@@ -23,8 +27,8 @@ public class PredefinedAppointmentMapper {
             return new PredefinedAppointment(
                     predefinedAppointmentJpaEntity.getId(),
                     medicalDoctorMapper.mapToDomainEntity(predefinedAppointmentJpaEntity.getMedicalDoctor()),
-                    predefinedAppointmentJpaEntity.getDate().toLocalDate(),
-                    LocalTime.parse(predefinedAppointmentJpaEntity.getStart().toString()),
+                    predefinedAppointmentJpaEntity.getStartTime().toLocalDateTime().toLocalDate(),
+                    predefinedAppointmentJpaEntity.getStartTime().toLocalDateTime().toLocalTime(),
                     predefinedAppointmentJpaEntity.getDuration(),
                     clinicRoomMapper.mapToDomainEntity(predefinedAppointmentJpaEntity.getClinicRoomJpaEntity()),
                     appointmentTypeMapper.mapToDomainEntity(predefinedAppointmentJpaEntity.getAppointmentTypeJpaEntity()),
@@ -37,8 +41,7 @@ public class PredefinedAppointmentMapper {
         return new PredefinedAppointmentJpaEntity(
                 predefinedAppointment.getId(),
                 medicalDoctorMapper.mapToJpaEntity(predefinedAppointment.getDoctor()),
-                Date.valueOf(predefinedAppointment.getDate()),
-                Time.valueOf(predefinedAppointment.getStart()),
+                Timestamp.valueOf(LocalDateTime.of(predefinedAppointment.getDate(), predefinedAppointment.getStart())),
                 predefinedAppointment.getDuration(),
                 predefinedAppointment.getPrice(),
                 predefinedAppointment.getDiscount(),
@@ -46,4 +49,12 @@ public class PredefinedAppointmentMapper {
                 appointmentTypeMapper.mapToJpaEntity(predefinedAppointment.getAppointmentType())
         );
     }
+
+    public List<PredefinedAppointment> mapToDomainList(List<PredefinedAppointmentJpaEntity> appointmentJpaEntities) {
+        return appointmentJpaEntities
+                .stream()
+                .map(this::mapToDomainEntity)
+                .collect(Collectors.toList());
+    }
+
 }

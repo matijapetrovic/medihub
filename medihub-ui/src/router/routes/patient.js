@@ -1,9 +1,11 @@
 import Patient from '@/views/patient/Patient.vue';
+import PatientReviews from '@/views/patient/PatientReviews.vue';
 import PatientSearchClinics from '@/views/patient/PatientSearchClinics.vue';
 import PatientSearchDoctors from '@/views/patient/PatientSearchDoctors.vue';
 import PatientMedicalRecord from '@/views/patient/PatientMedicalRecord.vue';
 import PatientAppointmentHistory from '@/views/patient/PatientAppointmentHistory.vue';
 import PatientScheduledAppointments from '@/views/patient/PatientScheduledAppointments.vue';
+import PatientClinicProfile from '@/views/patient/PatientClinicProfile.vue';
 import PatientHome from '@/views/patient/PatientHome.vue';
 
 export default {
@@ -38,6 +40,14 @@ export default {
     {
       path: '',
       component: PatientHome,
+    },
+    {
+      path: '/clinic/:clinic_id',
+      component: PatientClinicProfile,
+    },
+    {
+      path: '/reviews',
+      component: PatientReviews,
     },
   ],
 };

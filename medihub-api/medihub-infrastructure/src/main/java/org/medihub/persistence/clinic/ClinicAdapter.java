@@ -44,13 +44,17 @@ public class ClinicAdapter implements
 
     @Override
     public List<Clinic> searchClinics(LocalDate date, Long appointmentTypeId) {
-        AppointmentTypeJpaEntity appointmentType = appointmentTypeRepository
-                .findById(appointmentTypeId)
-                .orElseThrow(EntityNotFoundException::new);
+        AppointmentTypeJpaEntity appointmentType =
+                (appointmentTypeId == null ? null :
+                    appointmentTypeRepository
+                        .findById(appointmentTypeId)
+                        .orElseThrow(EntityNotFoundException::new));
 
-        Timestamp timestamp = Timestamp.valueOf(LocalDateTime.of(date, LocalTime.MIDNIGHT));
+        Timestamp dateStart = (date == null ? null : Timestamp.valueOf(LocalDateTime.of(date, LocalTime.MIDNIGHT)));
+        Timestamp dateEnd = (date == null ? null :Timestamp.valueOf(LocalDateTime.of(date.plusDays(1), LocalTime.MIDNIGHT)));
+
         return clinicRepository
-                .findAllWithDoctorsByAppointmentTypeOnDate(timestamp, appointmentType)
+                .findAllWithDoctorsByAppointmentTypeOnDate(dateStart, dateEnd, appointmentType)
                 .stream()
                 .map(mapper::mapToDomainEntity)
                 .collect(Collectors.toList());

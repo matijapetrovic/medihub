@@ -1,6 +1,8 @@
 package org.medihub.application.services.appointment;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.NotAvailableException;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.appointment.AddAppointmentUseCase;
 import org.medihub.application.ports.outgoing.LoadClinicAdminPort;
 import org.medihub.application.ports.outgoing.appointment.SaveAppointmentPort;
@@ -14,7 +16,6 @@ import org.medihub.application.ports.outgoing.doctor.LoadDoctorPort;
 import org.medihub.application.ports.outgoing.patient.GetPatientsPort;
 import org.medihub.domain.account.Account;
 import org.medihub.domain.appointment.Appointment;
-import org.medihub.domain.appointment.AppointmentType;
 import org.medihub.domain.clinic.Clinic;
 import org.medihub.domain.clinic.ClinicAdmin;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
@@ -37,7 +38,7 @@ public class AddAppointmentService implements AddAppointmentUseCase {
     private final LoadDoctorPort loadDoctorPort;
 
     @Override
-    public void addAppointment(AddAppointmentCommand addAppointmentCommand) {
+    public void addAppointment(AddAppointmentCommand addAppointmentCommand) throws NotFoundException, NotAvailableException {
         Appointment appointment = new Appointment(
                 null,
                 LocalDate.parse(addAppointmentCommand.getDate()),

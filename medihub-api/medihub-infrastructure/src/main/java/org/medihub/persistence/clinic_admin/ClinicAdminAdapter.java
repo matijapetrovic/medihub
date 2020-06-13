@@ -26,7 +26,7 @@ public class ClinicAdminAdapter implements
 
     @Override
     public ClinicAdmin loadClinicAdminByAccountId(Long accountId) {
-        ClinicAdminJpaEntity clinicAdmin = clinicAdminRepository.findByAccount_Id(accountId).orElseThrow();
+        ClinicAdminJpaEntity clinicAdmin = clinicAdminRepository.findByPersonalInfoAccountId(accountId).orElseThrow();
         return clinicAdminMapper.mapToDomainEntity(clinicAdmin);
     }
 

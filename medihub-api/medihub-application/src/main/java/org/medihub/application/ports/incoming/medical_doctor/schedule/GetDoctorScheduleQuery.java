@@ -1,7 +1,7 @@
 package org.medihub.application.ports.incoming.medical_doctor.schedule;
 
 public interface GetDoctorScheduleQuery {
-    GetDoctorScheduleOutput getDoctorSchedule();
+    GetScheduleOutput getDoctorSchedule();
 
-    GetDoctorScheduleOutput getDoctorSchedule(Long id);
+    GetScheduleOutput getDoctorSchedule(Long id);
 }

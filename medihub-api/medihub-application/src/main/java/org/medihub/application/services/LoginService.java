@@ -1,6 +1,8 @@
 package org.medihub.application.services;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.AccountNotActivatedException;
+import org.medihub.application.exceptions.ForbiddenException;
 import org.medihub.application.ports.incoming.authentication.LoginOutput;
 import org.medihub.application.ports.incoming.authentication.LoginUseCase;
 import org.medihub.application.ports.outgoing.LoadClinicAdminPort;
@@ -18,10 +20,13 @@ public class LoginService implements LoginUseCase {
     private final LoadClinicAdminPort loadClinicAdminPort;
 
     @Override
-    public LoginOutput login(LoginCommand command) {
+    public LoginOutput login(LoginCommand command) throws AccountNotActivatedException {
         Account account = authenticationPort
                 .authenticate(command.getEmail(),
                         command.getPassword());
+
+        if (!account.isActivated())
+            throw new AccountNotActivatedException();
 
         if (account.getAuthorities()
                 .stream()

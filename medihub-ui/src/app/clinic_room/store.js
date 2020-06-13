@@ -6,6 +6,8 @@ export default {
   state: {
     clinicRooms: [],
     params: null,
+    workingCalendar: null,
+    presentDoctors: [],
   },
   mutations: {
     SET_CLINIC_ROOMS(state, clinicRooms) {
@@ -20,6 +22,12 @@ export default {
     },
     GET_SEARCH_PARAMS(state) {
       return state.params;
+    },
+    SET_WORKING_CALENDAR(state, workingCalendar) {
+      state.workingCalendar = workingCalendar;
+    },
+    SET_PRESENT_DOCTORS(state, presentDoctors) {
+      state.presentDoctors = presentDoctors;
     },
   },
   actions: {
@@ -63,6 +71,15 @@ export default {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
+    getWorkindCalendarByClinicRoomId({ commit, dispatch }, id) {
+      return api.getWorkindCalendarByClinicRoomId(id)
+        .then((response) => {
+          commit('SET_WORKING_CALENDAR', response.data);
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
     scheduleRoom({ dispatch }, payload) {
       return api.scheduleRoom(payload).then(() => {
         const message = 'Clinic room scheduled successfully';
@@ -86,6 +103,9 @@ export default {
     },
     getSearchParams({ commit }) {
       commit('GET_SEARCH_PARAMS');
+    },
+    savePresentDoctors({ commit }, presentDoctors) {
+      commit('SET_PRESENT_DOCTORS', presentDoctors);
     },
   },
 };

@@ -10,10 +10,10 @@ export default {
   getProfit(payload) {
     return utils.apiClient.post('/api/finished_appointment/getProfit', payload);
   },
-  addClinicReview(payload) {
-    return utils.apiClient.post('/api/review/clinic', payload);
+  getFinishedAppointments(patientId) {
+    return utils.apiClient.get(`/api/finished_appointment/${patientId}`);
   },
-  addDoctorReview(payload) {
-    return utils.apiClient.post('/api/review/doctor', payload);
+  changeFinishedAppointment(changeItem) {
+    return utils.apiClient.post('/api/finished_appointment/change', changeItem);
   },
 };

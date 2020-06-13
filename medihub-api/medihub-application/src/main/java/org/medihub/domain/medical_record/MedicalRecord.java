@@ -1,9 +1,6 @@
 package org.medihub.domain.medical_record;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.medihub.domain.Diagnosis;
 import org.medihub.domain.patient.Patient;
 
@@ -13,6 +10,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
+@Setter
 public class MedicalRecord {
     private Long id;
     private Patient patient;

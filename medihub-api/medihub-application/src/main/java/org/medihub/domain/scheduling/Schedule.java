@@ -46,6 +46,6 @@ public class Schedule<T extends DailyScheduleItem> {
                 return currentTime;
             currentTime = currentTime.plusHours(1l);
         }
-        return null;
+        return currentTime;
     }
 }

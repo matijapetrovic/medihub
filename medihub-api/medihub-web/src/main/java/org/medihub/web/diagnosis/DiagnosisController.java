@@ -22,12 +22,12 @@ public class DiagnosisController {
     final private GetDiagnosisQuery getDiagnosisQuery;
 
     @GetMapping("")
-    ResponseEntity<List<GetDiagnosisOutput>> getDiagnosis() {
+    public ResponseEntity<List<GetDiagnosisOutput>> getDiagnosis() {
         return ResponseEntity.ok(getDiagnosisQuery.getDiagnosis());
     }
 
     @PostMapping("/add")
-    Diagnosis add(@RequestBody String name) {
+    public Diagnosis add(@RequestBody String name) {
         return addDiagnosisUseCase.addDiagnosis(name);
     }
 }

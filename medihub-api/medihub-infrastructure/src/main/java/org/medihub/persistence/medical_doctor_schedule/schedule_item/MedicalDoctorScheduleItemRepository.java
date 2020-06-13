@@ -10,4 +10,6 @@ public interface MedicalDoctorScheduleItemRepository extends JpaRepository<Medic
 
     Set<MedicalDoctorScheduleItemJpaEntity> findAllByDoctorIdAndStartTimeBetween(
             Long doctorId, Timestamp start, Timestamp end);
+
+    Integer countAllByDoctorIdAndStartTimeAfter(Long doctorId, Timestamp timestamp);
 }

@@ -161,18 +161,14 @@ export default {
       if (!start || !end) {
         return '';
       }
-
       const startMonth = this.monthFormatter(start);
       const endMonth = this.monthFormatter(end);
       const suffixMonth = startMonth === endMonth ? '' : endMonth;
-
       const startYear = start.year;
       const endYear = end.year;
       const suffixYear = startYear === endYear ? '' : endYear;
-
       const startDay = start.day + this.nth(start.day);
       const endDay = end.day + this.nth(end.day);
-
       switch (this.type) {
         case 'month':
           return `${startMonth} ${startYear}`;
@@ -223,14 +219,12 @@ export default {
         this.selectedElement = nativeEvent.target;
         setTimeout(() => { this.selectedOpen = true; return null; }, 10);
       };
-
       if (this.selectedOpen) {
         this.selectedOpen = false;
         setTimeout(open, 10);
       } else {
         open();
       }
-
       nativeEvent.stopPropagation();
     },
     setUpEvents() {
@@ -243,7 +237,6 @@ export default {
           );
         });
       });
-
       this.events = events;
     },
     getEvent(item, date) {

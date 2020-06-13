@@ -8,6 +8,8 @@ import org.medihub.persistence.medical_doctor.MedicalDoctorMapper;
 import org.medihub.persistence.patient.PatientMapper;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,8 +25,9 @@ public class AppointmentRequestMapper {
                 medicalDoctorMapper.mapToDomainEntity(request.getMedicalDoctorJpaEntity()),
                 patientMapper.mapToDomainEntity(request.getPatientJpaEntity()),
                 Money.of(request.getMoney()),
-                request.getDate(),
-                request.getTime());
+                request.getStartTime().toLocalDateTime().toLocalDate(),
+                request.getStartTime().toLocalDateTime().toLocalTime(),
+                request.getType());
     }
 
     public AppointmentRequestJpaEntity mapToJpaEntity(AppointmentRequest request) {
@@ -33,8 +36,8 @@ public class AppointmentRequestMapper {
                 medicalDoctorMapper.mapToJpaEntity(request.getDoctor()),
                 patientMapper.mapToJpaEntity(request.getPatient()),
                 request.getPrice().getAmount(),
-                request.getDate(),
-                request.getTime());
+                Timestamp.valueOf(LocalDateTime.of(request.getDate(), request.getTime())),
+                request.getType());
     }
 
     public List<AppointmentRequest> mapToDomainList(List<AppointmentRequestJpaEntity> appointmentRequestJpaEntities) {

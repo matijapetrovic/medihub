@@ -44,16 +44,14 @@ public class AppointmentScheduleItemOutput extends DailyScheduleItemOutput {
                 appointment.getDate().toString(),
                 appointment.getTime().toString(),
                 new PatientOutput(appointment.getPatient().getId(),
-                        appointment.getPatient().getAccount().getPersonalInfo().getFirstName(),
-                        appointment.getPatient().getAccount().getPersonalInfo().getLastName()),
+                        appointment.getPatient().getPersonalInfo().getFirstName(),
+                        appointment.getPatient().getPersonalInfo().getLastName()),
                 new DoctorOutput(appointment.getDoctor().getId(),
-                        appointment.getDoctor().getAccount().getPersonalInfo().getFirstName(),
-                        appointment.getDoctor().getAccount().getPersonalInfo().getLastName()),
+                        appointment.getDoctor().getPersonalInfo().getFirstName(),
+                        appointment.getDoctor().getPersonalInfo().getLastName()),
                 new ClinicRoomOutput(appointment.getClinicRoom().getId(),
                         appointment.getClinicRoom().getName(),
                         appointment.getClinicRoom().getNumber())
-
         );
     }
 }
-

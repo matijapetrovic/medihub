@@ -1,7 +1,11 @@
 package org.medihub.web.security.authentication;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.AccountNotActivatedException;
 import org.medihub.application.exceptions.AccountNotFoundException;
+import org.medihub.application.exceptions.ForbiddenException;
+import org.medihub.application.exceptions.NotFoundException;
+import org.medihub.application.ports.incoming.account.ActivateAccountUseCase;
 import org.medihub.application.ports.incoming.authentication.LoginOutput;
 import org.medihub.application.ports.incoming.authentication.LoginUseCase;
 import org.medihub.application.ports.incoming.authentication.LoginUseCase.LoginCommand;
@@ -23,10 +27,11 @@ import java.util.Map;
 public class AuthenticationController {
     private final LoginUseCase loginUseCase;
     private final ChangePasswordUseCase changePasswordUseCase;
+    private final ActivateAccountUseCase activateAccountUseCase;
     private final TokenUtil tokenUtil;
 
     @PostMapping("/login")
-    ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) throws AccountNotActivatedException {
         LoginCommand command = new LoginCommand(request.getEmail(), request.getPassword());
         LoginResponse response = mapToLoginResponse(loginUseCase.login(command));
         return ResponseEntity.ok(response);
@@ -48,7 +53,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/password")
-    ResponseEntity<?> changePassword(@RequestBody PasswordRequest request) throws AccountNotFoundException {
+    public ResponseEntity<Map<String, String>> changePassword(@RequestBody PasswordRequest request) throws AccountNotFoundException {
         ChangePasswordCommand command = new ChangePasswordCommand(request.getOldPassword(), request.getNewPassword());
         boolean changed = changePasswordUseCase.changePassword(command);
         if (changed) {
@@ -61,6 +66,11 @@ public class AuthenticationController {
                     .badRequest()
                     .body(Map.of("message", "New password cannot be same as old password"));
         }
+    }
+
+    @PostMapping("/activate/{accountId}")
+    public void activate(@PathVariable Long accountId) throws NotFoundException, ForbiddenException {
+        activateAccountUseCase.activateAccount(accountId);
     }
 
 }

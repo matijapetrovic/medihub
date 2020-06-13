@@ -2,10 +2,14 @@ package org.medihub.application.ports.incoming.appointment;
 
 import lombok.EqualsAndHashCode;
 import lombok.Value;
+import org.medihub.application.exceptions.NotAvailableException;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.common.SelfValidating;
 
+import java.io.NotActiveException;
+
 public interface AddAppointmentUseCase {
-    void addAppointment(AddAppointmentCommand addAppointmentCommand);
+    void addAppointment(AddAppointmentCommand addAppointmentCommand) throws NotFoundException, NotAvailableException, NotActiveException;
 
     @Value
     @EqualsAndHashCode(callSuper = false)

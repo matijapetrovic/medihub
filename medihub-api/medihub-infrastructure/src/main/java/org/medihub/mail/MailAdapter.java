@@ -17,12 +17,8 @@ public class MailAdapter implements SendEmailPort {
     private final Environment env;
 
     @Override
-    public void sendEmail(String to, String subject, String text) {
-        sendEmailAsync(to, subject, text);
-    }
-
     @Async
-    protected void sendEmailAsync(String to, String subject, String text) {
+    public void sendEmail(String to, String subject, String text) {
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(to);
         mail.setFrom(Objects.requireNonNull(env.getProperty("spring.mail.username")));

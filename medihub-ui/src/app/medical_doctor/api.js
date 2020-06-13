@@ -22,4 +22,13 @@ export default {
   finishAppointment(appointment) {
     return utils.apiClient.post('api/finished_appointment/add', appointment);
   },
+  getAppointmentScheduleItem(appointmentId) {
+    return utils.apiClient.get(`api/medical-doctor/getScheduleItem/${appointmentId}`);
+  },
+  getPreviousPatients() {
+    return utils.apiClient.get('api/medical-doctor/previous-patients');
+  },
+  deleteDoctor(doctorId) {
+    return utils.apiClient.post(`api/medical-doctor/delete/${doctorId}`);
+  },
 };

@@ -1,7 +1,7 @@
 package org.medihub.persistence.drug;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.incoming.drugs.GetDrugsQuery;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.outgoing.drugs.GetDrugByIdPort;
 import org.medihub.application.ports.outgoing.drugs.GetDrugsPort;
 import org.medihub.application.ports.outgoing.drugs.SaveDrugPort;
@@ -19,8 +19,7 @@ public class DrugAdapter implements SaveDrugPort, GetDrugsPort, GetDrugByIdPort 
 
     @Override
     public Drug saveDrug(Drug drug) {
-        DrugJpaEntity jpaDrug = drugRepository.save(drugMapper.mapToJpaEntity(drug));
-        return drugMapper.mapToDomainEntity(jpaDrug);
+        return drugMapper.mapToDomainEntity(drugRepository.save(drugMapper.mapToJpaEntity(drug)));
     }
 
     @Override
@@ -33,7 +32,9 @@ public class DrugAdapter implements SaveDrugPort, GetDrugsPort, GetDrugByIdPort 
     }
 
     @Override
-    public Drug getDrugById(Long id) {
-        return drugMapper.mapToDomainEntity(drugRepository.getOne(id));
+    public Drug getDrugById(Long id) throws NotFoundException {
+        DrugJpaEntity drug = drugRepository.findById(id)
+                .orElseThrow(NotFoundException::new);
+        return drugMapper.mapToDomainEntity(drug);
     }
 }

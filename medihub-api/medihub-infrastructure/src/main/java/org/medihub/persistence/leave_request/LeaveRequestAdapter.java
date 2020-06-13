@@ -23,10 +23,9 @@ public class LeaveRequestAdapter implements
         leaveRequestRepository.save(leaveRequestMapper.mapToJpaEntity(leaveRequest));
     }
 
-
     @Override
-    public List<LeaveRequest> getAll() {
-        return leaveRequestMapper.mapToDomainList(leaveRequestRepository.findAll());
+    public List<LeaveRequest> getAll(Long clinicId) {
+        return leaveRequestMapper.mapToDomainList(leaveRequestRepository.findAllByDoctorClinicId(clinicId));
     }
 
     @Override

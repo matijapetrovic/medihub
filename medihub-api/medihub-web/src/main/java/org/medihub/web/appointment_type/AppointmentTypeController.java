@@ -1,10 +1,9 @@
 package org.medihub.web.appointment_type;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase;
-import org.medihub.application.ports.incoming.appointment_type.DeleteAppointmentTypeUseCase;
-import org.medihub.application.ports.incoming.appointment_type.GetAppointmentTypesOutput;
-import org.medihub.application.ports.incoming.appointment_type.GetAppointmentTypesQuery;
+import org.medihub.application.exceptions.ForbiddenException;
+import org.medihub.application.exceptions.NotFoundException;
+import org.medihub.application.ports.incoming.appointment_type.*;
 import org.medihub.application.ports.incoming.appointment_type.AddAppointmentTypeUseCase.AddAppointmentTypeCommand;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +20,10 @@ public class AppointmentTypeController {
     private final AddAppointmentTypeUseCase addAppointmentTypeUseCase;
     private final GetAppointmentTypesQuery getAppointmentTypesQuery;
     private final DeleteAppointmentTypeUseCase deleteAppointmentTypeUseCase;
+    private final ChangeAppointmentTypeUseCase changeAppointmentTypeUseCase;
 
     @PostMapping("/add")
-    private void add(@RequestBody AppointmentTypeRequest appointmentTypeRequest){
+    public void add(@RequestBody AppointmentTypeRequest appointmentTypeRequest){
         AddAppointmentTypeCommand command = createCommand(appointmentTypeRequest);
 
         addAppointmentTypeUseCase.addAppointmentType(command);
@@ -34,12 +34,22 @@ public class AppointmentTypeController {
     }
 
     @GetMapping("")
-    ResponseEntity<List<GetAppointmentTypesOutput>> get() {
+    public ResponseEntity<List<GetAppointmentTypesOutput>> get() {
         return ResponseEntity.ok(getAppointmentTypesQuery.getAppointmentTypes());
     }
 
     @PostMapping("/delete")
-    private void delete(@RequestBody Long id) {
+    public void delete(@RequestBody Long id) throws NotFoundException, ForbiddenException {
         deleteAppointmentTypeUseCase.delete(id);
+    }
+
+    @PostMapping("/change")
+    public void change(@RequestBody ChangeAppointmentTypeRequest request) {
+        ChangeAppointmentTypeUseCase.ChangeAppointmentTypeCommand command = createChangeCommand(request);
+        changeAppointmentTypeUseCase.changeAppointmentType(command);
+    }
+
+    private ChangeAppointmentTypeUseCase.ChangeAppointmentTypeCommand createChangeCommand(ChangeAppointmentTypeRequest request) {
+        return new ChangeAppointmentTypeUseCase.ChangeAppointmentTypeCommand(request.getId(), request.getName());
     }
 }

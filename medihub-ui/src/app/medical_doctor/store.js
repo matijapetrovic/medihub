@@ -8,6 +8,8 @@ export default {
     doctors: [],
     workingCalendar: null,
     newRecordItem: null,
+    scheduleItem: null,
+    previousPatients: [],
   },
   mutations: {
     SET_NAME(state, name) {
@@ -22,6 +24,9 @@ export default {
     SET_NEW_RECORD_ITEM(state, newRecordItem) {
       state.newRecordItem = newRecordItem;
     },
+    SET_SCHEDULE_APPOINTMENT_ITEM(state, scheduleItem) {
+      state.scheduleItem = scheduleItem;
+    },
     UPDATE_WORKING_CALENDAR(state, update) {
       const index = state.workingCalendar
         .dailySchedules[update.date]
@@ -31,8 +36,21 @@ export default {
         .dailySchedules[update.date]
         .scheduleItems.splice(index, 1);
     },
+    SET_PREVIOUS_PATIENTS(state, previousPatients) {
+      state.previousPatients = previousPatients;
+    },
+    REMOVE_DOCTOR(state, doctorId) {
+      const idx = state.doctors.findIndex((doctor) => doctor.id === doctorId);
+      state.doctors.splice(idx, 1);
+    },
   },
   actions: {
+    getAppointmentScheduleItem({ commit }, id) {
+      return api.getAppointmentScheduleItem(id)
+        .then((data) => {
+          commit('SET_SCHEDULE_APPOINTMENT_ITEM', data.data);
+        });
+    },
     addMedicalDoctor({ dispatch }, payload) {
       return api.addMedicalDoctor(payload)
         .then(() => {
@@ -67,14 +85,39 @@ export default {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
-    finishAppointment({ commit, dispatch }, appointment) {
+    finishAppointment({ commit, dispatch, state }, appointment) {
       return api.finishAppointment(appointment)
         .then((response) => {
           commit('SET_NEW_RECORD_ITEM', response.data);
           const calendarUpdate = { date: appointment.itemDate, id: appointment.itemId };
-          commit('UPDATE_WORKING_CALENDAR', calendarUpdate);
+          if (state.workingCalendar) {
+            commit('UPDATE_WORKING_CALENDAR', calendarUpdate);
+          }
           const message = 'Appointment finished successfully';
           dispatch('notifications/add', utils.successNotification(message), { root: true });
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
+    getPreviousPatients({ commit, dispatch }) {
+      return api.getPreviousPatients()
+        .then((response) => {
+          commit('SET_PREVIOUS_PATIENTS', response.data);
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
+    setStateForPatientPage({ commit }, data) {
+      commit('SET_PAGE_DATA', data);
+    },
+    deleteDoctor({ commit, dispatch }, doctorId) {
+      return api.deleteDoctor(doctorId)
+        .then(() => {
+          const message = 'Doctor deleted successfull';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
+          commit('REMOVE_DOCTOR', doctorId);
         })
         .catch((err) => {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });

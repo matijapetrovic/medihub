@@ -3,24 +3,26 @@ package org.medihub.application.ports.incoming.predefined_appointment;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 import org.medihub.application.exceptions.NotAvailableException;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.common.SelfValidating;
 import org.medihub.common.validation.annotations.Password;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.NotActiveException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public interface AddPredefinedAppointmentUseCase {
-    void addPredefinedAppointment(AddPredefinedAppointmentUseCase.AddPredefinedAppointmentCommand command) throws NotAvailableException;
+    void addPredefinedAppointment(AddPredefinedAppointmentUseCase.AddPredefinedAppointmentCommand command) throws NotAvailableException, NotFoundException;
 
     @Value
     @EqualsAndHashCode(callSuper = false)
     class AddPredefinedAppointmentCommand extends SelfValidating<AddPredefinedAppointmentUseCase.AddPredefinedAppointmentCommand> {
         @Email
         Long doctorId;
-        @Password
+        @NotBlank
         String start;
         @NotBlank
         double duration;

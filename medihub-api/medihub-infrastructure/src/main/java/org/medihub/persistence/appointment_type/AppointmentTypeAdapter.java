@@ -1,10 +1,9 @@
 package org.medihub.persistence.appointment_type;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.outgoing.appointment_type.GetAppointmentTypesPort;
-import org.medihub.application.ports.outgoing.appointment_type.DeleteAppointmentTypePort;
-import org.medihub.application.ports.outgoing.appointment_type.SaveAppointmentTypePort;
-import org.medihub.application.ports.outgoing.appointment_type.LoadAppointmentTypePort;
+import org.medihub.application.exceptions.ForbiddenException;
+import org.medihub.application.exceptions.NotFoundException;
+import org.medihub.application.ports.outgoing.appointment_type.*;
 import org.medihub.domain.appointment.AppointmentType;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +17,8 @@ public class AppointmentTypeAdapter implements
         SaveAppointmentTypePort,
         LoadAppointmentTypePort,
         GetAppointmentTypesPort,
-        DeleteAppointmentTypePort {
+        DeleteAppointmentTypePort,
+        GetAppointmentTypePort {
     private final AppointmentTypeMapper appointmentTypeMapper;
     private final AppointmentTypeRepository appointmentTypeRepository;
 
@@ -55,7 +55,20 @@ public class AppointmentTypeAdapter implements
     }
 
     @Override
-    public void delete(Long id) {
-        appointmentTypeRepository.deleteById(id);
+    public void delete(Long id) throws ForbiddenException {
+        Long count = appointmentTypeRepository.countAppointmentTypeSpecializations(id);
+        if(count == 0) {
+            appointmentTypeRepository.deleteClinicPrices(id);
+            appointmentTypeRepository.deleteById(id);
+
+        }
+            else {
+            throw new ForbiddenException("Appointment type can not be deleted!");
+        }
+    }
+
+    @Override
+    public AppointmentType getAppointmentType(Long id) {
+        return appointmentTypeMapper.mapToDomainEntity(appointmentTypeRepository.getOne(id));
     }
 }

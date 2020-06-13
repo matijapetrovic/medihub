@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.medihub.persistence.account.AccountJpaEntity;
 import org.medihub.persistence.clinic.ClinicJpaEntity;
+import org.medihub.persistence.personal_info.PersonalInfoJpaEntity;
 
 import javax.persistence.*;
 
@@ -14,18 +15,16 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClinicAdminJpaEntity {
-
     @Id
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name="account")
-    private AccountJpaEntity account;
-
     @ManyToOne
-    @JoinColumn(name="clinic", referencedColumnName = "id")
+    @JoinColumn(name="clinic", referencedColumnName = "id", nullable = false)
     private ClinicJpaEntity clinic;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="personal_info_id", referencedColumnName = "id", nullable = false)
+    private PersonalInfoJpaEntity personalInfo;
 }

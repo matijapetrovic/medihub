@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -25,8 +27,8 @@ public class AppointmentMapper {
     public Appointment mapToDomainEntity(AppointmentJpaEntity appointment){
         return new Appointment(
                 appointment.getId(),
-                appointment.getDate().toLocalDate(),
-                appointment.getTime().toLocalTime(),
+                appointment.getStartTime().toLocalDateTime().toLocalDate(),
+                appointment.getStartTime().toLocalDateTime().toLocalTime(),
                 patientMapper.mapToDomainEntity(appointment.getPatient()),
                 medicalDoctorMapper.mapToDomainEntity(appointment.getDoctor()),
                 clinicRoomMapper.mapToDomainEntity(appointment.getClinicRoom()),
@@ -36,8 +38,7 @@ public class AppointmentMapper {
     public AppointmentJpaEntity mapToJpaEntity(Appointment appointment){
         return new AppointmentJpaEntity(
                 appointment.getId(),
-                Date.valueOf(appointment.getDate()),
-                Time.valueOf(appointment.getTime()),
+                Timestamp.valueOf(LocalDateTime.of(appointment.getDate(), appointment.getTime())),
                 patientMapper.mapToJpaEntity(appointment.getPatient()),
                 medicalDoctorMapper.mapToJpaEntity(appointment.getDoctor()),
                 clinicRoomMapper.mapToJpaEntity(appointment.getClinicRoom()),

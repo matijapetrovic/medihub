@@ -1,6 +1,7 @@
 package org.medihub.web.finished_appointment;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.finished_appointment.*;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,16 +23,18 @@ public class FinishedAppointmentController {
     private final GetAppointmentHistoryQuery getAppointmentHistoryQuery;
     private final AddFinishedAppointmentUseCase addFinishedAppointmentUseCase;
     private final GetFinishedAppointmentProfitUseCase getFinishedAppointmentProfitUseCase;
+    private final GetPatientsFinishedAppointmetsQuery getPatientsFinishedAppointmetsQuery;
+    private final ChangeFinishedAppointmentUseCase changeFinishedAppointmentUseCase;
 
     @GetMapping("")
     @PreAuthorize("hasRole('ROLE_PATIENT')")
-    ResponseEntity<List<GetAppointmentHistoryOutput>> getAppointmentHistory() {
+    public ResponseEntity<List<GetAppointmentHistoryOutput>> getAppointmentHistory() {
         return ResponseEntity.ok(getAppointmentHistoryQuery.getAppointmentHistory());
     }
 
     @PostMapping("/getProfit")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    ResponseEntity<FinishedAppointmentProfitResponse> getProfit(
+    public ResponseEntity<FinishedAppointmentProfitResponse> getProfit(
             @RequestBody GetProfitRequest getProfitRequest
     ) {
         GetFinishedAppointmentProfitCommand command = makeProfitCommand(getProfitRequest);
@@ -46,7 +49,7 @@ public class FinishedAppointmentController {
     }
 
     @PostMapping("/add")
-    ResponseEntity<GetFinishedAppointmentOutput> add(@RequestBody AddFinishedAppointmentRequest request) {
+    public ResponseEntity<GetFinishedAppointmentOutput> add(@RequestBody AddFinishedAppointmentRequest request) throws NotFoundException {
         AddFinishedAppointmentCommand command = this.createCommand(request);
         return ResponseEntity.ok(addFinishedAppointmentUseCase.addFinishedAppointment(command));
     }
@@ -58,6 +61,25 @@ public class FinishedAppointmentController {
                 request.getAppointment(),
                 request.getDrugs(),
                 request.getDiagnosis()
+        );
+    }
+
+    @GetMapping("/{patientId}")
+    public ResponseEntity<List<GetFinishedAppointmentOutput>> getPatientsFinishedAppointments(@PathVariable Long patientId) {
+        return ResponseEntity.ok(getPatientsFinishedAppointmetsQuery.getPatientsFinishedAppointments(patientId));
+    }
+
+    @PostMapping("/change")
+    public void changeFinishedAppointment(@RequestBody ChangeFinishedAppointmentRequest request) {
+        ChangeFinishedAppointmentUseCase.ChangeFinishedAppointmentCommand command = createChangeCommand(request);
+        changeFinishedAppointmentUseCase.changeFinishedAppointment(command);
+    }
+
+    ChangeFinishedAppointmentUseCase.ChangeFinishedAppointmentCommand createChangeCommand(ChangeFinishedAppointmentRequest request) {
+        return new ChangeFinishedAppointmentUseCase.ChangeFinishedAppointmentCommand(
+                request.getId(),
+                request.getDiagnosis(),
+                request.getDescription()
         );
     }
 }

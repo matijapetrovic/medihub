@@ -1,15 +1,14 @@
 package org.medihub.persistence.predefined_appointment;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.outgoing.predefined_appointment.AddPredefinedAppointmentPort;
-import org.medihub.application.ports.outgoing.predefined_appointment.DeletePredefinedAppointmentPort;
-import org.medihub.application.ports.outgoing.predefined_appointment.GetPredefinedAppointmentsPort;
-import org.medihub.application.ports.outgoing.predefined_appointment.LoadPredefinedAppointmentPort;
+import org.medihub.application.exceptions.NotFoundException;
+import org.medihub.application.ports.outgoing.predefined_appointment.*;
 import org.medihub.domain.appointment.PredefinedAppointment;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -18,7 +17,8 @@ public class PredefinedAppointmentAdapter implements
         AddPredefinedAppointmentPort,
         GetPredefinedAppointmentsPort,
         LoadPredefinedAppointmentPort,
-        DeletePredefinedAppointmentPort {
+        DeletePredefinedAppointmentPort,
+        GetAllPredefinedAppointmentsPort {
     private final PredefinedAppointmentRepository predefinedAppointmentRepository;
     private final PredefinedAppointmentMapper predefinedAppointmentMapper;
 
@@ -37,16 +37,26 @@ public class PredefinedAppointmentAdapter implements
     }
 
     @Override
-    public void deletePredefinedAppointment(Long appointmentId) {
-        predefinedAppointmentRepository.deleteById(appointmentId);
+    public void deletePredefinedAppointment(Long appointmentId) throws NotFoundException {
+        try {
+            predefinedAppointmentRepository
+                    .deleteById(appointmentId);
+        } catch (Exception ex) {
+            throw new NotFoundException(String.format("Predefined appointment %d not found.", appointmentId));
+        }
     }
 
     @Override
-    public PredefinedAppointment loadPredefinedAppointment(Long appointmentId) {
-        PredefinedAppointmentJpaEntity predefinedAppointment =
-                predefinedAppointmentRepository.findById(appointmentId)
-                .orElseThrow(EntityNotFoundException::new);
+    public PredefinedAppointment loadPredefinedAppointment(Long appointmentId) throws NotFoundException {
+        Optional<PredefinedAppointmentJpaEntity> predefinedAppointment =
+                predefinedAppointmentRepository.findById(appointmentId);
+        if (predefinedAppointment.isEmpty())
+            throw new NotFoundException(String.format("Predefined appointment %d not found.", appointmentId));
+        return predefinedAppointmentMapper.mapToDomainEntity(predefinedAppointment.get());
+    }
 
-        return predefinedAppointmentMapper.mapToDomainEntity(predefinedAppointment);
+    @Override
+    public List<PredefinedAppointment> getAll() {
+        return predefinedAppointmentMapper.mapToDomainList(predefinedAppointmentRepository.findAll());
     }
 }

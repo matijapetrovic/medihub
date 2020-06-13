@@ -6,15 +6,18 @@ import lombok.NoArgsConstructor;
 import org.medihub.persistence.clinic.ClinicJpaEntity;
 import org.medihub.persistence.finished_appointment.FinishedAppointmentJpaEntity;
 import org.medihub.persistence.medical_doctor.MedicalDoctorJpaEntity;
+import org.medihub.persistence.patient.PatientJpaEntity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name="doctor_review")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name="doctor_review", uniqueConstraints = {
+        @UniqueConstraint(columnNames = { "doctor_id", "patient_id" })
+})
 public class DoctorReviewJpaEntity {
     @Id
     @Column(name="id")
@@ -22,13 +25,16 @@ public class DoctorReviewJpaEntity {
     private Long id;
 
     @Column(name="rating")
-    BigDecimal rating;
-
-    @OneToOne
-    @JoinColumn(name="appointment_id", unique = true, referencedColumnName = "id")
-    FinishedAppointmentJpaEntity appointment;
+    private BigDecimal rating;
 
     @ManyToOne
     @JoinColumn(name="doctor_id", referencedColumnName = "id")
-    MedicalDoctorJpaEntity doctor;
+    private MedicalDoctorJpaEntity doctor;
+
+    @ManyToOne
+    @JoinColumn(name="patient_id", referencedColumnName = "id")
+    private PatientJpaEntity patient;
+
+    @Column(name="can_review", nullable = false)
+    private Boolean canReview;
 }

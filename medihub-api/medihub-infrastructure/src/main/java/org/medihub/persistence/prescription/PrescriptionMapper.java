@@ -4,11 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.medihub.domain.Prescription;
 import org.medihub.domain.medical_nurse.MedicalNurse;
 import org.medihub.persistence.drug.DrugMapper;
+import org.medihub.persistence.drug.DrugRepository;
 import org.medihub.persistence.finished_appointment.FinishedAppointmentMapper;
 import org.medihub.persistence.medical_nurse.MedicalNurseJpaEntity;
 import org.medihub.persistence.medical_nurse.MedicalNurseMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -19,7 +21,7 @@ public class PrescriptionMapper {
     private final DrugMapper drugMapper;
     private final MedicalNurseMapper medicalNurseMapper;
     private final FinishedAppointmentMapper finishedAppointmentMapper;
-
+    private final DrugRepository drugRepository;
     public Prescription mapToDomainEntity (PrescriptionJpaEntity prescriptionJpaEntity){
         MedicalNurse nurse = prescriptionJpaEntity.getMedicalNurseJpaEntity() == null? null : medicalNurseMapper.mapToDomainEntity(prescriptionJpaEntity.getMedicalNurseJpaEntity());
         return new Prescription(
@@ -34,23 +36,24 @@ public class PrescriptionMapper {
         MedicalNurseJpaEntity nurse = prescription.getMedicalNurse() == null? null : medicalNurseMapper.mapToJpaEntity(prescription.getMedicalNurse());
         return new PrescriptionJpaEntity (
                 prescription.getId(),
-                drugMapper.mapToJpaEntity(prescription.getDrug()),
+                drugRepository.findById(prescription.getDrug().getId())
+                .orElseThrow(),
                 nurse,
                 finishedAppointmentMapper.mapToJpaEntity(prescription.getFinishedAppointment())
         );
     }
 
-    public Set<Prescription> mapToDomainSet(Set<PrescriptionJpaEntity> prescriptionJpaEntities){
+    public List<Prescription> mapToDomainList(List<PrescriptionJpaEntity> prescriptionJpaEntities){
         return prescriptionJpaEntities
                 .stream()
                 .map(this::mapToDomainEntity)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
-    public Set<PrescriptionJpaEntity> mapToJpaSet(Set<Prescription> prescriptions){
+    public List<PrescriptionJpaEntity> mapToJpaList(List<Prescription> prescriptions){
         return prescriptions
                 .stream()
                 .map(this::mapToJpaEntity)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 }

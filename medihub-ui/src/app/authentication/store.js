@@ -68,6 +68,15 @@ export default {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
+    activateAccount({ dispatch }, accountId) {
+      return api.activateAccount(accountId)
+        .then(() => {
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+          throw err;
+        });
+    },
   },
   getters: {
     loggedIn(state) {

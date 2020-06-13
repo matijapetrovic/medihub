@@ -14,4 +14,5 @@ public class ClinicRoom {
     private String name;
     private int number;
     private Clinic clinic;
+    private Boolean isDeleted;
 }

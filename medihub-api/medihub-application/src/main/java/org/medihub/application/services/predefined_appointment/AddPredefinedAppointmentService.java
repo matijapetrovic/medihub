@@ -2,21 +2,23 @@ package org.medihub.application.services.predefined_appointment;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.NotAvailableException;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.predefined_appointment.AddPredefinedAppointmentUseCase;
 import org.medihub.application.ports.outgoing.appointment_type.GetAppointmentTypesPort;
 import org.medihub.application.ports.outgoing.clinic_room.GetClinicRoomsPort;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorsPort;
 import org.medihub.application.ports.outgoing.predefined_appointment.AddPredefinedAppointmentPort;
-import org.medihub.application.ports.outgoing.scheduling.LoadClinicRoomDailySchedulePort;
-import org.medihub.application.ports.outgoing.scheduling.LoadDoctorDailySchedulePort;
-import org.medihub.application.ports.outgoing.scheduling.SaveClinicRoomDailySchedulePort;
-import org.medihub.application.ports.outgoing.scheduling.SaveDoctorDailySchedulePort;
+import org.medihub.application.ports.outgoing.scheduling.daily_schedule.LoadClinicRoomDailySchedulePort;
+import org.medihub.application.ports.outgoing.scheduling.daily_schedule.LoadDoctorDailySchedulePort;
+import org.medihub.application.ports.outgoing.scheduling.daily_schedule.SaveClinicRoomDailySchedulePort;
+import org.medihub.application.ports.outgoing.scheduling.daily_schedule.SaveDoctorDailySchedulePort;
 import org.medihub.domain.appointment.PredefinedAppointment;
 import org.medihub.domain.clinic_room.ClinicRoomScheduleItem;
 import org.medihub.domain.medical_doctor.MedicalDoctorPredefinedAppointmentScheduleItem;
 import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem;
 import org.medihub.domain.scheduling.DailySchedule;
 
+import java.io.NotActiveException;
 import java.time.LocalTime;
 
 @RequiredArgsConstructor
@@ -31,7 +33,7 @@ public class AddPredefinedAppointmentService implements AddPredefinedAppointment
     private final SaveClinicRoomDailySchedulePort saveClinicRoomDailySchedulePort;
 
     @Override
-    public void addPredefinedAppointment(AddPredefinedAppointmentCommand command) throws NotAvailableException {
+    public void addPredefinedAppointment(AddPredefinedAppointmentCommand command) throws NotAvailableException, NotFoundException {
         PredefinedAppointment predefinedAppointment =
                 new PredefinedAppointment(
                         null,

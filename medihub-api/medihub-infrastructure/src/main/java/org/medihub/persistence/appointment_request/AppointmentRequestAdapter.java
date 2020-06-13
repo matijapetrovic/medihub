@@ -3,7 +3,8 @@ package org.medihub.persistence.appointment_request;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.outgoing.appointment.SaveAppointmentRequestPort;
 import org.medihub.application.ports.outgoing.appointment_request.DeleteAppointmentRequestPort;
-import org.medihub.application.ports.outgoing.appointment_request.GetAppointmentRequestPort;
+import org.medihub.application.ports.outgoing.appointment_request.GetAllAppointmentRequestsPort;
+import org.medihub.application.ports.outgoing.appointment_request.GetAppointmentRequestForClinicPort;
 import org.medihub.domain.appointment.AppointmentRequest;
 import org.springframework.stereotype.Component;
 
@@ -13,8 +14,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AppointmentRequestAdapter implements
         SaveAppointmentRequestPort,
-        GetAppointmentRequestPort,
-        DeleteAppointmentRequestPort {
+        GetAppointmentRequestForClinicPort,
+        DeleteAppointmentRequestPort,
+        GetAllAppointmentRequestsPort {
     private final AppointmentRequestRepository appointmentRequestRepository;
     private final AppointmentRequestMapper mapper;
 
@@ -32,5 +34,10 @@ public class AppointmentRequestAdapter implements
     @Override
     public void deleteAppointmentRequest(Long id) {
         appointmentRequestRepository.deleteById(id);
+    }
+
+    @Override
+    public List<AppointmentRequest> getAll() {
+        return mapper.mapToDomainList(appointmentRequestRepository.findAll());
     }
 }

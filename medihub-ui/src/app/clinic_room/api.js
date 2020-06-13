@@ -10,6 +10,9 @@ export default {
   deleteClinicRoom(id) {
     return utils.apiClient.post('api/clinic-room/delete', id);
   },
+  getWorkindCalendarByClinicRoomId(id) {
+    return utils.apiClient.get(`api/clinic-room/schedule/:${id}`);
+  },
   fetchClinicRooms(payload) {
     return utils.apiClient.get('api/clinic-room/search', { params: payload });
   },
