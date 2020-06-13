@@ -5,4 +5,5 @@ import org.medihub.domain.appointment.PredefinedAppointment;
 
 public interface LoadPredefinedAppointmentPort {
     PredefinedAppointment loadPredefinedAppointment(Long appointmentId) throws NotFoundException;
+    PredefinedAppointment loadByIdWithLock(Long id) throws NotFoundException;
 }
