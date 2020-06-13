@@ -128,36 +128,15 @@ export default {
       .then(() => {
         this.fetchParams();
       });
-    this.fetchClinicRooms();
   },
   methods: {
     ...mapActions('appointmentRequest', ['fetchAppointmentRequests', 'deleteAppointmentRequest', 'getAppointmentRequests']),
     ...mapActions('clinicRooms', ['fetchClinicRooms', 'scheduleRoom']),
     ...mapActions('appointment', ['addAppointment']),
     ...mapActions('operation', ['addOperation']),
-
-    filterRooms(rooms, date, time) {
-      const retList = [];
-      let i;
-      for (i = 0; i < rooms.length; i += 1) {
-        if (this.isAvailable(rooms[i].simpleSchedule, date, time)) {
-          retList.push(rooms[i]);
-        }
-      }
-      return retList;
-    },
     selectedRoom(item) {
       if (item.clinicRoom === null) {
         return false;
-      }
-      return true;
-    },
-    isAvailable(schedules, date, time) {
-      let i;
-      for (i = 0; i < schedules.length; i += 1) {
-        if (schedules[i].date === date && schedules[i].time === time) {
-          return false;
-        }
       }
       return true;
     },
