@@ -1,5 +1,4 @@
 package org.medihub.application.services.appointment;
-
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.ForbiddenException;
 import org.medihub.application.exceptions.NotAvailableException;
@@ -13,8 +12,7 @@ import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPor
 import org.medihub.application.ports.outgoing.clinic_room.AddAppointmentToClinicRoomPort;
 import org.medihub.application.ports.outgoing.clinic_room.GetClinicRoomsPort;
 import org.medihub.application.ports.outgoing.doctor.AddAppointmentToMedicalDoctorSchedulePort;
-import org.medihub.application.ports.outgoing.doctor.GetDoctorsPort;
-import org.medihub.application.ports.outgoing.patient.GetPatientsPort;
+import org.medihub.application.ports.outgoing.mail.SendEmailPort;
 import org.medihub.domain.account.Account;
 import org.medihub.domain.appointment.Appointment;
 import org.medihub.domain.appointment.AppointmentRequest;
@@ -22,6 +20,7 @@ import org.medihub.domain.clinic.ClinicAdmin;
 
 import javax.transaction.Transactional;
 import java.io.NotActiveException;
+import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 public class AddAppointmentService implements AddAppointmentUseCase {
@@ -33,20 +32,23 @@ public class AddAppointmentService implements AddAppointmentUseCase {
     private final GetClinicRoomsPort getClinicRoomsPort;
     private final AddAppointmentToMedicalDoctorSchedulePort addAppointmentToMedicalDoctorSchedulePort;
     private final AddAppointmentToClinicRoomPort addAppointmentToClinicRoomPort;
+    private final SendEmailPort sendEmailPort;
 
     @Override
     @Transactional
     public void addAppointment(AddAppointmentCommand addAppointmentCommand) throws NotFoundException, NotAvailableException, NotActiveException, ForbiddenException {
         Account account = getAuthenticatedPort.getAuthenticated();
         ClinicAdmin clinicAdmin = loadClinicAdminPort.loadClinicAdminByAccountId(account.getId());
-        AppointmentRequest appointmentRequest = loadAppointmentRequestPort.loadById(addAppointmentCommand.getId());
+        AppointmentRequest appointmentRequest = loadAppointmentRequestPort.loadByIdWithLock(addAppointmentCommand.getId());
 
         if(!clinicAdmin.getClinic().getId().equals(appointmentRequest.getDoctor().getClinic().getId()))
             throw new ForbiddenException();
 
+        deleteAppointmentRequestPort.deleteAppointmentRequest(appointmentRequest.getId());
+
         Appointment appointment = new Appointment(
                 null,
-                    appointmentRequest.getDate(),
+                appointmentRequest.getDate(),
                 appointmentRequest.getTime(),
                 appointmentRequest.getPatient(),
                 appointmentRequest.getDoctor(),
@@ -63,6 +65,17 @@ public class AddAppointmentService implements AddAppointmentUseCase {
                 appointmentRequest.getDate(),
                 appointmentRequest.getTime(),
                 appointment);
-        deleteAppointmentRequestPort.deleteAppointmentRequest(appointmentRequest.getId());
+
+        notifyClinicAdmin(appointment, clinicAdmin);
+    }
+
+    private void notifyClinicAdmin(Appointment appointment, ClinicAdmin admin) {
+        String to = admin.getPersonalInfo().getAccount().getEmail();
+        String subject = "Appointment request notification";
+        String text = String.format("Doctor %s has been scheduled request appointment with %s at %s",
+                appointment.getDoctor().getFullName(),
+                appointment.getPatient().getFullName(),
+                LocalDateTime.of(appointment.getDate(), appointment.getTime()));
+        sendEmailPort.sendEmail(to, subject, text);
     }
 }
