@@ -21,8 +21,8 @@ export default {
     let text = err.response ? err.response.data.message : err;
     if (!text) {
       text = err.response.status;
-      if (!text) {
-        text = 'Authentication failed';
+      if (!text || text === 401) {
+        text = 'Invalid username/password';
       }
     }
     return {
