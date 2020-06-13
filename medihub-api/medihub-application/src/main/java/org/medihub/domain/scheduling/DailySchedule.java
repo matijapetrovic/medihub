@@ -2,10 +2,10 @@ package org.medihub.domain.scheduling;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.medihub.domain.WorkingTime;
 
 import java.time.LocalTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @AllArgsConstructor
@@ -29,4 +29,47 @@ public class DailySchedule<T extends DailyScheduleItem> {
                 .stream()
                 .noneMatch(scheduleItem -> scheduleItem.getTime().equals(time));
     };
+
+    public List<LocalTime> getAvailableTimes(WorkingTime workingTime) {
+        if (workingTime.getFrom().isAfter(workingTime.getTo()))
+            return getAvailableTimesNightShift(workingTime);
+        return getAvailableTimesDayShift(workingTime);
+    }
+
+    private List<LocalTime> getAvailableTimesDayShift(WorkingTime workingTime) {
+        List<LocalTime> availableTimes = new LinkedList<>();
+
+        for (LocalTime currentTime = workingTime.getFrom();
+            currentTime.isBefore(workingTime.getTo());
+            currentTime = currentTime.plusHours(1)) {
+
+            if (isAvailable(currentTime))
+                availableTimes.add(currentTime);
+        }
+        return availableTimes;
+    }
+
+    private List<LocalTime> getAvailableTimesNightShift(WorkingTime workingTime) {
+        List<LocalTime> availableTimes = new LinkedList<>();
+
+        for (LocalTime currentTime = LocalTime.MIDNIGHT;
+             currentTime.isBefore(workingTime.getTo());
+             currentTime = currentTime.plusHours(1)) {
+
+            if (isAvailable(currentTime))
+                availableTimes.add(currentTime);
+        }
+
+        for (LocalTime currentTime = workingTime.getFrom();
+             currentTime.isBefore(LocalTime.of(23, 0));
+             currentTime = currentTime.plusHours(1)) {
+
+            if (isAvailable(currentTime))
+                availableTimes.add(currentTime);
+        }
+
+        return availableTimes;
+    }
+
+
 }

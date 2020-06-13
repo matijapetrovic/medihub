@@ -192,7 +192,6 @@ export default {
     this.getWorkindCalendarByDoctorId(this.doctorId)
       .then(() => {
         this.setUpEvents();
-        console.log(this.doctorId);
       });
   },
   methods: {

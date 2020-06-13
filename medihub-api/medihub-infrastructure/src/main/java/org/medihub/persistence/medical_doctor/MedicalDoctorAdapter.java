@@ -25,9 +25,7 @@ public class MedicalDoctorAdapter implements
         GetDoctorsPort,
         GetAllDoctorsPort,
         SearchDoctorsPort,
-        GetDoctorWorkingTimePort,
-        GetDoctorByAccountIdPort,
-        GetDoctorsForClinicOnDatePort {
+        GetDoctorWorkingTimePort {
     private final MedicalDoctorMapper medicalDoctorMapper;
     private final MedicalDoctorRepository medicalDoctorRepository;
     private final ClinicRepository clinicRepository;
@@ -67,7 +65,7 @@ public class MedicalDoctorAdapter implements
     @Override
     public List<MedicalDoctor> getDoctorsForClinic(Long clinicId) {
         return medicalDoctorRepository
-                .findAllByClinicId(clinicId)
+                .findAllByClinicIdAndArchivedFalse(clinicId)
                 .stream()
                 .map(medicalDoctorMapper::mapToDomainEntity)
                 .collect(Collectors.toList());
@@ -110,7 +108,7 @@ public class MedicalDoctorAdapter implements
     }
 
     @Override
-    public MedicalDoctor getDoctor(Long accountId) {
+    public MedicalDoctor loadDoctorByAccountId(Long accountId) {
         MedicalDoctorJpaEntity doctor = medicalDoctorRepository
                 .findByPersonalInfoAccountId(accountId);
         return medicalDoctorMapper.mapToDomainEntity(doctor);

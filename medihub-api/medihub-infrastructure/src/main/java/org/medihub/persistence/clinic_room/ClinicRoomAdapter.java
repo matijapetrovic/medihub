@@ -83,7 +83,6 @@ public class ClinicRoomAdapter implements
 
         Timestamp dateStart = (date == null ? null : Timestamp.valueOf(LocalDateTime.of(date, LocalTime.MIDNIGHT)));
         Timestamp dateEnd = (date == null ? null :Timestamp.valueOf(LocalDateTime.of(date.plusDays(1), LocalTime.MIDNIGHT)));
-
         return clinicRoomRepository
                 .findAllWithNameOrNumberOnDate(name, number, timestamp ,clinicId, dateStart, dateEnd)
                 .stream()
