@@ -5,4 +5,6 @@ import  java.util.Optional;
 
 public interface MedicalDoctorAppointmentScheduleItemRepository extends JpaRepository<MedicalDoctorAppointmentScheduleJpaItem, Long> {
     void deleteByAppointment_Id(Long appointmentId);
+    void deleteAllByDoctorId(Long doctorId);
+    void deleteAllByAppointmentId(Long id);
 }

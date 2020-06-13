@@ -5,6 +5,7 @@ import org.medihub.application.ports.incoming.finished_appointment.GetFinishedAp
 import org.medihub.application.ports.incoming.finished_appointment.GetPatientsFinishedAppointmetsQuery;
 import org.medihub.application.ports.outgoing.finished_appointment.GetPatientsFinishedAppointmentsPort;
 import org.medihub.domain.appointment.FinishedAppointment;
+import org.medihub.domain.appointment.Operation;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,8 +31,13 @@ public class GetPatientsFinishedAppointmentsService implements GetPatientsFinish
                         finishedAppointment.getDiagnosis().getId(),
                         finishedAppointment.getAppointment().getDate().toString(),
                         finishedAppointment.getAppointment().getTime().toString(),
-                        finishedAppointment.getDiagnosis().getName()
+                        finishedAppointment.getDiagnosis().getName(),
+                        getType(finishedAppointment)
                 ))
                 .collect(Collectors.toList());
+    }
+
+    private String getType(FinishedAppointment finishedAppointment) {
+        return (finishedAppointment.getAppointment() instanceof Operation)? "OPERATION":"APPOINTMENT";
     }
 }
