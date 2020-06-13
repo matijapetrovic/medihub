@@ -13,11 +13,14 @@ import org.medihub.application.ports.incoming.finished_appointment.*;
 import org.medihub.application.ports.incoming.clinic.GetAppointmentPriceUseCase;
 import org.medihub.application.ports.incoming.finished_appointment.GetAppointmentHistoryQuery;
 import org.medihub.application.ports.incoming.finished_appointment.GetFinishedAppointmentProfitUseCase;
+import org.medihub.application.ports.incoming.finished_appointment.GetFinishedAppointmentsForDoctorAndPatient;
+import org.medihub.application.ports.incoming.leave_request.*;
 import org.medihub.application.ports.incoming.leave_request.AddLeaveRequestUseCase;
 import org.medihub.application.ports.incoming.leave_request.ApproveLeaveRequestUseCase;
 import org.medihub.application.ports.incoming.leave_request.DeleteLeaveRequestUseCase;
 import org.medihub.application.ports.incoming.leave_request.GetLeaveRequestUseCase;
 import org.medihub.application.ports.incoming.medical_doctor.schedule.GetDoctorScheduleQuery;
+import org.medihub.application.ports.incoming.medical_nurse.GetNurseScheduleQuery;
 import org.medihub.application.ports.incoming.medical_record.ChangeMedicalRecordUseCase;
 import org.medihub.application.ports.incoming.medical_record.GetBloodTypesQuery;
 import org.medihub.application.ports.incoming.medical_record.GetPatientMedicalRecordQuery;
@@ -88,12 +91,10 @@ import org.medihub.application.ports.outgoing.drugs.GetDrugsPort;
 import org.medihub.application.ports.outgoing.drugs.SaveDrugPort;
 import org.medihub.application.ports.outgoing.encoding.EncoderPort;
 import org.medihub.application.ports.outgoing.finished_appointment.*;
-import org.medihub.application.ports.outgoing.leave_request.AddLeaveRequestPort;
-import org.medihub.application.ports.outgoing.leave_request.ApproveLeaveRequestPort;
-import org.medihub.application.ports.outgoing.leave_request.DeleteLeaveRequestPort;
-import org.medihub.application.ports.outgoing.leave_request.GetLeaveRequestPort;
+import org.medihub.application.ports.outgoing.leave_request.*;
 import org.medihub.application.ports.outgoing.medical_nurse.GetMedicalNurseByAccountIdPort;
 import org.medihub.application.ports.outgoing.mail.SendEmailPort;
+import org.medihub.application.ports.outgoing.medical_nurse.GetNurseSchedulePort;
 import org.medihub.application.ports.outgoing.medical_record.LoadMedicalRecordByIdPort;
 import org.medihub.application.ports.outgoing.medical_record.LoadMedicalRecordPort;
 import org.medihub.application.ports.outgoing.medical_record.SaveMedicalRecordPort;
@@ -116,10 +117,7 @@ import org.medihub.application.ports.outgoing.scheduling.daily_schedule.LoadClin
 import org.medihub.application.ports.outgoing.scheduling.daily_schedule.LoadDoctorDailySchedulePort;
 import org.medihub.application.ports.outgoing.scheduling.daily_schedule.SaveClinicRoomDailySchedulePort;
 import org.medihub.application.ports.outgoing.scheduling.daily_schedule.SaveDoctorDailySchedulePort;
-import org.medihub.application.ports.outgoing.scheduling.schedule_item.DeleteMedicalDoctorScheduleItemPort;
-import org.medihub.application.ports.outgoing.scheduling.schedule_item.LoadMedicalDoctorAppointmentScheduleItemByAppointmentIdPort;
-import org.medihub.application.ports.outgoing.scheduling.schedule_item.LoadMedicalDoctorScheduleItemPort;
-import org.medihub.application.ports.outgoing.scheduling.schedule_item.SaveMedicalDoctorScheduleItemPort;
+import org.medihub.application.ports.outgoing.scheduling.schedule_item.*;
 import org.medihub.application.services.*;
 import org.medihub.application.ports.outgoing.prescription.SavePrescriptionPort;
 import org.medihub.application.services.account.ActivateAccountService;
@@ -143,15 +141,20 @@ import org.medihub.application.services.clinic_room.add.ScheduleClinicRoomServic
 import org.medihub.application.services.clinic_room.delete.DeleteClinicRoomService;
 import org.medihub.application.services.finished_appointment.*;
 import org.medihub.application.services.leave_request.add.AddLeaveRequestService;
+import org.medihub.application.services.leave_request.add.AddNurseLeaveRequestService;
 import org.medihub.application.services.leave_request.add.ApproveLeaveRequestService;
+import org.medihub.application.services.leave_request.add.ApproveNurseLeaveRequestService;
 import org.medihub.application.services.leave_request.delete.DeleteLeaveRequestService;
+import org.medihub.application.services.leave_request.delete.DeleteNurseVacationRequestService;
 import org.medihub.application.services.leave_request.get.GetLeaveRequestService;
+import org.medihub.application.services.leave_request.get.GetNurseLeaveRequestsService;
 import org.medihub.application.services.medical_doctor.DeleteDoctorService;
 import org.medihub.application.services.medical_doctor.add.AddAppointmentToMedicalDoctorService;
 import org.medihub.application.services.medical_doctor.get.*;
 import org.medihub.application.services.clinic.get.GetAppointmentPriceService;
 import org.medihub.application.services.diagnosis.GetDiagnosisService;
 import org.medihub.application.services.drugs.GetDrugsService;
+import org.medihub.application.services.medical_nurse.GetNurseScheduleService;
 import org.medihub.application.services.medical_record.ChangeMedicalRecordService;
 import org.medihub.application.services.medical_record.GetBloodTypesService;
 import org.medihub.application.services.medical_record.GetPatientMedicalRecordService;
@@ -931,6 +934,39 @@ public class BeanConfig {
                 getClinicRoomsPort,
                 saveAppointmentPort,
                 saveMedicalDoctorScheduleItemPort);
+    }
+
+    @Bean
+    public AddNurseLeaveRequestUseCase addNurseLeaveRequestUseCase(GetAuthenticatedPort getAuthenticatedPort,
+                                                                   AddNurseLeaveRequestPort addNurseLeaveRequestPort,
+                                                                   GetMedicalNurseByAccountIdPort getMedicalNurseByAccountIdPort) {
+        return new AddNurseLeaveRequestService(getAuthenticatedPort, addNurseLeaveRequestPort, getMedicalNurseByAccountIdPort);
+    }
+
+    @Bean
+    public GetNurseLeaveRequestsQuery getNurseLeaveRequestsQuery(GetNurseLeaveRequestsPort getNurseLeaveRequestsPort) {
+        return new GetNurseLeaveRequestsService(getNurseLeaveRequestsPort);
+    }
+
+    @Bean
+    public DeleteNurseLeaveRequestUseCase deleteNurseLeaveRequestUseCase(DeleteNurseLeaveRequestPort deleteNurseLeaveRequestPort) {
+        return new DeleteNurseVacationRequestService(deleteNurseLeaveRequestPort);
+    }
+
+    @Bean
+    public ApproveNurseLeaveRequestUseCase approveNurseLeaveRequestUseCase(DeleteNurseLeaveRequestPort deleteNurseLeaveRequestPort,
+                                                                           GetNurseLeaveRequestPort getNurseLeaveRequestsPort,
+                                                                           SaveMedicalNurseScheduleItemPort saveMedicalNurseScheduleItemPort) {
+        return new ApproveNurseLeaveRequestService(deleteNurseLeaveRequestPort,
+                getNurseLeaveRequestsPort,
+                saveMedicalNurseScheduleItemPort);
+    }
+
+    @Bean
+    public GetNurseScheduleQuery getNurseScheduleQuery(GetAuthenticatedPort getAuthenticatedPort,
+                                                       GetMedicalNurseByAccountIdPort getMedicalNurseByAccountIdPort,
+                                                       GetNurseSchedulePort getNurseSchedulePort) {
+        return new GetNurseScheduleService(getAuthenticatedPort, getMedicalNurseByAccountIdPort, getNurseSchedulePort);
     }
 
     @Bean

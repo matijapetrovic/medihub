@@ -56,9 +56,14 @@ export default {
         path: `/appointment-request/${null}`,
       },
       {
-        text: 'Leave requests',
+        text: 'Doctor Leave requests',
         icon: 'mdi-arrow-left-bold-circle-outline',
         path: '/leave-request',
+      },
+      {
+        text: 'Nurse Leave requests',
+        icon: 'mdi-arrow-left-bold-circle-outline',
+        path: '/nurse-leave-request',
       },
       {
         text: 'Pricelist',
