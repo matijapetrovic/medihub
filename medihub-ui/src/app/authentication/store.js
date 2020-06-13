@@ -71,6 +71,8 @@ export default {
     activateAccount({ dispatch }, accountId) {
       return api.activateAccount(accountId)
         .then(() => {
+          const message = 'Account activated successfully';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
         })
         .catch((err) => {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });

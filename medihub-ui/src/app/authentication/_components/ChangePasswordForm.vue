@@ -74,6 +74,7 @@ export default {
           newPassword: this.newPassword,
         }).then(() => {
           this.clear();
+          this.$router.push('/');
         });
       }
     },
