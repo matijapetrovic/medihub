@@ -12,6 +12,7 @@ import org.medihub.domain.clinic.ClinicAdmin;
 import org.medihub.domain.clinic_room.ClinicRoom;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,10 +29,16 @@ public class SearchClinicRoomsService implements SearchClinicRoomsQuery {
         Account account = getAuthenticatedPort.getAuthenticated();
         ClinicAdmin clinicAdmin = loadClinicAdminPort.loadClinicAdminByAccountId(account.getId());
         Long clinicId = clinicAdmin.getClinic().getId();
-        return mapToOutput(searchClinicRoomsPort.searchClinicRooms(name, number, date, time, clinicId), date);
+
+        List<ClinicRoom> clinicRooms = searchClinicRoomsPort.searchClinicRooms(name, number, date, time, clinicId);
+        if (clinicRooms.isEmpty())
+            clinicRooms = searchClinicRoomsPort.searchClinicRooms(name, number, date, null, clinicId);
+        if (clinicRooms.isEmpty())
+            clinicRooms = searchClinicRoomsPort.searchClinicRooms(name, number, null, null, clinicId);
+        return mapToOutput(clinicRooms, LocalDateTime.of(date, time));
     }
 
-    private List<SearchClinicRoomsOutput> mapToOutput(List<ClinicRoom> clinicRooms, LocalDate date){
+    private List<SearchClinicRoomsOutput> mapToOutput(List<ClinicRoom> clinicRooms, LocalDateTime datetime){
         return clinicRooms
                 .stream()
                 .map(clinicRoom -> new SearchClinicRoomsOutput(
@@ -39,7 +46,7 @@ public class SearchClinicRoomsService implements SearchClinicRoomsQuery {
                         clinicRoom.getName(),
                         clinicRoom.getNumber(),
                         loadClinicRoomSchedulePort.loadClinicRoomSchedule(clinicRoom.getId()),
-                        date
+                        datetime
                 ))
                 .collect(Collectors.toList());
     }

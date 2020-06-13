@@ -47,18 +47,22 @@ public class SearchDoctorsService implements SearchDoctorsQuery {
         DailySchedule<MedicalDoctorScheduleItem> dailySchedule =
                 loadDoctorDailySchedulePort.loadDailySchedule(doctor.getId(), date);
 
-        return buildAvailableTimesList(dailySchedule, doctor.getWorkingTime());
+        List<LocalTime> availableTimes = dailySchedule.getAvailableTimes(doctor.getWorkingTime());
+        if (date.equals(LocalDate.now().plusDays(1)))
+            filterAvailableTimesForToday(availableTimes);
+
+        return mapTimesToOutput(availableTimes);
     }
 
-    private List<String> buildAvailableTimesList(DailySchedule<MedicalDoctorScheduleItem> dailySchedule,
-                                                 WorkingTime workingTime) {
-        List<String> availableTimes = new ArrayList<>();
-        for (int i = 0; i < workingTime.getWorkingHours(); i++) {
-            LocalTime currentTime = workingTime.getFrom().plusHours(i);
-            if (dailySchedule.isAvailable(currentTime))
-                availableTimes.add(currentTime.toString());
-        }
-
-        return availableTimes;
+    private void filterAvailableTimesForToday(List<LocalTime> availableTimes) {
+        availableTimes.removeIf(time -> time.isBefore(LocalTime.now()));
     }
+
+    private List<String> mapTimesToOutput(List<LocalTime> availableTimes) {
+        return availableTimes
+                .stream()
+                .map(LocalTime::toString)
+                .collect(Collectors.toList());
+    }
+
 }

@@ -13,4 +13,5 @@ public class GetFinishedAppointmentOutput {
     String date;
     String time;
     String diagnosisStr;
+    String type;
 }

@@ -31,7 +31,7 @@ insert into authority (id, name) values (5, 'ROLE_CLINIC_CENTER_ADMIN');
 
 insert into account (email, password, password_changed, activated) values ('patient@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', true, true);
 insert into account (email, password, password_changed, activated) values ('doctor@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', true, true);
-insert into account (email, password, password_changed, activated) values ('nurse@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', false, true);
+insert into account (email, password, password_changed, activated) values ('nurse@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', true, true);
 insert into account (email, password, password_changed, activated) values ('clinicadmin@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', true, true);
 insert into account (email, password, password_changed, activated) values ('admin@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', false, true);
 insert into account (email, password, password_changed, activated) values ('d1@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', true, true);
@@ -39,7 +39,7 @@ insert into account (email, password, password_changed, activated) values ('d2@g
 
 insert into account (email, password, password_changed, activated) values ('p1@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 1, true);
 insert into account (email, password, password_changed, activated) values ('p2@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 1, true);
-
+insert into account (email, password, password_changed, activated) values ('d3@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 1, true);
 
 insert into account_authority (user_id, authority_id) values (1, 1);
 insert into account_authority (user_id, authority_id) values (2, 2);
@@ -77,8 +77,8 @@ insert into clinic (name, address, city, country, description, rating, review_co
 insert into clinic (name, address, city, country, description, rating, review_count) values ('Klinika 2', 'Ulica kneza Mihaila', 'Beograd', 'Serbia', 'asgadg', 0.0, 0);
 
 insert into clinic_room (name, number, clinic_id, deleted) values ('soba1', 1, 1, false);
-insert into clinic_room (name, number, clinic_id, deleted) values ('soba2', 2, 1, false);
-insert into clinic_room (name, number, clinic_id, deleted) values ('soba3', 3, 1, false);
+insert into clinic_room (name, number, clinic_id, deleted) values ('soba2', 2, 2, false);
+insert into clinic_room (name, number, clinic_id, deleted) values ('soba3', 3, 2, false);
 insert into clinic_room (name, number, clinic_id, deleted) values ('soba4', 4, 1, false);
 
 insert into clinic_admin(personal_info_id, clinic) values (4, 1);
@@ -87,11 +87,12 @@ insert into appointment_type(name) values ('Pregeld uha');
 insert into appointment_type(name) values ('Pregled grla');
 insert into appointment_type(name) values ('Pregled nosa');
 
-insert into medical_doctor (personal_info_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count, specialization) values (2, 1, '20:00:00', '06:00:00', 8, 0.0, 0, 3);
-insert into medical_doctor (personal_info_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count,specialization) values (6, 1, '20:00:00', '06:00:00', 8, 0.0, 0, 1);
-insert into medical_doctor (personal_info_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count,specialization) values (7, 2, '18:00:00', '01:00:00', 7, 0.0, 0, 1);
+insert into medical_doctor (personal_info_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count, specialization, archived) values (2, 1, '20:00:00', '06:00:00', 8, 0.0, 0, 3, false);
+insert into medical_doctor (personal_info_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count,specialization, archived) values (6, 1, '20:00:00', '06:00:00', 8, 0.0, 0, 1, false);
+insert into medical_doctor (personal_info_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count,specialization, archived) values (7, 2, '18:00:00', '01:00:00', 7, 0.0, 0, 2, false);
 
 insert into medical_nurse (personal_info_id, clinic, working_time_from, working_time_to) values (3, 1, '06:00:00', '14:00:00');
+
 
 insert into appointment (id, start_time, clinic_room_id, patient_id, doctor_id) values (51, CURRENT_TIMESTAMP , 1, 1, 1);
 insert into appointment (id, start_time, clinic_room_id, patient_id, doctor_id) values (52, '2020-10-12 13:00:00', 1, 1, 3);
@@ -103,20 +104,62 @@ insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, pri
 insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (1, 3, 2000.0);
 insert into clinic_appointment_type_mapping (clinic_id, appointment_type_id, price) values (2, 2, 3000.0);
 
-insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-05-06 00:00:00');
-insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-05-06 01:00:00');
-insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-05-06 02:00:00');
-insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-05-06 03:00:00');
-insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-05-06 04:00:00');
-insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-05-06 05:00:00');
-insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-05-06 06:00:00');
-insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-05-06 23:00:00');
-insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-05-06 22:00:00');
-insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-05-06 21:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (2, '2020-06-14 22:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (2, '2020-06-14 23:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (2, '2020-06-15 00:00:00');
+
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-06-14 22:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-06-14 23:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-06-15 02:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-06-15 03:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-06-15 04:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-06-15 05:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-06-15 06:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-06-15 07:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-06-15 08:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-06-15 09:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-06-15 10:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-06-15 11:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-06-15 12:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-06-15 13:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-06-15 14:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-06-15 15:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-06-15 16:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-06-15 17:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-06-15 18:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-06-15 19:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-06-15 20:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-06-15 21:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-06-15 22:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-06-15 23:00:00');
+
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2020-06-14 22:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2020-06-14 23:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2020-06-15 02:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2020-06-15 03:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2020-06-15 04:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2020-06-15 05:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2020-06-15 06:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2020-06-15 07:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2020-06-15 08:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2020-06-15 09:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2020-06-15 10:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2020-06-15 11:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2020-06-15 12:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2020-06-15 13:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2020-06-15 14:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2020-06-15 15:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2020-06-15 16:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2020-06-15 17:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2020-06-15 18:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2020-06-15 19:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2020-06-15 20:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2020-06-15 21:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2020-06-15 22:00:00');
+insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2020-06-15 23:00:00');
 
 insert into medical_doctor_appointment_schedule_item (id, appointment_id, doctor_id, start_time, schedule_item_type) values (1, 51, 1, CURRENT_TIMESTAMP, 1);
 
-insert into appointment_request (doctor, patient, price, start_time) values (1, 1, 500, '2020-05-06 16:00:00');
 -- insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1000, '2020-10-10', '00:00:00');
 -- insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 2500, '2020-10-10', '23:00:00');
 -- insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1500, '2020-03-10', '13:00:00');
@@ -127,19 +170,24 @@ insert into diagnosis (name) values ('Prelom ruke');
 insert into drug (name) value ('Aspirin');
 insert into drug (name) value ('Andol');
 
-insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Sad bas i nije heh', 52, 2);
+insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Sad bas i nije heh', 51, 2);
 insert into finished_appointment (description, appointment_id, diagnosis_id) values ('aaa', 53, 2);
 
-insert into predefined_appointment (doctor_id, start_time, duration, price, clinic_room_id, appointment_type_id) values (1, '2020-05-06 16:00:00', 3.0, 500.0, 1, 1);
-insert into medical_doctor_predefined_appointment_schedule_item (id, doctor_id, start_time, schedule_item_type, predefined_appointment_id) values (5,1, '2020-05-06 15:00:00', 5, 1);
+insert into predefined_appointment (doctor_id, start_time, duration, price, clinic_room_id, appointment_type_id) values (1, '2020-10-10 07:00:00', 3.0, 500.0, 1, 1);
+insert into medical_doctor_predefined_appointment_schedule_item (id, predefined_appointment_id, doctor_id, start_time, schedule_item_type) values (5, 1, 1,'2020-05-06 15:00:00' , 5);
+
 
 insert into prescriptions (drug_id, medical_nurse_id, finished_appointment_id) values (1, null, 1);
-insert into prescriptions (drug_id, medical_nurse_id, finished_appointment_id) values (2, null, 1);
+insert into prescriptions (drug_id, medical_nurse_id, finished_appointment_id) values (2, 1, 1);
 
 insert into clinic_review (clinic_id, patient_id, rating, can_review) values (1, 1, null, true);
 insert into clinic_review (clinic_id, patient_id, rating, can_review) values (2, 1, 3.0, true);
 
 insert into doctor_review (doctor_id, patient_id, rating, can_review) values (1, 1, null, true);
 insert into doctor_review (doctor_id, patient_id, rating, can_review) values (3, 1, 4.5, false);
+
+
+insert into appointment_request (doctor, patient, price, start_time, type) values (2, 1, 200, '2020-06-15 15:00:00', 'APPOINTMENT');
+insert into appointment_request (doctor, patient, price, start_time, type) values (2, 1, 200, '2020-06-17 09:00:00', 'OPERATION');
 
 insert into registration_request (email, password, first_name, last_name, address, city, country, telephone_number, insurance_number) values ('p20@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Andrej', 'Petrovic', 'Ulica 1', 'Beograd', 'Serbia', '0601231233', '14115151553');

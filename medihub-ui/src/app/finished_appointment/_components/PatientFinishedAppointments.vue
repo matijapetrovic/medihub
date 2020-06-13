@@ -47,6 +47,10 @@ export default {
     lastName: '',
     headers: [
       {
+        text: 'Type',
+        value: 'type',
+      },
+      {
         text: 'Date',
         align: 'start',
         value: 'date',

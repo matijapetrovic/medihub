@@ -1,9 +1,10 @@
 package org.medihub.application.ports.incoming.medical_record;
 
 import lombok.Value;
+import org.medihub.application.ports.incoming.medical_record.dto.AllergyDTO;
+import org.medihub.application.ports.incoming.medical_record.dto.FinishedAppointmentDTO;
 
 import java.util.List;
-import java.util.Map;
 
 @Value
 public class GetMedicalRecordOutput {

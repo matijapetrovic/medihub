@@ -3,8 +3,10 @@ package org.medihub.domain.scheduling;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import static java.time.temporal.ChronoUnit.HOURS;
 
@@ -36,16 +38,36 @@ public class Schedule<T extends DailyScheduleItem> {
         return dailySchedule.isAvailable(time);
     }
 
-    public LocalTime getFirstDailySchedule(LocalDate date){
-        LocalTime currentTime = LocalTime.parse("00:00");
-        if(dailySchedules.get(date) == null)
-            return LocalTime.parse("00:00");
-        
-        for (int i = 0; i < dailySchedules.get(date).getScheduleItems().size(); i++) {
-            if (dailySchedules.get(date).isAvailable(currentTime))
-                return currentTime;
-            currentTime = currentTime.plusHours(1l);
+    public LocalDateTime getFirstDailySchedule(LocalDateTime datetime){
+        LocalDate date = datetime.toLocalDate();
+        LocalTime currentTime = datetime.toLocalTime();
+
+        DailySchedule<T> dailySchedule = dailySchedules.get(date);
+
+        if(dailySchedule == null)
+            return datetime;
+
+        for (LocalTime start = currentTime; start.isBefore(LocalTime.of(23, 0)); start = start.plusHours(1)) {
+            if (dailySchedules.get(date).isAvailable(start))
+                return LocalDateTime.of(date, start);
         }
-        return null;
+
+        return getFirstFuture(date.plusDays(1));
+
+    }
+
+    private LocalDateTime getFirstFuture(LocalDate date) {
+        LocalTime time = LocalTime.MIDNIGHT;
+        DailySchedule<T> dailySchedule = dailySchedules.get(date);
+
+        if(dailySchedule == null)
+            return LocalDateTime.of(date, time);
+
+        for (LocalTime start = time; start.isBefore(LocalTime.of(23, 0)); start = start.plusHours(1)) {
+            if (dailySchedules.get(date).isAvailable(start))
+                return LocalDateTime.of(date, start);
+        }
+
+        return getFirstFuture(date.plusDays(1));
     }
 }

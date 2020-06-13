@@ -6,6 +6,8 @@ import org.medihub.application.ports.incoming.finished_appointment.AddFinishedAp
 import org.medihub.application.ports.outgoing.appointment.LoadAppointmentPort;
 import org.medihub.application.ports.incoming.finished_appointment.GetFinishedAppointmentOutput;
 import org.medihub.application.ports.outgoing.diagnosis.GetDiagnosisByIdPort;
+import org.medihub.application.ports.outgoing.doctor.DeleteAllAppointmentScheduleItemByAppointmentIdPort;
+import org.medihub.application.ports.outgoing.doctor.DeleteAppointmentScheduleItemByDoctorIdPort;
 import org.medihub.application.ports.outgoing.doctor.DeleteAppointmentScheduleItemPort;
 import org.medihub.application.ports.outgoing.drugs.GetDrugByIdPort;
 import org.medihub.application.ports.outgoing.finished_appointment.SaveFinishedAppointmentPort;
@@ -19,6 +21,7 @@ import org.medihub.domain.Drug;
 import org.medihub.domain.Prescription;
 import org.medihub.domain.appointment.Appointment;
 import org.medihub.domain.appointment.FinishedAppointment;
+import org.medihub.domain.appointment.Operation;
 import org.medihub.domain.clinic.Clinic;
 import org.medihub.domain.clinic.ClinicReview;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
@@ -34,11 +37,11 @@ public class AddFinishedAppointmentService implements AddFinishedAppointmentUseC
     private final SaveFinishedAppointmentPort saveFinishedAppointmentPort;
     private final GetDrugByIdPort getDrugByIdPort;
     private final SavePrescriptionPort savePrescriptionPort;
-    private final DeleteAppointmentScheduleItemPort deleteAppointmentScheduleItemPort;
     private final LoadClinicReviewPort loadClinicReviewPort;
     private final LoadDoctorReviewPort loadDoctorReviewPort;
     private final SaveClinicReviewPort saveClinicReviewPort;
     private final SaveDoctorReviewPort saveDoctorReviewPort;
+    private final DeleteAllAppointmentScheduleItemByAppointmentIdPort deleteAllAppointmentScheduleItemByAppointmentIdPort;
 
     @Override
 
@@ -53,13 +56,7 @@ public class AddFinishedAppointmentService implements AddFinishedAppointmentUseC
                 diagnosis);
 
         FinishedAppointment retVal = saveFinishedAppointmentPort.saveFinishedAppointment(finishedAppointment);
-        deleteAppointmentScheduleItemPort.deleteAppointmentItem(command.getItemId());
-
-        for  (Long id : command.getDrugs()) {
-            Drug drug = getDrugByIdPort.getDrugById(id);
-            Prescription prescription = new Prescription(null, drug, retVal, null);
-            savePrescriptionPort.savePrescription(prescription);
-        }
+        deleteAllAppointmentScheduleItemByAppointmentIdPort.deleteAll(retVal.getAppointment().getId());
 
         updateClinicReview(finishedAppointment);
         updateDoctorReview(finishedAppointment);
@@ -105,7 +102,12 @@ public class AddFinishedAppointmentService implements AddFinishedAppointmentUseC
                 finishedAppointment.getDiagnosis().getId(),
                 finishedAppointment.getAppointment().getDate().toString(),
                 finishedAppointment.getAppointment().getTime().toString(),
-                finishedAppointment.getDiagnosis().getName()
+                finishedAppointment.getDiagnosis().getName(),
+                getType(finishedAppointment)
         );
+    }
+
+    private String getType(FinishedAppointment finishedAppointment) {
+        return (finishedAppointment.getAppointment() instanceof Operation)? "OPERATION":"APPOINTMENT";
     }
 }

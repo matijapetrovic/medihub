@@ -39,7 +39,7 @@ public class MedicalDoctorController {
     private final DeleteDoctorUseCase deleteDoctorUseCase;
 
     @PostMapping("/delete/{doctorId}")
-    public void deleteDoctor(@PathVariable Long doctorId) throws ForbiddenException {
+    public void deleteDoctor(@PathVariable Long doctorId) throws ForbiddenException, NotFoundException {
         deleteDoctorUseCase.deleteDoctor(doctorId);
     }
 
@@ -123,12 +123,12 @@ public class MedicalDoctorController {
     }
 
     @GetMapping("/schedule")
-    public ResponseEntity<GetScheduleOutput> getSchedules() {
+    public ResponseEntity<GetScheduleOutput> getSchedules() throws NotFoundException {
         return ResponseEntity.ok(getDoctorScheduleQuery.getDoctorSchedule());
     }
 
     @GetMapping("/schedule/:{id}")
-    public ResponseEntity<GetScheduleOutput> getSchedulesByDoctorId(@PathVariable Long id) {
+    public ResponseEntity<GetScheduleOutput> getSchedulesByDoctorId(@PathVariable Long id) throws NotFoundException {
         return ResponseEntity.ok(getDoctorScheduleQuery.getDoctorSchedule(id));
     }
 
