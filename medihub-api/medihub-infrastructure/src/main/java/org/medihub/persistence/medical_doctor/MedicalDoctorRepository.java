@@ -20,8 +20,17 @@ public interface MedicalDoctorRepository extends JpaRepository<MedicalDoctorJpaE
     MedicalDoctorJpaEntity findByPersonalInfoAccountId(Long accountId);
 
     @Query("select d from MedicalDoctorJpaEntity d " +
-            "where d.archived = false " +
-            "and d.clinic = :clinic " +
+            "where d.clinic.id = :clinicId " +
+            "and ((:dateStart is null and :dateEnd is null) or d.working_hours > " +
+            "       (select count(mdsi) from MedicalDoctorScheduleItemJpaEntity mdsi " +
+            "        where mdsi.startTime between :dateStart and :dateEnd and mdsi.doctor=d)) ")
+    List<MedicalDoctorJpaEntity> findAllByClinicIdOnDate(
+            @Param(value="clinicId") Long clinicId,
+            @Param(value="dateStart") Timestamp dateStart,
+            @Param(value="dateEnd") Timestamp dateEnd);
+
+    @Query("select d from MedicalDoctorJpaEntity d " +
+            "where d.clinic = :clinic " +
             "and (:appointmentType is null or d.specialization = :appointmentType) " +
             "and ((:dateStart is null and :dateEnd is null) or d.working_hours > " +
             "       (select count(mdsi) from MedicalDoctorScheduleItemJpaEntity mdsi " +

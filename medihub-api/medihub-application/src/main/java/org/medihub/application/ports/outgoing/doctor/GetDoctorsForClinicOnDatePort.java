@@ -5,8 +5,6 @@ import org.medihub.domain.medical_doctor.MedicalDoctor;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface GetDoctorsPort {
-    List<MedicalDoctor> getDoctorsForClinic(Long clinicId);
-
-    MedicalDoctor getMedicalDoctorById(Long id);
+public interface GetDoctorsForClinicOnDatePort {
+    List<MedicalDoctor> getDoctorsForClinicOnDate(Long clinicId, LocalDate date);
 }

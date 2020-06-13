@@ -6,6 +6,11 @@
       <v-card max-width="1300" max-height="1300" class="mx-auto">
         <v-card-title>
           Define appointment
+          <v-spacer></v-spacer>
+          <v-subheader>
+            Discounted price:
+            {{Math.round(predefinedAppointment.price*(1 - predefinedAppointment.discount / 100))}}$
+          </v-subheader>
         </v-card-title>
         <v-row>
           <v-spacer></v-spacer>
@@ -29,7 +34,7 @@
               ref="menu"
               v-model="menu"
               :close-on-content-click="false"
-              :return-value.sync="date"
+              :return-value.sync="predefinedAppointment.date"
               transition="scale-transition"
               offset-y
               min-width="290px"
@@ -50,7 +55,8 @@
               >
                 <v-spacer></v-spacer>
                 <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-                <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+                <v-btn text color="primary"
+                @click="getDoctorsAndPrices(predefinedAppointment.date)">OK</v-btn>
               </v-date-picker>
             </v-menu>
           </v-col>
@@ -133,6 +139,22 @@
             </v-text-field>
           </v-col>
           <v-spacer></v-spacer>
+          <v-col>
+            <v-subheader>
+              Discount: {{predefinedAppointment.discount}}%
+            </v-subheader>
+          </v-col>
+          <v-col>
+            <v-slider
+              v-model="predefinedAppointment.discount"
+              class="align-center"
+              :max="100"
+              :min="0"
+              hide-details
+            >
+            </v-slider>
+          </v-col>
+          <v-spacer></v-spacer>
         </v-row>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -159,7 +181,7 @@ import { mapActions, mapState } from 'vuex';
 export default {
   name: 'AddPredefinedAppointmentForm',
   data: () => ({
-    date: null,
+    date: new Date().toISOString().substr(0, 10),
     predefinedAppointment: {
       doctor: null,
       date: new Date().toISOString().substr(0, 10),
@@ -169,12 +191,13 @@ export default {
       price: null,
       appointmentType: null,
       appointmentTypeId: null,
+      discount: 0,
     },
     menu: null,
     today: new Date().toISOString().substr(0, 10),
   }),
   mounted() {
-    this.getDoctorsAndPrices();
+    this.getDoctorsAndPrices(new Date().toISOString().substr(0, 10));
   },
   methods: {
     ...mapActions('predefinedAppointment', ['addPredefinedAppointment']),
@@ -191,6 +214,7 @@ export default {
           clinicRoomId: this.predefinedAppointment.clinicRoom.id,
           appointmentTypeId: this.predefinedAppointment.doctor.appointmentTypeId,
           price: this.predefinedAppointment.price,
+          discount: this.predefinedAppointment.discount / 100,
           date: this.predefinedAppointment.date,
         };
         this.addPredefinedAppointment(request);
@@ -240,8 +264,10 @@ export default {
       this.predefinedAppointment.appointmentType = this.predefinedAppointment.doctor.specialization;
       this.setAppointmentTypePrice();
     },
-    getDoctorsAndPrices() {
-      this.getAllDoctors();
+    getDoctorsAndPrices(date) {
+      this.clear();
+      this.$refs.menu.save(date);
+      this.getAllDoctors(date);
       this.fetchPrices();
     },
     setAppointmentTypePrice() {
@@ -257,6 +283,10 @@ export default {
       });
       return retVal;
     },
+    saveDateAndLoadDoctor(date) {
+      this.$refs.menu.save(date);
+      this.getDoctorsAndPrices(date);
+    },
   },
   computed: {
     ...mapState('medicalDoctor', ['doctors']),
@@ -269,6 +299,9 @@ export default {
     },
     minNumberRule() {
       return (value) => value > 0 || 'Number must be positive!';
+    },
+    discountTitle() {
+      return `Discount: ${this.discount}%`;
     },
   },
 };

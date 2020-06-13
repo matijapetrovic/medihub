@@ -42,8 +42,8 @@ export default {
           commit('SET_LEAVE_REQUESTS', data.data);
         });
     },
-    deleteLeaveRequest({ dispatch }, id) {
-      return api.deleteLeaveRequest(id)
+    deleteLeaveRequest({ dispatch }, payload) {
+      return api.deleteLeaveRequest(payload.id, payload.reason)
         .then(() => {
           const message = 'Leave request deleted successfully';
           dispatch('notifications/add', utils.successNotification(message), { root: true });

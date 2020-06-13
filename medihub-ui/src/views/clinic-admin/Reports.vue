@@ -248,7 +248,7 @@ export default {
   }),
   mounted() {
     this.getCurrentClinic();
-    this.getAllDoctors();
+    this.getAllDoctorsForClinic();
     this.getProfit({
       from: new Date().toISOString().substr(0, 10),
       to: new Date().toISOString().substr(0, 10),
@@ -262,7 +262,7 @@ export default {
   },
   methods: {
     ...mapActions('clinic', ['getCurrentClinic']),
-    ...mapActions('medicalDoctor', ['getAllDoctors']),
+    ...mapActions('medicalDoctor', ['getAllDoctorsForClinic']),
     ...mapActions('finishedAppointment', ['getProfit']),
     ...mapActions('reports', ['fetchReports']),
     setTypeAndSendRequest(type) {

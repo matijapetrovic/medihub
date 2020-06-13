@@ -50,7 +50,7 @@ public class MedicalDoctorMapper {
                 medicalDoctor.getArchived());
     }
 
-    public List<MedicalDoctor> mapToDomainList(List<MedicalDoctorJpaEntity> medicalDoctorJpaEntities){
+    public List<MedicalDoctor> mapToDomainList(List<MedicalDoctorJpaEntity> medicalDoctorJpaEntities) {
         return medicalDoctorJpaEntities
                 .stream()
                 .map(this::mapToDomainEntity)

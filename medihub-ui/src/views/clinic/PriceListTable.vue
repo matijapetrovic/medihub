@@ -60,7 +60,7 @@
           <v-btn
             color="red darken-1"
             text
-            @click="dialog = false"
+            @click="closeDialog()"
           >
             Close
           </v-btn>
@@ -99,6 +99,7 @@ export default {
       appointmentType: null,
       price: null,
     },
+    editedItemFirstValue: null,
   }),
 
   mounted() {
@@ -116,6 +117,7 @@ export default {
     editItem(item) {
       this.editedIndex = this.items.map((e) => e.id).indexOf(item.id);
       this.editedItem = item;
+      this.editedItemFirstValue = item;
       this.dialog = true;
     },
     deleteItem(item) {
@@ -141,6 +143,7 @@ export default {
       this.dialog = false;
     },
     closeDialog() {
+      this.editedItem = this.editedItemFirstValue;
       this.dialog = false;
     },
   },

@@ -4,16 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.medihub.domain.appointment.Appointment;
 import org.medihub.domain.appointment.Operation;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
-import org.medihub.persistence.appointment_type.AppointmentTypeMapper;
 import org.medihub.persistence.clinic_room.ClinicRoomMapper;
 import org.medihub.persistence.medical_doctor.MedicalDoctorJpaEntity;
 import org.medihub.persistence.medical_doctor.MedicalDoctorMapper;
 import org.medihub.persistence.patient.PatientMapper;
-import org.medihub.persistence.prescription.PrescriptionMapper;
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -37,7 +33,8 @@ public class AbstractAppointmentMapper {
                 operation.getStartTime().toLocalDateTime().toLocalDate(),
                 operation.getStartTime().toLocalDateTime().toLocalTime(),
                 clinicRoomMapper.mapToDomainEntity(operation.getClinicRoom()),
-                mapJpaDoctors(operation.getPresentDoctors())
+                mapJpaDoctors(operation.getPresentDoctors()),
+                appointment.getPrice()
             );
         }
         else {
@@ -47,7 +44,9 @@ public class AbstractAppointmentMapper {
                 appointment.getStartTime().toLocalDateTime().toLocalTime(),
                 patientMapper.mapToDomainEntity(appointment.getPatient()),
                 medicalDoctorMapper.mapToDomainEntity(appointment.getDoctor()),
-                clinicRoomMapper.mapToDomainEntity(appointment.getClinicRoom()));
+                clinicRoomMapper.mapToDomainEntity(appointment.getClinicRoom()),
+                appointment.getPrice()
+            );
         }
     }
 
@@ -60,7 +59,8 @@ public class AbstractAppointmentMapper {
                     patientMapper.mapToJpaEntity(operation.getPatient()),
                     medicalDoctorMapper.mapToJpaEntity(operation.getDoctor()),
                     clinicRoomMapper.mapToJpaEntity(operation.getClinicRoom()),
-                    mapDoctors(operation.getPresentDoctors())
+                    mapDoctors(operation.getPresentDoctors()),
+                    appointment.getPrice()
             );
         }
         else {
@@ -69,7 +69,8 @@ public class AbstractAppointmentMapper {
                     Timestamp.valueOf(LocalDateTime.of(appointment.getDate(), appointment.getTime())),
                     patientMapper.mapToJpaEntity(appointment.getPatient()),
                     medicalDoctorMapper.mapToJpaEntity(appointment.getDoctor()),
-                    clinicRoomMapper.mapToJpaEntity(appointment.getClinicRoom()));
+                    clinicRoomMapper.mapToJpaEntity(appointment.getClinicRoom()),
+                    appointment.getPrice());
         }
     }
 

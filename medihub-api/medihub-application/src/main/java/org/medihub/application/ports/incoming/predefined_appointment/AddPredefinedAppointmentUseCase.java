@@ -34,6 +34,8 @@ public interface AddPredefinedAppointmentUseCase {
         LocalDate date;
         @NotNull
         BigDecimal price;
+        @NotNull
+        BigDecimal discount;
 
         public AddPredefinedAppointmentCommand(
                 Long doctorId,
@@ -42,7 +44,8 @@ public interface AddPredefinedAppointmentUseCase {
                 Long clinicRoomId,
                 Long appointmentTypeId,
                 LocalDate date,
-                BigDecimal price){
+                BigDecimal price,
+                BigDecimal discount){
             this.doctorId = doctorId;
             this.start = start;
             this.duration = duration;
@@ -50,6 +53,7 @@ public interface AddPredefinedAppointmentUseCase {
             this.appointmentTypeId = appointmentTypeId;
             this.date = date;
             this.price = price;
+            this.discount = discount;
         }
     }
 }
