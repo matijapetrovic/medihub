@@ -1,6 +1,8 @@
-package org.medihub.application.ports.incoming.medical_record;
+package org.medihub.application.ports.incoming.medical_record.dto;
 
 import lombok.Value;
+
+import java.util.List;
 
 @Value
 public class FinishedAppointmentDTO {
@@ -8,4 +10,5 @@ public class FinishedAppointmentDTO {
     String doctor;
     String diagnosis;
     String description;
+    List<PrescriptionDTO> prescriptions;
 }

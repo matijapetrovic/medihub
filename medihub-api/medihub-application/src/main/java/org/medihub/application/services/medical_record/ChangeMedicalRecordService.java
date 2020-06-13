@@ -1,7 +1,7 @@
 package org.medihub.application.services.medical_record;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.incoming.medical_record.AllergyDTO;
+import org.medihub.application.ports.incoming.medical_record.dto.AllergyDTO;
 import org.medihub.application.ports.incoming.medical_record.ChangeMedicalRecordUseCase;
 import org.medihub.application.ports.incoming.medical_record.GetMedicalRecordOutput;
 import org.medihub.application.ports.outgoing.medical_record.LoadMedicalRecordByIdPort;

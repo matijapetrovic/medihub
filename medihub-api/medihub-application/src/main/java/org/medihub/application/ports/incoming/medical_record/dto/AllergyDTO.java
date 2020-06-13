@@ -1,4 +1,4 @@
-package org.medihub.application.ports.incoming.medical_record;
+package org.medihub.application.ports.incoming.medical_record.dto;
 
 import lombok.*;
 

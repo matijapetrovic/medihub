@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'AddLeaveRequest',
@@ -68,7 +68,7 @@ export default {
     today: new Date().toISOString().substr(0, 10),
   }),
   methods: {
-    ...mapActions('leaveRequest', ['addLeaveRequest']),
+    ...mapActions('leaveRequest', ['addLeaveRequest', 'addNurseLeaveRequest']),
     ...mapActions('medicalDoctor', ['getWorkindCalendarByDoctorId']),
     setItems() {
       return true;
@@ -80,7 +80,12 @@ export default {
           dates: this.dates,
           type: this.type,
         };
-        this.addLeaveRequest(request);
+        if (this.user.role[0] === 'ROLE_DOCTOR') {
+          this.addLeaveRequest(request);
+        }
+        if (this.user.role[0] === 'ROLE_NURSE') {
+          this.addNurseLeaveRequest(request);
+        }
         this.clear();
       }
     },
@@ -93,6 +98,7 @@ export default {
     },
   },
   computed: {
+    ...mapState('auth', ['user']),
     requiredRule() {
       return (value) => !!value || 'Required';
     },

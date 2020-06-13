@@ -31,7 +31,7 @@ insert into authority (id, name) values (5, 'ROLE_CLINIC_CENTER_ADMIN');
 
 insert into account (email, password, password_changed, activated) values ('patient@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', true, true);
 insert into account (email, password, password_changed, activated) values ('doctor@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', true, true);
-insert into account (email, password, password_changed, activated) values ('nurse@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', false, true);
+insert into account (email, password, password_changed, activated) values ('nurse@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', true, true);
 insert into account (email, password, password_changed, activated) values ('clinicadmin@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', true, true);
 insert into account (email, password, password_changed, activated) values ('admin@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', false, true);
 insert into account (email, password, password_changed, activated) values ('d1@gmail.com','$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', true, true);
@@ -39,7 +39,7 @@ insert into account (email, password, password_changed, activated) values ('d2@g
 
 insert into account (email, password, password_changed, activated) values ('p1@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 1, true);
 insert into account (email, password, password_changed, activated) values ('p2@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 1, true);
-
+insert into account (email, password, password_changed, activated) values ('d3@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 1, true);
 
 insert into account_authority (user_id, authority_id) values (1, 1);
 insert into account_authority (user_id, authority_id) values (2, 2);
@@ -92,6 +92,7 @@ insert into medical_doctor (personal_info_id, clinic, working_time_from, working
 insert into medical_doctor (personal_info_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count,specialization) values (7, 2, '18:00:00', '01:00:00', 7, 0.0, 0, 1);
 
 insert into medical_nurse (personal_info_id, clinic, working_time_from, working_time_to) values (3, 1, '06:00:00', '14:00:00');
+
 
 insert into appointment (id, start_time, clinic_room_id, patient_id, doctor_id) values (51, CURRENT_TIMESTAMP , 1, 1, 1);
 insert into appointment (id, start_time, clinic_room_id, patient_id, doctor_id) values (52, '2020-10-12 13:00:00', 1, 1, 3);
@@ -152,19 +153,24 @@ insert into diagnosis (name) values ('Prelom ruke');
 insert into drug (name) value ('Aspirin');
 insert into drug (name) value ('Andol');
 
-insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Sad bas i nije heh', 52, 2);
+insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Sad bas i nije heh', 51, 2);
 insert into finished_appointment (description, appointment_id, diagnosis_id) values ('aaa', 53, 2);
 
-insert into predefined_appointment (doctor_id, start_time, duration, price, clinic_room_id, appointment_type_id) values (1, '2020-06-15 00:00:00', 3.0, 500.0, 1, 1);
-insert into medical_doctor_predefined_appointment_schedule_item (id, doctor_id, start_time, schedule_item_type, predefined_appointment_id) values (5,1, '2020-05-06 15:00:00', 5, 1);
+insert into predefined_appointment (doctor_id, start_time, duration, price, clinic_room_id, appointment_type_id) values (1, '2020-10-10 07:00:00', 3.0, 500.0, 1, 1);
+insert into medical_doctor_predefined_appointment_schedule_item (id, predefined_appointment_id, doctor_id, start_time, schedule_item_type) values (5, 1, 1,'2020-05-06 15:00:00' , 5);
+
 
 insert into prescriptions (drug_id, medical_nurse_id, finished_appointment_id) values (1, null, 1);
-insert into prescriptions (drug_id, medical_nurse_id, finished_appointment_id) values (2, null, 1);
+insert into prescriptions (drug_id, medical_nurse_id, finished_appointment_id) values (2, 1, 1);
 
 insert into clinic_review (clinic_id, patient_id, rating, can_review) values (1, 1, null, true);
 insert into clinic_review (clinic_id, patient_id, rating, can_review) values (2, 1, 3.0, true);
 
 insert into doctor_review (doctor_id, patient_id, rating, can_review) values (1, 1, null, true);
 insert into doctor_review (doctor_id, patient_id, rating, can_review) values (3, 1, 4.5, false);
+
+
+insert into appointment_request (doctor, patient, price, start_time, type) values (1, 1, 200, '2020-06-15 15:00:00', 'APPOINTMENT');
+insert into appointment_request (doctor, patient, price, start_time, type) values (1, 1, 200, '2020-06-17 09:00:00', 'OPERATION');
 
 insert into registration_request (email, password, first_name, last_name, address, city, country, telephone_number, insurance_number) values ('p20@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Andrej', 'Petrovic', 'Ulica 1', 'Beograd', 'Serbia', '0601231233', '14115151553');
