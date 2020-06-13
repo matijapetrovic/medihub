@@ -2,9 +2,7 @@ package org.medihub.persistence.medical_doctor_schedule;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.NotFoundException;
-import org.medihub.application.ports.outgoing.doctor.AddAppointmentToMedicalDoctorSchedulePort;
-import org.medihub.application.ports.outgoing.doctor.DeleteAppointmentScheduleItemPort;
-import org.medihub.application.ports.outgoing.doctor.GetDoctorSchedulePort;
+import org.medihub.application.ports.outgoing.doctor.*;
 import org.medihub.application.ports.outgoing.leave_request.ApproveLeaveRequestPort;
 import org.medihub.application.ports.outgoing.scheduling.daily_schedule.LoadDoctorDailySchedulePort;
 import org.medihub.application.ports.outgoing.scheduling.daily_schedule.SaveDoctorDailySchedulePort;
@@ -49,7 +47,9 @@ public class MedicalDoctorScheduleAdapter implements
         DeleteAppointmentScheduleItemPort,
         SaveMedicalDoctorScheduleItemPort,
         LoadMedicalDoctorScheduleItemPort,
-        DeleteMedicalDoctorScheduleItemPort {
+        DeleteMedicalDoctorScheduleItemPort,
+        DeleteAppointmentScheduleItemByDoctorIdPort,
+        DeleteAllAppointmentScheduleItemByAppointmentIdPort {
     private final AbstractAppointmentMapper abstractAppointmentMapper;
     private final MedicalDoctorMapper doctorMapper;
     private final MedicalDoctorScheduleMapper medicalDoctorScheduleMapper;
@@ -181,5 +181,15 @@ public class MedicalDoctorScheduleAdapter implements
                     scheduleItem,
                     doctor,
                     date));
+    }
+
+    @Override
+    public void delete(Long doctorId) {
+        appointmentScheduleItemRepository.deleteAllByDoctorId(doctorId);
+    }
+
+    @Override
+    public void deleteAll(Long operationId) {
+        appointmentScheduleItemRepository.deleteAllByAppointmentId(operationId);
     }
 }

@@ -1,5 +1,6 @@
 package org.medihub.config;
 
+import org.hibernate.sql.Delete;
 import org.medihub.application.ports.incoming.account.ActivateAccountUseCase;
 import org.medihub.application.ports.incoming.appointment.CancelAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment.GetAppointmentsQuery;
@@ -822,22 +823,22 @@ public class BeanConfig {
             SaveFinishedAppointmentPort saveFinishedAppointmentPort,
             GetDrugByIdPort getDrugByIdPort,
             SavePrescriptionPort savePrescriptionPort,
-            DeleteAppointmentScheduleItemPort deleteAppointmentScheduleItemPort,
             LoadClinicReviewPort loadClinicReviewPort,
             LoadDoctorReviewPort loadDoctorReviewPort,
             SaveClinicReviewPort saveClinicReviewPort,
-            SaveDoctorReviewPort saveDoctorReviewPort) {
+            SaveDoctorReviewPort saveDoctorReviewPort,
+            DeleteAllAppointmentScheduleItemByAppointmentIdPort deleteAppointmentScheduleItemByDoctorIdPort) {
         return new AddFinishedAppointmentService(
                 loadAppointmentPort,
                 getDiagnosisByIdPort,
                 saveFinishedAppointmentPort,
                 getDrugByIdPort,
                 savePrescriptionPort,
-                deleteAppointmentScheduleItemPort,
                 loadClinicReviewPort,
                 loadDoctorReviewPort,
                 saveClinicReviewPort,
-                saveDoctorReviewPort);
+                saveDoctorReviewPort,
+                deleteAppointmentScheduleItemByDoctorIdPort);
     }
 
     @Bean
