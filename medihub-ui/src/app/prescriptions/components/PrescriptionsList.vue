@@ -19,6 +19,13 @@
         >
           Accept
         </v-btn>
+        <v-btn
+          small
+          color="error"
+          @click="reject(item)"
+        >
+          Reject
+        </v-btn>
     </template>
   </v-data-table>
 </template>
@@ -53,9 +60,12 @@ export default {
     ...mapState('prescriptions', ['prescriptions']),
   },
   methods: {
-    ...mapActions('prescriptions', ['getPrescriptions', 'acceptPrescription']),
+    ...mapActions('prescriptions', ['getPrescriptions', 'acceptPrescription', 'rejectPrescription']),
     accept(item) {
       this.acceptPrescription(item.id);
+    },
+    reject(item) {
+      this.rejectPrescription(item.id);
     },
   },
   mounted() {

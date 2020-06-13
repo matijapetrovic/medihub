@@ -38,6 +38,7 @@ import org.medihub.application.ports.incoming.predefined_appointment.GetAllPrede
 import org.medihub.application.ports.incoming.predefined_appointment.GetPredefinedAppointmentsQuery;
 import org.medihub.application.ports.incoming.prescription.AcceptPrescriptionUseCase;
 import org.medihub.application.ports.incoming.prescription.GetPrescriptionsQuery;
+import org.medihub.application.ports.incoming.prescription.RejectPrescriptionRequestUseCase;
 import org.medihub.application.ports.incoming.registration.AcceptRegistrationUseCase;
 import org.medihub.application.ports.incoming.registration.RejectRegistrationUseCase;
 import org.medihub.application.ports.incoming.reviewing.AddClinicReviewUseCase;
@@ -100,6 +101,7 @@ import org.medihub.application.ports.outgoing.medical_record.LoadMedicalRecordPo
 import org.medihub.application.ports.outgoing.medical_record.SaveMedicalRecordPort;
 import org.medihub.application.ports.outgoing.patient.GetPatientsPort;
 import org.medihub.application.ports.outgoing.patient.SavePatientPort;
+import org.medihub.application.ports.outgoing.prescription.DeletePrescriptionPort;
 import org.medihub.application.ports.outgoing.registration_request.DeleteRegistrationRequestPort;
 import org.medihub.application.ports.outgoing.registration_request.GetRegistrationRequestsPort;
 import org.medihub.application.ports.outgoing.patient.LoadPatientPort;
@@ -123,6 +125,7 @@ import org.medihub.application.ports.outgoing.prescription.SavePrescriptionPort;
 import org.medihub.application.services.account.ActivateAccountService;
 import org.medihub.application.services.account.ChangePasswordService;
 import org.medihub.application.services.account.GetAccountService;
+import org.medihub.application.services.prescription.RejectPrescriptionService;
 import org.medihub.application.services.profile.GetProfileService;
 import org.medihub.application.services.profile.UpdateProfileService;
 import org.medihub.application.services.appointment.CancelAppointmentService;
@@ -998,5 +1001,11 @@ public class BeanConfig {
             SaveAccountPort saveAccountPort
     ) {
         return new ActivateAccountService(loadAccountPort, saveAccountPort);
+    }
+
+    @Bean
+    public RejectPrescriptionRequestUseCase rejectPrescriptionRequestUseCase(GetPrescriptionPort getPrescriptionPort,
+                                                                             DeletePrescriptionPort deletePrescriptionPort) {
+        return new RejectPrescriptionService(getPrescriptionPort, deletePrescriptionPort);
     }
 }

@@ -21,11 +21,11 @@ public class PrescriptionJpaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="drug_id")
     private DrugJpaEntity drugJpaEntity;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name="medical_nurse_id", nullable = true)
     private MedicalNurseJpaEntity medicalNurseJpaEntity;
 

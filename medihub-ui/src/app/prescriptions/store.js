@@ -34,5 +34,15 @@ export default {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
+    rejectPrescription({ commit, dispatch }, id) {
+      return api.rejectPrescription(id)
+        .then(() => {
+          commit('REMOVE_PRESCRIPTION', id);
+        })
+        .catch((err) => {
+          dispatch('notifications/add', utils.errorNotification(err), { root: true });
+        });
+    },
+
   },
 };
