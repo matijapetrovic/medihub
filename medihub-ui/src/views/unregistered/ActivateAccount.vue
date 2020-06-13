@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import utils from '@/utils';
 import { mapActions } from 'vuex';
 
 export default {
@@ -18,12 +17,9 @@ export default {
     this.activateAccount(this.$route.params.accountId)
       .then(() => {
         this.$router.push('/login');
-        const message = 'Account activated successfully';
-        this.add(utils.successNotification(message));
       })
-      .catch((err) => {
+      .catch(() => {
         this.$router.push('/login');
-        this.add(utils.errorNotification(err));
       });
   },
 };

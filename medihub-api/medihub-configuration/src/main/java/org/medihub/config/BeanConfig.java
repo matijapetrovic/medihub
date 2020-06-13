@@ -1,5 +1,6 @@
 package org.medihub.config;
 
+import org.hibernate.sql.Delete;
 import org.medihub.application.ports.incoming.account.ActivateAccountUseCase;
 import org.medihub.application.ports.incoming.appointment.CancelAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment.GetAppointmentsQuery;
@@ -13,7 +14,6 @@ import org.medihub.application.ports.incoming.finished_appointment.*;
 import org.medihub.application.ports.incoming.clinic.GetAppointmentPriceUseCase;
 import org.medihub.application.ports.incoming.finished_appointment.GetAppointmentHistoryQuery;
 import org.medihub.application.ports.incoming.finished_appointment.GetFinishedAppointmentProfitUseCase;
-import org.medihub.application.ports.incoming.finished_appointment.GetFinishedAppointmentsForDoctorAndPatient;
 import org.medihub.application.ports.incoming.leave_request.*;
 import org.medihub.application.ports.incoming.leave_request.AddLeaveRequestUseCase;
 import org.medihub.application.ports.incoming.leave_request.ApproveLeaveRequestUseCase;
@@ -565,12 +565,12 @@ public class BeanConfig {
     @Bean
     public GetCurrentAppointmentUseCase getCurrentAppointmentUseCase(
             GetAuthenticatedPort getAuthenticatedPort,
-            GetDoctorByAccountIdPort getDoctorByAccountIdPort,
+            LoadDoctorPort loadDoctorPort,
             GetCurrentAppointmentPort getCurrentAppointmentPort
     ) {
         return new GetCurrentAppointmentService(
                 getAuthenticatedPort,
-                getDoctorByAccountIdPort,
+                loadDoctorPort,
                 getCurrentAppointmentPort);
     }
 
@@ -689,8 +689,8 @@ public class BeanConfig {
     public GetDoctorScheduleQuery getDoctorScheduleQuery(
             GetDoctorSchedulePort getDoctorSchedulePort,
             GetAuthenticatedPort getAuthenticatedPort,
-            GetDoctorByAccountIdPort getDoctorByAccountIdPort) {
-        return new GetDoctorScheduleService(getDoctorSchedulePort, getAuthenticatedPort, getDoctorByAccountIdPort);
+            LoadDoctorPort loadDoctorPort) {
+        return new GetDoctorScheduleService(getDoctorSchedulePort, getAuthenticatedPort, loadDoctorPort);
     }
 
     @Bean
@@ -731,11 +731,11 @@ public class BeanConfig {
     @Bean
     public AddLeaveRequestUseCase addLeaveRequestUseCase(
             AddLeaveRequestPort addLeaveRequestPort,
-            GetDoctorByAccountIdPort getDoctorByAccountIdPort,
+            LoadDoctorPort loadDoctorPort,
             GetAuthenticatedPort getDoctorsPort) {
         return new AddLeaveRequestService(
                 addLeaveRequestPort,
-                getDoctorByAccountIdPort,
+                loadDoctorPort,
                 getDoctorsPort);
     }
 
@@ -822,22 +822,22 @@ public class BeanConfig {
             SaveFinishedAppointmentPort saveFinishedAppointmentPort,
             GetDrugByIdPort getDrugByIdPort,
             SavePrescriptionPort savePrescriptionPort,
-            DeleteAppointmentScheduleItemPort deleteAppointmentScheduleItemPort,
             LoadClinicReviewPort loadClinicReviewPort,
             LoadDoctorReviewPort loadDoctorReviewPort,
             SaveClinicReviewPort saveClinicReviewPort,
-            SaveDoctorReviewPort saveDoctorReviewPort) {
+            SaveDoctorReviewPort saveDoctorReviewPort,
+            DeleteAllAppointmentScheduleItemByAppointmentIdPort deleteAppointmentScheduleItemByDoctorIdPort) {
         return new AddFinishedAppointmentService(
                 loadAppointmentPort,
                 getDiagnosisByIdPort,
                 saveFinishedAppointmentPort,
                 getDrugByIdPort,
                 savePrescriptionPort,
-                deleteAppointmentScheduleItemPort,
                 loadClinicReviewPort,
                 loadDoctorReviewPort,
                 saveClinicReviewPort,
-                saveDoctorReviewPort);
+                saveDoctorReviewPort,
+                deleteAppointmentScheduleItemByDoctorIdPort);
     }
 
     @Bean
@@ -906,9 +906,9 @@ public class BeanConfig {
 
     @Bean
     public GetPreviousPatientsQuery getPreviousPatientsQuery(GetAuthenticatedPort getAuthenticatedPort,
-                                                             GetDoctorByAccountIdPort getDoctorByAccountIdPort,
+                                                             LoadDoctorPort loadDoctorPort,
                                                              GetPreviousPatientsPort getPreviousPatientsPort) {
-        return new GetPreviousPatientsService(getAuthenticatedPort, getDoctorByAccountIdPort, getPreviousPatientsPort);
+        return new GetPreviousPatientsService(getAuthenticatedPort, loadDoctorPort, getPreviousPatientsPort);
     }
 
     @Bean

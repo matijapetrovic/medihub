@@ -2,6 +2,7 @@ package org.medihub.application.services.medical_doctor;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.ForbiddenException;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.medical_doctor.DeleteDoctorUseCase;
 import org.medihub.application.ports.outgoing.LoadClinicAdminPort;
 import org.medihub.application.ports.outgoing.account.DeleteAccountPort;
@@ -26,11 +27,13 @@ public class DeleteDoctorService implements DeleteDoctorUseCase {
     private final DeleteAccountPort deleteAccountPort;
 
     @Override
-    public void deleteDoctor(@NotNull Long doctorId) throws ForbiddenException {
+    public void deleteDoctor(@NotNull Long doctorId) throws ForbiddenException, NotFoundException {
         Account account = getAuthenticatedPort.getAuthenticated();
         ClinicAdmin clinicAdmin = loadClinicAdminPort.loadClinicAdminByAccountId(account.getId());
 
         MedicalDoctor doctor = loadDoctorPort.loadDoctor(doctorId);
+        if (doctor.getArchived())
+            throw new NotFoundException("Doctor not found");
         ensureClinicAdminCanAccess(doctor, clinicAdmin);
         ensureDoctorCanBeDeleted(doctor);
 

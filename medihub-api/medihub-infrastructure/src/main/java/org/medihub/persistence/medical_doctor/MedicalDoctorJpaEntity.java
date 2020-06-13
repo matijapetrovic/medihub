@@ -51,6 +51,6 @@ public class MedicalDoctorJpaEntity {
     @JoinColumn(name="specialization", referencedColumnName = "id", nullable = false)
     private AppointmentTypeJpaEntity specialization;
 
-    @Column(name="archived")
+    @Column(name="archived", nullable = false)
     private Boolean archived;
 }

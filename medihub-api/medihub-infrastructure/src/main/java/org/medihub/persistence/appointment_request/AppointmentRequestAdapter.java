@@ -28,7 +28,7 @@ public class AppointmentRequestAdapter implements
 
     @Override
     public List<AppointmentRequest> loadAll(Long clinicId) {
-        return mapper.mapToDomainList(appointmentRequestRepository.findAll(clinicId));
+        return mapper.mapToDomainList(appointmentRequestRepository.findAllByDoctorClinicIdAndDoctorArchivedFalse(clinicId));
     }
 
     @Override
@@ -38,6 +38,6 @@ public class AppointmentRequestAdapter implements
 
     @Override
     public List<AppointmentRequest> getAll() {
-        return mapper.mapToDomainList(appointmentRequestRepository.findAll());
+        return mapper.mapToDomainList(appointmentRequestRepository.findAllByDoctorArchivedFalse());
     }
 }

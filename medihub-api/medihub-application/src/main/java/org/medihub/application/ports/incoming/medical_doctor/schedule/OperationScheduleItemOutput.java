@@ -13,8 +13,14 @@ public class OperationScheduleItemOutput extends DailyScheduleItemOutput {
 
     public DoctorOutput doctor;
     public List<DoctorOutput> presentDoctors;
+    public AppointmentOutput operation;
 
-    public OperationScheduleItemOutput(Long id, String time, String type, MedicalDoctor doctor, Set<MedicalDoctor> presentDoctors) {
+    public OperationScheduleItemOutput(Long id,
+                                       String time,
+                                       String type,
+                                       MedicalDoctor doctor,
+                                       Set<MedicalDoctor> presentDoctors,
+                                       Operation operation) {
         super(id, time, type);
 
         this.doctor = new DoctorOutput(
@@ -30,5 +36,19 @@ public class OperationScheduleItemOutput extends DailyScheduleItemOutput {
                         entity.getLastName()
                 ))
                 .collect(Collectors.toList());
+        this.operation = new AppointmentOutput(
+                operation.getId(),
+                operation.getDate().toString(),
+                operation.getTime().toString(),
+                new PatientOutput(operation.getPatient().getId(),
+                        operation.getPatient().getPersonalInfo().getFirstName(),
+                        operation.getPatient().getPersonalInfo().getLastName()),
+                new DoctorOutput(operation.getDoctor().getId(),
+                        operation.getDoctor().getPersonalInfo().getFirstName(),
+                        operation.getDoctor().getPersonalInfo().getLastName()),
+                new ClinicRoomOutput(operation.getClinicRoom().getId(),
+                        operation.getClinicRoom().getName(),
+                        operation.getClinicRoom().getNumber())
+        );
     }
 }

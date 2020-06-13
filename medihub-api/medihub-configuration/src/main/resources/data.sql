@@ -87,9 +87,9 @@ insert into appointment_type(name) values ('Pregeld uha');
 insert into appointment_type(name) values ('Pregled grla');
 insert into appointment_type(name) values ('Pregled nosa');
 
-insert into medical_doctor (personal_info_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count, specialization) values (2, 1, '20:00:00', '06:00:00', 8, 0.0, 0, 3);
-insert into medical_doctor (personal_info_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count,specialization) values (6, 1, '20:00:00', '06:00:00', 8, 0.0, 0, 1);
-insert into medical_doctor (personal_info_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count,specialization) values (7, 2, '18:00:00', '01:00:00', 7, 0.0, 0, 2);
+insert into medical_doctor (personal_info_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count, specialization, archived) values (2, 1, '20:00:00', '06:00:00', 8, 0.0, 0, 3, false);
+insert into medical_doctor (personal_info_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count,specialization, archived) values (6, 1, '20:00:00', '06:00:00', 8, 0.0, 0, 1, false);
+insert into medical_doctor (personal_info_id, clinic, working_time_from, working_time_to, working_hours, rating, review_count,specialization, archived) values (7, 2, '18:00:00', '01:00:00', 7, 0.0, 0, 2, false);
 
 insert into medical_nurse (personal_info_id, clinic, working_time_from, working_time_to) values (3, 1, '06:00:00', '14:00:00');
 
@@ -160,7 +160,6 @@ insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2
 
 insert into medical_doctor_appointment_schedule_item (id, appointment_id, doctor_id, start_time, schedule_item_type) values (1, 51, 1, CURRENT_TIMESTAMP, 1);
 
-insert into appointment_request (doctor, patient, price, start_time) values (1, 1, 500, '2020-06-15 00:00:00');
 -- insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1000, '2020-10-10', '00:00:00');
 -- insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 2500, '2020-10-10', '23:00:00');
 -- insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1500, '2020-03-10', '13:00:00');
@@ -188,7 +187,7 @@ insert into doctor_review (doctor_id, patient_id, rating, can_review) values (1,
 insert into doctor_review (doctor_id, patient_id, rating, can_review) values (3, 1, 4.5, false);
 
 
-insert into appointment_request (doctor, patient, price, start_time, type) values (1, 1, 200, '2020-06-15 15:00:00', 'APPOINTMENT');
-insert into appointment_request (doctor, patient, price, start_time, type) values (1, 1, 200, '2020-06-17 09:00:00', 'OPERATION');
+insert into appointment_request (doctor, patient, price, start_time, type) values (2, 1, 200, '2020-06-15 15:00:00', 'APPOINTMENT');
+insert into appointment_request (doctor, patient, price, start_time, type) values (2, 1, 200, '2020-06-17 09:00:00', 'OPERATION');
 
 insert into registration_request (email, password, first_name, last_name, address, city, country, telephone_number, insurance_number) values ('p20@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Andrej', 'Petrovic', 'Ulica 1', 'Beograd', 'Serbia', '0601231233', '14115151553');

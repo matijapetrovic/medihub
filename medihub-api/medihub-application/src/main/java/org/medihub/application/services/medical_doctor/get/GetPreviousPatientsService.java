@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.medihub.application.ports.incoming.medical_doctor.GetPreviousPatientsQuery;
 import org.medihub.application.ports.incoming.patient.PatientResponse;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
-import org.medihub.application.ports.outgoing.doctor.GetDoctorByAccountIdPort;
 import org.medihub.application.ports.outgoing.doctor.GetPreviousPatientsPort;
+import org.medihub.application.ports.outgoing.doctor.LoadDoctorPort;
 import org.medihub.domain.account.Account;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
 import org.medihub.domain.patient.Patient;
@@ -16,13 +16,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class GetPreviousPatientsService implements GetPreviousPatientsQuery {
     private final GetAuthenticatedPort getAuthenticatedPort;
-    private final GetDoctorByAccountIdPort getDoctorByAccountIdPort;
+    private final LoadDoctorPort loadDoctorPort;
     private final GetPreviousPatientsPort getPreviousPatientsPort;
 
     @Override
     public List<PatientResponse> getPreviousPatients() {
         Account account = getAuthenticatedPort.getAuthenticated();
-        MedicalDoctor medicalDoctor = getDoctorByAccountIdPort.getDoctor(account.getId());
+        MedicalDoctor medicalDoctor = loadDoctorPort.loadDoctorByAccountId(account.getId());
 
         List<Patient> patients = getPreviousPatientsPort.getPreviousPatients(medicalDoctor.getId());
         return createOutput(patients);
