@@ -25,7 +25,8 @@ public class MedicalDoctorAdapter implements
         GetDoctorsPort,
         GetAllDoctorsPort,
         SearchDoctorsPort,
-        GetDoctorWorkingTimePort {
+        GetDoctorWorkingTimePort,
+        GetDoctorsForClinicOnDatePort{
     private final MedicalDoctorMapper medicalDoctorMapper;
     private final MedicalDoctorRepository medicalDoctorRepository;
     private final ClinicRepository clinicRepository;
@@ -50,6 +51,19 @@ public class MedicalDoctorAdapter implements
         return medicalDoctorMapper.mapToDomainList(medicalDoctorRepository.findAll());
     }
 
+    @Override
+    public List<MedicalDoctor> getDoctorsForClinicOnDate(Long clinicId, LocalDate date) {
+        Timestamp dateStart = (date == null ? null : Timestamp.valueOf(LocalDateTime.of(date, LocalTime.MIDNIGHT)));
+        Timestamp dateEnd = (date == null ? null :Timestamp.valueOf(LocalDateTime.of(date.plusDays(1), LocalTime.MIDNIGHT)));
+
+        return medicalDoctorRepository
+                .findAllByClinicIdOnDate(clinicId, dateStart, dateEnd)
+                .stream()
+                .map(medicalDoctorMapper::mapToDomainEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<MedicalDoctor> getDoctorsForClinic(Long clinicId) {
         return medicalDoctorRepository
                 .findAllByClinicIdAndArchivedFalse(clinicId)

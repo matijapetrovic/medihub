@@ -37,6 +37,9 @@ public class PredefinedAppointmentJpaEntity {
     @Column(name = "price")
     private BigDecimal price;
 
+    @Column(name="discount")
+    private BigDecimal discount;
+
     @ManyToOne
     @JoinColumn(name="clinic_room_id", referencedColumnName="id", nullable=true)
     private ClinicRoomJpaEntity clinicRoomJpaEntity;

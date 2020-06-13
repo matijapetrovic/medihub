@@ -41,17 +41,27 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+    <v-dialog
+      v-model="dialog2"
+    >
+      <RejectionDialog
+        @submit="reject($event)"
+        @cancel="closeRejectionDialog"
+      />
+    </v-dialog>
   </v-container>
 </template>
 
 <script>
 import WorkingCalendar from '@/app/shared/_components/DoctorWorkingCalendar.vue';
 import { mapActions, mapState } from 'vuex';
+import RejectionDialog from '@/app/registration_requests/components/RejectionDialog.vue';
 
 export default {
   name: 'LeaveRequests',
   components: {
     WorkingCalendar,
+    RejectionDialog,
   },
   data: () => ({
     headers: [
@@ -72,6 +82,7 @@ export default {
       doctorEmail: null,
     },
     dialog: false,
+    dialog2: false,
     approve: false,
     menu: null,
     today: new Date().toISOString().substr(0, 10),
@@ -85,7 +96,6 @@ export default {
     ...mapActions('leaveRequest', ['getAllLeaveRequests', 'deleteLeaveRequest', 'approveLeaveRequest']),
     ...mapActions('medicalDoctor', ['workingCalendar']),
     setItems() {
-      console.log(this.leaveRequests);
       this.leaveRequests.forEach((item) => this.items.push({
         id: item.id,
         type: item.type,
@@ -103,8 +113,16 @@ export default {
       this.deleteItem(item);
     },
     rejectRequest(item) {
-      this.deleteItem(item);
-      this.deleteLeaveRequest(item.id);
+      this.editedItem = item;
+      this.dialog2 = true;
+    },
+    reject(message) {
+      this.deleteItem(this.editedItem.id);
+      this.deleteLeaveRequest({ id: this.editedItem.id, reason: message });
+      this.closeRejectionDialog();
+    },
+    closeRejectionDialog() {
+      this.dialog2 = false;
     },
     deleteItem(item) {
       const index = this.items.map((e) => e.id).indexOf(item.id);
@@ -118,6 +136,9 @@ export default {
       this.editedIndex = this.items.map((e) => e.id).indexOf(item.id);
       this.editedItem = item;
       this.dialog = true;
+    },
+    setMessage(message) {
+      this.message = message;
     },
   },
   computed: {

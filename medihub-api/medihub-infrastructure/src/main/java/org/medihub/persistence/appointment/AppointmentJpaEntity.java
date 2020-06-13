@@ -9,6 +9,7 @@ import org.medihub.persistence.medical_doctor.MedicalDoctorJpaEntity;
 import org.medihub.persistence.patient.PatientJpaEntity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.sql.Time;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -22,7 +23,8 @@ public class AppointmentJpaEntity extends  AbstractAppointmentJpaEntity {
                                 Timestamp startTime,
                                 PatientJpaEntity patient,
                                 MedicalDoctorJpaEntity doctor,
-                                ClinicRoomJpaEntity clinicRoom) {
-        super(id, startTime, patient, doctor, clinicRoom);
+                                ClinicRoomJpaEntity clinicRoom,
+                                BigDecimal price) {
+        super(id, startTime, patient, doctor, clinicRoom, price);
     }
 }

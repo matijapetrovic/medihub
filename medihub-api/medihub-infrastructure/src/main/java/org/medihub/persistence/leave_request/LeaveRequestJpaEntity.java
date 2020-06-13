@@ -7,6 +7,7 @@ import org.medihub.persistence.medical_doctor.MedicalDoctorJpaEntity;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
@@ -21,10 +22,10 @@ public class LeaveRequestJpaEntity {
     private Long id;
 
     @Column(name="start_date")
-    private Date startDate;
+    private Timestamp startDate;
 
     @Column(name="end_date")
-    private Date endDate;
+    private Timestamp endDate;
 
     @ManyToOne
     @JoinColumn(name="doctor_id", referencedColumnName = "id")

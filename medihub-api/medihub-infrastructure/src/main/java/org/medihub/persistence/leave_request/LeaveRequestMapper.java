@@ -7,6 +7,9 @@ import org.medihub.persistence.medical_doctor.MedicalDoctorMapper;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,10 +19,12 @@ public class LeaveRequestMapper {
     private final MedicalDoctorMapper medicalDoctorMapper;
 
     public LeaveRequestJpaEntity mapToJpaEntity(LeaveRequest leaveRequest) {
+        Timestamp dateStart = (leaveRequest.getStart() == null ? null : Timestamp.valueOf(LocalDateTime.of(leaveRequest.getStart(), LocalTime.MIDNIGHT)));
+        Timestamp dateEnd = (leaveRequest.getEnd() == null ? null :Timestamp.valueOf(LocalDateTime.of(leaveRequest.getEnd().plusDays(1), LocalTime.MIDNIGHT)));
         return new LeaveRequestJpaEntity(
                 leaveRequest.getId(),
-                Date.valueOf(leaveRequest.getStart()),
-                Date.valueOf(leaveRequest.getEnd()),
+                dateStart,
+                dateEnd,
                 medicalDoctorMapper.mapToJpaEntity(leaveRequest.getMedicalDoctor()),
                 MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.valueOf(leaveRequest.getType().toUpperCase()).getOrdinal()
         );
@@ -28,8 +33,8 @@ public class LeaveRequestMapper {
     public LeaveRequest mapToDomainEntity(LeaveRequestJpaEntity leaveRequest) {
         return new LeaveRequest(
                 leaveRequest.getId(),
-                leaveRequest.getStartDate().toLocalDate(),
-                leaveRequest.getEndDate().toLocalDate(),
+                leaveRequest.getStartDate().toLocalDateTime().toLocalDate(),
+                leaveRequest.getEndDate().toLocalDateTime().toLocalDate(),
                 MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.valueOf(leaveRequest.getType()).get().toString(),
                 medicalDoctorMapper.mapToDomainEntity(leaveRequest.getDoctor())
         );

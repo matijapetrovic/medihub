@@ -13,6 +13,7 @@ import org.medihub.application.ports.incoming.clinic_room.GetAllClinicRoomsUseCa
 import org.medihub.application.ports.incoming.clinic_room.GetRoomAvailableTimeQuery;
 import org.medihub.application.ports.incoming.medical_doctor.GetAllMedicalDoctorsUseCase;
 import org.medihub.application.ports.incoming.scheduling.GetDoctorAvailableTimesQuery;
+import org.medihub.application.ports.outgoing.mail.SendEmailPort;
 import org.medihub.domain.appointment.AppointmentRequest;
 import org.medihub.domain.clinic_room.ClinicRoom;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.NotActiveException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -35,6 +37,7 @@ public class AutomaticSchedulingController {
     private final DeleteAppointmentRequestUseCase deleteAppointmentRequestUseCase;
     private final GetDoctorAvailableTimesQuery getDoctorAvailableTimesQuery;
     private final GetRoomAvailableTimeQuery getRoomAvailableTimeQuery;
+    private final SendEmailPort sendEmailPort;
 
     @Scheduled(cron = "${schedule.cron}")
     void runAutomaticScheduling() throws NotFoundException, NotAvailableException, NotActiveException, ForbiddenException {
@@ -79,7 +82,7 @@ public class AutomaticSchedulingController {
             AppointmentRequest appointmentRequest) throws NotFoundException, NotAvailableException, NotActiveException, ForbiddenException {
         for(ClinicRoom room: getAllClinicRoomsUseCase.getAll()) {
             if(roomAvailableTimeFound(date, room.getId(), time, appointmentRequest)
-                    && room.getClinic().getId() == doctorClinicId)
+                    && room.getClinic().getId().equals(doctorClinicId))
                 return true;
         }
         return false;
@@ -102,6 +105,7 @@ public class AutomaticSchedulingController {
     private boolean addAppointment(AppointmentRequest appointmentRequest, Long clinicRoomId) throws NotFoundException, NotAvailableException, NotActiveException, ForbiddenException {
         addAppointmentUseCase.addAppointment(makeCommand(appointmentRequest, clinicRoomId));
         deleteAppointmentRequestUseCase.deleteAppointmentRequest(appointmentRequest.getId());
+        notifyPatient(appointmentRequest);
         return true;
     }
 
@@ -110,5 +114,14 @@ public class AutomaticSchedulingController {
            appointmentRequest.getId(),
                 clinicRoomId
         );
+    }
+
+    private void notifyPatient(AppointmentRequest appointmentRequest) {
+        String to = appointmentRequest.getPatient().getPersonalInfo().getAccount().getEmail();
+        String subject = "Appointment request notification";
+        String text = String.format("Your appointment request with doctor %s has been accepted at %s",
+                appointmentRequest.getDoctor().getFullName(),
+                LocalDateTime.of(appointmentRequest.getDate(),appointmentRequest.getTime()).toString());
+        sendEmailPort.sendEmail(to, subject, text);
     }
 }

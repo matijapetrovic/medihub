@@ -4,16 +4,24 @@ import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.operation.AddOperationUseCase;
 import org.medihub.application.ports.incoming.operation.OperationOutput;
+import org.medihub.application.ports.outgoing.LoadClinicAdminPort;
 import org.medihub.application.ports.outgoing.appointment.SaveAppointmentPort;
+import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
+import org.medihub.application.ports.outgoing.clinic.LoadClinicPort;
 import org.medihub.application.ports.outgoing.clinic_room.GetClinicRoomsPort;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorsPort;
+import org.medihub.application.ports.outgoing.doctor.LoadDoctorPort;
 import org.medihub.application.ports.outgoing.patient.GetPatientsPort;
 import org.medihub.application.ports.outgoing.scheduling.schedule_item.SaveMedicalDoctorScheduleItemPort;
+import org.medihub.domain.account.Account;
 import org.medihub.domain.appointment.Operation;
+import org.medihub.domain.clinic.Clinic;
+import org.medihub.domain.clinic.ClinicAdmin;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
 import org.medihub.domain.medical_doctor.MedicalDoctorAppointmentScheduleItem;
 import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashSet;
@@ -28,6 +36,10 @@ public class AddOperationService implements AddOperationUseCase {
     private final GetClinicRoomsPort getClinicRoomsPort;
     private final SaveAppointmentPort saveAppointmentPort;
     private final SaveMedicalDoctorScheduleItemPort saveMedicalDoctorScheduleItemPort;
+    private final GetAuthenticatedPort getAuthenticatedPort;
+    private final LoadClinicAdminPort loadClinicAdminPort;
+    private final LoadClinicPort loadClinicPort;
+    private final LoadDoctorPort loadDoctorPort;
 
     @Override
     public OperationOutput addOperation(AddOperationCommand command) throws NotFoundException {
@@ -39,7 +51,8 @@ public class AddOperationService implements AddOperationUseCase {
                 LocalDate.parse(command.getDate()),
                 LocalTime.parse(command.getTime()),
                 getClinicRoomsPort.getClinicRoomById(command.getClinicRoomId()),
-                createDoctorList(command.getPresentDoctors())
+                createDoctorList(command.getPresentDoctors()),
+                getPrice(command.getDoctorId())
         );
 
         //save operation
@@ -100,5 +113,14 @@ public class AddOperationService implements AddOperationUseCase {
         }
 
         return doctors;
+    }
+
+    private BigDecimal getPrice(Long doctorId) {
+        Account account = getAuthenticatedPort.getAuthenticated();
+        ClinicAdmin admin = loadClinicAdminPort.loadClinicAdminByAccountId(account.getId());
+        Clinic clinic = loadClinicPort.loadClinic(admin.getClinic().getId());
+        MedicalDoctor doctor = loadDoctorPort.loadDoctor(doctorId);
+
+        return clinic.getAppointmentPrices().get(doctor.getSpecialization()).getAmount();
     }
 }

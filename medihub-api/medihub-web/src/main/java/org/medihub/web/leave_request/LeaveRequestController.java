@@ -3,9 +3,6 @@ package org.medihub.web.leave_request;
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.leave_request.*;
-import org.medihub.application.ports.incoming.leave_request.AddLeaveRequestUseCase;
-import org.medihub.application.ports.incoming.leave_request.ApproveLeaveRequestUseCase;
-import org.medihub.application.ports.incoming.leave_request.GetLeaveRequestUseCase;
 import org.medihub.application.ports.outgoing.leave_request.DeleteLeaveRequestPort;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +19,8 @@ import java.util.List;
 public class LeaveRequestController {
     private final AddLeaveRequestUseCase addLeaveRequestUseCase;
     private final ApproveLeaveRequestUseCase approveLeaveRequestUseCase;
-
     private final GetLeaveRequestUseCase getLeaveRequestUseCase;
-    private final DeleteLeaveRequestPort deleteLeaveRequestPort;
+    private final DeleteLeaveRequestUseCase deleteLeaveRequestUseCase;
 
     private final AddNurseLeaveRequestUseCase addNurseLeaveRequestUseCase;
     private final GetNurseLeaveRequestsQuery getNurseLeaveRequestsQuery;
@@ -45,10 +41,11 @@ public class LeaveRequestController {
         addLeaveRequestUseCase.addLeave(addLeaveCommand);
     }
 
-    @PostMapping("/delete")
+    @PostMapping("/{id}/delete")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    public void delete(@RequestBody Long id) {
-        deleteLeaveRequestPort.delete(id);
+    public void delete(@PathVariable Long id,
+                       @RequestBody String message) {
+        deleteLeaveRequestUseCase.delete(id, message);
     }
 
     @PostMapping("/approve")
@@ -81,7 +78,7 @@ public class LeaveRequestController {
     }
 
     @PostMapping("/nurse/approve")
-    public void approveNurseLeaveRequest(@RequestBody ApproveLeaveRequest approveLeaveRequest) throws NotFoundException {
+    public void approveNurseLeaveRequest(@RequestBody ApproveLeaveRequest approveLeaveRequest) throws NotFoundException, NotFoundException {
         ApproveNurseLeaveRequestUseCase.ApproveNurseLeaveRequestCommand command  =
                 new ApproveNurseLeaveRequestUseCase.ApproveNurseLeaveRequestCommand(approveLeaveRequest.getId(),
                         approveLeaveRequest.getMedicalDoctorId());

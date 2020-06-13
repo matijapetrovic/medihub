@@ -32,7 +32,8 @@ public class PredefinedAppointmentMapper {
                     predefinedAppointmentJpaEntity.getDuration(),
                     clinicRoomMapper.mapToDomainEntity(predefinedAppointmentJpaEntity.getClinicRoomJpaEntity()),
                     appointmentTypeMapper.mapToDomainEntity(predefinedAppointmentJpaEntity.getAppointmentTypeJpaEntity()),
-                    predefinedAppointmentJpaEntity.getPrice()
+                    predefinedAppointmentJpaEntity.getPrice(),
+                    predefinedAppointmentJpaEntity.getDiscount()
             );
     }
 
@@ -43,6 +44,7 @@ public class PredefinedAppointmentMapper {
                 Timestamp.valueOf(LocalDateTime.of(predefinedAppointment.getDate(), predefinedAppointment.getStart())),
                 predefinedAppointment.getDuration(),
                 predefinedAppointment.getPrice(),
+                predefinedAppointment.getDiscount(),
                 clinicRoomMapper.mapToJpaEntity(predefinedAppointment.getClinicRoom()),
                 appointmentTypeMapper.mapToJpaEntity(predefinedAppointment.getAppointmentType())
         );
