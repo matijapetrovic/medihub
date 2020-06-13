@@ -5,6 +5,7 @@ import lombok.Getter;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import static java.time.temporal.ChronoUnit.HOURS;
 
@@ -40,12 +41,12 @@ public class Schedule<T extends DailyScheduleItem> {
         LocalTime currentTime = LocalTime.parse("00:00");
         if(dailySchedules.get(date) == null)
             return LocalTime.parse("00:00");
-        
+
         for (int i = 0; i < dailySchedules.get(date).getScheduleItems().size(); i++) {
             if (dailySchedules.get(date).isAvailable(currentTime))
                 return currentTime;
             currentTime = currentTime.plusHours(1l);
         }
-        return null;
+        return currentTime;
     }
 }
