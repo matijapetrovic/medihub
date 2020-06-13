@@ -28,6 +28,21 @@ export default {
         path: '/prescriptions',
         icon: 'mdi-pill',
       },
+      {
+        text: 'Patients',
+        path: '/nurse-patients',
+        icon: 'mdi-account-multiple-outline',
+      },
+      {
+        text: 'Leave request',
+        path: '/nurse-vacation/add',
+        icon: 'mdi-calendar-range',
+      },
+      {
+        text: 'Working calendar',
+        path: '/nurse-schedule',
+        icon: 'mdi-calendar',
+      },
     ],
   }),
 };
