@@ -139,15 +139,10 @@ insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2
 insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-06-15 23:00:00');
 insert into clinic_room_schedule_item (clinic_room_id, start_time) values (1, '2020-06-15 00:00:00');
 
-<<<<<<< HEAD
-insert into medical_doctor_appointment_schedule_item (id, appointment_id, doctor_id, start_time, schedule_item_type) values (10000, 51, 1, CURRENT_TIMESTAMP, 1);
 
-insert into appointment_request (doctor, patient, price, start_time) values (1, 1, 500, '2020-06-15 00:00:00');
-=======
 insert into medical_doctor_appointment_schedule_item (id, appointment_id, doctor_id, start_time, schedule_item_type) values (1, 51, 1, CURRENT_TIMESTAMP, 1);
 
 insert into appointment_request (doctor, patient, price, start_time) values (2, 1, 500, '2020-05-06 16:00:00');
->>>>>>> master
 -- insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1000, '2020-10-10', '00:00:00');
 -- insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 2500, '2020-10-10', '23:00:00');
 -- insert into appointment_request (doctor, patient, price, date, time) values (1, 1, 1500, '2020-03-10', '13:00:00');
@@ -173,14 +168,7 @@ insert into clinic_review (clinic_id, patient_id, rating, can_review) values (2,
 insert into doctor_review (doctor_id, patient_id, rating, can_review) values (1, 1, null, true);
 insert into doctor_review (doctor_id, patient_id, rating, can_review) values (3, 1, 4.5, false);
 
-<<<<<<< HEAD
-insert into registration_request (email, password, first_name, last_name, address, city, country, telephone_number, insurance_number) values ('p20@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Andrej', 'Petrovic', 'Ulica 1', 'Beograd', 'Serbia', '0601231233', '14115151553');
-
-insert into leave_request (start_date, end_date, doctor_id, schedule_item_type) values ('2020-06-15 00:00:00', '2020-06-25 00:00:00', 1, 1);
-=======
-
 insert into appointment_request (doctor, patient, price, start_time, type) values (2, 1, 200, '2020-06-15 15:00:00', 'APPOINTMENT');
 insert into appointment_request (doctor, patient, price, start_time, type) values (2, 1, 200, '2020-06-17 09:00:00', 'OPERATION');
 
 insert into registration_request (email, password, first_name, last_name, address, city, country, telephone_number, insurance_number) values ('p20@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Andrej', 'Petrovic', 'Ulica 1', 'Beograd', 'Serbia', '0601231233', '14115151553');
->>>>>>> master

@@ -1,6 +1,7 @@
 package org.medihub.web.leave_request;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.leave_request.*;
 import org.medihub.application.ports.outgoing.leave_request.DeleteLeaveRequestPort;
 import org.springframework.http.MediaType;
@@ -77,7 +78,7 @@ public class LeaveRequestController {
     }
 
     @PostMapping("/nurse/approve")
-    public void approveNurseLeaveRequest(@RequestBody ApproveLeaveRequest approveLeaveRequest) throws NotFoundException {
+    public void approveNurseLeaveRequest(@RequestBody ApproveLeaveRequest approveLeaveRequest) throws NotFoundException, NotFoundException {
         ApproveNurseLeaveRequestUseCase.ApproveNurseLeaveRequestCommand command  =
                 new ApproveNurseLeaveRequestUseCase.ApproveNurseLeaveRequestCommand(approveLeaveRequest.getId(),
                         approveLeaveRequest.getMedicalDoctorId());

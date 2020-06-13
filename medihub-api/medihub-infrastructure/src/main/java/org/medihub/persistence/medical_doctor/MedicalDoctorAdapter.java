@@ -25,7 +25,8 @@ public class MedicalDoctorAdapter implements
         GetDoctorsPort,
         GetAllDoctorsPort,
         SearchDoctorsPort,
-        GetDoctorWorkingTimePort {
+        GetDoctorWorkingTimePort,
+        GetDoctorsForClinicOnDatePort{
     private final MedicalDoctorMapper medicalDoctorMapper;
     private final MedicalDoctorRepository medicalDoctorRepository;
     private final ClinicRepository clinicRepository;
