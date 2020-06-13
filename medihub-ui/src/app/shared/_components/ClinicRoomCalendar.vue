@@ -188,14 +188,17 @@ export default {
     },
   },
   mounted() {
-    this.$refs.calendar.checkChange();
-    this.getWorkindCalendarByClinicRoomId(this.clinicRoomId)
-      .then(() => {
-        this.setUpEvents();
-      });
+    this.initialize();
   },
   methods: {
     ...mapActions('clinicRooms', ['getWorkindCalendarByClinicRoomId']),
+    initialize() {
+      this.$refs.calendar.checkChange();
+      this.getWorkindCalendarByClinicRoomId(this.clinicRoomId)
+        .then(() => {
+          this.setUpEvents();
+        });
+    },
     viewDay({ date }) {
       this.focus = date;
       this.type = 'day';
@@ -285,6 +288,11 @@ export default {
     },
     rnd(a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a;
+    },
+  },
+  watch: {
+    clinicRoomId: {
+      handler: 'initialize',
     },
   },
 };

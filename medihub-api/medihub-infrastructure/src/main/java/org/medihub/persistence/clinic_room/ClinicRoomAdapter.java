@@ -81,8 +81,10 @@ public class ClinicRoomAdapter implements
     public List<ClinicRoom> searchClinicRooms(String name, Integer number, LocalDate date, LocalTime time, Long clinicId) {
         Timestamp timestamp = (date == null || time == null) ? null : Timestamp.valueOf(LocalDateTime.of(date, time));
 
+        Timestamp dateStart = (date == null ? null : Timestamp.valueOf(LocalDateTime.of(date, LocalTime.MIDNIGHT)));
+        Timestamp dateEnd = (date == null ? null :Timestamp.valueOf(LocalDateTime.of(date.plusDays(1), LocalTime.MIDNIGHT)));
         return clinicRoomRepository
-                .findAllWithNameOrNumberOnDate(name, number, timestamp ,clinicId)
+                .findAllWithNameOrNumberOnDate(name, number, timestamp ,clinicId, dateStart, dateEnd)
                 .stream()
                 .map(clinicRoomMapper::mapToDomainEntity)
                 .collect(Collectors.toList());

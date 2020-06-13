@@ -167,17 +167,19 @@
           <v-btn small rounded @click="editItem(item)"> Working calendar</v-btn>
         </template>
       </v-data-table>
+      <v-dialog v-model="dialog" max-width="500px">
+        <v-card>
+          <v-card-title>
+            Working calendar
+          </v-card-title>
+          <v-card-text>
+            <WorkingCalendar
+            ref="cal"
+            v-bind:clinicRoomId="getRoomId"></WorkingCalendar>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
     </v-form>
-    <v-dialog v-model="dialog" max-width="500px">
-      <v-card>
-        <v-card-title>
-          Working calendar
-        </v-card-title>
-        <v-card-text>
-          <WorkingCalendar :clinicRoomId="id"></WorkingCalendar>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
   </v-container>
 </template>
 
@@ -195,6 +197,7 @@ export default {
     appointmentId: null,
     params: null,
     id: null,
+    editedRoomId: null,
     doctor: null,
     time: null,
     dialog: false,
@@ -307,6 +310,7 @@ export default {
       return true;
     },
     editItem(item) {
+      this.editedRoomId = item.id;
       this.id = item.id;
       this.dialog = true;
     },
@@ -326,6 +330,9 @@ export default {
     },
     isOperation() {
       return this.type === 'OPERATION';
+    },
+    getRoomId() {
+      return this.editedRoomId;
     },
   },
 };
