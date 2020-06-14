@@ -962,7 +962,8 @@ public class BeanConfig {
                                                    GetAuthenticatedPort getAuthenticatedPort,
                                                    LoadClinicAdminPort loadClinicAdminPort,
                                                    LoadAppointmentRequestPort loadAppointmentRequestPort,
-                                                   DeleteAppointmentRequestPort deleteAppointmentRequestPort) {
+                                                   DeleteAppointmentRequestPort deleteAppointmentRequestPort,
+                                                   SendEmailPort sendEmailPort) {
         return new AddOperationService(getDoctorsPort,
                 getClinicRoomsPort,
                 saveAppointmentPort,
@@ -970,7 +971,8 @@ public class BeanConfig {
                 getAuthenticatedPort,
                 loadClinicAdminPort,
                 loadAppointmentRequestPort,
-                deleteAppointmentRequestPort
+                deleteAppointmentRequestPort,
+                sendEmailPort
                 );
     }
 

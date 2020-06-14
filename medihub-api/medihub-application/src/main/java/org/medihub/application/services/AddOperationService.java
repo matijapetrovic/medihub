@@ -2,6 +2,7 @@ package org.medihub.application.services;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.ForbiddenException;
+import org.medihub.application.exceptions.NotAvailableException;
 import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.operation.AddOperationUseCase;
 import org.medihub.application.ports.incoming.operation.OperationOutput;
@@ -14,10 +15,12 @@ import org.medihub.application.ports.outgoing.clinic.LoadClinicPort;
 import org.medihub.application.ports.outgoing.clinic_room.GetClinicRoomsPort;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorsPort;
 import org.medihub.application.ports.outgoing.doctor.LoadDoctorPort;
+import org.medihub.application.ports.outgoing.mail.SendEmailPort;
 import org.medihub.application.ports.outgoing.patient.GetPatientsPort;
 import org.medihub.application.ports.outgoing.scheduling.schedule_item.SaveMedicalDoctorScheduleItemPort;
 import org.medihub.domain.MedicalStaff;
 import org.medihub.domain.account.Account;
+import org.medihub.domain.appointment.Appointment;
 import org.medihub.domain.appointment.AppointmentRequest;
 import org.medihub.domain.appointment.Operation;
 import org.medihub.domain.clinic.Clinic;
@@ -26,8 +29,10 @@ import org.medihub.domain.clinic_room.ClinicRoom;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
 import org.medihub.domain.medical_doctor.MedicalDoctorAppointmentScheduleItem;
 import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem;
+import org.medihub.domain.patient.Patient;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -41,13 +46,14 @@ public class AddOperationService implements AddOperationUseCase {
     private final LoadClinicAdminPort loadClinicAdminPort;
     private final LoadAppointmentRequestPort loadAppointmentRequestPort;
     private final DeleteAppointmentRequestPort deleteAppointmentRequestPort;
+    private final SendEmailPort sendEmail;
 
     @Override
     @Transactional
-    public OperationOutput addOperation(AddOperationCommand command) throws NotFoundException, ForbiddenException {
+    public OperationOutput addOperation(AddOperationCommand command) throws NotFoundException, ForbiddenException, NotAvailableException {
         Account account = getAuthenticatedPort.getAuthenticated();
         ClinicAdmin admin = loadClinicAdminPort.loadClinicAdminByAccountId(account.getId());
-        AppointmentRequest appointmentRequest = loadAppointmentRequestPort.loadById(command.getRequestId());
+        AppointmentRequest appointmentRequest = loadAppointmentRequestPort.loadByIdWithLock(command.getRequestId());
 
         if(!admin.getClinic().getId().equals(appointmentRequest.getDoctor().getClinic().getId()))
             throw new ForbiddenException();
@@ -107,6 +113,11 @@ public class AddOperationService implements AddOperationUseCase {
 
         deleteAppointmentRequestPort.deleteAppointmentRequest(appointmentRequest.getId());
 
+        notifyDoctor(savedOperation, savedOperation.getDoctor());
+        notifyPatient(savedOperation, savedOperation.getPatient());
+        for(MedicalDoctor doctor : presentDoctors)
+            notifyDoctor(savedOperation, doctor);
+
         return createOutput(savedOperation);
     }
 
@@ -125,5 +136,25 @@ public class AddOperationService implements AddOperationUseCase {
                 .stream()
                 .map(MedicalStaff::getId)
                 .collect(Collectors.toList());
+    }
+
+    private void notifyDoctor(Operation operation, MedicalDoctor doctor) {
+        String to = doctor.getFullName();
+        String subject = "Operation request notification";
+        String text = String.format("Doctor %s has been scheduled request operation with %s at %s",
+                doctor.getFullName(),
+                operation.getPatient().getFullName(),
+                LocalDateTime.of(operation.getDate(), operation.getTime()));
+        sendEmail.sendEmail(to, subject, text);
+    }
+
+    private void notifyPatient(Operation operation, Patient patient) {
+        String to = patient.getPersonalInfo().getAccount().getEmail();
+        String subject = "Operation notification";
+        String text = String.format("Patient %s has been scheduled operation with doctor %s at %s",
+                patient.getFullName(),
+                operation.getDoctor().getFullName(),
+                LocalDateTime.of(operation.getDate(), operation.getTime()));
+        sendEmail.sendEmail(to, subject, text);
     }
 }
