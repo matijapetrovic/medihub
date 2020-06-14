@@ -8,10 +8,12 @@ import org.medihub.persistence.clinic.ClinicJpaEntity;
 import javax.persistence.*;
 
 @Entity
-@Table(name="clinic_room")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name="clinic_room", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"clinic_id", "number"})
+})
 public class ClinicRoomJpaEntity {
     @Id
     @Column(name="id")
@@ -21,7 +23,7 @@ public class ClinicRoomJpaEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "number", unique = true)
+    @Column(name = "number")
     private int number;
 
     @Column(name = "deleted")
