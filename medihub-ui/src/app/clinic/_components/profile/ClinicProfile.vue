@@ -48,7 +48,9 @@
                     <v-list-item-title v-text="item.date"></v-list-item-title>
                     <v-list-item-subtitle class="text--primary" v-text="item.time">
                     </v-list-item-subtitle>
-                    <v-list-item-subtitle>{{ item.price }}&euro;</v-list-item-subtitle>
+                    <v-list-item-subtitle>
+                      {{ item.price * (1 - item.discount) }}&euro; ({{ item.discount * 100 }}% off)
+                    </v-list-item-subtitle>
                   </v-list-item-action>
                 </v-list-item>
                 <v-divider

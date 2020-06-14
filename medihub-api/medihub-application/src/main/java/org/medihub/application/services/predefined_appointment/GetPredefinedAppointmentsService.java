@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-public class GetPredefinedAppointmentsOutputService implements GetPredefinedAppointmentsQuery {
+public class GetPredefinedAppointmentsService implements GetPredefinedAppointmentsQuery {
     private final GetPredefinedAppointmentsPort getPredefinedAppointmentsPort;
 
     @Override
@@ -30,8 +30,8 @@ public class GetPredefinedAppointmentsOutputService implements GetPredefinedAppo
                         pa.getClinicRoom().getName(),
                         pa.getDate().toString(),
                         pa.getStart().toString(),
-                        pa.getPrice()
-                ))
+                        pa.getPrice(),
+                        pa.getDiscount()))
                 .collect(Collectors.toList());
     }
 }

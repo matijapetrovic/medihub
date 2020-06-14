@@ -13,4 +13,5 @@ public class GetPredefinedAppointmentsOutput {
     String date;
     String time;
     BigDecimal price;
+    BigDecimal discount;
 }
