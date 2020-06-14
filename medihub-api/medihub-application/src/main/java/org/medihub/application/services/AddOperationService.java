@@ -1,89 +1,122 @@
 package org.medihub.application.services;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.ForbiddenException;
+import org.medihub.application.exceptions.NotAvailableException;
 import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.operation.AddOperationUseCase;
 import org.medihub.application.ports.incoming.operation.OperationOutput;
 import org.medihub.application.ports.outgoing.LoadClinicAdminPort;
 import org.medihub.application.ports.outgoing.appointment.SaveAppointmentPort;
+import org.medihub.application.ports.outgoing.appointment_request.DeleteAppointmentRequestPort;
+import org.medihub.application.ports.outgoing.appointment_request.LoadAppointmentRequestPort;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
 import org.medihub.application.ports.outgoing.clinic.LoadClinicPort;
 import org.medihub.application.ports.outgoing.clinic_room.GetClinicRoomsPort;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorsPort;
 import org.medihub.application.ports.outgoing.doctor.LoadDoctorPort;
+import org.medihub.application.ports.outgoing.mail.SendEmailPort;
 import org.medihub.application.ports.outgoing.patient.GetPatientsPort;
 import org.medihub.application.ports.outgoing.scheduling.schedule_item.SaveMedicalDoctorScheduleItemPort;
+import org.medihub.domain.MedicalStaff;
 import org.medihub.domain.account.Account;
+import org.medihub.domain.appointment.Appointment;
+import org.medihub.domain.appointment.AppointmentRequest;
 import org.medihub.domain.appointment.Operation;
 import org.medihub.domain.clinic.Clinic;
 import org.medihub.domain.clinic.ClinicAdmin;
+import org.medihub.domain.clinic_room.ClinicRoom;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
 import org.medihub.domain.medical_doctor.MedicalDoctorAppointmentScheduleItem;
 import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem;
+import org.medihub.domain.patient.Patient;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class AddOperationService implements AddOperationUseCase {
     private final GetDoctorsPort getDoctorsPort;
-    private final GetPatientsPort getPatientsPort;
     private final GetClinicRoomsPort getClinicRoomsPort;
     private final SaveAppointmentPort saveAppointmentPort;
     private final SaveMedicalDoctorScheduleItemPort saveMedicalDoctorScheduleItemPort;
     private final GetAuthenticatedPort getAuthenticatedPort;
     private final LoadClinicAdminPort loadClinicAdminPort;
-    private final LoadClinicPort loadClinicPort;
-    private final LoadDoctorPort loadDoctorPort;
+    private final LoadAppointmentRequestPort loadAppointmentRequestPort;
+    private final DeleteAppointmentRequestPort deleteAppointmentRequestPort;
+    private final SendEmailPort sendEmail;
 
     @Override
-    public OperationOutput addOperation(AddOperationCommand command) throws NotFoundException {
-        //create operation
+    @Transactional
+    public OperationOutput addOperation(AddOperationCommand command) throws NotFoundException, ForbiddenException, NotAvailableException {
+        Account account = getAuthenticatedPort.getAuthenticated();
+        ClinicAdmin admin = loadClinicAdminPort.loadClinicAdminByAccountId(account.getId());
+        AppointmentRequest appointmentRequest = loadAppointmentRequestPort.loadByIdWithLock(command.getRequestId());
+
+        if(!admin.getClinic().getId().equals(appointmentRequest.getDoctor().getClinic().getId()))
+            throw new ForbiddenException();
+
+        Set<MedicalDoctor> presentDoctors = new LinkedHashSet<>();
+
+        for(Long doctorId : command.getPresentDoctors()) {
+            MedicalDoctor tempDoctor = getDoctorsPort.getMedicalDoctorById(doctorId);
+            if(!admin.getClinic().getId().equals(tempDoctor.getClinic().getId()))
+                throw new ForbiddenException();
+            presentDoctors.add(tempDoctor);
+        }
+
+        ClinicRoom tempRoom = getClinicRoomsPort.getClinicRoomById(command.getClinicRoomId());
+
+        if(!admin.getClinic().getId().equals(tempRoom.getClinic().getId()))
+            throw new ForbiddenException();
+
         Operation operation = new Operation(
                 null,
-                getPatientsPort.getPatientById(command.getPatientId()),
-                getDoctorsPort.getMedicalDoctorById(command.getDoctorId()),
-                LocalDate.parse(command.getDate()),
-                LocalTime.parse(command.getTime()),
-                getClinicRoomsPort.getClinicRoomById(command.getClinicRoomId()),
-                createDoctorList(command.getPresentDoctors()),
-                getPrice(command.getDoctorId())
+                appointmentRequest.getPatient(),
+                appointmentRequest.getDoctor(),
+                appointmentRequest.getDate(),
+                appointmentRequest.getTime(),
+                tempRoom,
+                presentDoctors,
+                appointmentRequest.getPrice().getAmount()
         );
 
         //save operation
         Operation savedOperation = (Operation) saveAppointmentPort.saveAppointment(operation);
 
         //Create main doctor schedule item
-        MedicalDoctor mainDoctor = getDoctorsPort.getMedicalDoctorById(command.getDoctorId());
         MedicalDoctorAppointmentScheduleItem mainScheduleItem = new MedicalDoctorAppointmentScheduleItem(
                 null,
-                LocalTime.parse(command.getTime()),
+                appointmentRequest.getTime(),
                 MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.OPERATION,
                 savedOperation
         );
 
         saveMedicalDoctorScheduleItemPort.saveMedicalDoctorScheduleItem(mainScheduleItem,
-                mainDoctor,
-                LocalDate.parse(command.getDate()) );
+                appointmentRequest.getDoctor(),
+                appointmentRequest.getDate());
 
         //Create present doctor schedule items
-        for(Long doctorId : command.getPresentDoctors()) {
-            MedicalDoctor doctor = getDoctorsPort.getMedicalDoctorById(doctorId);
+        for(MedicalDoctor doctor : presentDoctors) {
             MedicalDoctorAppointmentScheduleItem operationScheduleItem = new MedicalDoctorAppointmentScheduleItem(
                     null,
-                    LocalTime.parse(command.getTime()),
+                    appointmentRequest.getTime(),
                     MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.OPERATION,
                     savedOperation
             );
             saveMedicalDoctorScheduleItemPort.saveMedicalDoctorScheduleItem(operationScheduleItem,
                     doctor,
-                    LocalDate.parse(command.getDate()) );
+                    appointmentRequest.getDate() );
         }
+
+        deleteAppointmentRequestPort.deleteAppointmentRequest(appointmentRequest.getId());
+
+        notifyDoctor(savedOperation, savedOperation.getDoctor());
+        notifyPatient(savedOperation, savedOperation.getPatient());
+        for(MedicalDoctor doctor : presentDoctors)
+            notifyDoctor(savedOperation, doctor);
 
         return createOutput(savedOperation);
     }
@@ -101,26 +134,27 @@ public class AddOperationService implements AddOperationUseCase {
     private List<Long> createDoctorIdList(Set<MedicalDoctor> doctors) {
         return doctors
                 .stream()
-                .map(entry -> entry.getId())
+                .map(MedicalStaff::getId)
                 .collect(Collectors.toList());
     }
 
-    private Set<MedicalDoctor> createDoctorList(List<Long> ids) {
-        Set<MedicalDoctor> doctors = new HashSet<MedicalDoctor>();
-
-        for(Long id : ids) {
-            doctors.add(getDoctorsPort.getMedicalDoctorById(id));
-        }
-
-        return doctors;
+    private void notifyDoctor(Operation operation, MedicalDoctor doctor) {
+        String to = doctor.getFullName();
+        String subject = "Operation request notification";
+        String text = String.format("Doctor %s has been scheduled request operation with %s at %s",
+                doctor.getFullName(),
+                operation.getPatient().getFullName(),
+                LocalDateTime.of(operation.getDate(), operation.getTime()));
+        sendEmail.sendEmail(to, subject, text);
     }
 
-    private BigDecimal getPrice(Long doctorId) {
-        Account account = getAuthenticatedPort.getAuthenticated();
-        ClinicAdmin admin = loadClinicAdminPort.loadClinicAdminByAccountId(account.getId());
-        Clinic clinic = loadClinicPort.loadClinic(admin.getClinic().getId());
-        MedicalDoctor doctor = loadDoctorPort.loadDoctor(doctorId);
-
-        return clinic.getAppointmentPrices().get(doctor.getSpecialization()).getAmount();
+    private void notifyPatient(Operation operation, Patient patient) {
+        String to = patient.getPersonalInfo().getAccount().getEmail();
+        String subject = "Operation notification";
+        String text = String.format("Patient %s has been scheduled operation with doctor %s at %s",
+                patient.getFullName(),
+                operation.getDoctor().getFullName(),
+                LocalDateTime.of(operation.getDate(), operation.getTime()));
+        sendEmail.sendEmail(to, subject, text);
     }
 }
