@@ -73,8 +73,8 @@ public class LeaveRequestController {
     }
 
     @PostMapping("/nurse/delete")
-    public void deleteNurseLeaveRequest(@RequestBody Long id) {
-        deleteNurseLeaveRequestUseCase.deleteNurseLeaveRequest(id);
+    public void deleteNurseLeaveRequest(@RequestBody DeleteNurseVacationRequest request) throws NotFoundException {
+        deleteNurseLeaveRequestUseCase.deleteNurseLeaveRequest(request.getId(), request.getRejectReason());
     }
 
     @PostMapping("/nurse/approve")
