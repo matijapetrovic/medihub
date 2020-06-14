@@ -21,7 +21,6 @@ public interface AppointmentTypeRepository extends JpaRepository<AppointmentType
     @Query(value="DELETE FROM clinic_appointment_type_mapping where appointment_type_id=:id", nativeQuery=true)
     void deleteClinicPrices(@Param(value="id") Long id);
 
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
     @QueryHints({@QueryHint(name="javax.persistence.lock.timeout", value = "0")})
     @Modifying
     @Query("delete from AppointmentTypeJpaEntity at where at.id=:id and " +

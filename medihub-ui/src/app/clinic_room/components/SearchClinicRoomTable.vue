@@ -104,12 +104,12 @@
                 v-if="isOperation"
                 multiple
                 :items="otherDoctors"
+                :rules="[requiredRule]"
                 item-text="email"
                 item-value="id"
                 dense
                 v-model="presentDoctors"
                 outlined
-                :rules="[requiredRule]"
               >
               <template v-slot:selection="{ item, index }">
                 <v-chip v-if="index === 0">
