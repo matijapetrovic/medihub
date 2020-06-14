@@ -46,13 +46,17 @@ public class AppointmentRequestController {
         scheduleDoctorsAppointmentUseCase.scheduleAppointment(command);
     }
 
-    @PostMapping("/{requestId}/schedule")
+    @PostMapping("/schedule")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
     public void scheduleAppointment(
-            @PathVariable Long requestId,
             @RequestBody ScheduleRequest request)
             throws NotAvailableException, NotActiveException, NotFoundException, ForbiddenException {
-        addAppointmentUseCase.addAppointment(new AddAppointmentUseCase.AddAppointmentCommand(requestId, request.getClinicRoomId()));
+        addAppointmentUseCase.addAppointment(new AddAppointmentUseCase.AddAppointmentCommand(
+                request.getId(),
+                request.getDate(),
+                request.getTime(),
+                request.getDoctorId(),
+                request.getClinicRoomId()));
     }
 
     @GetMapping("")

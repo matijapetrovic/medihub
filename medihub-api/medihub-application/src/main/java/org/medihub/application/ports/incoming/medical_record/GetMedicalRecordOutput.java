@@ -9,6 +9,7 @@ import java.util.List;
 @Value
 public class GetMedicalRecordOutput {
     Long id;
+    String insuranceNumber;
     Integer height;
     Integer weight;
     String bloodType;

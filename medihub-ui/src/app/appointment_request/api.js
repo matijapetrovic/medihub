@@ -4,10 +4,10 @@ export default {
   fetchAppointmentRequests() {
     return utils.apiClient.get('api/appointment-request');
   },
-  addAppointmentRequest(id, clinicRoomId) {
-    return utils.apiClient.post(`api/appointment-request/${id}/schedule`, { clinicRoomId });
+  addAppointmentRequest(payload) {
+    return utils.apiClient.post('api/appointment-request/schedule', payload);
   },
-  addOperationRequest(requestId, clinicRoomId, presentDoctors) {
-    return utils.apiClient.post('api/operation/add', { requestId, clinicRoomId, presentDoctors });
+  addOperationRequest(payload) {
+    return utils.apiClient.post('api/operation/add', payload);
   },
 };

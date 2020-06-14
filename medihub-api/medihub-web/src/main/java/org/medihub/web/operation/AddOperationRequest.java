@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Getter
@@ -12,7 +14,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AddOperationRequest {
-    Long clinicRoomId;
+    private Long requestId;
+    private LocalDate date;
+    private LocalTime time;
+    private Long doctorId;
+    private Long clinicRoomId;
     List<Long> presentDoctors;
-    Long requestId;
 }
