@@ -24,7 +24,8 @@ public class PrescriptionAdapter implements SavePrescriptionPort,
     private final PrescriptionMapper prescriptionMapper;
     @Override
     public Prescription savePrescription(Prescription p) {
-        return prescriptionMapper.mapToDomainEntity(prescriptionRepository.save(prescriptionMapper.mapToJpaEntity(p)));
+        PrescriptionJpaEntity prescription = prescriptionMapper.mapToJpaEntity(p);
+        return prescriptionMapper.mapToDomainEntity(prescriptionRepository.save(prescription));
     }
 
     @Override
