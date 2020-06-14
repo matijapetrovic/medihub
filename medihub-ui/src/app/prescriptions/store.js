@@ -28,6 +28,8 @@ export default {
     acceptPrescription({ commit, dispatch }, id) {
       return api.acceptPrescription(id)
         .then(() => {
+          const message = 'Clinic review added successfully.';
+          dispatch('notifications/add', utils.successNotification(message), { root: true });
           commit('REMOVE_PRESCRIPTION', id);
         })
         .catch((err) => {

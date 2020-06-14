@@ -81,7 +81,7 @@ export default {
     ...mapActions('appointmentType', ['fetchAppointmentTypes', 'removeAppointmentType']),
     deleteItem(item) {
       this.editedItem = item;
-      this.$refs.confirm.open('Delete confirmation', 'Are you sure you want to delete clinic room', null);
+      this.$refs.confirm.open('Delete confirmation', 'Are you sure you want to delete appointment type', null);
     },
     editItem(item) {
       this.$refs.editDialog.show(item);
