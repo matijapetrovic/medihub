@@ -45,7 +45,7 @@ export default {
     deleteLeaveRequest({ dispatch }, payload) {
       return api.deleteLeaveRequest(payload.id, payload.reason)
         .then(() => {
-          const message = 'Leave request deleted successfully';
+          const message = 'Leave request rejected!';
           dispatch('notifications/add', utils.successNotification(message), { root: true });
         })
         .catch((err) => {

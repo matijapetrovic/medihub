@@ -5,7 +5,6 @@ import org.medihub.application.ports.incoming.medical_doctor.GetMedicalDoctorByC
 import org.medihub.application.ports.outgoing.LoadClinicAdminPort;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorsForClinicOnDatePort;
-import org.medihub.application.ports.outgoing.doctor.GetDoctorsPort;
 import org.medihub.domain.account.Account;
 import org.medihub.domain.clinic.ClinicAdmin;
 import org.medihub.domain.medical_doctor.MedicalDoctor;

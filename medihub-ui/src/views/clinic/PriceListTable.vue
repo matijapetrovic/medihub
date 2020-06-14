@@ -100,6 +100,7 @@ export default {
       price: null,
     },
     editedItemFirstValue: null,
+    price: null,
   }),
 
   mounted() {
@@ -116,8 +117,7 @@ export default {
     ...mapActions('appointmentType', ['fetchAppointmentTypes']),
     editItem(item) {
       this.editedIndex = this.items.map((e) => e.id).indexOf(item.id);
-      this.editedItem = item;
-      this.editedItemFirstValue = item;
+      this.price = item;
       this.dialog = true;
     },
     deleteItem(item) {
@@ -126,7 +126,7 @@ export default {
       this.items.splice(index, 1);
     },
     setItem(item) {
-      this.editedItem = item;
+      this.price = item;
       this.dialog = true;
     },
     setItems() {
@@ -138,12 +138,11 @@ export default {
     addAppointmentTypePricePrice() {
       this.addPrice({
         appointmentTypeId: this.editedItem.appointmentType.id,
-        price: this.editedItem.price,
+        price: this.price,
       });
       this.dialog = false;
     },
     closeDialog() {
-      this.editedItem = this.editedItemFirstValue;
       this.dialog = false;
     },
   },

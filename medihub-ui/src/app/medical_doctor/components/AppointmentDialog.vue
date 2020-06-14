@@ -349,6 +349,8 @@ export default {
         patientId: this.patientId,
         date: this.date,
         time: this.time,
+        doctor: this.doctorId,
+        clinicRoomId: this.clinicRoom.id,
       });
       this.submitAndCloseDialog();
       this.close();

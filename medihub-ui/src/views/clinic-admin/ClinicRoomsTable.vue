@@ -48,7 +48,11 @@
                     </v-col>
                     <v-spacer></v-spacer>
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="editedItem.number" label="Number">
+                      <v-text-field
+                      v-model="editedItem.number"
+                      :rules="[requiredRule, minNumberRule]"
+                      type="number"
+                      label="Number">
                       </v-text-field>
                     </v-col>
                     <v-spacer></v-spacer>
@@ -122,12 +126,19 @@ export default {
       name: '',
       number: '',
     },
+    number: null,
   }),
 
   computed: {
     ...mapState('clinicRooms', ['clinicRooms']),
     formTitle() {
       return this.editedIndex === -1 ? 'New Item' : 'Edit Clinic Room';
+    },
+    requiredRule() {
+      return (value) => !!value || 'Required';
+    },
+    minNumberRule() {
+      return (value) => value > 0 || 'Number must be positive!';
     },
   },
 
@@ -152,13 +163,15 @@ export default {
     editItem(item) {
       this.editedIndex = this.clinicRooms.indexOf(item);
       this.editedItem = item;
+      this.number = item.number;
       this.dialog = true;
     },
     deleteItem(item) {
-      this.editedItem = item;
+      this.number = item.number;
       this.$refs.confirm.open('Delete confirmation', 'Are you sure you want to delete clinic room', null);
     },
     close() {
+      this.editedItem.number = this.number;
       this.dialog = false;
       this.$nextTick(() => {
         this.editedIndex = -1;
