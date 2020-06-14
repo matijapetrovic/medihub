@@ -11,19 +11,14 @@ import org.medihub.application.ports.outgoing.appointment.SaveAppointmentPort;
 import org.medihub.application.ports.outgoing.appointment_request.DeleteAppointmentRequestPort;
 import org.medihub.application.ports.outgoing.appointment_request.LoadAppointmentRequestPort;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
-import org.medihub.application.ports.outgoing.clinic.LoadClinicPort;
 import org.medihub.application.ports.outgoing.clinic_room.GetClinicRoomsPort;
 import org.medihub.application.ports.outgoing.doctor.GetDoctorsPort;
-import org.medihub.application.ports.outgoing.doctor.LoadDoctorPort;
 import org.medihub.application.ports.outgoing.mail.SendEmailPort;
-import org.medihub.application.ports.outgoing.patient.GetPatientsPort;
 import org.medihub.application.ports.outgoing.scheduling.schedule_item.SaveMedicalDoctorScheduleItemPort;
 import org.medihub.domain.MedicalStaff;
 import org.medihub.domain.account.Account;
-import org.medihub.domain.appointment.Appointment;
 import org.medihub.domain.appointment.AppointmentRequest;
 import org.medihub.domain.appointment.Operation;
-import org.medihub.domain.clinic.Clinic;
 import org.medihub.domain.clinic.ClinicAdmin;
 import org.medihub.domain.clinic_room.ClinicRoom;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
@@ -53,9 +48,14 @@ public class AddOperationService implements AddOperationUseCase {
     public OperationOutput addOperation(AddOperationCommand command) throws NotFoundException, ForbiddenException, NotAvailableException {
         Account account = getAuthenticatedPort.getAuthenticated();
         ClinicAdmin admin = loadClinicAdminPort.loadClinicAdminByAccountId(account.getId());
-        AppointmentRequest appointmentRequest = loadAppointmentRequestPort.loadById(command.getRequestId());
 
+        AppointmentRequest appointmentRequest = loadAppointmentRequestPort.loadById(command.getRequestId());
         if(!admin.getClinic().getId().equals(appointmentRequest.getDoctor().getClinic().getId()))
+            throw new ForbiddenException();
+
+        MedicalDoctor doctor = appointmentRequest.getDoctor().getId().equals(command.getDoctorId()) ?
+                appointmentRequest.getDoctor() : getDoctorsPort.getMedicalDoctorById(command.getDoctorId());
+        if (!admin.getClinic().getId().equals(doctor.getClinic().getId()))
             throw new ForbiddenException();
 
         Set<MedicalDoctor> presentDoctors = new LinkedHashSet<>();
@@ -75,9 +75,9 @@ public class AddOperationService implements AddOperationUseCase {
         Operation operation = new Operation(
                 null,
                 appointmentRequest.getPatient(),
-                appointmentRequest.getDoctor(),
-                appointmentRequest.getDate(),
-                appointmentRequest.getTime(),
+                doctor,
+                command.getDate(),
+                command.getTime(),
                 tempRoom,
                 presentDoctors,
                 appointmentRequest.getPrice().getAmount()
@@ -89,34 +89,34 @@ public class AddOperationService implements AddOperationUseCase {
         //Create main doctor schedule item
         MedicalDoctorAppointmentScheduleItem mainScheduleItem = new MedicalDoctorAppointmentScheduleItem(
                 null,
-                appointmentRequest.getTime(),
+                operation.getTime(),
                 MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.OPERATION,
                 savedOperation
         );
 
         saveMedicalDoctorScheduleItemPort.saveMedicalDoctorScheduleItem(mainScheduleItem,
-                appointmentRequest.getDoctor(),
-                appointmentRequest.getDate());
+                operation.getDoctor(),
+                operation.getDate());
 
         //Create present doctor schedule items
-        for(MedicalDoctor doctor : presentDoctors) {
+        for(MedicalDoctor doc : presentDoctors) {
             MedicalDoctorAppointmentScheduleItem operationScheduleItem = new MedicalDoctorAppointmentScheduleItem(
                     null,
-                    appointmentRequest.getTime(),
+                    operation.getTime(),
                     MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType.OPERATION,
                     savedOperation
             );
             saveMedicalDoctorScheduleItemPort.saveMedicalDoctorScheduleItem(operationScheduleItem,
-                    doctor,
-                    appointmentRequest.getDate() );
+                    doc,
+                    operation.getDate() );
         }
 
         deleteAppointmentRequestPort.deleteAppointmentRequest(appointmentRequest.getId());
 
         notifyDoctor(savedOperation, savedOperation.getDoctor());
         notifyPatient(savedOperation, savedOperation.getPatient());
-        for(MedicalDoctor doctor : presentDoctors)
-            notifyDoctor(savedOperation, doctor);
+        for(MedicalDoctor doc : presentDoctors)
+            notifyDoctor(savedOperation, doc);
 
         return createOutput(savedOperation);
     }

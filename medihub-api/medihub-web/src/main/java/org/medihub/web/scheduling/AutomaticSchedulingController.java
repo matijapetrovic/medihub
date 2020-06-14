@@ -112,6 +112,9 @@ public class AutomaticSchedulingController {
     private AddAppointmentCommand makeCommand(AppointmentRequest appointmentRequest, Long clinicRoomId) {
         return new AddAppointmentCommand(
            appointmentRequest.getId(),
+                appointmentRequest.getDate(),
+                appointmentRequest.getTime(),
+                appointmentRequest.getDoctor().getId(),
                 clinicRoomId
         );
     }
