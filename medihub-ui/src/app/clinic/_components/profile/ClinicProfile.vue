@@ -118,7 +118,15 @@ export default {
     schedule() {
       this.schedulePredefinedAppointment(this.appointment.id)
         .then(() => {
-          this.dialog = false;
+          this.closeConfirmScheduleDialog();
+        })
+        .catch((err) => {
+          this.closeConfirmScheduleDialog();
+          if (err.response.status === 404) {
+            const location = this.$route.fullPath;
+            this.$router.replace('/');
+            this.$nextTick(() => this.$router.replace(location));
+          }
         });
     },
   },

@@ -4,6 +4,6 @@ import org.medihub.domain.medical_doctor.MedicalDoctorPredefinedAppointmentSched
 import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem;
 
 public interface LoadMedicalDoctorScheduleItemPort {
-    MedicalDoctorPredefinedAppointmentScheduleItem loadPredefinedAppointmentScheduleItemByPredefinedAppointmentId(Long predefinedAppointmentId);
+    MedicalDoctorPredefinedAppointmentScheduleItem loadByPredefinedAppointmentId(Long predefinedAppointmentId);
     Integer countFutureScheduleItems(Long doctorId);
 }

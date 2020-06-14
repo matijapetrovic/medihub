@@ -2,6 +2,7 @@ package org.medihub.web.reviewing;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.ForbiddenException;
+import org.medihub.application.exceptions.NotAvailableException;
 import org.medihub.application.ports.incoming.reviewing.*;
 import org.medihub.application.ports.incoming.reviewing.AddClinicReviewUseCase.AddClinicReviewCommand;
 import org.medihub.application.ports.incoming.reviewing.AddDoctorReviewUseCase.AddDoctorReviewCommand;
@@ -25,14 +26,14 @@ public class ReviewController {
 
     @PostMapping("/clinic")
     @PreAuthorize("hasRole('ROLE_PATIENT')")
-    public void addClinicReview(@RequestBody AddReviewRequest request) throws ForbiddenException {
+    public void addClinicReview(@RequestBody AddReviewRequest request) throws ForbiddenException, NotAvailableException {
         AddClinicReviewCommand command = new AddClinicReviewCommand(request.getId(), request.getRating());
         addClinicReviewUseCase.addClinicReview(command);
     }
 
     @PostMapping("/doctor")
     @PreAuthorize("hasRole('ROLE_PATIENT')")
-    public void addDoctorReview(@RequestBody AddReviewRequest request) throws ForbiddenException {
+    public void addDoctorReview(@RequestBody AddReviewRequest request) throws ForbiddenException, NotAvailableException {
         AddDoctorReviewCommand command = new AddDoctorReviewCommand(request.getId(), request.getRating());
         addDoctorReviewUseCase.addDoctorReview(command);
     }

@@ -155,7 +155,7 @@ public class MedicalDoctorScheduleAdapter implements
     }
 
     @Override
-    public MedicalDoctorPredefinedAppointmentScheduleItem loadPredefinedAppointmentScheduleItemByPredefinedAppointmentId(
+    public MedicalDoctorPredefinedAppointmentScheduleItem loadByPredefinedAppointmentId(
             Long predefinedAppointmentId) {
         MedicalDoctorPredefinedAppointmentScheduleJpaItem scheduleItem =
                 predefinedAppointmentScheduleItemRepository.findByPredefinedAppointmentId(predefinedAppointmentId)

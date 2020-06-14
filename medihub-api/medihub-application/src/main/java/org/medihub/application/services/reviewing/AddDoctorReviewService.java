@@ -2,6 +2,7 @@ package org.medihub.application.services.reviewing;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.ForbiddenException;
+import org.medihub.application.exceptions.NotAvailableException;
 import org.medihub.application.ports.incoming.reviewing.AddDoctorReviewUseCase;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
 import org.medihub.application.ports.outgoing.patient.LoadPatientPort;
@@ -22,20 +23,22 @@ public class AddDoctorReviewService implements AddDoctorReviewUseCase {
 
     @Override
     @Transactional
-    public void addDoctorReview(AddDoctorReviewCommand command) throws ForbiddenException {
+    public void addDoctorReview(AddDoctorReviewCommand command) throws ForbiddenException, NotAvailableException {
         Account account = getAuthenticatedPort.getAuthenticated();
         Patient patient = loadPatientPort.loadPatientByAccountId(account.getId());
-        MedicalDoctorReview doctorReview = loadDoctorReviewPort.loadByPatientIdAndDoctorId(patient.getId(),
-                command.getId());
+        MedicalDoctorReview doctorReview = loadDoctorReviewPort.loadByIdWithLock(command.getId());
 
-        ensurePatientCanAddReview(doctorReview);
+        ensurePatientCanAddReview(patient, doctorReview);
 
         doctorReview.updateRating(command.getRating());
         saveDoctorReviewPort.saveDoctorReview(doctorReview);
     }
 
-    private void ensurePatientCanAddReview(MedicalDoctorReview doctorReview) throws ForbiddenException {
-        if (doctorReview == null || !doctorReview.getCanReview())
-            throw new ForbiddenException("Patient cannot review clinic");
+    private void ensurePatientCanAddReview(Patient patient, MedicalDoctorReview doctorReview) throws ForbiddenException, NotAvailableException {
+        if (doctorReview == null
+                || !doctorReview.getPatient().getId().equals(patient.getId()))
+            throw new ForbiddenException("Patient is not allowed to review doctor");
+        if (!doctorReview.getCanReview())
+            throw new NotAvailableException("Patient can not review doctor");
     }
 }

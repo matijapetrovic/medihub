@@ -35,14 +35,4 @@ public class PrescriptionJpaEntity {
 
     @Version
     private Long version;
-
-    public PrescriptionJpaEntity(Long id,
-                                 DrugJpaEntity orElseThrow,
-                                 MedicalNurseJpaEntity nurse,
-                                 FinishedAppointmentJpaEntity mapToJpaEntity) {
-        this.id = id;
-        this.drugJpaEntity = orElseThrow;
-        this.medicalNurseJpaEntity = nurse;
-        this.finishedAppointment = mapToJpaEntity;
-    }
 }

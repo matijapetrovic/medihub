@@ -14,4 +14,5 @@ public class Prescription {
     private Drug drug;
     private FinishedAppointment finishedAppointment;
     private MedicalNurse medicalNurse;
+    private Long version;
 }

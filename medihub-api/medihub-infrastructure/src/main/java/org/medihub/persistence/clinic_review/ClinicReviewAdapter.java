@@ -48,6 +48,17 @@ public class ClinicReviewAdapter implements
     }
 
     @Override
+    public ClinicReview loadByIdWithLock(Long id) {
+        Optional<ClinicReviewJpaEntity> clinicReview =
+                clinicReviewRepository.findByIdWithLock(id);
+
+        if (clinicReview.isEmpty())
+            return null;
+
+        return clinicReviewMapper.mapToDomainEntity(clinicReview.get());
+    }
+
+    @Override
     public List<ClinicReview> getClinicsReviewsForReview(Long patientId) {
         return clinicReviewMapper.mapToDomainEntityList(clinicReviewRepository.findAllByPatientIdAndCanReviewTrue(
                 patientId));
