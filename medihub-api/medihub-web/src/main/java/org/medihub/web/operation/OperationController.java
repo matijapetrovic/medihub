@@ -1,6 +1,8 @@
 package org.medihub.web.operation;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.ForbiddenException;
+import org.medihub.application.exceptions.NotAvailableException;
 import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.operation.AddOperationUseCase;
 import org.medihub.application.ports.incoming.operation.OperationOutput;
@@ -20,7 +22,7 @@ public class OperationController {
     private final AddOperationUseCase addOperationUseCase;
 
     @PostMapping("/add")
-    public ResponseEntity<OperationOutput> addOperation(@RequestBody AddOperationRequest request) throws NotFoundException {
+    public ResponseEntity<OperationOutput> addOperation(@RequestBody AddOperationRequest request) throws NotFoundException, ForbiddenException, NotAvailableException {
         AddOperationUseCase.AddOperationCommand command = createAddCommand(request);
 
         return ResponseEntity.ok(addOperationUseCase.addOperation(command));
@@ -28,10 +30,7 @@ public class OperationController {
 
     private AddOperationUseCase.AddOperationCommand createAddCommand(AddOperationRequest request) {
         return new AddOperationUseCase.AddOperationCommand(
-                request.getDate(),
-                request.getTime(),
-                request.getPatientId(),
-                request.getDoctorId(),
+                request.getRequestId(),
                 request.getClinicRoomId(),
                 request.getPresentDoctors()
         );
