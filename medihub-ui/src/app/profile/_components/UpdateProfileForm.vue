@@ -124,7 +124,10 @@ export default {
     ...mapActions('profile', ['fetchProfile', 'updateProfile']),
     submit() {
       if (this.validate()) {
-        this.updateProfile();
+        this.updateProfile()
+          .then(() => {
+            this.$router.push('/');
+          });
       }
     },
     validate() {

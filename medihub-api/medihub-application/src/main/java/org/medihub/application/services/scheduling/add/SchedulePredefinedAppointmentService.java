@@ -52,7 +52,7 @@ public class SchedulePredefinedAppointmentService implements SchedulePredefinedA
     }
 
     private PredefinedAppointment loadPredefinedAppointment(Long appointmentId) throws NotFoundException {
-        return loadPredefinedAppointmentPort.loadPredefinedAppointment(appointmentId);
+        return loadPredefinedAppointmentPort.loadByIdWithLock(appointmentId);
     }
 
     private Appointment scheduleAppointment(PredefinedAppointment predefinedAppointment, Patient patient) {
@@ -61,7 +61,7 @@ public class SchedulePredefinedAppointmentService implements SchedulePredefinedA
 
     private void updateDoctorSchedule(PredefinedAppointment predefinedAppointment, Appointment appointment) throws NotFoundException {
         MedicalDoctorScheduleItem scheduleItem =
-                loadMedicalDoctorScheduleItemPort.loadPredefinedAppointmentScheduleItemByPredefinedAppointmentId(
+                loadMedicalDoctorScheduleItemPort.loadByPredefinedAppointmentId(
                         predefinedAppointment.getId());
         deleteMedicalDoctorScheduleItemPort.deleteMedicalDoctorScheduleItem(scheduleItem.getId());
         scheduleItem = createMedicalDoctorScheduleItem(appointment);

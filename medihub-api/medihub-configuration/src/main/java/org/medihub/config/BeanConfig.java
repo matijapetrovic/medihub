@@ -381,12 +381,14 @@ public class BeanConfig {
     public ScheduleAppointmentUseCase scheduleAppointmentUseCase(
             LoadDoctorPort loadDoctorPort,
             LoadPatientPort loadPatientPort,
+            LoadDoctorDailySchedulePort loadDoctorDailySchedulePort,
             SaveAppointmentRequestPort saveAppointmentRequestPort,
             GetAuthenticatedPort getAuthenticatedPort,
             SendEmailPort sendEmailPort) {
         return new ScheduleAppointmentService(
                 loadDoctorPort,
                 loadPatientPort,
+                loadDoctorDailySchedulePort,
                 saveAppointmentRequestPort,
                 getAuthenticatedPort,
                 sendEmailPort);
