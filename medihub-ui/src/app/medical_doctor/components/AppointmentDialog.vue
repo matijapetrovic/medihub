@@ -238,6 +238,16 @@
               </v-col>
               <v-spacer></v-spacer>
             </v-row>
+            <v-row>
+              <v-select
+                :items="types"
+                v-model="type"
+                label="Type"
+                dense
+                outlined
+                :rules="[requiredRule]"
+              ></v-select>
+            </v-row>
           </v-container>
         </v-card-text>
         <v-card-actions>
@@ -287,6 +297,8 @@ export default {
       patientId: null,
       date: null,
       time: null,
+      type: null,
+      types: ['OPERATION', 'APPOINTMENT'],
     };
   },
   computed: {
@@ -298,7 +310,7 @@ export default {
       return (value) => !!value || 'Required';
     },
     isTimeSelected() {
-      return this.time === null;
+      return this.time === null || this.type === null;
     },
     requireParamsValid() {
       if (!this.tempDiagnosis || this.tempDrugs.length === 0 || this.description === '') {
@@ -351,6 +363,7 @@ export default {
         time: this.time,
         doctor: this.doctorId,
         clinicRoomId: this.clinicRoom.id,
+        type: this.type,
       });
       this.submitAndCloseDialog();
       this.close();

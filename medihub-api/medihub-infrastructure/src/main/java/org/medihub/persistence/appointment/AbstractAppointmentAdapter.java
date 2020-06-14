@@ -18,7 +18,8 @@ public class AbstractAppointmentAdapter implements
         SaveAppointmentPort,
         LoadAppointmentPort,
         GetScheduledAppointmentsPort,
-        GetCurrentAppointmentPort {
+        GetCurrentAppointmentPort,
+        DeleteAppointmentPort {
     private final AbstractAppointmentMapper abstractAppointmentMapper;
     private final AbstractAppointmentRepository abstractAppointmentRepository;
 
@@ -57,5 +58,10 @@ public class AbstractAppointmentAdapter implements
             return null;
 
         return abstractAppointmentMapper.mapToDomainEntity(appointmentJpaEntity.get());
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        abstractAppointmentRepository.deleteById(id);
     }
 }

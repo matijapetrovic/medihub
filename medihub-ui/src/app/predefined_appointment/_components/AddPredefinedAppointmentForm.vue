@@ -217,18 +217,14 @@ export default {
           discount: this.predefinedAppointment.discount / 100,
           date: this.predefinedAppointment.date,
         };
-        this.addPredefinedAppointment(request);
-        this.clear();
+        this.addPredefinedAppointment(request)
+          .then(() => {
+            this.clear();
+          });
       }
     },
     clear() {
-      this.predefinedAppointment.doctor = null;
-      this.predefinedAppointment.time = null;
-      this.predefinedAppointment.clinicRoom = null;
-      this.predefinedAppointment.appointmentType = null;
-      this.predefinedAppointment.price = null;
-      this.predefinedAppointment.date = new Date().toISOString().substr(0, 10);
-      this.predefinedAppointment.discount = 0;
+      this.$refs.form.reset();
     },
     validate() {
       return this.$refs.form.validate();

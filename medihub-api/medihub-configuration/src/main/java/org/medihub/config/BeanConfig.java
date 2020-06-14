@@ -286,10 +286,12 @@ public class BeanConfig {
     public CancelAppointmentUseCase cancelAppointmentUseCase(
             GetAuthenticatedPort getAuthenticatedPort,
             LoadAppointmentPort loadAppointmentPort,
+            DeleteAppointmentPort deleteAppointmentPort,
             DeleteAppointmentScheduleItemPort deleteAppointmentScheduleItemPort) {
         return new CancelAppointmentService(
                 getAuthenticatedPort,
                 loadAppointmentPort,
+                deleteAppointmentPort,
                 deleteAppointmentScheduleItemPort);
     }
 
