@@ -228,6 +228,7 @@ export default {
       this.predefinedAppointment.appointmentType = null;
       this.predefinedAppointment.price = null;
       this.predefinedAppointment.date = new Date().toISOString().substr(0, 10);
+      this.predefinedAppointment.discount = 0;
     },
     validate() {
       return this.$refs.form.validate();
@@ -245,12 +246,14 @@ export default {
       return false;
     },
     searchRoom() {
-      this.fetchClinicRooms({
-        name: null,
-        number: null,
-        date: this.predefinedAppointment.date,
-        time: this.predefinedAppointment.time,
-      });
+      if (!this.isTimeSelected()) {
+        this.fetchClinicRooms({
+          name: null,
+          number: null,
+          date: this.predefinedAppointment.date,
+          time: this.predefinedAppointment.time,
+        });
+      }
     },
     getAppointmentId() {
       return this.predefinedAppointment.doctor.appointmentTypeId;

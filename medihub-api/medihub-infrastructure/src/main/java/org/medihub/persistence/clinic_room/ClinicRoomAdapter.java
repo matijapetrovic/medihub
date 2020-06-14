@@ -23,7 +23,8 @@ public class ClinicRoomAdapter implements
         DeleteClinicRoomPort,
         GetClinicRoomsPort,
         SearchClinicRoomsPort,
-        GetAllClinicRoomsPort
+        GetAllClinicRoomsPort,
+        GetClinicRoomFutureScheduleCountPort
 {
     private final ClinicRoomMapper clinicRoomMapper;
     private final ClinicRoomRepository clinicRoomRepository;
@@ -100,5 +101,13 @@ public class ClinicRoomAdapter implements
     @Override
     public List<ClinicRoom> getAll() {
         return clinicRoomMapper.mapToDomainList(clinicRoomRepository.findAllByDeletedIsFalse());
+    }
+
+    @Override
+    public Long countClinicRoomSchedule(Long clinicRoomId) {
+        LocalDateTime dateTimeNow = LocalDateTime.now();
+        LocalDate dateNow = dateTimeNow.toLocalDate();
+        Timestamp now = (dateNow == null ? null :Timestamp.valueOf(LocalDateTime.of(dateNow, LocalTime.MIDNIGHT)));
+        return clinicRoomRepository.getCountOfScheduledClinicRooms(clinicRoomId, now);
     }
 }

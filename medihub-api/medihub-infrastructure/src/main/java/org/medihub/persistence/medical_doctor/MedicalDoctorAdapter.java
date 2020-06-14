@@ -26,7 +26,8 @@ public class MedicalDoctorAdapter implements
         GetAllDoctorsPort,
         SearchDoctorsPort,
         GetDoctorWorkingTimePort,
-        GetDoctorsForClinicOnDatePort{
+        GetDoctorsForClinicOnDatePort,
+        CountNumberOfDoctorsWithApppointmentTypePort{
     private final MedicalDoctorMapper medicalDoctorMapper;
     private final MedicalDoctorRepository medicalDoctorRepository;
     private final ClinicRepository clinicRepository;
@@ -113,6 +114,11 @@ public class MedicalDoctorAdapter implements
         MedicalDoctorJpaEntity doctor = medicalDoctorRepository
                 .findByPersonalInfoAccountId(accountId);
         return medicalDoctorMapper.mapToDomainEntity(doctor);
+    }
+
+    @Override
+    public Long countNumber(Long appointmentTypeId) {
+        return medicalDoctorRepository.countAllDoctorsWithSpecialization(appointmentTypeId);
     }
 }
 

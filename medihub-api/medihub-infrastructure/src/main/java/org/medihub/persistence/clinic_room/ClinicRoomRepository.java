@@ -52,4 +52,10 @@ public interface ClinicRoomRepository extends JpaRepository<ClinicRoomJpaEntity,
             @Param(value="clinic_id") Long clinicId,
             @Param(value="dateStart") Timestamp dateStart,
             @Param(value="dateEnd") Timestamp dateEnd);
+
+    @Query("select count(ap) from AppointmentJpaEntity ap where ap.clinicRoom.id=:clinicRoomId " +
+            "and ap.startTime > :now ")
+    Long getCountOfScheduledClinicRooms(
+            @Param(value="clinicRoomId") Long clinicRoomId,
+            @Param(value="now") Timestamp now);
 }

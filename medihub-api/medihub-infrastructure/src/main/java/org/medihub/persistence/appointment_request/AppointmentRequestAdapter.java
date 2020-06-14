@@ -49,6 +49,5 @@ public class AppointmentRequestAdapter implements
         AppointmentRequestJpaEntity appointmentRequestJpaEntity =
                 appointmentRequestRepository.findById(id).orElseThrow(NotFoundException::new);
         return mapper.mapToDomainEntity(appointmentRequestJpaEntity);
-
     }
 }

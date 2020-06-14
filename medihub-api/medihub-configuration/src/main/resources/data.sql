@@ -189,3 +189,5 @@ insert into appointment_request (doctor, patient, price, start_time, type) value
 insert into appointment_request (doctor, patient, price, start_time, type) values (2, 1, 200, '2020-06-17 09:00:00', 'APPOINTMENT');
 
 insert into registration_request (email, password, first_name, last_name, address, city, country, telephone_number, insurance_number) values ('p20@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Andrej', 'Petrovic', 'Ulica 1', 'Beograd', 'Serbia', '0601231233', '14115151553');
+
+insert into leave_request (start_date, end_date, doctor_id, schedule_item_type) values ('2020-06-15 15:00:00', '2020-06-17 15:00:00', 1, 1);
