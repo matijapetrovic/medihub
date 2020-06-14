@@ -41,6 +41,7 @@
             rounded
             max-width=""
             color="primary"
+            :disabled="!validateFields()"
             @click="submit()"
             >
               Submit
@@ -92,6 +93,12 @@ export default {
     clear() {
       this.dates = [];
       this.type = null;
+    },
+    validateFields() {
+      if (this.dates && this.type) {
+        return true;
+      }
+      return false;
     },
     validate() {
       return this.$refs.form.validate();

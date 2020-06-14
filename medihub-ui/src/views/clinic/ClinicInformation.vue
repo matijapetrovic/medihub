@@ -51,13 +51,12 @@
         <v-row>
           <v-combobox
             v-model="editedClinic.admins"
-            item-text="account.email"
+            item-text="personalInfo.account.email"
             multiple
             chips
             primary-chips
             label="Admins"
             prepend-icon="mdi-account-multiple"
-            readonly
           >
           </v-combobox>
         </v-row>
