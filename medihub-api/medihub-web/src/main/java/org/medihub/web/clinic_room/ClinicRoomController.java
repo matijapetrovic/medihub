@@ -2,6 +2,7 @@ package org.medihub.web.clinic_room;
 
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.AlreadyExistException;
 import org.medihub.application.exceptions.ForbiddenException;
 import org.medihub.application.exceptions.NotAvailableException;
 import org.medihub.application.exceptions.NotFoundException;
@@ -71,7 +72,7 @@ public class ClinicRoomController {
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    public void add(@RequestBody ClinicRoomRequest request) {
+    public void add(@RequestBody ClinicRoomRequest request) throws AlreadyExistException {
         Long clinicId = getAuthenticatedClinicId();
         AddClinicRoomCommand command = new AddClinicRoomCommand(clinicId, request.getName(), request.getNumber());
         addClinicRoomUseCase.addClinicRoom(command);
@@ -99,7 +100,7 @@ public class ClinicRoomController {
     @PostMapping("/update")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
     public ResponseEntity<List<GetClinicRoomsOutput>> updateClinicRoom(
-            @RequestBody UpdateClinicRoomRequest updateClinicRoomRequest) {
+            @RequestBody UpdateClinicRoomRequest updateClinicRoomRequest) throws ForbiddenException, AlreadyExistException {
         Long clinicId = getAuthenticatedClinicId();
         UpdateClinicRoomUseCase.UpdateClinicRoomCommand command = makeUpdateClinicRoomCommand(updateClinicRoomRequest);
         updateClinicRoomUseCase.updateClinicRoom(command);

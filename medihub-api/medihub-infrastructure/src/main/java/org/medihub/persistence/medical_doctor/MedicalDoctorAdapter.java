@@ -27,7 +27,8 @@ public class MedicalDoctorAdapter implements
         GetAllDoctorsPort,
         SearchDoctorsPort,
         GetDoctorWorkingTimePort,
-        GetDoctorsForClinicOnDatePort{
+        GetDoctorsForClinicOnDatePort,
+        CountNumberOfDoctorsWithApppointmentTypePort{
     private final MedicalDoctorMapper medicalDoctorMapper;
     private final MedicalDoctorRepository medicalDoctorRepository;
     private final ClinicRepository clinicRepository;
@@ -55,7 +56,7 @@ public class MedicalDoctorAdapter implements
     @Override
     public List<MedicalDoctor> getDoctorsForClinicOnDate(Long clinicId, LocalDate date) {
         Timestamp dateStart = (date == null ? null : Timestamp.valueOf(LocalDateTime.of(date, LocalTime.MIDNIGHT)));
-        Timestamp dateEnd = (date == null ? null :Timestamp.valueOf(LocalDateTime.of(date.plusDays(1), LocalTime.MIDNIGHT)));
+        Timestamp dateEnd = (date == null ? null :Timestamp.valueOf(LocalDateTime.of(date.plusDays(1), LocalTime.of(23, 0))));
 
         return medicalDoctorRepository
                 .findAllByClinicIdOnDate(clinicId, dateStart, dateEnd)
@@ -114,6 +115,11 @@ public class MedicalDoctorAdapter implements
         MedicalDoctorJpaEntity doctor = medicalDoctorRepository
                 .findByPersonalInfoAccountId(accountId);
         return medicalDoctorMapper.mapToDomainEntity(doctor);
+    }
+
+    @Override
+    public Long countNumber(Long appointmentTypeId) {
+        return medicalDoctorRepository.countAllDoctorsWithSpecialization(appointmentTypeId);
     }
 }
 

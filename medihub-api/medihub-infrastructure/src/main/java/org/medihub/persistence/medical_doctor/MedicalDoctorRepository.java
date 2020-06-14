@@ -43,4 +43,7 @@ public interface MedicalDoctorRepository extends JpaRepository<MedicalDoctorJpaE
             @Param(value="dateStart") Timestamp dateStart,
             @Param(value="dateEnd") Timestamp dateEnd,
             @Param(value="appointmentType") AppointmentTypeJpaEntity appointmentType);
+
+    @Query("select count(md) from MedicalDoctorJpaEntity md where md.specialization.id=typeId ")
+    Long countAllDoctorsWithSpecialization(@Param(value="typeId") Long typeId);
 }

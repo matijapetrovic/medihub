@@ -79,32 +79,25 @@ public class AddAppointmentService implements AddAppointmentUseCase {
                 appointment.getTime(),
                 appointment);
 
-        if (!LocalDateTime.of(appointmentRequest.getDate(), appointmentRequest.getTime()).equals(
-                LocalDateTime.of(appointment.getDate(), appointment.getTime())))
-            notifyPatient(appointment);
-
-        notifyClinicAdmin(appointment, clinicAdmin);
+        notifyDoctor(appointment);
+        notifyPatient(appointment);
     }
 
-    private void notifyClinicAdmin(Appointment appointment, ClinicAdmin admin) {
-        String to = "medihub.mail@gmail.com";
+    private void notifyDoctor(Appointment appointment) {
+        String to = appointment.getDoctor().getPersonalInfo().getAccount().getEmail();
         String subject = "Appointment request notification";
-        String text = String.format("Doctor %s has been scheduled request appointment with %s at %s",
-                appointment.getDoctor().getFullName(),
+        String text = String.format("Appointment has been scheduled with patient %s at %s",
                 appointment.getPatient().getFullName(),
                 LocalDateTime.of(appointment.getDate(), appointment.getTime()));
         sendEmailPort.sendEmail(to, subject, text);
     }
 
     private void notifyPatient(Appointment appointment) {
-        String to = "medihub.mail@gmail.com";
+        String to = appointment.getPatient().getPersonalInfo().getAccount().getEmail();
         String subject = "Appointment request notification";
-        String text = String.format("Your appointment request has been scheduled with %s at %s in room %s." +
-                "If you wish to cancel, log into the application",
+        String text = String.format("Appointment has been scheduled with %s at %s",
                 appointment.getDoctor().getFullName(),
-                LocalDateTime.of(appointment.getDate(), appointment.getTime()),
-                appointment.getClinicRoom().getName());
+                LocalDateTime.of(appointment.getDate(), appointment.getTime()));
         sendEmailPort.sendEmail(to, subject, text);
     }
-
 }

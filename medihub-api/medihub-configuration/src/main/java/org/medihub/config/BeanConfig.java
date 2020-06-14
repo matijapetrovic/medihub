@@ -177,6 +177,7 @@ import org.medihub.application.services.registration.AcceptRegistrationService;
 import org.medihub.application.services.registration.RejectRegistrationService;
 import org.medihub.application.services.reviewing.GetClinicsForReviewService;
 import org.medihub.application.services.reviewing.GetDoctorsForReviewService;
+import org.medihub.application.services.scheduling.AutomaticScheduleService;
 import org.medihub.application.services.scheduling.add.ScheduleDoctorsAppointmentService;
 import org.medihub.application.services.scheduling.add.SchedulePredefinedAppointmentService;
 import org.medihub.application.services.scheduling.get.GetDoctorAvailableTimesService;
@@ -533,11 +534,13 @@ public class BeanConfig {
     @Bean
     public UpdateClinicRoomUseCase updateClinicRoomUseCase(
             LoadClinicRoomPort loadClinicRoomPort,
-            SaveClinicRoomPort saveClinicRoomPort
+            SaveClinicRoomPort saveClinicRoomPort,
+            GetClinicRoomFutureScheduleCountPort GetClinicRoomFutureScheduleCountPort
     ) {
         return new UpdateClinicRoomService(
                 loadClinicRoomPort,
-                saveClinicRoomPort);
+                saveClinicRoomPort,
+                GetClinicRoomFutureScheduleCountPort);
     }
 
     @Bean
@@ -629,8 +632,12 @@ public class BeanConfig {
     }
 
     @Bean
-    public DeleteAppointmentTypeUseCase removeAppointmentTypeQuery(DeleteAppointmentTypePort deleteAppointmentTypePort) {
-        return new DeleteAppointmentTypeService(deleteAppointmentTypePort);
+    public DeleteAppointmentTypeUseCase removeAppointmentTypeQuery(
+            DeleteAppointmentTypePort deleteAppointmentTypePort,
+            CountNumberOfDoctorsWithApppointmentTypePort countNumberOfDoctorsWithApppointmentTypePort) {
+        return new DeleteAppointmentTypeService(
+                deleteAppointmentTypePort,
+                countNumberOfDoctorsWithApppointmentTypePort);
     }
 
     @Bean
@@ -1053,5 +1060,38 @@ public class BeanConfig {
     public RejectPrescriptionRequestUseCase rejectPrescriptionRequestUseCase(GetPrescriptionPort getPrescriptionPort,
                                                                              DeletePrescriptionPort deletePrescriptionPort) {
         return new RejectPrescriptionService(getPrescriptionPort, deletePrescriptionPort);
+    }
+
+    @Bean
+    public AutomaticSchedulingUseCase automaticSchedulingUseCase(
+            GetAllAppointmentRequestsPort getAllAppointmentRequestsPort,
+            GetAllDoctorsPort getAllDoctorsPort,
+            GetAllClinicRoomsPort getAllClinicRoomsPort,
+            DeleteAppointmentRequestPort deleteAppointmentRequestPort,
+            LoadDoctorDailySchedulePort loadDoctorDailySchedulePort,
+            GetDoctorWorkingTimePort getDoctorWorkingTimePort,
+            LoadRoomDailySchedulePort loadRoomDailySchedulePort,
+            SendEmailPort sendEmailPort,
+            AddAppointmentToMedicalDoctorSchedulePort addAppointmentToMedicalDoctorSchedulePort,
+            SaveAppointmentPort saveAppointmentPort,
+            AddAppointmentToClinicRoomPort addAppointmentToClinicRoomPort,
+            GetClinicRoomsPort getClinicRoomsPort,
+            LoadAppointmentRequestPort loadAppointmentRequestPort
+    ) {
+        return new AutomaticScheduleService(
+                getAllAppointmentRequestsPort,
+                getAllDoctorsPort,
+                getAllClinicRoomsPort,
+                deleteAppointmentRequestPort,
+                loadDoctorDailySchedulePort,
+                getDoctorWorkingTimePort,
+                loadRoomDailySchedulePort,
+                sendEmailPort,
+                addAppointmentToMedicalDoctorSchedulePort,
+                saveAppointmentPort,
+                addAppointmentToClinicRoomPort,
+                getClinicRoomsPort,
+                loadAppointmentRequestPort
+        );
     }
 }

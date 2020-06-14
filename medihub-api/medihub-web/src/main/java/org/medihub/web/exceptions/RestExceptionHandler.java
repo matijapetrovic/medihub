@@ -1,9 +1,6 @@
 package org.medihub.web.exceptions;
 
-import org.medihub.application.exceptions.AccountNotActivatedException;
-import org.medihub.application.exceptions.ForbiddenException;
-import org.medihub.application.exceptions.NotAvailableException;
-import org.medihub.application.exceptions.NotFoundException;
+import org.medihub.application.exceptions.*;
 import org.medihub.web.security.authentication.UnauthorizedException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -73,6 +70,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponse(apiError);
     }
 
+    @ExceptionHandler(AlreadyExistException.class)
+    protected ResponseEntity<Object> handleAccountNotActivated(
+            AlreadyExistException ex) {
+        ApiError apiError = new ApiError(HttpStatus.FORBIDDEN, "Can not access", ex);
+        return buildResponse(apiError);
+    }
 
     private ResponseEntity<Object> buildResponse(ApiError apiError) {
         return ResponseEntity.status(apiError.getStatus()).body(apiError);

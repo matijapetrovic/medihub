@@ -7,7 +7,13 @@ import org.medihub.application.ports.outgoing.leave_request.ApproveLeaveRequestP
 import org.medihub.application.ports.outgoing.leave_request.DeleteLeaveRequestPort;
 import org.medihub.application.ports.outgoing.leave_request.GetLeaveRequestPort;
 import org.medihub.application.ports.outgoing.mail.SendEmailPort;
+import org.medihub.application.ports.outgoing.scheduling.schedule_item.SaveMedicalDoctorScheduleItemPort;
+import org.medihub.domain.LeaveRequest;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
+import org.medihub.domain.medical_doctor.MedicalDoctorAppointmentScheduleItem;
+import org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem;
+
+import javax.transaction.Transactional;
 
 @RequiredArgsConstructor
 public class ApproveLeaveRequestService implements ApproveLeaveRequestUseCase {
@@ -18,9 +24,9 @@ public class ApproveLeaveRequestService implements ApproveLeaveRequestUseCase {
     private final GetDoctorsPort getDoctorsPort;
 
     @Override
+    @Transactional
     public void approveLeaveRequest(Long id, Long medicalDoctorId) {
-        approveLeaveRequestPort.approveLeaveRequest(
-                getLeaveRequestPort.getById(id));
+        approveLeaveRequestPort.approveLeaveRequest(getLeaveRequestPort.getById(id));
         deleteLeaveRequestPort.delete(id);
 
         MedicalDoctor doctor = getDoctorsPort.getMedicalDoctorById(medicalDoctorId);

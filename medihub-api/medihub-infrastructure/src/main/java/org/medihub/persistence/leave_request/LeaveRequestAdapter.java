@@ -9,6 +9,7 @@ import org.medihub.domain.NurseLeaveRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -39,6 +40,14 @@ public class LeaveRequestAdapter implements
     @Override
     public LeaveRequest getById(Long id) {
         return leaveRequestMapper.mapToDomainEntity(leaveRequestRepository.findById(id).get());
+    }
+
+    @Override
+    public LeaveRequest getByIdWithLod(Long id) throws NotFoundException {
+        Optional<LeaveRequestJpaEntity> leaveRequestJpaEntity = leaveRequestRepository.findByIdWithLock(id);
+        if(!leaveRequestJpaEntity.isPresent())
+            throw new NotFoundException();
+        return leaveRequestMapper.mapToDomainEntity(leaveRequestJpaEntity.get());
     }
 
     @Override
