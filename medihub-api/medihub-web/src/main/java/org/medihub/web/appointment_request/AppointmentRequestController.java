@@ -61,7 +61,7 @@ public class AppointmentRequestController {
 
     @PostMapping("/delete")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
-    public List<AppointmentRequestResponse> delete(@RequestBody Long id) {
+    public List<AppointmentRequestResponse> delete(@RequestBody Long id) throws NotFoundException, ForbiddenException {
         deleteAppointmentRequestUseCase.deleteAppointmentRequest(id);
         return getAppointmentRequestUseCase.getAll();
     }

@@ -1,6 +1,7 @@
 package org.medihub.application.services.clinic_room.update;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.AlreadyExistException;
 import org.medihub.application.exceptions.ForbiddenException;
 import org.medihub.application.ports.incoming.clinic_room.UpdateClinicRoomUseCase;
 import org.medihub.application.ports.outgoing.LoadClinicAdminPort;
@@ -17,7 +18,7 @@ public class UpdateClinicRoomService implements UpdateClinicRoomUseCase {
     private final GetClinicRoomFutureScheduleCountPort getClinicRoomFutureScheduleCountPort;
 
     @Override
-    public void updateClinicRoom(UpdateClinicRoomCommand updateClinicRoomCommand) throws ForbiddenException {
+    public void updateClinicRoom(UpdateClinicRoomCommand updateClinicRoomCommand) throws ForbiddenException, AlreadyExistException {
         ClinicRoom clinicRoom = loadClinicRoomPort.loadClinicRoom(updateClinicRoomCommand.getId());
         if(getClinicRoomFutureScheduleCountPort.countClinicRoomSchedule(clinicRoom.getId()) > 0)
             throw new ForbiddenException();

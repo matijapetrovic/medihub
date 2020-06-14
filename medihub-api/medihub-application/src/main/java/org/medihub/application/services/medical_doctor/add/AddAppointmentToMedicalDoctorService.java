@@ -1,7 +1,6 @@
 package org.medihub.application.services.medical_doctor.add;
 
 import lombok.RequiredArgsConstructor;
-import org.medihub.application.ports.incoming.appointment.AddAppointmentUseCase;
 import org.medihub.application.ports.incoming.medical_doctor.AddAppointmentToMedicalDoctorScheduleUseCase;
 import org.medihub.application.ports.outgoing.doctor.AddAppointmentToMedicalDoctorSchedulePort;
 import org.medihub.domain.appointment.Appointment;

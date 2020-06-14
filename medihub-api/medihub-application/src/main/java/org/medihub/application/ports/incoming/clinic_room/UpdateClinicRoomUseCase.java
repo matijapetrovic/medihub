@@ -2,6 +2,7 @@ package org.medihub.application.ports.incoming.clinic_room;
 
 import lombok.EqualsAndHashCode;
 import lombok.Value;
+import org.medihub.application.exceptions.AlreadyExistException;
 import org.medihub.application.exceptions.ForbiddenException;
 import org.medihub.common.SelfValidating;
 
@@ -9,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public interface UpdateClinicRoomUseCase {
-    void updateClinicRoom(UpdateClinicRoomCommand updateClinicRoomCommand) throws ForbiddenException;
+    void updateClinicRoom(UpdateClinicRoomCommand updateClinicRoomCommand) throws ForbiddenException, AlreadyExistException;
 
     @Value
     @EqualsAndHashCode(callSuper = false)

@@ -70,15 +70,24 @@ public class AddAppointmentService implements AddAppointmentUseCase {
                 appointmentRequest.getTime(),
                 appointment);
 
-        notifyClinicAdmin(appointment, clinicAdmin);
+        notifyDoctor(appointment);
+        notifyPatient(appointment);
     }
 
-    private void notifyClinicAdmin(Appointment appointment, ClinicAdmin admin) {
-        String to = admin.getPersonalInfo().getAccount().getEmail();
+    private void notifyDoctor(Appointment appointment) {
+        String to = appointment.getDoctor().getPersonalInfo().getAccount().getEmail();
         String subject = "Appointment request notification";
-        String text = String.format("Doctor %s has been scheduled request appointment with %s at %s",
-                appointment.getDoctor().getFullName(),
+        String text = String.format("Appointment has been scheduled with patient %s at %s",
                 appointment.getPatient().getFullName(),
+                LocalDateTime.of(appointment.getDate(), appointment.getTime()));
+        sendEmailPort.sendEmail(to, subject, text);
+    }
+
+    private void notifyPatient(Appointment appointment) {
+        String to = appointment.getPatient().getPersonalInfo().getAccount().getEmail();
+        String subject = "Appointment request notification";
+        String text = String.format("Appointment has been scheduled with %s at %s",
+                appointment.getDoctor().getFullName(),
                 LocalDateTime.of(appointment.getDate(), appointment.getTime()));
         sendEmailPort.sendEmail(to, subject, text);
     }

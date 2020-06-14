@@ -59,7 +59,7 @@ public class AppointmentTypeAdapter implements
         Long count = appointmentTypeRepository.countAppointmentTypeSpecializations(id);
         if(count == 0) {
             appointmentTypeRepository.deleteClinicPrices(id);
-            appointmentTypeRepository.deleteById(id);
+            appointmentTypeRepository.deleteAppointmentTypeWithLock(id);
 
         }
             else {

@@ -1,6 +1,7 @@
 package org.medihub.persistence.clinic_room;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.AlreadyExistException;
 import org.medihub.application.exceptions.ForbiddenException;
 import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.outgoing.clinic_room.*;
@@ -8,6 +9,7 @@ import org.medihub.domain.clinic_room.ClinicRoom;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -40,8 +42,12 @@ public class ClinicRoomAdapter implements
     }
 
     @Override
-    public void saveClinicRoom(ClinicRoom clinicRoom) {
-        clinicRoomRepository.save(clinicRoomMapper.mapToJpaEntity(clinicRoom));
+    public void saveClinicRoom(ClinicRoom clinicRoom) throws AlreadyExistException {
+        try{
+            clinicRoomRepository.save(clinicRoomMapper.mapToJpaEntity(clinicRoom));
+        } catch (Exception e) {
+            throw new AlreadyExistException();
+        }
     }
 
     @Override
