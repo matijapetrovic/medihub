@@ -1,6 +1,7 @@
 package org.medihub.web.prescription;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.ForbiddenException;
 import org.medihub.application.ports.incoming.prescription.AcceptPrescriptionUseCase;
 import org.medihub.application.ports.incoming.prescription.GetPrescriptionsOutput;
 import org.medihub.application.ports.incoming.prescription.GetPrescriptionsQuery;
@@ -27,7 +28,7 @@ public class PrescriptionController {
     }
 
     @PostMapping("/accept")
-    public void acceptPrescription(@RequestBody Long id) {
+    public void acceptPrescription(@RequestBody Long id) throws ForbiddenException {
         acceptPrescriptionUseCase.acceptPrescription(id);
     }
 

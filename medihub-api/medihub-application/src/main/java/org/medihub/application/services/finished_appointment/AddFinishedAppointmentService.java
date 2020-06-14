@@ -59,7 +59,7 @@ public class AddFinishedAppointmentService implements AddFinishedAppointmentUseC
 
         for  (Long id : command.getDrugs()) {
             Drug drug = getDrugByIdPort.getDrugById(id);
-            Prescription prescription = new Prescription(null, drug, retVal, null);
+            Prescription prescription = new Prescription(null, drug, retVal, null, 0L);
             savePrescriptionPort.savePrescription(prescription);
         }
 
