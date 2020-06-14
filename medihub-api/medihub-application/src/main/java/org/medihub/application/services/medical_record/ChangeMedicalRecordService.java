@@ -45,28 +45,4 @@ public class ChangeMedicalRecordService implements ChangeMedicalRecordUseCase {
 
         medicalRecord.setAllergies(allergies);
     }
-
-    private GetMedicalRecordOutput mapToOutput(MedicalRecord medicalRecord) {
-        return new GetMedicalRecordOutput(
-                medicalRecord.getId(),
-                medicalRecord.getHeight(),
-                medicalRecord.getWeight(),
-                medicalRecord.getBloodType(),
-                medicalRecord.getRhPositive(),
-                medicalRecord.getLeftDioptry(),
-                medicalRecord.getRightDioptry(),
-                mapAllergies(medicalRecord.getAllergies()),
-                null);
-    }
-
-    private List<AllergyDTO> mapAllergies(Set<Allergy> allergies) {
-        return allergies
-                .stream()
-                .map(allergy -> new AllergyDTO(
-                        allergy.getName(),
-                        allergy.getLevelOrdinal() + 1,
-                        allergy.getLevelLabel()))
-                .collect(Collectors.toList());
-
-    }
 }
