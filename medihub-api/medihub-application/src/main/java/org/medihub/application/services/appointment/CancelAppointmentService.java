@@ -29,8 +29,8 @@ public class CancelAppointmentService implements CancelAppointmentUseCase {
         Account account = getAuthenticatedPort.getAuthenticated();
         ensurePatientCanCancelAppointment(appointment, account);
 
-        deleteAppointmentPort.deleteById(appointmentId);
         deleteAppointmentScheduleItemPort.deleteAppointmentItemByAppointmentId(appointmentId);
+        deleteAppointmentPort.deleteById(appointmentId);
     }
 
     private void ensurePatientCanCancelAppointment(Appointment appointment, Account account) throws ForbiddenException {

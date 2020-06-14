@@ -120,7 +120,7 @@ export default {
     editedIndex: -1,
     editedItem: {
       name: '',
-      number: '',
+      number: null,
     },
     defaultItem: {
       name: '',
@@ -162,7 +162,7 @@ export default {
     },
     editItem(item) {
       this.editedIndex = this.clinicRooms.indexOf(item);
-      this.editedItem = item;
+      this.editedItem = { ...item };
       this.number = item.number;
       this.dialog = true;
     },
@@ -171,7 +171,6 @@ export default {
       this.$refs.confirm.open('Delete confirmation', 'Are you sure you want to delete clinic room', null);
     },
     close() {
-      this.editedItem.number = this.number;
       this.dialog = false;
       this.$nextTick(() => {
         this.editedIndex = -1;

@@ -130,7 +130,7 @@ public class MedicalDoctorScheduleAdapter implements
 
     @Override
     public void deleteAppointmentItemByAppointmentId(Long appointmentId) {
-        appointmentScheduleItemRepository.deleteByAppointment_Id(appointmentId);
+        appointmentScheduleItemRepository.deleteByAppointmentId(appointmentId);
     }
 
     @Override

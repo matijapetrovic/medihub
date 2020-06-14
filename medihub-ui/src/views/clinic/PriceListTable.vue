@@ -126,10 +126,12 @@ export default {
       this.items.splice(index, 1);
     },
     setItem(item) {
-      this.price = item;
+      this.editedItem = { ...item };
+      this.price = item.price;
       this.dialog = true;
     },
     setItems() {
+      this.items.length = 0;
       this.appointmentTypes.forEach((item) => this.items.push({
         appointmentType: item,
         price: this.prices[(item.id).toString()],
@@ -138,8 +140,11 @@ export default {
     addAppointmentTypePricePrice() {
       this.addPrice({
         appointmentTypeId: this.editedItem.appointmentType.id,
-        price: this.price,
-      });
+        price: this.editedItem.price,
+      })
+        .then(() => {
+          this.setItems();
+        });
       this.dialog = false;
     },
     closeDialog() {

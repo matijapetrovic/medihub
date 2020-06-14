@@ -47,8 +47,8 @@ public class AddPredefinedAppointmentService implements AddPredefinedAppointment
                         command.getDiscount()
                 );
         predefinedAppointment = addPredefinedAppointmentPort.addPredefinedAppointment(predefinedAppointment);
-        addPredefinedAppointmentToDoctorSchedule(predefinedAppointment);
         addPredefinedAppointmentToRoomSchedule(predefinedAppointment);
+        addPredefinedAppointmentToDoctorSchedule(predefinedAppointment);
     }
 
     private void addPredefinedAppointmentToDoctorSchedule(PredefinedAppointment predefinedAppointment) throws NotAvailableException {

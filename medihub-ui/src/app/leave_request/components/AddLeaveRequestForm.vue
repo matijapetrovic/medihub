@@ -82,10 +82,16 @@ export default {
           type: this.type,
         };
         if (this.user.role[0] === 'ROLE_DOCTOR') {
-          this.addLeaveRequest(request);
+          this.addLeaveRequest(request)
+            .then(() => {
+              this.$refs.form.reset();
+            });
         }
         if (this.user.role[0] === 'ROLE_NURSE') {
-          this.addNurseLeaveRequest(request);
+          this.addNurseLeaveRequest(request)
+            .then(() => {
+              this.$refs.form.reset();
+            });
         }
         this.clear();
       }
@@ -95,7 +101,7 @@ export default {
       this.type = null;
     },
     validateFields() {
-      if (this.dates && this.type) {
+      if (this.dates.length === 2 && this.type) {
         return true;
       }
       return false;

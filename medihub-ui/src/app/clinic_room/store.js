@@ -49,6 +49,7 @@ export default {
         })
         .catch((err) => {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
+          throw err;
         });
     },
     updateClinicRoom({ commit, dispatch }, payload) {

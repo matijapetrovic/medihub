@@ -89,7 +89,7 @@
                rounded small
               @click="redirectToPatientPage(item.id)"
               v-if="isDoctor">
-          See iformation
+          See information
       </v-btn>
       </template>
     </v-data-table>
