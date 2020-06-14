@@ -722,7 +722,8 @@ public class BeanConfig {
             DeleteAppointmentRequestPort deleteAppointmentRequestPort,
             GetClinicRoomsPort getClinicRoomsPort,
             AddAppointmentToMedicalDoctorSchedulePort addAppointmentToMedicalDoctorSchedulePort,
-            AddAppointmentToClinicRoomPort addAppointmentToClinicRoomPort
+            AddAppointmentToClinicRoomPort addAppointmentToClinicRoomPort,
+            SendEmailPort sendEmailPort
     ) {
         return new AddAppointmentService(
            getAuthenticatedPort,
@@ -732,7 +733,8 @@ public class BeanConfig {
             deleteAppointmentRequestPort,
             getClinicRoomsPort,
             addAppointmentToMedicalDoctorSchedulePort,
-            addAppointmentToClinicRoomPort);
+            addAppointmentToClinicRoomPort,
+            sendEmailPort);
     }
 
     @Bean
@@ -954,23 +956,24 @@ public class BeanConfig {
 
     @Bean
     public AddOperationUseCase addOperationUseCase(GetDoctorsPort getDoctorsPort,
-                                                   GetPatientsPort getPatientsPort,
                                                    GetClinicRoomsPort getClinicRoomsPort,
                                                    SaveAppointmentPort saveAppointmentPort,
                                                    SaveMedicalDoctorScheduleItemPort saveMedicalDoctorScheduleItemPort,
                                                    GetAuthenticatedPort getAuthenticatedPort,
                                                    LoadClinicAdminPort loadClinicAdminPort,
-                                                   LoadClinicPort loadClinicPort,
-                                                   LoadDoctorPort loadDoctorPort) {
+                                                   LoadAppointmentRequestPort loadAppointmentRequestPort,
+                                                   DeleteAppointmentRequestPort deleteAppointmentRequestPort,
+                                                   SendEmailPort sendEmailPort) {
         return new AddOperationService(getDoctorsPort,
-                getPatientsPort,
                 getClinicRoomsPort,
                 saveAppointmentPort,
                 saveMedicalDoctorScheduleItemPort,
                 getAuthenticatedPort,
                 loadClinicAdminPort,
-                loadClinicPort,
-                loadDoctorPort);
+                loadAppointmentRequestPort,
+                deleteAppointmentRequestPort,
+                sendEmailPort
+                );
     }
 
     @Bean
@@ -986,17 +989,23 @@ public class BeanConfig {
     }
 
     @Bean
-    public DeleteNurseLeaveRequestUseCase deleteNurseLeaveRequestUseCase(DeleteNurseLeaveRequestPort deleteNurseLeaveRequestPort) {
-        return new DeleteNurseVacationRequestService(deleteNurseLeaveRequestPort);
+    public DeleteNurseLeaveRequestUseCase deleteNurseLeaveRequestUseCase(DeleteNurseLeaveRequestPort deleteNurseLeaveRequestPort,
+                                                                         SendEmailPort sendEmailPort,
+                                                                         GetNurseLeaveRequestPort getNurseLeaveRequestPort) {
+        return new DeleteNurseVacationRequestService(deleteNurseLeaveRequestPort,
+                sendEmailPort,
+                getNurseLeaveRequestPort);
     }
 
     @Bean
     public ApproveNurseLeaveRequestUseCase approveNurseLeaveRequestUseCase(DeleteNurseLeaveRequestPort deleteNurseLeaveRequestPort,
                                                                            GetNurseLeaveRequestPort getNurseLeaveRequestsPort,
-                                                                           SaveMedicalNurseScheduleItemPort saveMedicalNurseScheduleItemPort) {
+                                                                           SaveMedicalNurseScheduleItemPort saveMedicalNurseScheduleItemPort,
+                                                                           SendEmailPort sendEmailPort) {
         return new ApproveNurseLeaveRequestService(deleteNurseLeaveRequestPort,
                 getNurseLeaveRequestsPort,
-                saveMedicalNurseScheduleItemPort);
+                saveMedicalNurseScheduleItemPort,
+                sendEmailPort);
     }
 
     @Bean
