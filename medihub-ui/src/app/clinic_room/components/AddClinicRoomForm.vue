@@ -10,12 +10,15 @@
                         <v-card-text>
                             <v-form ref="form">
                                 <v-text-field v-model="name" label="Name"
-                                name="name" type="text"
+                                name="name"
+                                type="text"
                                 :rules="[requiredRule,]">
                                 </v-text-field>
-                              <v-text-field v-model="number" label="Number"
+                              <v-text-field
+                              v-model="number"
+                              label="Number"
                               name="number" type="number"
-                              :rules="[requiredRule,]">
+                              :rules="[requiredRule, minNumberRule]">
                               </v-text-field>
                             </v-form>
                         </v-card-text>
@@ -25,9 +28,6 @@
                                 Submit
                             </v-btn>
                             <v-spacer></v-spacer>
-                            <!-- <v-btn @click="clear" color="secondary" name="clear">
-                                Clear
-                            </v-btn> -->
                         </v-card-actions>
                     </v-card>
                 </v-col>

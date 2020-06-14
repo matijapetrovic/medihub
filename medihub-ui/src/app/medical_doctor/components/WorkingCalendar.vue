@@ -107,7 +107,6 @@
                 color="primary"
                 @click="openAppointmentModal"
                 v-if="selectedEvent.type === 'APPOINTMENT' || selectedEvent.type === 'OPERATION'"
-                :disabled="diagnosisDisabled()"
               >
                 Enter Diagnosis
               </v-btn>
@@ -153,6 +152,13 @@ export default {
   },
   computed: {
     ...mapState('medicalDoctor', ['workingCalendar']),
+    diagnosisDisabled() {
+      const now = new Date();
+      const cmpNow = Date.parse(now.toString());
+      const start = Date.parse(this.selectedEvent.start);
+      const end = Date.parse(this.selectedEvent.end);
+      return !(start < cmpNow && cmpNow < end);
+    },
     title() {
       const { start, end } = this;
       if (!start || !end) {
@@ -324,9 +330,6 @@ export default {
     },
     openAppointmentModal() {
       this.$refs.dialog.show(this.selectedEvent);
-    },
-    diagnosisDisabled() {
-      return false;
     },
     updateRange({ start, end }) {
       this.start = start;

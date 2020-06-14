@@ -139,7 +139,7 @@ public class AddOperationService implements AddOperationUseCase {
     }
 
     private void notifyDoctor(Operation operation, MedicalDoctor doctor) {
-        String to = doctor.getFullName();
+        String to = doctor.getPersonalInfo().getAccount().getEmail();
         String subject = "Operation request notification";
         String text = String.format("Doctor %s has been scheduled request operation with %s at %s",
                 doctor.getFullName(),

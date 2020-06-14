@@ -9,7 +9,6 @@ import org.medihub.domain.account.Account;
 import org.medihub.domain.clinic.ClinicAdmin;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RequiredArgsConstructor

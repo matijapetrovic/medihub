@@ -458,7 +458,6 @@ insert into medical_nurse (personal_info_id, clinic, working_time_from, working_
 insert into medical_nurse (personal_info_id, clinic, working_time_from, working_time_to) values (63, 9, '5:00', '17:00');
 insert into medical_nurse (personal_info_id, clinic, working_time_from, working_time_to) values (64, 1, '1:00', '7:00');
 
-
 insert into diagnosis (name) values ('Konjuktivitis');
 insert into diagnosis (name) values ('Prelom ruke');
 insert into diagnosis (name) values ('Bronhitis');
@@ -526,7 +525,6 @@ insert into clinic_review (clinic_id, patient_id, rating, can_review) values (1,
 insert into clinic_review (clinic_id, patient_id, rating, can_review) values (1, 5, 4.5, false);
 insert into clinic_review (clinic_id, patient_id, rating, can_review) values (2, 1, 2.5, true);
 
-
 insert into doctor_review (doctor_id, patient_id, rating, can_review) values (1, 1, 4.5, true);
 insert into doctor_review (doctor_id, patient_id, rating, can_review) values (2, 1, 3.5, false);
 insert into doctor_review (doctor_id, patient_id, rating, can_review) values (1, 2, 4.0, true);
@@ -588,7 +586,6 @@ insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2
 insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2020-06-15 21:00:00');
 insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2020-06-15 22:00:00');
 insert into clinic_room_schedule_item (clinic_room_id, start_time) values (4, '2020-06-15 23:00:00');
-
 
 insert into predefined_appointment (doctor_id, start_time, price, clinic_room_id, appointment_type_id, discount, duration) values (10, '2020-06-24 22', 1800.0, 2, 1, 0.2, 1.0);
 insert into medical_doctor_predefined_appointment_schedule_item (id, doctor_id, start_time, schedule_item_type, predefined_appointment_id) values (999099, 10, '2020-06-24 22', 5, 1);
@@ -770,9 +767,17 @@ insert into appointment_request (doctor, patient, price, start_time, type) value
 insert into appointment_request (doctor, patient, price, start_time, type) values (4, 1, 500, '2020-09-22 09:00:00', 'APPOINTMENT');
 insert into appointment_request (doctor, patient, price, start_time, type) values (4, 1, 400, '2020-08-25 09:00:00', 'OPERATION');
 
-insert into appointment_request (doctor, patient, price, start_time, type) values (3, 1, 200, '2020-06-15 15:00:00', 'APPOINTMENT');
-insert into appointment_request (doctor, patient, price, start_time, type) values (2, 1, 200, '2020-06-17 09:00:00', 'OPERATION');
-
 insert into registration_request (email, password, first_name, last_name, address, city, country, telephone_number, insurance_number) values ('p20@gmail.com', '$2a$10$4pYGWyCOxqmIo3OkFIXEweRzvbf6JQdiRZrZz8aRNDp8hbjy9pPxu', 'Andrej', 'Petrovic', 'Ulica 1', 'Beograd', 'Serbia', '0601231233', '14115151553');
 
-insert into leave_request (start_date, end_date, doctor_id, schedule_item_type) values ('2020-06-15 15:00:00', '2020-06-17 15:00:00', 1, 1);
+insert into leave_request (start_date, end_date, doctor_id, schedule_item_type) values ('2020-09-15 15:00:00', '2020-11-17 15:00:00', 1, 1);
+insert into leave_request (start_date, end_date, doctor_id, schedule_item_type) values ('2020-08-15 15:00:00', '2020-10-17 15:00:00', 1, 1);
+insert into leave_request (start_date, end_date, doctor_id, schedule_item_type) values ('2020-09-15 15:00:00', '2020-10-17 15:00:00', 1, 1);
+insert into leave_request (start_date, end_date, doctor_id, schedule_item_type) values ('2020-07-15 15:00:00', '2020-08-17 15:00:00', 1, 1);
+insert into leave_request (start_date, end_date, doctor_id, schedule_item_type) values ('2020-04-15 15:00:00', '2020-06-17 15:00:00', 1, 1);
+insert into leave_request (start_date, end_date, doctor_id, schedule_item_type) values ('2021-03-15 15:00:00', '2020-06-17 15:00:00', 1, 1);
+insert into leave_request (start_date, end_date, doctor_id, schedule_item_type) values ('2022-06-15 15:00:00', '2020-06-17 15:00:00', 1, 1);
+insert into leave_request (start_date, end_date, doctor_id, schedule_item_type) values ('2020-06-22 15:00:00', '2020-07-17 15:00:00', 1, 1);
+insert into leave_request (start_date, end_date, doctor_id, schedule_item_type) values ('2020-09-15 15:00:00', '2020-10-17 15:00:00', 1, 1);
+insert into leave_request (start_date, end_date, doctor_id, schedule_item_type) values ('2020-08-15 15:00:00', '2020-09-17 15:00:00', 1, 1);
+
+
