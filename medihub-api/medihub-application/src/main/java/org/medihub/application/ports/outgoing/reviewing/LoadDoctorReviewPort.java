@@ -4,4 +4,6 @@ import org.medihub.domain.medical_doctor.MedicalDoctorReview;
 
 public interface LoadDoctorReviewPort {
     MedicalDoctorReview loadByPatientIdAndDoctorId(Long patientId, Long doctorId);
+
+    MedicalDoctorReview loadByIdWithLock(Long id);
 }

@@ -44,7 +44,6 @@ public class AddFinishedAppointmentService implements AddFinishedAppointmentUseC
     private final DeleteAllAppointmentScheduleItemByAppointmentIdPort deleteAllAppointmentScheduleItemByAppointmentIdPort;
 
     @Override
-
     @Transactional
     public GetFinishedAppointmentOutput addFinishedAppointment(AddFinishedAppointmentCommand command) throws NotFoundException {
         Appointment appointment = loadAppointmentPort.getAppointmentById(command.getAppointment());
@@ -58,37 +57,37 @@ public class AddFinishedAppointmentService implements AddFinishedAppointmentUseC
         FinishedAppointment retVal = saveFinishedAppointmentPort.saveFinishedAppointment(finishedAppointment);
         deleteAllAppointmentScheduleItemByAppointmentIdPort.deleteAll(retVal.getAppointment().getId());
 
-        updateClinicReview(finishedAppointment);
-        updateDoctorReview(finishedAppointment);
+        for  (Long id : command.getDrugs()) {
+            Drug drug = getDrugByIdPort.getDrugById(id);
+            Prescription prescription = new Prescription(null, drug, retVal, null);
+            savePrescriptionPort.savePrescription(prescription);
+        }
+
+        updateClinicReview(appointment.getDoctor().getClinic(), appointment.getPatient());
+        updateDoctorReview(appointment.getDoctor(), appointment.getPatient());
 
         return createOutput(retVal);
     }
 
-    private void updateClinicReview(FinishedAppointment finishedAppointment) {
-        Clinic clinic = finishedAppointment.getAppointment().getDoctor().getClinic();
-        Patient patient = finishedAppointment.getAppointment().getPatient();
-
+    private void updateClinicReview(Clinic clinic, Patient patient) {
         ClinicReview clinicReview = loadClinicReviewPort.loadByPatientIdAndClinicId(
                 patient.getId(),
                 clinic.getId());
 
         if (clinicReview == null)
-            clinicReview = new ClinicReview(null, null, patient ,clinic, false );
+            clinicReview = new ClinicReview(null, null, patient ,clinic, true);
 
         clinicReview.enableReview();
         saveClinicReviewPort.saveClinicReview(clinicReview);
     }
 
-    private void updateDoctorReview(FinishedAppointment finishedAppointment) {
-        MedicalDoctor doctor = finishedAppointment.getAppointment().getDoctor();
-        Patient patient = finishedAppointment.getAppointment().getPatient();
-
+    private void updateDoctorReview(MedicalDoctor doctor, Patient patient) {
         MedicalDoctorReview doctorReview = loadDoctorReviewPort.loadByPatientIdAndDoctorId(
                 patient.getId(),
                 doctor.getId());
 
         if (doctorReview == null)
-            doctorReview = new MedicalDoctorReview(null, null, patient, doctor, false);
+            doctorReview = new MedicalDoctorReview(null, null, patient, doctor, true);
 
         doctorReview.enableReview();
         saveDoctorReviewPort.saveDoctorReview(doctorReview);

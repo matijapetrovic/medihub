@@ -60,7 +60,7 @@ public class PredefinedAppointmentAdapter implements
         Optional<PredefinedAppointmentJpaEntity> predefinedAppointment =
                 predefinedAppointmentRepository.findByIdWithLock(id);
         if (predefinedAppointment.isEmpty())
-            throw new NotFoundException(String.format("Predefined appointment %d not found.", id));
+            throw new NotFoundException("Predefined appointment not found.");
         return predefinedAppointmentMapper.mapToDomainEntity(predefinedAppointment.get());
     }
 

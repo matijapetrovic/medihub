@@ -37,6 +37,17 @@ public class DoctorReviewAdapter implements
     }
 
     @Override
+    public MedicalDoctorReview loadByIdWithLock(Long id) {
+        Optional<DoctorReviewJpaEntity> doctorReview =
+                repository.findByIdWithLock(id);
+
+        if (doctorReview.isEmpty())
+            return null;
+
+        return mapper.mapToDomainEntity(doctorReview.get());
+    }
+
+    @Override
     public List<MedicalDoctorReview> getDoctorReviewsForReview(Long patientId) {
         return mapper.mapToDomainEntityList(repository.findAllByPatientIdAndCanReviewTrue(patientId));
     }
