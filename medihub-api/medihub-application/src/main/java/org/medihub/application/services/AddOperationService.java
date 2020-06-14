@@ -53,7 +53,7 @@ public class AddOperationService implements AddOperationUseCase {
     public OperationOutput addOperation(AddOperationCommand command) throws NotFoundException, ForbiddenException, NotAvailableException {
         Account account = getAuthenticatedPort.getAuthenticated();
         ClinicAdmin admin = loadClinicAdminPort.loadClinicAdminByAccountId(account.getId());
-        AppointmentRequest appointmentRequest = loadAppointmentRequestPort.loadByIdWithLock(command.getRequestId());
+        AppointmentRequest appointmentRequest = loadAppointmentRequestPort.loadById(command.getRequestId());
 
         if(!admin.getClinic().getId().equals(appointmentRequest.getDoctor().getClinic().getId()))
             throw new ForbiddenException();
