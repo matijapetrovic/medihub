@@ -2,6 +2,7 @@ package org.medihub.application.services.prescription;
 
 import lombok.RequiredArgsConstructor;
 import org.medihub.application.exceptions.ForbiddenException;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.incoming.prescription.AcceptPrescriptionUseCase;
 import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPort;
 import org.medihub.application.ports.outgoing.medical_nurse.GetMedicalNurseByAccountIdPort;
@@ -39,6 +40,10 @@ public class AcceptPrescriptionService implements AcceptPrescriptionUseCase {
         }
 
         prescription.setMedicalNurse(medicalNurse);
-        savePrescriptionPort.savePrescription(prescription);
+        try {
+            savePrescriptionPort.savePrescription(prescription);
+        } catch (Exception e) {
+            throw new NotFoundException();
+        }
     }
 }
