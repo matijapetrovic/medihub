@@ -33,6 +33,7 @@ public interface ClinicRoomRepository extends JpaRepository<ClinicRoomJpaEntity,
             "and (:timestamp not in (select crsi2.startTime from ClinicRoomScheduleItemJpaEntity crsi2 " +
             "where crsi2.clinicRoom = cr)) " +
             "and cr.clinic.id=:clinic_id " +
+            "and cr.deleted=false " +
             "and ((:dateStart is null and :dateEnd is null) or 24 > (select count(crsi3) from ClinicRoomScheduleItemJpaEntity crsi3 " +
             "where crsi3.startTime between :dateStart and :dateEnd and crsi3.clinicRoom=cr ))")
     List<ClinicRoomJpaEntity> findAllWithNameOrNumberOnDateTime(

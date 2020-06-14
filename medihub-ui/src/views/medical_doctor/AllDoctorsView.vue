@@ -168,9 +168,9 @@ export default {
   },
 
   methods: {
-    ...mapActions('medicalDoctor', ['getAllDoctors', 'deleteDoctor']),
+    ...mapActions('medicalDoctor', ['getAllDoctorsForClinic', 'deleteDoctor']),
     initialize() {
-      this.getAllDoctors();
+      this.getAllDoctorsForClinic();
     },
     editItem(item) {
       this.editedIndex = this.doctors.indexOf(item);

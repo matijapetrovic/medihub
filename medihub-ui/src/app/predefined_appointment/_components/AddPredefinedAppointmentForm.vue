@@ -259,7 +259,6 @@ export default {
       return this.predefinedAppointment.doctor.appointmentTypeId;
     },
     setDoctorParams() {
-      this.searchRoom();
       this.fetchAvailableTimesWithoutState({
         doctorId: this.predefinedAppointment.doctor.id,
         date: this.predefinedAppointment.date,
