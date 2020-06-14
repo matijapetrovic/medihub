@@ -67,7 +67,7 @@ public class MedicalDoctorScheduleAdapter implements
                         .orElseThrow(EntityNotFoundException::new);
 
         Timestamp start = Timestamp.valueOf(LocalDateTime.of(date, LocalTime.MIDNIGHT));
-        Timestamp end = Timestamp.valueOf(LocalDateTime.of(date.plusDays(1), LocalTime.MIDNIGHT));
+        Timestamp end = Timestamp.valueOf(LocalDateTime.of(date.plusDays(1), LocalTime.of(23, 0)));
 
         Set<MedicalDoctorScheduleItemJpaEntity> scheduleJpaItems =
                 scheduleItemRepository.findAllByDoctorIdAndStartTimeBetween(doctorId, start, end);
@@ -119,7 +119,7 @@ public class MedicalDoctorScheduleAdapter implements
                     doctorMapper.mapToJpaEntity(leaveRequest.getMedicalDoctor()),
                     Timestamp.valueOf(LocalDateTime.of(leaveRequest.getStart(), LocalTime.NOON)),
                     MedicalDoctorScheduleItemType.valueOf(leaveRequest.getType()).getOrdinal(),
-                    Timestamp.valueOf(LocalDateTime.of(leaveRequest.getEnd(), LocalTime.MIDNIGHT)));
+                    Timestamp.valueOf(LocalDateTime.of(leaveRequest.getEnd(), LocalTime.of(23, 0))));
         vacationScheduleItemRepository.save(vacationScheduleJpaItem);
     }
 

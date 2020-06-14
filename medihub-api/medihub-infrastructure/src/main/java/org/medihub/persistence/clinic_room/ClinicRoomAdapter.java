@@ -113,7 +113,7 @@ public class ClinicRoomAdapter implements
     public Long countClinicRoomSchedule(Long clinicRoomId) {
         LocalDateTime dateTimeNow = LocalDateTime.now();
         LocalDate dateNow = dateTimeNow.toLocalDate();
-        Timestamp now = (dateNow == null ? null :Timestamp.valueOf(LocalDateTime.of(dateNow, LocalTime.MIDNIGHT)));
+        Timestamp now = (dateNow == null ? null :Timestamp.valueOf(LocalDateTime.of(dateNow, LocalTime.of(23, 0))));
         return clinicRoomRepository.getCountOfScheduledClinicRooms(clinicRoomId, now);
     }
 }
