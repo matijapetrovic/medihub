@@ -1034,10 +1034,11 @@ public class BeanConfig {
     public AcceptRegistrationUseCase acceptRegistrationUseCase(
         LoadRegistrationRequestPort loadRegistrationRequestPort,
         SavePatientPort savePatientPort,
+        SaveMedicalRecordPort saveMedicalRecordPort,
         DeleteRegistrationRequestPort deleteRegistrationRequestPort,
         SendEmailPort sendEmailPort) {
         return new AcceptRegistrationService(
-                loadRegistrationRequestPort, savePatientPort, deleteRegistrationRequestPort, sendEmailPort);
+                loadRegistrationRequestPort, savePatientPort,  saveMedicalRecordPort, deleteRegistrationRequestPort, sendEmailPort);
     }
 
     @Bean

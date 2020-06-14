@@ -30,7 +30,7 @@ public class PersonalInfoJpaEntity {
     @Column(name="country")
     private String country;
 
-    @Column(name="telephone_number", unique=true)
+    @Column(name="telephone_number")
     private String telephoneNumber;
 
     @OneToOne(cascade = CascadeType.ALL)
