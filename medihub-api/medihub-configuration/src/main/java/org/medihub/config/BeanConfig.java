@@ -532,11 +532,13 @@ public class BeanConfig {
     @Bean
     public UpdateClinicRoomUseCase updateClinicRoomUseCase(
             LoadClinicRoomPort loadClinicRoomPort,
-            SaveClinicRoomPort saveClinicRoomPort
+            SaveClinicRoomPort saveClinicRoomPort,
+            GetClinicRoomFutureScheduleCountPort GetClinicRoomFutureScheduleCountPort
     ) {
         return new UpdateClinicRoomService(
                 loadClinicRoomPort,
-                saveClinicRoomPort);
+                saveClinicRoomPort,
+                GetClinicRoomFutureScheduleCountPort);
     }
 
     @Bean
@@ -628,8 +630,12 @@ public class BeanConfig {
     }
 
     @Bean
-    public DeleteAppointmentTypeUseCase removeAppointmentTypeQuery(DeleteAppointmentTypePort deleteAppointmentTypePort) {
-        return new DeleteAppointmentTypeService(deleteAppointmentTypePort);
+    public DeleteAppointmentTypeUseCase removeAppointmentTypeQuery(
+            DeleteAppointmentTypePort deleteAppointmentTypePort,
+            CountNumberOfDoctorsWithApppointmentTypePort countNumberOfDoctorsWithApppointmentTypePort) {
+        return new DeleteAppointmentTypeService(
+                deleteAppointmentTypePort,
+                countNumberOfDoctorsWithApppointmentTypePort);
     }
 
     @Bean

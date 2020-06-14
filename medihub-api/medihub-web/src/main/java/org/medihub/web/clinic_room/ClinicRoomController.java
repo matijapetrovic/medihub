@@ -99,7 +99,7 @@ public class ClinicRoomController {
     @PostMapping("/update")
     @PreAuthorize("hasRole('ROLE_CLINIC_ADMIN')")
     public ResponseEntity<List<GetClinicRoomsOutput>> updateClinicRoom(
-            @RequestBody UpdateClinicRoomRequest updateClinicRoomRequest) {
+            @RequestBody UpdateClinicRoomRequest updateClinicRoomRequest) throws ForbiddenException {
         Long clinicId = getAuthenticatedClinicId();
         UpdateClinicRoomUseCase.UpdateClinicRoomCommand command = makeUpdateClinicRoomCommand(updateClinicRoomRequest);
         updateClinicRoomUseCase.updateClinicRoom(command);
