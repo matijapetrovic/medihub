@@ -299,7 +299,7 @@ export default {
     },
     noResultsSearch() {
       this.fetchAvailableTimesWithoutState({ doctorId: this.doctor.id, date: this.date });
-      this.getAllDoctors();
+      this.getAllDoctors(this.date);
       this.doctors.length = 0;
     },
     setDoctorParams() {
