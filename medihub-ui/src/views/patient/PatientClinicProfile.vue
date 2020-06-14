@@ -7,7 +7,7 @@
       :coords="coords"
     />
     <v-divider class="my-5"></v-divider>
-    <h2>Doctors</h2>
+    <h2>Clinic Doctors</h2>
     <ClinicSearchForm
       :search-params="searchParams"
       :appointment-types="appointmentTypes"

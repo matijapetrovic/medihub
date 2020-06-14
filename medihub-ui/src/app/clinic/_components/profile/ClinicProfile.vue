@@ -18,7 +18,7 @@
           class="float-left"
         >
         </v-rating>
-        <span class="grey--text ml-4">{{ clinic.rating }} ({{ clinic.ratingCount }})</span>
+        <span class="grey--text ml-4">{{ clinic.rating }} ({{ clinic.ratingCount }} reviews)</span>
         <div class="mt-4">{{ clinic.description }}</div>
       </v-col>
       <v-col md="8">
