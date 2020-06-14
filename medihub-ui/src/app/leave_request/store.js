@@ -71,8 +71,8 @@ export default {
           dispatch('notifications/add', utils.errorNotification(err), { root: true });
         });
     },
-    deleteNurseLeaveRequest({ dispatch }, id) {
-      return api.deleteNurseLeaveRequest(id)
+    deleteNurseLeaveRequest({ dispatch }, payload) {
+      return api.deleteNurseLeaveRequest(payload)
         .then(() => {
           const message = 'Leave request deleted successfully';
           dispatch('notifications/add', utils.successNotification(message), { root: true });

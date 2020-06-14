@@ -988,17 +988,23 @@ public class BeanConfig {
     }
 
     @Bean
-    public DeleteNurseLeaveRequestUseCase deleteNurseLeaveRequestUseCase(DeleteNurseLeaveRequestPort deleteNurseLeaveRequestPort) {
-        return new DeleteNurseVacationRequestService(deleteNurseLeaveRequestPort);
+    public DeleteNurseLeaveRequestUseCase deleteNurseLeaveRequestUseCase(DeleteNurseLeaveRequestPort deleteNurseLeaveRequestPort,
+                                                                         SendEmailPort sendEmailPort,
+                                                                         GetNurseLeaveRequestPort getNurseLeaveRequestPort) {
+        return new DeleteNurseVacationRequestService(deleteNurseLeaveRequestPort,
+                sendEmailPort,
+                getNurseLeaveRequestPort);
     }
 
     @Bean
     public ApproveNurseLeaveRequestUseCase approveNurseLeaveRequestUseCase(DeleteNurseLeaveRequestPort deleteNurseLeaveRequestPort,
                                                                            GetNurseLeaveRequestPort getNurseLeaveRequestsPort,
-                                                                           SaveMedicalNurseScheduleItemPort saveMedicalNurseScheduleItemPort) {
+                                                                           SaveMedicalNurseScheduleItemPort saveMedicalNurseScheduleItemPort,
+                                                                           SendEmailPort sendEmailPort) {
         return new ApproveNurseLeaveRequestService(deleteNurseLeaveRequestPort,
                 getNurseLeaveRequestsPort,
-                saveMedicalNurseScheduleItemPort);
+                saveMedicalNurseScheduleItemPort,
+                sendEmailPort);
     }
 
     @Bean
