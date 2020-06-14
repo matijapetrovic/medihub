@@ -95,7 +95,7 @@ public class ClinicRoomScheduleAdapter implements
                     .orElseThrow(EntityNotFoundException::new);
 
         Timestamp start = Timestamp.valueOf(LocalDateTime.of(date, LocalTime.MIDNIGHT));
-        Timestamp end = Timestamp.valueOf(LocalDateTime.of(date.plusDays(1), LocalTime.MIDNIGHT));
+        Timestamp end = Timestamp.valueOf(LocalDateTime.of(date.plusDays(1), LocalTime.of(23, 0)));
 
         Set<ClinicRoomScheduleItemJpaEntity> scheduleJpaItems =
                 itemRepository.findAllByClinicRoomIdAndStartTimeBetween(clinicRoomId, start, end);
