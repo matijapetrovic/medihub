@@ -192,12 +192,18 @@ export default {
       if (this.editedItem.type === 'APPOINTMENT') {
         this.addAppointmentRequest({
           id: this.editedItem.id,
+          date: this.editedItem.clinicRoom.freeDate,
+          time: this.editedItem.clinicRoom.freeTime,
+          doctorId: this.editedItem.doctor.id,
           clinicRoomId: this.editedItem.clinicRoom.id,
         })
           .then(() => { this.deleteItem(this.editedItem); });
       } else {
         this.addOperationRequest({
-          id: this.editedItem.id,
+          requestId: this.editedItem.id,
+          date: this.editedItem.clinicRoom.freeDate,
+          time: this.editedItem.clinicRoom.freeTime,
+          doctorId: this.editedItem.doctor.id,
           clinicRoomId: this.editedItem.clinicRoom.id,
           presentDoctors: this.presentDoctors,
         })

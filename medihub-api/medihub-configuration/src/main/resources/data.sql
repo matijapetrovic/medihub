@@ -95,6 +95,8 @@ insert into medical_nurse (personal_info_id, clinic, working_time_from, working_
 
 insert into appointment (id, start_time, clinic_room_id, patient_id, doctor_id, price) values (51, CURRENT_TIMESTAMP , 1, 1, 1, 200);
 insert into appointment (id, start_time, clinic_room_id, patient_id, doctor_id, price) values (52, '2020-10-12 13:00:00', 1, 1, 1, 3242);
+insert into medical_doctor_appointment_schedule_item (id, appointment_id, doctor_id, start_time, schedule_item_type) values (10000, 52, 1, '2020-10-12 13:00:00', 1);
+
 insert into appointment (id, start_time, clinic_room_id, patient_id, doctor_id, price) values (53, '2020-12-12 07:00:00', 1, 1, 1, 42443);
 insert into appointment (id, patient_id, doctor_id, clinic_room_id, start_time, price) values (54, 1, 1, 1, '2020-10-10 20:00:00', 523);
 
@@ -173,16 +175,15 @@ insert into drug (name) value ('Andol');
 insert into finished_appointment (description, appointment_id, diagnosis_id) values ('Sad bas i nije heh', 51, 2);
 insert into finished_appointment (description, appointment_id, diagnosis_id) values ('aaa', 53, 2);
 
-insert into predefined_appointment (doctor_id, start_time, duration, price, clinic_room_id, appointment_type_id) values (1, '2020-06-15 00:00:00', 3.0, 500.0, 1, 1);
+insert into predefined_appointment (doctor_id, start_time, duration, price, clinic_room_id, appointment_type_id, discount) values (1, '2020-06-15 00:00:00', 3.0, 500.0, 1, 1, 0.2);
 insert into medical_doctor_predefined_appointment_schedule_item (id, doctor_id, start_time, schedule_item_type, predefined_appointment_id) values (10000, 1, '2020-05-06 15:00:00', 5, 1);
 
-insert into prescriptions (drug_id, medical_nurse_id, finished_appointment_id) values (1, null, 1);
-insert into prescriptions (drug_id, medical_nurse_id, finished_appointment_id) values (2, 1, 1);
+insert into prescriptions (drug_id, medical_nurse_id, finished_appointment_id, version) values (1, null, 1, 0);
+insert into prescriptions (drug_id, medical_nurse_id, finished_appointment_id, version) values (2, 1, 1, 0);
 
-insert into clinic_review (clinic_id, patient_id, rating, can_review) values (1, 1, null, true);
+insert into clinic_review (clinic_id, patient_id, rating, can_review) values (1, 1, 1.0, false);
 insert into clinic_review (clinic_id, patient_id, rating, can_review) values (2, 1, 3.0, true);
 
-insert into doctor_review (doctor_id, patient_id, rating, can_review) values (1, 1, null, true);
 insert into doctor_review (doctor_id, patient_id, rating, can_review) values (3, 1, 4.5, false);
 
 insert into appointment_request (doctor, patient, price, start_time, type) values (2, 1, 200, '2020-06-15 15:00:00', 'APPOINTMENT');

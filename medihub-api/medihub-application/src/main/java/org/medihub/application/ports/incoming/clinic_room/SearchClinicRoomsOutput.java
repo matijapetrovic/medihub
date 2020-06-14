@@ -20,7 +20,8 @@ public class SearchClinicRoomsOutput {
     Long id;
     String name;
     Integer number;
-    String firstFree;
+    String freeDate;
+    String freeTime;
     List<ClinicRoomSimpleScheduleItem> simpleSchedule;
     ClinicRoomSchedule schedule;
 
@@ -35,7 +36,8 @@ public class SearchClinicRoomsOutput {
         this.number = number;
         this.schedule = schedule;
         LocalDateTime first = schedule.getFirstDailySchedule(datetime);
-        this.firstFree = first == null ? "N/A" : first.toString().replace('T', ' ');
+        this.freeDate = first == null ? "N/A" : first.toLocalDate().toString();
+        this.freeTime = first == null ? "N/A" : first.toLocalTime().toString();
         this.simpleSchedule = mapToList(schedule.getDailySchedules());
     }
 

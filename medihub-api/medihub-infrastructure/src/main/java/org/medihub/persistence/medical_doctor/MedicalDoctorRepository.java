@@ -32,9 +32,12 @@ public interface MedicalDoctorRepository extends JpaRepository<MedicalDoctorJpaE
     @Query("select d from MedicalDoctorJpaEntity d " +
             "where d.clinic = :clinic " +
             "and (:appointmentType is null or d.specialization = :appointmentType) " +
-            "and ((:dateStart is null and :dateEnd is null) or d.working_hours > " +
+            "and ((:dateStart is null and :dateEnd is null) or " +
+            "   (0 = (select count(mdvsi) from MedicalDoctorVacationScheduleJpaItem mdvsi " +
+            "               where mdvsi.doctor = d and :dateStart between mdvsi.startTime and mdvsi.endDate)" +
+            " and d.working_hours > " +
             "       (select count(mdsi) from MedicalDoctorScheduleItemJpaEntity mdsi " +
-            "        where mdsi.startTime between :dateStart and :dateEnd and mdsi.doctor=d)) ")
+            "        where mdsi.startTime between :dateStart and :dateEnd and mdsi.doctor=d))) ")
     Set<MedicalDoctorJpaEntity> findAllByClinicAndSpecializationAvailableOnDate(
             @Param(value="clinic") ClinicJpaEntity clinic,
             @Param(value="dateStart") Timestamp dateStart,

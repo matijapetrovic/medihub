@@ -51,7 +51,7 @@ public class ClinicAdapter implements
                         .orElseThrow(EntityNotFoundException::new));
 
         Timestamp dateStart = (date == null ? null : Timestamp.valueOf(LocalDateTime.of(date, LocalTime.MIDNIGHT)));
-        Timestamp dateEnd = (date == null ? null :Timestamp.valueOf(LocalDateTime.of(date.plusDays(1), LocalTime.MIDNIGHT)));
+        Timestamp dateEnd = (date == null ? null :Timestamp.valueOf(LocalDateTime.of(date, LocalTime.of(23, 0))));
 
         return clinicRepository
                 .findAllWithDoctorsByAppointmentTypeOnDate(dateStart, dateEnd, appointmentType)
