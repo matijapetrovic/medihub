@@ -1,9 +1,22 @@
 <template>
-  <div>
+  <v-card>
+    <v-card-title>
+      Doctors
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Filter"
+        single-line
+        hide-details
+      >
+      </v-text-field>
+    </v-card-title>
     <v-data-table
       :headers="headers"
       :items="items"
       :items-per-page="5"
+      :search="search"
       item-key="id"
       class="elevation-1"
     >
@@ -12,8 +25,8 @@
           <tr v-for="item in items" :key="item.id">
             <td>{{ item.firstName }}</td>
             <td>{{ item.lastName }}</td>
-            <td>{{ item.rating }} ({{ item.ratingCount }})</td>
-            <td>{{ item.appointmentPrice ? item.appointmentPrice : 'N/A' }}</td>
+            <td>{{ item.rating }} ({{ item.ratingCount }} reviews)</td>
+            <td>{{ item.appointmentPrice ? `${item.appointmentPrice}€` : 'N/A' }}</td>
             <td>
               <v-select
                 v-if="item.workingTimes"
@@ -40,7 +53,7 @@
         @scheduled="schedule"
       />
     </v-dialog>
-  </div>
+  </v-card>
 </template>
 
 <script>
@@ -69,6 +82,7 @@ export default {
     time: {},
     dialog: false,
     appointment: {},
+    search: '',
   }),
   props: {
     items: {
@@ -92,6 +106,7 @@ export default {
       })
         .then(() => {
           this.dialog = false;
+          this.time = {};
         });
     },
     openConfirmScheduleDialog(doctor) {

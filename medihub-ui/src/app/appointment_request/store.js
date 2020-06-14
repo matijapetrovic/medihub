@@ -36,7 +36,7 @@ export default {
         });
     },
     addAppointmentRequest({ dispatch }, payload) {
-      return api.addAppointmentRequest(payload.id, payload.clinicRoomId)
+      return api.addAppointmentRequest(payload)
         .then(() => {
           const message = 'Clinic room scheduled succesfully!';
           dispatch('notifications/add', utils.successNotification(message), { root: true });
@@ -45,7 +45,7 @@ export default {
         });
     },
     addOperationRequest({ dispatch }, payload) {
-      return api.addOperationRequest(payload.id, payload.clinicRoomId, payload.presentDoctors)
+      return api.addOperationRequest(payload)
         .then(() => {
           const message = 'Clinic room scheduled succesfully!';
           dispatch('notifications/add', utils.successNotification(message), { root: true });

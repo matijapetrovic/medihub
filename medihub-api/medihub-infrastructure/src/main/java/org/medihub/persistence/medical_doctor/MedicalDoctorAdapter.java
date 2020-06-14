@@ -1,6 +1,7 @@
 package org.medihub.persistence.medical_doctor;
 
 import lombok.RequiredArgsConstructor;
+import org.medihub.application.exceptions.NotFoundException;
 import org.medihub.application.ports.outgoing.doctor.*;
 import org.medihub.domain.WorkingTime;
 import org.medihub.domain.medical_doctor.MedicalDoctor;
@@ -34,11 +35,11 @@ public class MedicalDoctorAdapter implements
     private final AppointmentTypeRepository appointmentTypeRepository;
 
     @Override
-    public MedicalDoctor loadDoctor(Long id) {
+    public MedicalDoctor loadDoctor(Long id) throws NotFoundException {
         MedicalDoctorJpaEntity medicalDoctorJpaEntity =
                 medicalDoctorRepository
                         .findById(id)
-                        .orElseThrow(EntityNotFoundException::new);
+                        .orElseThrow(NotFoundException::new);
         return medicalDoctorMapper.mapToDomainEntity(medicalDoctorJpaEntity);
     }
 
@@ -55,7 +56,7 @@ public class MedicalDoctorAdapter implements
     @Override
     public List<MedicalDoctor> getDoctorsForClinicOnDate(Long clinicId, LocalDate date) {
         Timestamp dateStart = (date == null ? null : Timestamp.valueOf(LocalDateTime.of(date, LocalTime.MIDNIGHT)));
-        Timestamp dateEnd = (date == null ? null :Timestamp.valueOf(LocalDateTime.of(date.plusDays(1), LocalTime.MIDNIGHT)));
+        Timestamp dateEnd = (date == null ? null :Timestamp.valueOf(LocalDateTime.of(date.plusDays(1), LocalTime.of(23, 0))));
 
         return medicalDoctorRepository
                 .findAllByClinicIdOnDate(clinicId, dateStart, dateEnd)
@@ -91,7 +92,7 @@ public class MedicalDoctorAdapter implements
                                 .orElseThrow(EntityNotFoundException::new));
 
         Timestamp dateStart = (date == null ? null : Timestamp.valueOf(LocalDateTime.of(date, LocalTime.MIDNIGHT)));
-        Timestamp dateEnd = (date == null ? null :Timestamp.valueOf(LocalDateTime.of(date.plusDays(1), LocalTime.MIDNIGHT)));
+        Timestamp dateEnd = (date == null ? null :Timestamp.valueOf(LocalDateTime.of(date, LocalTime.of(23, 0))));
 
         return medicalDoctorRepository
                 .findAllByClinicAndSpecializationAvailableOnDate(clinic, dateStart, dateEnd, appointmentType)

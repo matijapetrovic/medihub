@@ -1,6 +1,5 @@
 package org.medihub.config;
 
-import org.hibernate.sql.Delete;
 import org.medihub.application.ports.incoming.account.ActivateAccountUseCase;
 import org.medihub.application.ports.incoming.appointment.CancelAppointmentUseCase;
 import org.medihub.application.ports.incoming.appointment.GetAppointmentsQuery;
@@ -171,7 +170,7 @@ import org.medihub.application.services.diagnosis.AddDiagnosisService;
 import org.medihub.application.services.drugs.AddDrugService;
 import org.medihub.application.services.medical_record.GetMedicalRecordService;
 import org.medihub.application.services.predefined_appointment.GetAllPredefinedAppointmentsService;
-import org.medihub.application.services.predefined_appointment.GetPredefinedAppointmentsOutputService;
+import org.medihub.application.services.predefined_appointment.GetPredefinedAppointmentsService;
 import org.medihub.application.services.prescription.AcceptPrescriptionService;
 import org.medihub.application.services.prescription.GetPrescriptionsService;
 import org.medihub.application.services.registration.AcceptRegistrationService;
@@ -280,7 +279,7 @@ public class BeanConfig {
     @Bean
     public GetPredefinedAppointmentsQuery getPredefinedAppointmentsQuery(
             GetPredefinedAppointmentsPort getPredefinedAppointmentsPort) {
-        return new GetPredefinedAppointmentsOutputService(getPredefinedAppointmentsPort);
+        return new GetPredefinedAppointmentsService(getPredefinedAppointmentsPort);
     }
 
     @Bean
@@ -382,12 +381,14 @@ public class BeanConfig {
     public ScheduleAppointmentUseCase scheduleAppointmentUseCase(
             LoadDoctorPort loadDoctorPort,
             LoadPatientPort loadPatientPort,
+            LoadDoctorDailySchedulePort loadDoctorDailySchedulePort,
             SaveAppointmentRequestPort saveAppointmentRequestPort,
             GetAuthenticatedPort getAuthenticatedPort,
             SendEmailPort sendEmailPort) {
         return new ScheduleAppointmentService(
                 loadDoctorPort,
                 loadPatientPort,
+                loadDoctorDailySchedulePort,
                 saveAppointmentRequestPort,
                 getAuthenticatedPort,
                 sendEmailPort);
@@ -725,6 +726,7 @@ public class BeanConfig {
             GetAuthenticatedPort getAuthenticatedPort,
             LoadClinicAdminPort loadClinicAdminPort,
             LoadAppointmentRequestPort loadAppointmentRequestPort,
+            GetDoctorsPort getDoctorsPort,
             SaveAppointmentPort saveAppointmentPort,
             DeleteAppointmentRequestPort deleteAppointmentRequestPort,
             GetClinicRoomsPort getClinicRoomsPort,
@@ -736,6 +738,7 @@ public class BeanConfig {
            getAuthenticatedPort,
             loadClinicAdminPort,
             loadAppointmentRequestPort,
+            getDoctorsPort,
             saveAppointmentPort,
             deleteAppointmentRequestPort,
             getClinicRoomsPort,

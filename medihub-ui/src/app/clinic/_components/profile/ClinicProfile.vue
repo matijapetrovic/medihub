@@ -18,7 +18,7 @@
           class="float-left"
         >
         </v-rating>
-        <span class="grey--text ml-4">{{ clinic.rating }} ({{ clinic.ratingCount }})</span>
+        <span class="grey--text ml-4">{{ clinic.rating }} ({{ clinic.ratingCount }} reviews)</span>
         <div class="mt-4">{{ clinic.description }}</div>
       </v-col>
       <v-col md="8">
@@ -48,7 +48,9 @@
                     <v-list-item-title v-text="item.date"></v-list-item-title>
                     <v-list-item-subtitle class="text--primary" v-text="item.time">
                     </v-list-item-subtitle>
-                    <v-list-item-subtitle>{{ item.price }}&euro;</v-list-item-subtitle>
+                    <v-list-item-subtitle>
+                      {{ item.price * (1 - item.discount) }}&euro; ({{ item.discount * 100 }}% off)
+                    </v-list-item-subtitle>
                   </v-list-item-action>
                 </v-list-item>
                 <v-divider
@@ -118,7 +120,15 @@ export default {
     schedule() {
       this.schedulePredefinedAppointment(this.appointment.id)
         .then(() => {
-          this.dialog = false;
+          this.closeConfirmScheduleDialog();
+        })
+        .catch((err) => {
+          this.closeConfirmScheduleDialog();
+          if (err.response.status === 404) {
+            const location = this.$route.fullPath;
+            this.$router.replace('/');
+            this.$nextTick(() => this.$router.replace(location));
+          }
         });
     },
   },

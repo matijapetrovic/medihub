@@ -48,7 +48,7 @@
             >
               {{ prescription.drug }}
               <v-icon color="white" right>
-                {{ prescription.validate ? 'mdi-check' : 'mdi-close' }}
+                {{ prescription.validated ? 'mdi-check' : 'mdi-close' }}
               </v-icon>
             </v-chip>
           </div>

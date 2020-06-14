@@ -10,6 +10,20 @@
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title>
+                {{ medicalRecord.insuranceNumber }}
+              </v-list-item-title>
+              <v-list-item-subtitle>
+                Insurance number
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>
                 {{ medicalRecord.height ? medicalRecord.height : 'N/A' }}cm
               </v-list-item-title>
               <v-list-item-subtitle>

@@ -28,7 +28,8 @@ public class PrescriptionMapper {
                 prescriptionJpaEntity.getId(),
                 drugMapper.mapToDomainEntity(prescriptionJpaEntity.getDrugJpaEntity()),
                 finishedAppointmentMapper.mapToDomainEntity(prescriptionJpaEntity.getFinishedAppointment()),
-                nurse
+                nurse,
+                prescriptionJpaEntity.getVersion()
         );
     }
 
@@ -39,7 +40,8 @@ public class PrescriptionMapper {
                 drugRepository.findById(prescription.getDrug().getId())
                 .orElseThrow(),
                 nurse,
-                finishedAppointmentMapper.mapToJpaEntity(prescription.getFinishedAppointment())
+                finishedAppointmentMapper.mapToJpaEntity(prescription.getFinishedAppointment()),
+                prescription.getVersion()
         );
     }
 

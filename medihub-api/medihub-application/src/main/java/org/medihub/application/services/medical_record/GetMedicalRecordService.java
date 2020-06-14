@@ -38,12 +38,13 @@ public class GetMedicalRecordService implements GetMedicalRecordQuery {
         List<FinishedAppointment> finishedAppointments =
                 getFinishedAppointmentsPort.getFinishedAppointments(patient.getId());
 
-        return mapToOutput(medicalRecord, finishedAppointments);
+        return mapToOutput(patient, medicalRecord, finishedAppointments);
     }
 
-    private GetMedicalRecordOutput mapToOutput(MedicalRecord medicalRecord, List<FinishedAppointment> finishedAppointments) {
+    private GetMedicalRecordOutput mapToOutput(Patient patient, MedicalRecord medicalRecord, List<FinishedAppointment> finishedAppointments) {
         return new GetMedicalRecordOutput(
                 medicalRecord.getId(),
+                patient.getInsuranceNumber(),
                 medicalRecord.getHeight(),
                 medicalRecord.getWeight(),
                 medicalRecord.getBloodType(),

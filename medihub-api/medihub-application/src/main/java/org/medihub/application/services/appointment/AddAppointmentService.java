@@ -12,12 +12,14 @@ import org.medihub.application.ports.outgoing.authentication.GetAuthenticatedPor
 import org.medihub.application.ports.outgoing.clinic_room.AddAppointmentToClinicRoomPort;
 import org.medihub.application.ports.outgoing.clinic_room.GetClinicRoomsPort;
 import org.medihub.application.ports.outgoing.doctor.AddAppointmentToMedicalDoctorSchedulePort;
+import org.medihub.application.ports.outgoing.doctor.GetDoctorsPort;
 import org.medihub.application.ports.outgoing.mail.SendEmailPort;
 import org.medihub.domain.account.Account;
 import org.medihub.domain.appointment.Appointment;
 import org.medihub.domain.appointment.AppointmentRequest;
 import org.medihub.domain.clinic.ClinicAdmin;
 import org.medihub.domain.clinic_room.ClinicRoom;
+import org.medihub.domain.medical_doctor.MedicalDoctor;
 
 import javax.transaction.Transactional;
 import java.io.NotActiveException;
@@ -28,6 +30,7 @@ public class AddAppointmentService implements AddAppointmentUseCase {
     private final GetAuthenticatedPort getAuthenticatedPort;
     private final LoadClinicAdminPort loadClinicAdminPort;
     private final LoadAppointmentRequestPort loadAppointmentRequestPort;
+    private final GetDoctorsPort getDoctorsPort;
     private final SaveAppointmentPort saveAppointmentPort;
     private final DeleteAppointmentRequestPort deleteAppointmentRequestPort;
     private final GetClinicRoomsPort getClinicRoomsPort;
@@ -40,11 +43,17 @@ public class AddAppointmentService implements AddAppointmentUseCase {
     public void addAppointment(AddAppointmentCommand addAppointmentCommand) throws NotFoundException, NotAvailableException, NotActiveException, ForbiddenException {
         Account account = getAuthenticatedPort.getAuthenticated();
         ClinicAdmin clinicAdmin = loadClinicAdminPort.loadClinicAdminByAccountId(account.getId());
-        AppointmentRequest appointmentRequest = loadAppointmentRequestPort.loadByIdWithLock(addAppointmentCommand.getId());
-        ClinicRoom room = getClinicRoomsPort.getClinicRoomById(addAppointmentCommand.getClinicRoomId());
 
+        AppointmentRequest appointmentRequest = loadAppointmentRequestPort.loadByIdWithLock(addAppointmentCommand.getId());
         if(!clinicAdmin.getClinic().getId().equals(appointmentRequest.getDoctor().getClinic().getId()))
             throw new ForbiddenException();
+
+        MedicalDoctor doctor = appointmentRequest.getDoctor().getId().equals(addAppointmentCommand.getDoctorId()) ?
+                appointmentRequest.getDoctor() : getDoctorsPort.getMedicalDoctorById(addAppointmentCommand.getDoctorId());
+        if (!clinicAdmin.getClinic().getId().equals(doctor.getClinic().getId()))
+            throw new ForbiddenException();
+
+        ClinicRoom room = getClinicRoomsPort.getClinicRoomById(addAppointmentCommand.getClinicRoomId());
         if(!clinicAdmin.getClinic().getId().equals(room.getClinic().getId()))
             throw new ForbiddenException();
 
@@ -52,22 +61,22 @@ public class AddAppointmentService implements AddAppointmentUseCase {
 
         Appointment appointment = new Appointment(
                 null,
-                appointmentRequest.getDate(),
-                appointmentRequest.getTime(),
+                addAppointmentCommand.getDate(),
+                addAppointmentCommand.getTime(),
                 appointmentRequest.getPatient(),
-                appointmentRequest.getDoctor(),
+                doctor,
                 room,
-                appointmentRequest.getPrice().getAmount()
-        );
+                appointmentRequest.getPrice().getAmount());
+
         appointment = saveAppointmentPort.saveAppointment(appointment);
         addAppointmentToClinicRoomPort.addAppointmentToClinicRoom(
-                getClinicRoomsPort.getClinicRoomById(addAppointmentCommand.getClinicRoomId()),
-                appointmentRequest.getDate(),
-                appointmentRequest.getTime()
+                room,
+                appointment.getDate(),
+                appointment.getTime()
         );
         addAppointmentToMedicalDoctorSchedulePort.addAppointmentToSchedule(
-                appointmentRequest.getDate(),
-                appointmentRequest.getTime(),
+                appointment.getDate(),
+                appointment.getTime(),
                 appointment);
 
         notifyDoctor(appointment);

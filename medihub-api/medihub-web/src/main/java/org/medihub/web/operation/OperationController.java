@@ -31,6 +31,9 @@ public class OperationController {
     private AddOperationUseCase.AddOperationCommand createAddCommand(AddOperationRequest request) {
         return new AddOperationUseCase.AddOperationCommand(
                 request.getRequestId(),
+                request.getDate(),
+                request.getTime(),
+                request.getDoctorId(),
                 request.getClinicRoomId(),
                 request.getPresentDoctors()
         );

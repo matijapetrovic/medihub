@@ -26,6 +26,7 @@ public class GetPatientMedicalRecordService implements GetPatientMedicalRecordQu
     private GetMedicalRecordOutput mapToOutput(MedicalRecord medicalRecord) {
         return new GetMedicalRecordOutput(
                 medicalRecord.getId(),
+                null,
                 medicalRecord.getHeight(),
                 medicalRecord.getWeight(),
                 medicalRecord.getBloodType(),

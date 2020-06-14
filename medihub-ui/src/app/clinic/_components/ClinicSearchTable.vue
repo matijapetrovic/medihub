@@ -1,8 +1,23 @@
 <template>
-  <v-data-table
+  <v-card>
+    <v-card-title>
+      Clinics
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Filter"
+        single-line
+        hide-details
+      >
+
+      </v-text-field>
+    </v-card-title>
+    <v-data-table
     :headers="headers"
     :items="items"
     :items-per-page="5"
+    :search="search"
     class="elevation-1"
   >
     <template v-slot:body="{ items }">
@@ -21,12 +36,13 @@
             <td>{{ item.address }}</td>
             <td>{{ item.city }}</td>
             <td>{{ item.country }}</td>
-            <td>{{ item.rating }}({{ item.ratingCount}})</td>
+            <td>{{ item.rating }} ({{ item.ratingCount}} reviews)</td>
             <td>{{ item.appointmentPrice ? item.appointmentPrice : 'N/A' }}</td>
           </tr>
         </tbody>
       </template>
   </v-data-table>
+  </v-card>
 </template>
 
 <script>
@@ -46,6 +62,7 @@ export default {
       { text: 'Rating', value: 'rating' },
       { text: 'Price', value: 'appointmentPrice' },
     ],
+    search: '',
   }),
   props: {
     items: {

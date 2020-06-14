@@ -127,6 +127,9 @@ public class AutomaticScheduleService implements AutomaticSchedulingUseCase {
     private AddAppointmentUseCase.AddAppointmentCommand makeCommand(AppointmentRequest appointmentRequest, Long clinicRoomId) {
         return new AddAppointmentUseCase.AddAppointmentCommand(
                 appointmentRequest.getId(),
+                appointmentRequest.getDate(),
+                appointmentRequest.getTime(),
+                appointmentRequest.getDoctor().getId(),
                 clinicRoomId
         );
     }

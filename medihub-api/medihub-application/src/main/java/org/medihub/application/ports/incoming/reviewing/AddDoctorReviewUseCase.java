@@ -3,6 +3,7 @@ package org.medihub.application.ports.incoming.reviewing;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 import org.medihub.application.exceptions.ForbiddenException;
+import org.medihub.application.exceptions.NotAvailableException;
 import org.medihub.common.SelfValidating;
 import org.medihub.common.validation.annotations.Rating;
 
@@ -10,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public interface AddDoctorReviewUseCase {
-    void addDoctorReview(AddDoctorReviewCommand command) throws ForbiddenException;
+    void addDoctorReview(AddDoctorReviewCommand command) throws ForbiddenException, NotAvailableException;
 
     @Value
     @EqualsAndHashCode(callSuper = false)
