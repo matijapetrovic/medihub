@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 public class ClinicController {
     private final AddClinicUseCase addClinicUseCase;
     private final SearchClinicsQuery searchClinicsQuery;
+    private final UpdateClinicUseCase updateClinicUseCase;
     private final GetClinicNamesQuery getClinicNamesQuery;
     private final GetClinicProfileQuery getClinicProfileQuery;
     private final GetAppointmentPriceUseCase getAppointmentPriceUseCase;
@@ -40,6 +41,22 @@ public class ClinicController {
                                                                     LocalDate date,
                                                             @RequestParam(required = false) Long appointmentTypeId)  {
         return ResponseEntity.ok(searchClinicsQuery.searchClinics(date, appointmentTypeId));
+    }
+
+    @PostMapping("/update")
+    public void update(@RequestBody UpdateClinicRequest updateClinicRequest) {
+        UpdateClinicUseCase.UpdateClinicCommand command = makeUpdateCommand(updateClinicRequest);
+        updateClinicUseCase.updateClinic(command);
+    }
+
+    private UpdateClinicUseCase.UpdateClinicCommand makeUpdateCommand(UpdateClinicRequest request) {
+        return new UpdateClinicUseCase.UpdateClinicCommand(
+                request.getName(),
+                request.getAddressLine(),
+                request.getCity(),
+                request.getCountry(),
+                request.getDescription()
+        );
     }
 
     @GetMapping("/{clinicId}")

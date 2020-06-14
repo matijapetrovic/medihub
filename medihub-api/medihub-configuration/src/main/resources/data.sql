@@ -626,7 +626,6 @@ insert into predefined_appointment (doctor_id, start_time, duration, price, clin
 -- insert into appointment (id, start_time, clinic_room_id, patient_id, doctor_id, price) values (9999979, '2020-11-10 01:00:00', 1, 1, 1, 35000.0);
 -- insert into medical_doctor_appointment_schedule_item (id, appointment_id, doctor_id, start_time, schedule_item_type) values (1000, 9999979, 1, '2020-11-10 01:00:00', 8);
 
-
 insert into appointment_request (doctor, patient, price, start_time, type) values (1, 1, 200, '2020-06-15 15:00:00', 'APPOINTMENT');
 insert into appointment_request (doctor, patient, price, start_time, type) values (2, 1, 500, '2020-06-17 09:00:00', 'OPERATION');
 insert into appointment_request (doctor, patient, price, start_time, type) values (3, 1, 2000, '2020-06-16 15:00:00', 'APPOINTMENT');

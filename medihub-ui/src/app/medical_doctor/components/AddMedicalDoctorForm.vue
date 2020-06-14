@@ -28,6 +28,7 @@
                     v-model="appointmentType"
                     label="Specialization"
                     item-text="name"
+                    return-object
                     prepend-icon="mdi-account-cog"
                   ></v-select>
                 </v-col>
@@ -214,7 +215,7 @@ export default {
           telephoneNum: this.telephoneNum,
           from: this.from,
           to: this.to,
-          appointmenType: this.appointmenType,
+          appointmentTypeId: this.appointmentType.id,
         })
           .then(() => {
             this.clear();

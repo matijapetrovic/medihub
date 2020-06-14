@@ -5,9 +5,6 @@ import lombok.Value;
 import org.medihub.common.SelfValidating;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
-import java.util.Map;
 
 public interface UpdateClinicUseCase {
     void updateClinic(UpdateClinicCommand command);
