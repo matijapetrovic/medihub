@@ -25,7 +25,7 @@
           small
           color="error"
           dark
-          @click="rejectRequest(item)"
+          @click="openRejectionDialog(item)"
           >
           Reject
         </v-btn>
@@ -41,19 +41,32 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+    <v-dialog
+      v-model="rejectDialog"
+      max-width="500"
+    >
+      <RejectionDialog
+        @submit="rejectRequest($event)"
+        @cancel="closeRejectionDialog"
+      />
+    </v-dialog>
   </v-container>
 </template>
 
 <script>
 import NurseWorkingCalendar from '@/app/medical_nurse/components/NurseWorkingCalendar.vue';
 import { mapActions, mapState } from 'vuex';
+import RejectionDialog from './RejectDialog.vue';
 
 export default {
   name: 'LeaveRequests',
+  request: null,
   components: {
     NurseWorkingCalendar,
+    RejectionDialog,
   },
   data: () => ({
+    rejectDialog: false,
     headers: [
       {
         text: 'Nurse',
@@ -101,9 +114,12 @@ export default {
       });
       this.deleteItem(item);
     },
-    rejectRequest(item) {
-      this.deleteItem(item);
-      this.deleteNurseLeaveRequest(item.id);
+    rejectRequest(reason) {
+      this.deleteItem(this.request);
+      this.deleteNurseLeaveRequest({ id: this.request.id, rejectReason: reason })
+        .then(() => {
+          this.closeRejectionDialog();
+        });
     },
     deleteItem(item) {
       const index = this.items.map((e) => e.id).indexOf(item.id);
@@ -117,6 +133,13 @@ export default {
       this.editedIndex = this.items.map((e) => e.id).indexOf(item.id);
       this.editedItem = item;
       this.dialog = true;
+    },
+    openRejectionDialog(request) {
+      this.request = request;
+      this.rejectDialog = true;
+    },
+    closeRejectionDialog() {
+      this.rejectDialog = false;
     },
   },
   computed: {

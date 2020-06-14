@@ -130,7 +130,12 @@ export default {
       });
   },
   methods: {
-    ...mapActions('appointmentRequest', ['fetchAppointmentRequests', 'deleteAppointmentRequest', 'getAppointmentRequests', 'addRequest']),
+    ...mapActions('appointmentRequest', ['fetchAppointmentRequests',
+      'deleteAppointmentRequest',
+      'getAppointmentRequests',
+      'addOperationRequest',
+      'addAppointmentRequest',
+    ]),
     ...mapActions('clinicRooms', ['fetchClinicRooms', 'scheduleRoom']),
     ...mapActions('appointment', ['addAppointment']),
     ...mapActions('operation', ['addOperation']),
@@ -185,11 +190,18 @@ export default {
     },
     scheduleRoomForAppointment() {
       if (this.editedItem.type === 'APPOINTMENT') {
-        this.addRequest({ id: this.editedItem.id, clinicRoomId: this.editedItem.clinicRoom.id })
+        this.addAppointmentRequest({
+          id: this.editedItem.id,
+          clinicRoomId: this.editedItem.clinicRoom.id,
+        })
           .then(() => { this.deleteItem(this.editedItem); });
       } else {
-        // addAppointmentRequest.presentDoctors = this.presentDoctors;
-        // this.addRequest({id: this.editedItem.id, clinicRoomId: this.editedItem.clinicRoom.id });
+        this.addOperationRequest({
+          id: this.editedItem.id,
+          clinicRoomId: this.editedItem.clinicRoom.id,
+          presentDoctors: this.presentDoctors,
+        })
+          .then(() => { this.deleteItem(this.editedItem); });
       }
       this.dialog = false;
       this.resetPathParams(null);
