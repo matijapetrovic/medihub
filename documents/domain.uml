@@ -1,0 +1,727 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>org.medihub.domain</OriginalElement>
+  <nodes>
+    <node x="2311.8023498313137" y="170.0">org.medihub.domain.appointment.AppointmentType</node>
+    <node x="4937.274368686869" y="1359.0">org.medihub.domain.clinic_room.ClinicRoomScheduleItem</node>
+    <node x="3024.2702020202023" y="1716.0">org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem</node>
+    <node x="2682.257702020202" y="1992.0">org.medihub.domain.medical_doctor.MedicalDoctorPredefinedAppointmentScheduleItem</node>
+    <node x="2566.935675416136" y="1303.0">org.medihub.domain.LeaveRequest</node>
+    <node x="158.90118266416812" y="1705.0">org.medihub.domain.Drug</node>
+    <node x="4644.999368686868" y="1336.0">org.medihub.domain.scheduling.DailySchedule</node>
+    <node x="511.90118266416835" y="1716.0">org.medihub.domain.clinic.ClinicReview</node>
+    <node x="930.459090909091" y="910.0">org.medihub.domain.patient.Patient</node>
+    <node x="1978.757702020202" y="1716.0">org.medihub.domain.appointment.Operation</node>
+    <node x="337.04999999999995" y="677.0">org.medihub.domain.clinic.ClinicAdmin</node>
+    <node x="1415.709090909091" y="921.0">org.medihub.domain.medical_record.Allergy</node>
+    <node x="811.1465171712134" y="1716.0">org.medihub.domain.medical_doctor.MedicalDoctorReview</node>
+    <node x="2442.3023498313137" y="666.0">org.medihub.domain.MedicalStaff</node>
+    <node x="1897.1912387202024" y="1281.0">org.medihub.domain.appointment.Appointment</node>
+    <node x="3987.7759609424243" y="921.0">org.medihub.domain.scheduling.DailyScheduleItem</node>
+    <node x="3500.8327020202023" y="1992.0">org.medihub.domain.medical_nurse.MedicalNurseVacationScheduleItem</node>
+    <node x="3518.1072109424244" y="404.0">org.medihub.domain.WorkingTime</node>
+    <node x="4092.8327020202023" y="1992.0">org.medihub.domain.medical_doctor.MedicalDoctorDailySchedule</node>
+    <node x="3141.6139520202023" y="1992.0">org.medihub.domain.medical_doctor.MedicalDoctorVacationScheduleItem</node>
+    <node x="280.90118266416835" y="1336.0">org.medihub.domain.Diagnosis</node>
+    <node x="994.209090909091" y="159.0">org.medihub.domain.account.Address</node>
+    <node x="4597.832702020202" y="1716.0">org.medihub.domain.scheduling.Schedule</node>
+    <node x="35.5" y="126.0">org.medihub.domain.account.Account</node>
+    <node x="1685.1912387202024" y="1281.0">org.medihub.domain.appointment.AppointmentRequest</node>
+    <node x="589.4511826641685" y="1314.0">org.medihub.domain.reviewing.Review</node>
+    <node x="261.4845159975014" y="1948.0">org.medihub.domain.Prescription</node>
+    <node x="42.0" y="0.0">org.medihub.domain.account.Authority</node>
+    <node x="2016.959090909091" y="888.0">org.medihub.domain.clinic_room.ClinicRoom</node>
+    <node x="1202.8912387202026" y="1314.0">org.medihub.domain.medical_record.MedicalRecord</node>
+    <node x="1192.459090909091" y="688.0">org.medihub.domain.medical_record.PatientDetails.BloodGroup</node>
+    <node x="290.90118266416835" y="1683.0">org.medihub.domain.appointment.FinishedAppointment</node>
+    <node x="2147.8023498313137" y="170.0">org.medihub.domain.reviewing.Rating</node>
+    <node x="1057.459090909091" y="688.0">org.medihub.domain.medical_record.PatientDetails.Dioptry</node>
+    <node x="4834.624368686868" y="2004.0">org.medihub.domain.clinic_room.ClinicRoomSchedule</node>
+    <node x="60.90118266416812" y="1270.0">org.medihub.domain.patient.RegistrationRequest</node>
+    <node x="1133.459090909091" y="899.0">org.medihub.domain.medical_record.PatientDetails</node>
+    <node x="2245.8648498313137" y="910.0">org.medihub.domain.medical_doctor.MedicalDoctor</node>
+    <node x="2326.257702020202" y="1992.0">org.medihub.domain.medical_doctor.MedicalDoctorAppointmentScheduleItem</node>
+    <node x="932.459090909091" y="360.0">org.medihub.domain.account.PersonalInfo</node>
+    <node x="3640.749368686869" y="1716.0">org.medihub.domain.medical_nurse.MedicalNurseScheduleItem</node>
+    <node x="3071.9715933860757" y="1303.0">org.medihub.domain.NurseLeaveRequest</node>
+    <node x="4604.832702020202" y="2004.0">org.medihub.domain.medical_nurse.MedicalNurseSchedule</node>
+    <node x="2241.757702020202" y="1628.0">org.medihub.domain.appointment.PredefinedAppointment</node>
+    <node x="3824.8327020202023" y="1992.0">org.medihub.domain.medical_nurse.MedicalNurseDailySchedule</node>
+    <node x="1567.459090909091" y="360.0">org.medihub.domain.clinic.Clinic</node>
+    <node x="1574.7924242424244" y="181.0">org.medihub.domain.Money</node>
+    <node x="4368.832702020202" y="2004.0">org.medihub.domain.medical_doctor.MedicalDoctorSchedule</node>
+    <node x="1359.459090909091" y="644.0">org.medihub.domain.medical_record.Allergy.Level</node>
+    <node x="3287.9715933860757" y="1292.0">org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType</node>
+    <node x="3305.7342865272467" y="944.0">org.medihub.domain.medical_nurse.MedicalNurse</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.medihub.domain.medical_doctor.MedicalDoctorSchedule" target="org.medihub.domain.scheduling.Schedule">
+      <point x="27.0" y="-15.0" />
+      <point x="4503.832702020202" y="1918.0" />
+      <point x="4624.999368686869" y="1918.0" />
+      <point x="-135.83333333333303" y="27.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_doctor.MedicalDoctorVacationScheduleItem" target="org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem">
+      <point x="-104.0" y="-27.0" />
+      <point x="3193.6139520202023" y="1928.0" />
+      <point x="3165.4577020202023" y="1928.0" />
+      <point x="15.6875" y="27.0" />
+    </edge>
+    <edge source="org.medihub.domain.scheduling.DailySchedule" target="org.medihub.domain.WorkingTime">
+      <point x="41.5" y="-38.0" />
+      <point x="4769.499368686868" y="1250.0" />
+      <point x="4895.749368686868" y="1250.0" />
+      <point x="4895.749368686868" y="624.0" />
+      <point x="3637.1072109424244" y="624.0" />
+      <point x="51.0" y="38.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_nurse.MedicalNurseScheduleItem" target="org.medihub.domain.scheduling.DailyScheduleItem">
+      <point x="94.125" y="-27.0" />
+      <point x="3860.374368686869" y="1528.0" />
+      <point x="4239.032702020201" y="1528.0" />
+      <point x="4239.032702020201" y="1250.0" />
+      <point x="4068.2759609424243" y="1250.0" />
+      <point x="-11.5" y="38.0" />
+    </edge>
+    <edge source="org.medihub.domain.LeaveRequest" target="org.medihub.domain.medical_doctor.MedicalDoctor">
+      <point x="0.0" y="-71.0" />
+      <point x="2671.935675416136" y="1130.0" />
+      <point x="2366.8648498313137" y="1130.0" />
+      <point x="11.0" y="49.0" />
+    </edge>
+    <edge source="org.medihub.domain.appointment.Operation" target="org.medihub.domain.clinic_room.ClinicRoom">
+      <point x="20.25" y="-27.0" />
+      <point x="2120.507702020202" y="1608.0" />
+      <point x="2139.6912387202024" y="1608.0" />
+      <point x="2139.6912387202024" y="1150.0" />
+      <point x="2089.959090909091" y="1150.0" />
+      <point x="0.0" y="71.0" />
+    </edge>
+    <edge source="org.medihub.domain.clinic_room.ClinicRoom" target="org.medihub.domain.clinic.Clinic">
+      <point x="0.0" y="-71.0" />
+      <point x="2089.959090909091" y="624.0" />
+      <point x="1731.459090909091" y="624.0" />
+      <point x="0.0" y="82.0" />
+    </edge>
+    <edge source="org.medihub.domain.patient.RegistrationRequest" target="org.medihub.domain.account.PersonalInfo">
+      <point x="37.5" y="-104.0" />
+      <point x="198.40118266416812" y="1140.0" />
+      <point x="251.74999999999977" y="1140.0" />
+      <point x="251.74999999999977" y="584.0" />
+      <point x="970.8162337662338" y="584.0" />
+      <point x="-51.14285714285711" y="82.0" />
+    </edge>
+    <edge source="org.medihub.domain.patient.RegistrationRequest" target="org.medihub.domain.account.Address">
+      <point x="-12.5" y="-104.0" />
+      <point x="148.40118266416812" y="1250.0" />
+      <point x="162.40118266416812" y="1250.0" />
+      <point x="162.40118266416812" y="340.0" />
+      <point x="1018.3757575757577" y="340.0" />
+      <point x="-48.33333333333326" y="49.0" />
+    </edge>
+    <edge source="org.medihub.domain.NurseLeaveRequest" target="org.medihub.domain.medical_nurse.MedicalNurse">
+      <point x="0.0" y="-71.0" />
+      <point x="3169.9715933860757" y="1220.0" />
+      <point x="3359.7342865272467" y="1220.0" />
+      <point x="-18.0" y="15.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_nurse.MedicalNurseSchedule" target="org.medihub.domain.scheduling.DailySchedule">
+      <point x="-26.0" y="-15.0" />
+      <point x="4682.832702020202" y="1878.0" />
+      <point x="4587.332702020202" y="1878.0" />
+      <point x="4587.332702020202" y="1588.0" />
+      <point x="4736.299368686869" y="1588.0" />
+      <point x="8.300000000000182" y="38.0" />
+    </edge>
+    <edge source="org.medihub.domain.appointment.Operation" target="org.medihub.domain.patient.Patient">
+      <point x="-101.25" y="-27.0" />
+      <point x="1999.007702020202" y="1548.0" />
+      <point x="772.4511826641685" y="1548.0" />
+      <point x="772.4511826641685" y="1200.0" />
+      <point x="1021.959090909091" y="1200.0" />
+      <point x="0.0" y="49.0" />
+    </edge>
+    <edge source="org.medihub.domain.account.PersonalInfo" target="org.medihub.domain.account.Account">
+      <point x="-44.75" y="-82.0" />
+      <point x="977.209090909091" y="330.0" />
+      <point x="196.33333333333348" y="330.0" />
+      <point x="64.33333333333331" y="82.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_doctor.MedicalDoctorReview" target="org.medihub.domain.patient.Patient">
+      <point x="0.0" y="-27.0" />
+      <point x="911.1465171712134" y="1558.0" />
+      <point x="761.4511826641685" y="1558.0" />
+      <point x="761.4511826641685" y="1190.0" />
+      <point x="1005.3227272727272" y="1190.0" />
+      <point x="-16.63636363636374" y="49.0" />
+    </edge>
+    <edge source="org.medihub.domain.patient.RegistrationRequest" target="org.medihub.domain.account.Account">
+      <point x="-62.5" y="-104.0" />
+      <point x="98.40118266416812" y="1240.0" />
+      <point x="121.0" y="1240.0" />
+      <point x="121.0" y="340.0" />
+      <point x="67.66666666666652" y="340.0" />
+      <point x="-64.33333333333348" y="82.0" />
+    </edge>
+    <edge source="org.medihub.domain.scheduling.DailySchedule" target="org.medihub.domain.scheduling.DailyScheduleItem">
+      <point x="-41.5" y="-38.0" />
+      <point x="4686.499368686868" y="1080.0" />
+      <point x="4091.2759609424243" y="1080.0" />
+      <point x="11.5" y="38.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_record.MedicalRecord" target="org.medihub.domain.medical_record.PatientDetails">
+      <point x="0.0" y="-60.0" />
+      <point x="1302.3912387202026" y="1130.0" />
+      <point x="1178.459090909091" y="1130.0" />
+      <point x="-45.0" y="60.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_record.PatientDetails" target="org.medihub.domain.medical_record.PatientDetails.BloodGroup">
+      <point x="36.0" y="-60.0" />
+      <point x="1259.459090909091" y="868.0" />
+      <point x="1265.959090909091" y="868.0" />
+      <point x="0.0" y="38.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_doctor.MedicalDoctorVacationScheduleItem" target="org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType">
+      <point x="104.0" y="-27.0" />
+      <point x="3401.6139520202023" y="1928.0" />
+      <point x="3514.3952020202023" y="1928.0" />
+      <point x="3514.3952020202023" y="1608.0" />
+      <point x="3445.4715933860757" y="1608.0" />
+      <point x="17.5" y="82.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_record.Allergy" target="org.medihub.domain.medical_record.Allergy.Level">
+      <point x="28.0" y="-38.0" />
+      <point x="46.75" y="82.0" />
+    </edge>
+    <edge source="org.medihub.domain.reviewing.Review" target="org.medihub.domain.patient.Patient">
+      <point x="0.0" y="-60.0" />
+      <point x="665.4511826641685" y="1180.0" />
+      <point x="988.6863636363637" y="1180.0" />
+      <point x="-33.27272727272725" y="49.0" />
+    </edge>
+    <edge source="org.medihub.domain.clinic.ClinicAdmin" target="org.medihub.domain.clinic.Clinic">
+      <point x="45.75" y="-49.0" />
+      <point x="474.29999999999995" y="604.0" />
+      <point x="1590.8876623376625" y="604.0" />
+      <point x="-140.57142857142844" y="82.0" />
+    </edge>
+    <edge source="org.medihub.domain.clinic_room.ClinicRoomSchedule" target="org.medihub.domain.clinic_room.ClinicRoomScheduleItem">
+      <point x="72.0" y="-15.0" />
+      <point x="5002.624368686868" y="1928.0" />
+      <point x="5049.274368686869" y="1928.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="org.medihub.domain.account.PersonalInfo" target="org.medihub.domain.account.Address">
+      <point x="44.75" y="-82.0" />
+      <point x="0.0" y="49.0" />
+    </edge>
+    <edge source="org.medihub.domain.clinic.Clinic" target="org.medihub.domain.Money">
+      <point x="-82.0" y="-82.0" />
+      <point x="1649.459090909091" y="340.0" />
+      <point x="1651.2924242424244" y="340.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_record.MedicalRecord" target="org.medihub.domain.patient.Patient">
+      <point x="-39.799999999999955" y="-60.0" />
+      <point x="1262.5912387202027" y="1140.0" />
+      <point x="1055.2318181818182" y="1140.0" />
+      <point x="33.27272727272725" y="49.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_doctor.MedicalDoctor" target="org.medihub.domain.WorkingTime">
+      <point x="48.88888888888869" y="-49.0" />
+      <point x="2404.7537387202024" y="848.0" />
+      <point x="2431.8023498313137" y="848.0" />
+      <point x="2431.8023498313137" y="614.0" />
+      <point x="3535.1072109424244" y="614.0" />
+      <point x="-51.0" y="38.0" />
+    </edge>
+    <edge source="org.medihub.domain.appointment.AppointmentRequest" target="org.medihub.domain.medical_doctor.MedicalDoctor">
+      <point x="72.0" y="-93.0" />
+      <point x="1853.1912387202024" y="1180.0" />
+      <point x="2300.8648498313137" y="1180.0" />
+      <point x="-55.0" y="49.0" />
+    </edge>
+    <edge source="org.medihub.domain.MedicalStaff" target="org.medihub.domain.WorkingTime">
+      <point x="63.666666666666515" y="-60.0" />
+      <point x="2601.46901649798" y="624.0" />
+      <point x="3569.1072109424244" y="624.0" />
+      <point x="-17.0" y="38.0" />
+    </edge>
+    <edge source="org.medihub.domain.appointment.AppointmentRequest" target="org.medihub.domain.Money">
+      <point x="-24.0" y="-93.0" />
+      <point x="1757.1912387202024" y="1100.0" />
+      <point x="1556.959090909091" y="1100.0" />
+      <point x="1556.959090909091" y="340.0" />
+      <point x="1600.2924242424244" y="340.0" />
+      <point x="-51.0" y="27.0" />
+    </edge>
+    <edge source="org.medihub.domain.clinic.ClinicAdmin" target="org.medihub.domain.account.PersonalInfo">
+      <point x="-45.75" y="-49.0" />
+      <point x="382.79999999999995" y="594.0" />
+      <point x="996.3876623376623" y="594.0" />
+      <point x="-25.571428571428555" y="82.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_record.MedicalRecord" target="org.medihub.domain.medical_record.Allergy">
+      <point x="79.60000000000002" y="-60.0" />
+      <point x="1381.9912387202025" y="1150.0" />
+      <point x="1471.709090909091" y="1150.0" />
+      <point x="0.0" y="38.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_nurse.MedicalNurse" target="org.medihub.domain.MedicalStaff">
+      <point x="-28.800000000000182" y="-15.0" />
+      <point x="3348.9342865272465" y="858.0" />
+      <point x="2609.4273498313137" y="858.0" />
+      <point x="71.625" y="60.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_nurse.MedicalNurse" target="org.medihub.domain.WorkingTime">
+      <point x="57.59999999999991" y="-15.0" />
+      <point x="3435.3342865272466" y="868.0" />
+      <point x="3603.1072109424244" y="868.0" />
+      <point x="17.0" y="38.0" />
+    </edge>
+    <edge source="org.medihub.domain.appointment.Operation" target="org.medihub.domain.medical_doctor.MedicalDoctor">
+      <point x="60.75" y="-27.0" />
+      <point x="2161.007702020202" y="1538.0" />
+      <point x="2298.8153433860757" y="1538.0" />
+      <point x="2298.8153433860757" y="1200.0" />
+      <point x="2344.8648498313137" y="1200.0" />
+      <point x="-11.0" y="49.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_doctor.MedicalDoctorDailySchedule" target="org.medihub.domain.medical_doctor.MedicalDoctor">
+      <point x="-4.547473508864641E-13" y="-27.0" />
+      <point x="4220.832702020201" y="1928.0" />
+      <point x="4261.032702020201" y="1928.0" />
+      <point x="4261.032702020201" y="1090.0" />
+      <point x="2454.8648498313137" y="1090.0" />
+      <point x="99.0" y="49.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_doctor.MedicalDoctor" target="org.medihub.domain.MedicalStaff">
+      <point x="97.77777777777783" y="-49.0" />
+      <point x="2453.6426276090915" y="868.0" />
+      <point x="2513.9273498313137" y="868.0" />
+      <point x="-23.875" y="60.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_nurse.MedicalNurse" target="org.medihub.domain.clinic.Clinic">
+      <point x="28.800000000000182" y="-15.0" />
+      <point x="3406.534286527247" y="858.0" />
+      <point x="3592.1072109424244" y="858.0" />
+      <point x="3592.1072109424244" y="544.0" />
+      <point x="1872.0305194805194" y="544.0" />
+      <point x="140.57142857142844" y="82.0" />
+    </edge>
+    <edge source="org.medihub.domain.appointment.PredefinedAppointment" target="org.medihub.domain.patient.Patient">
+      <point x="-20.166666666666515" y="-115.0" />
+      <point x="2342.5910353535355" y="1498.0" />
+      <point x="2078.6912387202024" y="1498.0" />
+      <point x="2078.6912387202024" y="1080.0" />
+      <point x="1105.1409090909092" y="1080.0" />
+      <point x="83.18181818181824" y="49.0" />
+    </edge>
+    <edge source="org.medihub.domain.clinic.Clinic" target="org.medihub.domain.reviewing.Rating">
+      <point x="27.333333333333258" y="-82.0" />
+      <point x="1758.7924242424242" y="310.0" />
+      <point x="2171.8023498313137" y="310.0" />
+      <point x="-48.0" y="38.0" />
+    </edge>
+    <edge source="org.medihub.domain.patient.RegistrationRequest" target="org.medihub.domain.patient.Patient">
+      <point x="62.5" y="-104.0" />
+      <point x="223.40118266416812" y="1150.0" />
+      <point x="938.7772727272727" y="1150.0" />
+      <point x="-83.18181818181824" y="49.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_doctor.MedicalDoctorSchedule" target="org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem">
+      <point x="-81.0" y="-15.0" />
+      <point x="4395.832702020202" y="1898.0" />
+      <point x="3259.5827020202023" y="1898.0" />
+      <point x="109.8125" y="27.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_nurse.MedicalNurseScheduleItem" target="org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType">
+      <point x="-94.125" y="-27.0" />
+      <point x="3672.124368686869" y="1588.0" />
+      <point x="3515.4715933860757" y="1588.0" />
+      <point x="87.5" y="82.0" />
+    </edge>
+    <edge source="org.medihub.domain.appointment.FinishedAppointment" target="org.medihub.domain.appointment.Appointment">
+      <point x="50.0" y="-60.0" />
+      <point x="440.90118266416835" y="1588.0" />
+      <point x="1909.4055244344881" y="1588.0" />
+      <point x="-73.28571428571422" y="93.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_doctor.MedicalDoctorReview" target="org.medihub.domain.medical_doctor.MedicalDoctor">
+      <point x="40.0" y="-27.0" />
+      <point x="951.1465171712134" y="1568.0" />
+      <point x="1174.6412387202026" y="1568.0" />
+      <point x="1174.6412387202026" y="1160.0" />
+      <point x="2256.8648498313137" y="1160.0" />
+      <point x="-99.0" y="49.0" />
+    </edge>
+    <edge source="org.medihub.domain.clinic.ClinicReview" target="org.medihub.domain.patient.Patient">
+      <point x="0.0" y="-27.0" />
+      <point x="583.9011826641683" y="1578.0" />
+      <point x="578.9511826641685" y="1578.0" />
+      <point x="578.9511826641685" y="1170.0" />
+      <point x="972.0500000000002" y="1170.0" />
+      <point x="-49.909090909090764" y="49.0" />
+    </edge>
+    <edge source="org.medihub.domain.clinic_room.ClinicRoomSchedule" target="org.medihub.domain.scheduling.Schedule">
+      <point x="-72.0" y="-15.0" />
+      <point x="4858.624368686868" y="1928.0" />
+      <point x="4842.332702020202" y="1928.0" />
+      <point x="81.5" y="27.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_doctor.MedicalDoctor" target="org.medihub.domain.clinic.Clinic">
+      <point x="-73.33333333333348" y="-49.0" />
+      <point x="2282.53151649798" y="858.0" />
+      <point x="2208.8023498313137" y="858.0" />
+      <point x="2208.8023498313137" y="584.0" />
+      <point x="1778.3162337662338" y="584.0" />
+      <point x="46.85714285714289" y="82.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_nurse.MedicalNurseVacationScheduleItem" target="org.medihub.domain.medical_nurse.MedicalNurseScheduleItem">
+      <point x="0.0" y="-27.0" />
+      <point x="3652.8327020202023" y="1928.0" />
+      <point x="3672.124368686869" y="1928.0" />
+      <point x="-94.125" y="27.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_doctor.MedicalDoctorDailySchedule" target="org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem">
+      <point x="-102.40000000000055" y="-27.0" />
+      <point x="4118.432702020202" y="1908.0" />
+      <point x="3228.2077020202023" y="1908.0" />
+      <point x="78.4375" y="27.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_record.PatientDetails" target="org.medihub.domain.medical_record.PatientDetails.Dioptry">
+      <point x="-36.0" y="-60.0" />
+      <point x="1187.459090909091" y="858.0" />
+      <point x="1143.709090909091" y="858.0" />
+      <point x="28.75" y="38.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_nurse.MedicalNurseDailySchedule" target="org.medihub.domain.scheduling.DailySchedule">
+      <point x="49.59999999999991" y="-27.0" />
+      <point x="3998.4327020202018" y="1918.0" />
+      <point x="4112.432702020202" y="1918.0" />
+      <point x="4112.432702020202" y="1538.0" />
+      <point x="4653.299368686869" y="1538.0" />
+      <point x="-74.69999999999982" y="38.0" />
+    </edge>
+    <edge source="org.medihub.domain.appointment.FinishedAppointment" target="org.medihub.domain.Diagnosis">
+      <point x="-50.0" y="-60.0" />
+      <point x="0.0" y="38.0" />
+    </edge>
+    <edge source="org.medihub.domain.clinic.Clinic" target="org.medihub.domain.appointment.AppointmentType">
+      <point x="136.66666666666674" y="-82.0" />
+      <point x="1868.1257575757577" y="330.0" />
+      <point x="2353.8023498313137" y="330.0" />
+      <point x="-42.0" y="38.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem" target="org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType">
+      <point x="31.375" y="-27.0" />
+      <point x="3181.1452020202023" y="1598.0" />
+      <point x="3375.4715933860757" y="1598.0" />
+      <point x="-52.5" y="82.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_nurse.MedicalNurseDailySchedule" target="org.medihub.domain.medical_nurse.MedicalNurse">
+      <point x="0.0" y="-27.0" />
+      <point x="3948.8327020202023" y="1928.0" />
+      <point x="3987.4327020202018" y="1928.0" />
+      <point x="3987.4327020202018" y="1210.0" />
+      <point x="3431.7342865272467" y="1210.0" />
+      <point x="54.0" y="15.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_doctor.MedicalDoctorReview" target="org.medihub.domain.reviewing.Review">
+      <point x="-80.0" y="-27.0" />
+      <point x="831.1465171712134" y="1578.0" />
+      <point x="684.4511826641685" y="1578.0" />
+      <point x="19.0" y="60.0" />
+    </edge>
+    <edge source="org.medihub.domain.appointment.PredefinedAppointment" target="org.medihub.domain.clinic_room.ClinicRoom">
+      <point x="20.166666666666515" y="-115.0" />
+      <point x="2382.9243686868685" y="1538.0" />
+      <point x="2371.487758749469" y="1538.0" />
+      <point x="2371.487758749469" y="1140.0" />
+      <point x="2138.6257575757572" y="1140.0" />
+      <point x="48.666666666666515" y="71.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_doctor.MedicalDoctorPredefinedAppointmentScheduleItem" target="org.medihub.domain.appointment.PredefinedAppointment">
+      <point x="-83.19999999999982" y="-27.0" />
+      <point x="2807.057702020202" y="1878.0" />
+      <point x="2423.257702020202" y="1878.0" />
+      <point x="60.5" y="115.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_doctor.MedicalDoctorPredefinedAppointmentScheduleItem" target="org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType">
+      <point x="0.0" y="-27.0" />
+      <point x="2890.257702020202" y="1888.0" />
+      <point x="2913.3014520202023" y="1888.0" />
+      <point x="2913.3014520202023" y="1588.0" />
+      <point x="3340.4715933860757" y="1588.0" />
+      <point x="-87.5" y="82.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_doctor.MedicalDoctor" target="org.medihub.domain.reviewing.Rating">
+      <point x="-24.444444444444343" y="-49.0" />
+      <point x="2331.4204053868693" y="868.0" />
+      <point x="2314.8023498313137" y="868.0" />
+      <point x="2314.8023498313137" y="310.0" />
+      <point x="2267.8023498313137" y="310.0" />
+      <point x="48.0" y="38.0" />
+    </edge>
+    <edge source="org.medihub.domain.appointment.Appointment" target="org.medihub.domain.medical_doctor.MedicalDoctor">
+      <point x="57.0" y="-93.0" />
+      <point x="2039.6912387202024" y="1190.0" />
+      <point x="2322.8648498313137" y="1190.0" />
+      <point x="-33.0" y="49.0" />
+    </edge>
+    <edge source="org.medihub.domain.appointment.Appointment" target="org.medihub.domain.clinic_room.ClinicRoom">
+      <point x="0.0" y="-93.0" />
+      <point x="1982.6912387202024" y="1150.0" />
+      <point x="2041.2924242424244" y="1150.0" />
+      <point x="-48.666666666666515" y="71.0" />
+    </edge>
+    <edge source="org.medihub.domain.scheduling.Schedule" target="org.medihub.domain.scheduling.DailySchedule">
+      <point x="-40.75" y="-27.0" />
+      <point x="4720.082702020202" y="1608.0" />
+      <point x="4769.499368686868" y="1608.0" />
+      <point x="41.5" y="38.0" />
+    </edge>
+    <edge source="org.medihub.domain.appointment.PredefinedAppointment" target="org.medihub.domain.appointment.Appointment">
+      <point x="-60.5" y="-115.0" />
+      <point x="2302.257702020202" y="1508.0" />
+      <point x="2055.9769530059166" y="1508.0" />
+      <point x="73.28571428571422" y="93.0" />
+    </edge>
+    <edge source="org.medihub.domain.appointment.AppointmentRequest" target="org.medihub.domain.patient.Patient">
+      <point x="-72.0" y="-93.0" />
+      <point x="1709.1912387202024" y="1110.0" />
+      <point x="1071.8681818181817" y="1110.0" />
+      <point x="49.90909090909088" y="49.0" />
+    </edge>
+    <edge source="org.medihub.domain.appointment.AppointmentRequest" target="org.medihub.domain.appointment.AppointmentType">
+      <point x="24.0" y="-93.0" />
+      <point x="1805.1912387202024" y="1150.0" />
+      <point x="1905.959090909091" y="1150.0" />
+      <point x="1905.959090909091" y="340.0" />
+      <point x="2381.8023498313137" y="340.0" />
+      <point x="-14.0" y="38.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_doctor.MedicalDoctor" target="org.medihub.domain.appointment.AppointmentType">
+      <point x="0.0" y="-49.0" />
+      <point x="2355.8648498313137" y="828.0" />
+      <point x="2409.8023498313137" y="828.0" />
+      <point x="14.0" y="38.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_doctor.MedicalDoctorAppointmentScheduleItem" target="org.medihub.domain.appointment.Appointment">
+      <point x="-67.20000000000005" y="-27.0" />
+      <point x="2427.0577020202018" y="1918.0" />
+      <point x="1669.2398498313137" y="1918.0" />
+      <point x="1669.2398498313137" y="1608.0" />
+      <point x="1958.2626672916313" y="1608.0" />
+      <point x="-24.42857142857133" y="93.0" />
+    </edge>
+    <edge source="org.medihub.domain.Prescription" target="org.medihub.domain.Drug">
+      <point x="-92.33333333333303" y="-71.0" />
+      <point x="307.65118266416835" y="1928.0" />
+      <point x="214.90118266416812" y="1928.0" />
+      <point x="0.0" y="38.0" />
+    </edge>
+    <edge source="org.medihub.domain.MedicalStaff" target="org.medihub.domain.account.PersonalInfo">
+      <point x="-63.666666666666515" y="-60.0" />
+      <point x="2474.135683164647" y="574.0" />
+      <point x="1073.101948051948" y="574.0" />
+      <point x="51.14285714285711" y="82.0" />
+    </edge>
+    <edge source="org.medihub.domain.clinic.ClinicReview" target="org.medihub.domain.reviewing.Review">
+      <point x="57.60000000000002" y="-27.0" />
+      <point x="641.5011826641685" y="1578.0" />
+      <point x="646.4511826641685" y="1578.0" />
+      <point x="-19.0" y="60.0" />
+    </edge>
+    <edge source="org.medihub.domain.appointment.PredefinedAppointment" target="org.medihub.domain.appointment.AppointmentType">
+      <point x="100.83333333333348" y="-115.0" />
+      <point x="2463.5910353535355" y="1568.0" />
+      <point x="2857.533602308298" y="1568.0" />
+      <point x="2857.533602308298" y="340.0" />
+      <point x="2465.8023498313137" y="340.0" />
+      <point x="70.0" y="38.0" />
+    </edge>
+    <edge source="org.medihub.domain.patient.Patient" target="org.medihub.domain.account.PersonalInfo">
+      <point x="0.0" y="-49.0" />
+      <point x="0.0" y="82.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_doctor.MedicalDoctorDailySchedule" target="org.medihub.domain.scheduling.DailySchedule">
+      <point x="51.19999999999936" y="-27.0" />
+      <point x="4272.032702020201" y="1918.0" />
+      <point x="4370.032702020202" y="1918.0" />
+      <point x="4370.032702020202" y="1558.0" />
+      <point x="4686.499368686868" y="1558.0" />
+      <point x="-41.5" y="38.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_doctor.MedicalDoctorPredefinedAppointmentScheduleItem" target="org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem">
+      <point x="83.19999999999982" y="-27.0" />
+      <point x="2973.457702020202" y="1918.0" />
+      <point x="3102.7077020202023" y="1918.0" />
+      <point x="-47.0625" y="27.0" />
+    </edge>
+    <edge source="org.medihub.domain.scheduling.Schedule" target="org.medihub.domain.scheduling.DailyScheduleItem">
+      <point x="122.25" y="-27.0" />
+      <point x="4883.082702020202" y="1608.0" />
+      <point x="4926.774368686869" y="1608.0" />
+      <point x="4926.774368686869" y="1070.0" />
+      <point x="4114.275960942425" y="1070.0" />
+      <point x="34.5" y="38.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_doctor.MedicalDoctor" target="org.medihub.domain.account.PersonalInfo">
+      <point x="-97.77777777777783" y="-49.0" />
+      <point x="2258.087072053536" y="868.0" />
+      <point x="2197.8023498313137" y="868.0" />
+      <point x="2197.8023498313137" y="594.0" />
+      <point x="1047.5305194805196" y="594.0" />
+      <point x="25.57142857142867" y="82.0" />
+    </edge>
+    <edge source="org.medihub.domain.appointment.Operation" target="org.medihub.domain.appointment.Appointment">
+      <point x="-60.75" y="-27.0" />
+      <point x="2039.507702020202" y="1538.0" />
+      <point x="1982.6912387202024" y="1538.0" />
+      <point x="0.0" y="93.0" />
+    </edge>
+    <edge source="org.medihub.domain.clinic.Clinic" target="org.medihub.domain.account.Address">
+      <point x="-136.66666666666652" y="-82.0" />
+      <point x="1594.7924242424244" y="330.0" />
+      <point x="1115.0424242424242" y="330.0" />
+      <point x="48.33333333333337" y="49.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_doctor.MedicalDoctorSchedule" target="org.medihub.domain.scheduling.DailySchedule">
+      <point x="-27.0" y="-15.0" />
+      <point x="4449.832702020202" y="1578.0" />
+      <point x="4719.699368686868" y="1578.0" />
+      <point x="-8.300000000000182" y="38.0" />
+    </edge>
+    <edge source="org.medihub.domain.account.Account" target="org.medihub.domain.account.Authority">
+      <point x="0.0" y="-82.0" />
+      <point x="30.0" y="38.0" />
+    </edge>
+    <edge source="org.medihub.domain.clinic.ClinicReview" target="org.medihub.domain.clinic.Clinic">
+      <point x="-57.600000000000136" y="-27.0" />
+      <point x="526.3011826641682" y="1578.0" />
+      <point x="532.2011826641685" y="1578.0" />
+      <point x="532.2011826641685" y="614.0" />
+      <point x="1637.7448051948052" y="614.0" />
+      <point x="-93.71428571428578" y="82.0" />
+    </edge>
+    <edge source="org.medihub.domain.MedicalStaff" target="org.medihub.domain.clinic.Clinic">
+      <point x="0.0" y="-60.0" />
+      <point x="2537.8023498313137" y="564.0" />
+      <point x="1825.1733766233767" y="564.0" />
+      <point x="93.71428571428578" y="82.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_doctor.MedicalDoctorAppointmentScheduleItem" target="org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem">
+      <point x="67.20000000000005" y="-27.0" />
+      <point x="2561.4577020202023" y="1898.0" />
+      <point x="3039.9577020202023" y="1898.0" />
+      <point x="-109.8125" y="27.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem" target="org.medihub.domain.scheduling.DailyScheduleItem">
+      <point x="-31.375" y="-27.0" />
+      <point x="3118.3952020202023" y="1568.0" />
+      <point x="3061.4715933860757" y="1568.0" />
+      <point x="3061.4715933860757" y="1240.0" />
+      <point x="4022.2759609424243" y="1240.0" />
+      <point x="-57.5" y="38.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_nurse.MedicalNurseSchedule" target="org.medihub.domain.medical_nurse.MedicalNurseScheduleItem">
+      <point x="-78.0" y="-15.0" />
+      <point x="4630.832702020202" y="1888.0" />
+      <point x="3860.374368686869" y="1888.0" />
+      <point x="94.125" y="27.0" />
+    </edge>
+    <edge source="org.medihub.domain.Prescription" target="org.medihub.domain.medical_nurse.MedicalNurse">
+      <point x="92.33333333333371" y="-71.0" />
+      <point x="492.3178493308351" y="1928.0" />
+      <point x="501.40118266416835" y="1928.0" />
+      <point x="501.40118266416835" y="1210.0" />
+      <point x="3323.7342865272467" y="1210.0" />
+      <point x="-54.0" y="15.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_nurse.MedicalNurseSchedule" target="org.medihub.domain.scheduling.Schedule">
+      <point x="26.0" y="-15.0" />
+      <point x="4734.832702020202" y="1928.0" />
+      <point x="4733.666035353535" y="1928.0" />
+      <point x="-27.16666666666697" y="27.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_nurse.MedicalNurseVacationScheduleItem" target="org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType">
+      <point x="-101.33333333333348" y="-27.0" />
+      <point x="3551.4993686868684" y="1928.0" />
+      <point x="3630.249368686869" y="1928.0" />
+      <point x="3630.249368686869" y="1598.0" />
+      <point x="3480.4715933860757" y="1598.0" />
+      <point x="52.5" y="82.0" />
+    </edge>
+    <edge source="org.medihub.domain.appointment.Appointment" target="org.medihub.domain.patient.Patient">
+      <point x="-57.0" y="-93.0" />
+      <point x="1925.6912387202024" y="1090.0" />
+      <point x="1088.5045454545455" y="1090.0" />
+      <point x="66.5454545454545" y="49.0" />
+    </edge>
+    <edge source="org.medihub.domain.appointment.PredefinedAppointment" target="org.medihub.domain.medical_doctor.MedicalDoctor">
+      <point x="60.5" y="-115.0" />
+      <point x="2423.257702020202" y="1558.0" />
+      <point x="2798.435675416136" y="1558.0" />
+      <point x="2798.435675416136" y="1110.0" />
+      <point x="2410.8648498313137" y="1110.0" />
+      <point x="55.0" y="49.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_doctor.MedicalDoctorAppointmentScheduleItem" target="org.medihub.domain.medical_doctor.MedicalDoctorScheduleItem.MedicalDoctorScheduleItemType">
+      <point x="0.0" y="-27.0" />
+      <point x="2494.257702020202" y="1578.0" />
+      <point x="3305.4715933860757" y="1578.0" />
+      <point x="-122.5" y="82.0" />
+    </edge>
+    <edge source="org.medihub.domain.clinic_room.ClinicRoomSchedule" target="org.medihub.domain.scheduling.DailySchedule">
+      <point x="24.0" y="-15.0" />
+      <point x="4954.624368686868" y="1928.0" />
+      <point x="4973.124368686868" y="1928.0" />
+      <point x="4973.124368686868" y="1598.0" />
+      <point x="4802.699368686868" y="1598.0" />
+      <point x="74.69999999999982" y="38.0" />
+    </edge>
+    <edge source="org.medihub.domain.patient.RegistrationRequest" target="org.medihub.domain.account.Authority">
+      <point x="-87.5" y="-104.0" />
+      <point x="73.40118266416812" y="1250.0" />
+      <point x="25.0" y="1250.0" />
+      <point x="25.0" y="101.0" />
+      <point x="72.0" y="101.0" />
+      <point x="-30.0" y="38.0" />
+    </edge>
+    <edge source="org.medihub.domain.clinic_room.ClinicRoomScheduleItem" target="org.medihub.domain.scheduling.DailyScheduleItem">
+      <point x="56.0" y="-15.0" />
+      <point x="5105.274368686869" y="1050.0" />
+      <point x="4160.275960942425" y="1050.0" />
+      <point x="80.5" y="38.0" />
+    </edge>
+    <edge source="org.medihub.domain.Prescription" target="org.medihub.domain.appointment.FinishedAppointment">
+      <point x="2.2737367544323206E-13" y="-71.0" />
+      <point x="399.9845159975016" y="1928.0" />
+      <point x="390.90118266416835" y="1928.0" />
+      <point x="0.0" y="60.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_nurse.MedicalNurse" target="org.medihub.domain.account.PersonalInfo">
+      <point x="0.0" y="-15.0" />
+      <point x="3377.7342865272467" y="554.0" />
+      <point x="1098.6733766233767" y="554.0" />
+      <point x="76.71428571428578" y="82.0" />
+    </edge>
+    <edge source="org.medihub.domain.medical_nurse.MedicalNurseDailySchedule" target="org.medihub.domain.medical_nurse.MedicalNurseScheduleItem">
+      <point x="-99.19999999999982" y="-27.0" />
+      <point x="3849.6327020202025" y="1928.0" />
+      <point x="3797.624368686869" y="1928.0" />
+      <point x="31.375" y="27.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.5666372462488968" x="1123.0" y="564.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
